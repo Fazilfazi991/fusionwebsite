@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import {
   ArrowRight,
@@ -327,14 +326,16 @@ export default function Home() {
             <ArrowLink>Learn More About Us</ArrowLink>
           </div>
 
-          <div className="scroll-reveal grid gap-px bg-black/10 sm:grid-cols-2">
+          <div className="scroll-reveal grid grid-cols-2 gap-px bg-black/10">
             {overviewItems.map(({ title, text, icon: Icon }) => (
-              <article key={title} className="bg-mist p-8 sm:p-10">
-                <div className="mb-8 grid h-12 w-12 place-items-center rounded-full border border-black/35">
-                  <Icon className="h-5 w-5" strokeWidth={1.6} />
+              <article key={title} className="bg-mist p-5 sm:p-10">
+                <div className="mb-6 grid h-11 w-11 place-items-center rounded-full border border-black/35 sm:mb-8 sm:h-12 sm:w-12">
+                  <Icon className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={1.6} />
                 </div>
-                <h3 className="text-base font-semibold">{title}</h3>
-                <p className="mt-3 max-w-[260px] text-sm leading-6 text-black/60">{text}</p>
+                <h3 className="text-sm font-semibold sm:text-base">{title}</h3>
+                <p className="mt-3 max-w-[260px] text-xs leading-5 text-black/60 sm:text-sm sm:leading-6">
+                  {text}
+                </p>
               </article>
             ))}
           </div>
@@ -342,12 +343,12 @@ export default function Home() {
       </section>
 
       <section className="bg-black px-6 py-12 text-white sm:px-10 lg:px-24">
-        <div className="mx-auto grid max-w-[1280px] gap-px bg-white/18 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mx-auto grid max-w-[1280px] grid-cols-2 gap-px bg-white/18 lg:grid-cols-5">
           {metrics.map(([number, label, sub]) => (
-            <article key={number} className="bg-black py-7 sm:px-8 lg:px-10">
-              <p className="text-4xl font-light tracking-[-0.04em]">{number}</p>
-              <p className="mt-4 text-sm leading-5 text-white">{label}</p>
-              <p className="text-sm leading-5 text-white/72">{sub}</p>
+            <article key={number} className="bg-black px-5 py-7 sm:px-8 lg:px-10">
+              <p className="text-3xl font-light tracking-[-0.04em] sm:text-4xl">{number}</p>
+              <p className="mt-4 text-xs leading-5 text-white sm:text-sm">{label}</p>
+              <p className="text-xs leading-5 text-white/72 sm:text-sm">{sub}</p>
             </article>
           ))}
         </div>
@@ -363,12 +364,14 @@ export default function Home() {
               Growing Markets.
             </h2>
           </div>
-          <div className="scroll-reveal grid gap-px bg-black/12 sm:grid-cols-2 lg:grid-cols-6">
+          <div className="scroll-reveal grid grid-cols-2 gap-px bg-black/12 lg:grid-cols-6">
             {sectors.map(({ title, text, icon: Icon }) => (
-              <article key={title} className="min-h-[240px] bg-white p-6">
-                <Icon className="mb-8 h-8 w-8" strokeWidth={1.5} />
-                <h3 className="text-sm font-bold">{title}</h3>
-                <p className="mt-4 text-sm leading-6 text-black/62">{text}</p>
+              <article key={title} className="min-h-[190px] bg-white p-5 sm:min-h-[240px] sm:p-6">
+                <Icon className="mb-6 h-7 w-7 sm:mb-8 sm:h-8 sm:w-8" strokeWidth={1.5} />
+                <h3 className="text-xs font-bold sm:text-sm">{title}</h3>
+                <p className="mt-3 text-xs leading-5 text-black/62 sm:mt-4 sm:text-sm sm:leading-6">
+                  {text}
+                </p>
               </article>
             ))}
           </div>
@@ -396,11 +399,9 @@ export default function Home() {
                 className="group flex min-h-[280px] flex-col border border-transparent bg-black p-7 transition-all duration-300 hover:-translate-y-1 hover:border-white/25 hover:bg-white hover:text-black"
               >
                 <div className="flex h-32 items-center justify-center bg-white px-6 py-5">
-                  <Image
+                  <img
                     src={company.logo}
                     alt={`${company.name} logo`}
-                    width={320}
-                    height={140}
                     className={`w-full object-contain transition-opacity duration-300 group-hover:opacity-75 ${
                       company.logoSize === "large" ? "max-h-24" : "max-h-20"
                     }`}
@@ -443,13 +444,17 @@ export default function Home() {
             </p>
             <ArrowLink>Our Approach</ArrowLink>
           </div>
-          <div className="scroll-reveal grid gap-px bg-black/12 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="scroll-reveal grid grid-cols-2 gap-px bg-black/12 lg:grid-cols-5">
             {pillars.map(([number, title, text]) => (
-              <article key={number} className="bg-white p-6">
-                <p className="text-5xl font-light tracking-[-0.05em] text-black/22">{number}</p>
-                <div className="my-6 h-px w-12 bg-black/35" />
-                <h3 className="text-sm font-bold">{title}</h3>
-                <p className="mt-4 text-sm leading-6 text-black/62">{text}</p>
+              <article key={number} className="bg-white p-5 sm:p-6">
+                <p className="text-4xl font-light tracking-[-0.05em] text-black/22 sm:text-5xl">
+                  {number}
+                </p>
+                <div className="my-5 h-px w-10 bg-black/35 sm:my-6 sm:w-12" />
+                <h3 className="text-xs font-bold sm:text-sm">{title}</h3>
+                <p className="mt-3 text-xs leading-5 text-black/62 sm:mt-4 sm:text-sm sm:leading-6">
+                  {text}
+                </p>
               </article>
             ))}
           </div>

@@ -11,24 +11,24 @@ const navItems = [
 
 const partners = [
   {
-    name: "Mohammad Fazil",
-    initials: "MF",
-    label: "Partner / Venture Builder",
-    bio: "Focused on building digital-first businesses, platforms, and growth systems under the Fusion Ventures ecosystem. Works across business strategy, digital products, brand development, and execution.",
-    linkedin: "https://www.linkedin.com/in/fazilfazi/"
-  },
-  {
     name: "Ayisha Muneer",
     initials: "AM",
-    label: "Partner",
-    bio: "Part of the core group behind Fusion Ventures, contributing to the development, planning, and growth of ventures across the group's business ecosystem.",
+    label: "Founder & CEO",
+    bio: "Founder and CEO of Fusion Ventures, leading the group's vision, direction, and long-term development across its portfolio of businesses and ventures.",
     linkedin: "https://www.linkedin.com/in/ayishamuneer/"
+  },
+  {
+    name: "Mohammad Fazil",
+    initials: "MF",
+    label: "Co-Founder & Business Development Lead",
+    bio: "Focused on business development, partnerships, growth strategy, and venture execution across the Fusion Ventures ecosystem. Works across new opportunities, commercial direction, digital ventures, and long-term business growth.",
+    linkedin: "https://www.linkedin.com/in/fazilfazi/"
   },
   {
     name: "Thameem AR",
     initials: "TA",
-    label: "Partner",
-    bio: "Part of the Fusion Ventures partner group, supporting the group's long-term business direction, operations, and venture development across multiple sectors.",
+    label: "Co-Founder & CGO",
+    bio: "Co-Founder and CGO of Fusion Ventures, supporting the group's strategic direction, growth, partnerships, and venture expansion across multiple business sectors.",
     linkedin: "https://www.linkedin.com/in/thameemar/"
   }
 ];

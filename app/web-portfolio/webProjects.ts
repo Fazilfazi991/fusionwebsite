@@ -12,15 +12,17 @@ export const webPortfolioContact = {
 } as const;
 
 export const webPortfolioCategories = [
-  "All",
-  "Corporate",
+  "All Projects",
   "Ecommerce",
-  "Education",
   "Healthcare",
+  "Education",
+  "Corporate",
+  "Beauty",
+  "Fashion",
   "Hospitality",
   "Wellness",
   "Printing",
-  "SaaS"
+  "Lighting"
 ] as const;
 
 export type WebPortfolioCategory = (typeof webPortfolioCategories)[number];
@@ -28,7 +30,7 @@ export type WebPortfolioCategory = (typeof webPortfolioCategories)[number];
 export type WebProject = {
   title: string;
   url: string;
-  category: Exclude<WebPortfolioCategory, "All">;
+  category: Exclude<WebPortfolioCategory, "All Projects">;
   industry: string;
   description: string;
   image: string;
@@ -105,7 +107,7 @@ export const webProjects: WebProject[] = [
     industry: "Beauty",
     description: "A refined skincare storefront with a soft wellness feel.",
     image: "/images/web-portfolio/hydrelle-skincare.webp",
-    tags: ["Wellness", "Beauty"],
+    tags: ["Beauty", "Wellness"],
     preview: {
       headline: "Skincare That Feels Like You",
       kicker: "Hydrating routines, clean glow.",
@@ -152,11 +154,11 @@ export const webProjects: WebProject[] = [
   {
     title: "Miracle Designs Boutique",
     url: "https://miracledesignsboutique.com/",
-    category: "Ecommerce",
+    category: "Fashion",
     industry: "Fashion",
     description: "A warm fashion ecommerce site for boutique collections.",
     image: "/images/web-portfolio/miracle-designs-boutique.webp",
-    tags: ["Ecommerce", "Fashion"],
+    tags: ["Fashion", "Ecommerce"],
     preview: {
       headline: "Elegance That Defines You",
       kicker: "Boutique fashion collections.",
@@ -169,11 +171,11 @@ export const webProjects: WebProject[] = [
   {
     title: "Ecom Sigma",
     url: "https://ecom-pied-sigma.vercel.app/",
-    category: "SaaS",
+    category: "Ecommerce",
     industry: "Ecommerce",
     description: "A SaaS-style ecommerce platform presence with crisp product storytelling.",
     image: "/images/web-portfolio/ecom-sigma.webp",
-    tags: ["SaaS", "Ecommerce"],
+    tags: ["Ecommerce"],
     preview: {
       headline: "Smarter Insights. Better Growth.",
       kicker: "Dashboards for modern commerce.",
@@ -203,11 +205,11 @@ export const webProjects: WebProject[] = [
   {
     title: "Lumora",
     url: "https://lumora-rho-jet.vercel.app/",
-    category: "Ecommerce",
+    category: "Lighting",
     industry: "Lighting",
     description: "A luxury lighting ecommerce preview with rich product mood.",
     image: "/images/web-portfolio/lumora.webp",
-    tags: ["Ecommerce", "Lighting"],
+    tags: ["Lighting", "Ecommerce"],
     preview: {
       headline: "Luxury Refined. Light Perfected.",
       kicker: "Signature lighting pieces.",
@@ -238,7 +240,7 @@ export const webProjects: WebProject[] = [
     title: "Desert GP",
     url: "https://desertgp.com",
     category: "Healthcare",
-    industry: "Medical",
+    industry: "Healthcare / Medical",
     description: "A medical site designed to communicate care and access.",
     image: "/images/web-portfolio/desert-gp.webp",
     tags: ["Healthcare", "Medical"],
@@ -322,11 +324,11 @@ export const webProjects: WebProject[] = [
   {
     title: "Worn Soul",
     url: "https://worn-soul.vercel.app/",
-    category: "Ecommerce",
-    industry: "Fashion",
+    category: "Fashion",
+    industry: "Fashion / Ecommerce",
     description: "A fashion ecommerce concept with editorial product energy.",
     image: "/images/web-portfolio/worn-soul.webp",
-    tags: ["Ecommerce", "Fashion"],
+    tags: ["Fashion", "Ecommerce"],
     preview: {
       headline: "Streetwear With a Story.",
       kicker: "Curated drops and essentials.",

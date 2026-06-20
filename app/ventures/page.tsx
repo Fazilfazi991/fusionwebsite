@@ -204,11 +204,11 @@ export default function VenturesPage() {
         <div className="mobile-nav-motion lg:hidden" />
       </header>
 
-      <section className="relative px-5 pb-16 pt-14 sm:px-10 lg:pb-24 lg:pt-20">
+      <section className="relative px-5 pb-8 pt-14 sm:px-10 lg:pb-0 lg:pt-20">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_68%_18%,rgba(214,168,79,0.18),transparent_30%),radial-gradient(circle_at_18%_28%,rgba(41,114,167,0.16),transparent_30%)]" />
         <div className="absolute inset-0 opacity-25 [background-image:linear-gradient(rgba(214,168,79,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(214,168,79,0.08)_1px,transparent_1px)] [background-size:80px_80px]" />
 
-        <div className="relative mx-auto grid max-w-[1500px] gap-12 lg:grid-cols-[34%_66%] lg:items-center">
+        <div className="relative mx-auto grid max-w-[1500px] gap-10 lg:grid-cols-[34%_66%] lg:items-center">
           <div>
             <Eyebrow>Our Portfolio</Eyebrow>
             <h1 className="mt-5 text-5xl font-semibold leading-[0.95] tracking-[-0.06em] sm:text-6xl lg:text-7xl">
@@ -231,10 +231,10 @@ export default function VenturesPage() {
             </a>
           </div>
 
-          <div className="relative hidden min-h-[420px] lg:block lg:min-h-[560px]">
+          <div className="relative min-h-[360px] lg:min-h-[520px]">
             <div className="absolute left-1/2 top-1/2 h-[540px] w-[540px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#d6a84f]/18" />
-            <div className="absolute left-1/2 top-1/2 h-[420px] w-[720px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-[#d6a84f]/18 animate-[spin_42s_linear_infinite]" />
-            <div className="absolute left-1/2 top-1/2 h-[270px] w-[860px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-[#d6a84f]/12 animate-[spin_60s_linear_infinite_reverse]" />
+            <div className="absolute left-1/2 top-1/2 h-[330px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-[#d6a84f]/18 animate-[spin_42s_linear_infinite] lg:h-[420px] lg:w-[720px]" />
+            <div className="absolute left-1/2 top-1/2 h-[220px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-[#d6a84f]/12 animate-[spin_60s_linear_infinite_reverse] lg:h-[270px] lg:w-[860px]" />
             {[12, 24, 36, 64, 76, 88].map((left, index) => (
               <span
                 key={left}
@@ -246,7 +246,7 @@ export default function VenturesPage() {
               />
             ))}
 
-            <div className="absolute left-1/2 top-1/2 grid h-44 w-44 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-[#d6a84f]/55 bg-[#05080d] shadow-[0_0_60px_rgba(214,168,79,0.45)]">
+            <div className="absolute left-1/2 top-1/2 grid h-40 w-40 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-[#d6a84f]/55 bg-[#05080d] shadow-[0_0_60px_rgba(214,168,79,0.45)] lg:h-44 lg:w-44">
               <div className="text-center">
                 <div className="mx-auto mb-3 grid h-12 w-12 place-items-center rounded-full border border-[#f5f5f0]/22 text-xl font-black text-[#f5f5f0]">
                   F
@@ -258,33 +258,40 @@ export default function VenturesPage() {
               </div>
             </div>
 
-            <div className="absolute bottom-0 left-1/2 h-40 w-px -translate-x-1/2 bg-gradient-to-b from-[#d6a84f] to-transparent" />
-            <div className="absolute bottom-8 left-[24%] h-px w-[52%] bg-gradient-to-r from-transparent via-[#d6a84f]/70 to-transparent" />
+            <div className="absolute -bottom-8 left-1/2 hidden h-24 w-px -translate-x-1/2 bg-gradient-to-b from-[#d6a84f] to-transparent lg:block" />
+            <div className="absolute bottom-0 left-[24%] hidden h-px w-[52%] bg-gradient-to-r from-transparent via-[#d6a84f]/70 to-transparent lg:block" />
           </div>
         </div>
       </section>
 
-      <section className="relative px-5 py-10 sm:px-10" id="portfolio">
-        <div className="mx-auto max-w-[1500px]">
+      <section className="relative px-5 pb-14 pt-8 sm:px-10 lg:pt-0" id="portfolio">
+        <div className="absolute left-1/2 top-0 hidden h-16 w-px -translate-x-1/2 bg-gradient-to-b from-[#d6a84f]/80 to-transparent lg:block" />
+        <div className="mx-auto max-w-[1220px]">
           <div className="mb-5 flex items-center justify-center gap-3 text-[#d6a84f]">
             <BriefcaseBusiness className="h-4 w-4" />
             <Eyebrow>Our Ventures</Eyebrow>
           </div>
-          <div className="grid gap-4 min-[430px]:grid-cols-2 lg:grid-cols-4">
+          <div className="pointer-events-none absolute left-1/2 top-16 hidden h-px w-[980px] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#d6a84f]/44 to-transparent lg:block" />
+          <div className="grid gap-4 min-[390px]:grid-cols-2 lg:grid-cols-4 lg:gap-x-6 lg:gap-y-8">
             {ventures.map((venture) => (
               <a
                 key={venture.name}
                 href="#"
-                className="group rounded-xl border bg-white/[0.035] p-5 outline-none transition-all duration-300 hover:-translate-y-1 focus:-translate-y-1"
+                className="group relative rounded-xl border bg-white/[0.035] p-4 outline-none transition-all duration-300 hover:-translate-y-1 focus:-translate-y-1 lg:min-h-[150px] lg:p-5"
                 style={{
                   borderColor: `${venture.accent}55`,
                   boxShadow: `0 0 34px ${venture.accent}12`
                 }}
               >
-                <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: venture.accent }}>
+                <span className="absolute -top-5 left-1/2 hidden h-5 w-px -translate-x-1/2 bg-[#d6a84f]/42 lg:block" />
+                <span className="absolute -top-[22px] left-1/2 hidden h-2 w-2 -translate-x-1/2 rounded-full bg-[#d6a84f] shadow-[0_0_14px_rgba(214,168,79,0.9)] lg:block" />
+                <p className="mb-4 text-[9px] font-bold uppercase tracking-[0.18em] lg:hidden" style={{ color: venture.accent }}>
                   {venture.category}
                 </p>
-                <div className="flex items-center gap-5">
+                <p className="absolute -top-8 left-1/2 hidden -translate-x-1/2 whitespace-nowrap text-[10px] font-bold uppercase tracking-[0.18em] text-[#d6a84f] lg:block">
+                  {venture.category}
+                </p>
+                <div className="flex items-center gap-4">
                   <VentureLogo venture={venture} compact />
                   <div className="min-w-0 flex-1">
                     <h2 className="text-xl font-semibold tracking-[-0.04em]">{venture.name}</h2>
@@ -301,7 +308,7 @@ export default function VenturesPage() {
           <div className="mt-8 text-center">
             <a
               href="#portfolio"
-              className="inline-flex items-center gap-4 rounded-md border border-[#d6a84f]/60 px-8 py-3 text-[#d6a84f] transition-colors hover:bg-[#d6a84f] hover:text-black"
+              className="inline-flex w-full items-center justify-center gap-4 rounded-md border border-[#d6a84f]/60 px-8 py-3 text-[#d6a84f] transition-colors hover:bg-[#d6a84f] hover:text-black min-[390px]:w-auto"
             >
               <Grid3X3 className="h-4 w-4" />
               View All Ventures

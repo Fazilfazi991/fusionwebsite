@@ -98,34 +98,38 @@ function PreviewArt({
   project: WebProject;
   priority?: boolean;
 }) {
-  const [imageFailed, setImageFailed] = useState(false);
-
-  if (!imageFailed) {
-    return (
-      <div className="relative aspect-[16/9] overflow-hidden bg-[#101114]">
-        <Image
-          src={project.image}
-          alt={`${project.title} website preview`}
-          fill
-          priority={priority}
-          sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.035]"
-          onError={() => setImageFailed(true)}
-        />
-      </div>
-    );
-  }
-
   return (
-    <div className={`relative aspect-[16/9] overflow-hidden bg-gradient-to-br ${project.preview.palette}`}>
-      <div className="absolute inset-0 bg-black/18" />
-      <div className="absolute bottom-4 left-4 right-4">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/58">
-          Preview unavailable
-        </p>
-        <p className="mt-2 text-xl font-semibold tracking-[-0.04em] text-white">{project.title}</p>
-      </div>
+    <div className="relative aspect-[16/9] overflow-hidden bg-[#101114]">
+      <Image
+        src={project.image}
+        alt={`${project.title} website preview`}
+        fill
+        priority={priority}
+        unoptimized
+        sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 50vw"
+        className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.035]"
+      />
     </div>
+  );
+}
+
+function FeaturedProjectCard({ project, priority }: { project: WebProject; priority?: boolean }) {
+  return (
+    <a
+      href={project.url}
+      target="_blank"
+      rel="noreferrer"
+      className="group block w-[82vw] max-w-[520px] shrink-0 snap-center overflow-hidden rounded-xl border border-white/16 bg-[#08090b] first:border-[#d6a84f]"
+    >
+      <PreviewArt project={project} priority={priority} />
+      <div className="flex min-h-[62px] items-center justify-between gap-3 border-t border-white/10 px-4 py-3">
+        <div className="min-w-0">
+          <h2 className="truncate text-lg font-medium text-white">{project.title}</h2>
+          <p className="truncate text-sm text-white/52">{project.industry}</p>
+        </div>
+        <ArrowRight className="h-5 w-5 shrink-0 text-[#d6a84f]" />
+      </div>
+    </a>
   );
 }
 
@@ -139,19 +143,19 @@ function ProjectCard({ project, index }: { project: WebProject; index: number })
       className="group min-w-0 overflow-hidden rounded-[14px] border border-white/12 bg-white/[0.035] shadow-[0_16px_50px_rgba(0,0,0,0.26)] outline-none transition-all duration-300 hover:-translate-y-1 hover:border-[#d6a84f]/55 focus-visible:border-[#d6a84f] focus-visible:ring-2 focus-visible:ring-[#d6a84f]/35"
     >
       <PreviewArt project={project} priority={index < 4} />
-      <div className="flex min-h-[76px] items-center justify-between gap-4 border-t border-white/[0.08] bg-[#08090b]/95 px-4 py-4">
+      <div className="flex min-h-[64px] items-center justify-between gap-2 border-t border-white/[0.08] bg-[#08090b]/95 px-3 py-3 lg:min-h-[76px] lg:gap-4 lg:px-4 lg:py-4">
         <div className="flex min-w-0 items-center gap-3">
-          <span className="grid h-8 w-8 shrink-0 place-items-center rounded border border-[#d6a84f]/35 bg-black/18 text-[13px] font-medium text-white/86">
+          <span className="hidden h-8 w-8 shrink-0 place-items-center rounded border border-[#d6a84f]/35 bg-black/18 text-[13px] font-medium text-white/86 lg:grid">
             {String(index + 1).padStart(2, "0")}
           </span>
           <div className="min-w-0">
-            <h3 className="truncate text-base font-semibold tracking-[-0.02em] text-white">
+            <h3 className="truncate text-sm font-semibold text-white lg:text-base lg:tracking-[-0.02em]">
               {project.title}
             </h3>
-            <p className="mt-1 truncate text-sm text-white/48">{project.industry}</p>
+            <p className="mt-1 truncate text-xs text-white/48 lg:text-sm">{project.industry}</p>
           </div>
         </div>
-        <ArrowRight className="h-5 w-5 shrink-0 text-[#d6a84f] transition-transform group-hover:translate-x-1.5" />
+        <ArrowRight className="h-4 w-4 shrink-0 text-[#d6a84f] transition-transform group-hover:translate-x-1.5 lg:h-5 lg:w-5" />
       </div>
     </a>
   );
@@ -217,7 +221,7 @@ export default function WebPortfolioClient() {
             </p>
           </div>
 
-          <div className="relative z-10 mt-8 grid grid-cols-2 gap-3 lg:mt-10 lg:grid-cols-4">
+          <div className="relative z-10 mt-8 hidden grid-cols-2 gap-3 sm:grid lg:mt-10 lg:grid-cols-4">
             {webPortfolioStats.map((stat) => {
               const Icon = statIcons[stat.icon];
               return (
@@ -240,6 +244,14 @@ export default function WebPortfolioClient() {
 
       <section className="px-5 pb-16 pt-8 sm:px-10 lg:px-14">
         <div className="mx-auto max-w-[1560px]">
+          {activeCategory === "All Projects" && (
+            <div className="-mx-5 mb-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-3 sm:-mx-10 sm:px-10 lg:hidden">
+              {webProjects.slice(0, 2).map((project, index) => (
+                <FeaturedProjectCard key={project.title} project={project} priority={index === 0} />
+              ))}
+            </div>
+          )}
+
           <div className="-mx-5 mb-5 flex gap-3 overflow-x-auto px-5 pb-2 sm:mx-0 sm:px-0 lg:overflow-visible">
             {webPortfolioCategories.map((category) => (
               <button
@@ -257,9 +269,14 @@ export default function WebPortfolioClient() {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-3 lg:gap-5 xl:grid-cols-4">
             {filteredProjects.map((project, index) => (
-              <ProjectCard key={project.title} project={project} index={index} />
+              <div
+                key={project.title}
+                className={activeCategory === "All Projects" && index < 2 ? "hidden lg:block" : "min-w-0"}
+              >
+                <ProjectCard project={project} index={index} />
+              </div>
             ))}
           </div>
         </div>

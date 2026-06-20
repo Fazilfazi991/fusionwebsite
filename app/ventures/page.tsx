@@ -113,7 +113,7 @@ function LogoMark() {
   return (
     <a href="/" className="leading-none" aria-label="Fusion Ventures home">
       <span className="block text-2xl font-medium tracking-[0.24em] text-[#f5f5f0] sm:text-3xl">
-        FUSI<span className="text-[#d6a84f]">O</span>N
+        FUSION
       </span>
       <span className="ml-1 block text-[10px] font-semibold tracking-[0.42em] text-[#f5f5f0]/68">
         VENTURES
@@ -201,6 +201,7 @@ export default function VenturesPage() {
             <Menu className="h-6 w-6" />
           </button>
         </div>
+        <div className="mobile-nav-motion lg:hidden" />
       </header>
 
       <section className="relative px-5 pb-16 pt-14 sm:px-10 lg:pb-24 lg:pt-20">
@@ -230,7 +231,7 @@ export default function VenturesPage() {
             </a>
           </div>
 
-          <div className="relative min-h-[420px] lg:min-h-[560px]">
+          <div className="relative hidden min-h-[420px] lg:block lg:min-h-[560px]">
             <div className="absolute left-1/2 top-1/2 h-[540px] w-[540px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#d6a84f]/18" />
             <div className="absolute left-1/2 top-1/2 h-[420px] w-[720px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-[#d6a84f]/18 animate-[spin_42s_linear_infinite]" />
             <div className="absolute left-1/2 top-1/2 h-[270px] w-[860px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-[#d6a84f]/12 animate-[spin_60s_linear_infinite_reverse]" />
@@ -247,11 +248,11 @@ export default function VenturesPage() {
 
             <div className="absolute left-1/2 top-1/2 grid h-44 w-44 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-[#d6a84f]/55 bg-[#05080d] shadow-[0_0_60px_rgba(214,168,79,0.45)]">
               <div className="text-center">
-                <div className="mx-auto mb-3 grid h-12 w-12 place-items-center rounded-full bg-[#d6a84f] text-xl font-black text-black">
+                <div className="mx-auto mb-3 grid h-12 w-12 place-items-center rounded-full border border-[#f5f5f0]/22 text-xl font-black text-[#f5f5f0]">
                   F
                 </div>
                 <p className="text-xl font-medium tracking-[0.22em]">
-                  FUSI<span className="text-[#d6a84f]">O</span>N
+                  FUSION
                 </p>
                 <p className="text-[9px] tracking-[0.38em] text-[#f5f5f0]/62">VENTURES</p>
               </div>

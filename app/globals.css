@@ -63,6 +63,22 @@ html[data-scroll-dir="up"] .scroll-reveal:not(.is-visible) {
   filter: blur(0);
 }
 
+.mobile-nav-motion {
+  position: relative;
+  height: 1px;
+  overflow: hidden;
+  background: rgba(214, 168, 79, 0.14);
+}
+
+.mobile-nav-motion::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 44%;
+  background: linear-gradient(90deg, transparent, rgba(214, 168, 79, 0.95), transparent);
+  animation: navLineSweep 2.8s ease-in-out infinite;
+}
+
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -72,6 +88,20 @@ html[data-scroll-dir="up"] .scroll-reveal:not(.is-visible) {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes navLineSweep {
+  0% {
+    transform: translateX(-120%);
+  }
+
+  50% {
+    transform: translateX(190%);
+  }
+
+  100% {
+    transform: translateX(190%);
   }
 }
 

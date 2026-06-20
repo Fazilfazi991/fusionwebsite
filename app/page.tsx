@@ -296,6 +296,7 @@ export default function Home() {
             </div>
           </div>
         )}
+        <div className="mobile-nav-motion lg:hidden" />
       </header>
 
       <section className="relative px-5 py-20 sm:px-10 lg:px-14 lg:py-28" id="home">
@@ -448,7 +449,7 @@ export default function Home() {
             </a>
           </div>
 
-          <div className="scroll-reveal grid grid-cols-4 gap-2 sm:gap-3 md:grid-cols-3 lg:grid-cols-4 lg:gap-5">
+          <div className="scroll-reveal grid grid-cols-3 gap-2 min-[520px]:grid-cols-4 sm:gap-3 md:grid-cols-3 lg:grid-cols-4 lg:gap-5">
             {companies.map((company) => (
               <a
                 key={company.name}

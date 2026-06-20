@@ -177,7 +177,7 @@ export default function VenturesPage() {
                 key={item}
                 href={
                   item === "Our Portfolio"
-                    ? "#portfolio"
+                    ? "/web-portfolio"
                     : item === "Our Edge"
                       ? "#edge"
                       : item === "Contact"

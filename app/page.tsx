@@ -19,6 +19,7 @@ const navItems = [
   { label: "Home", href: "#home" },
   { label: "Group", href: "#group" },
   { label: "Ventures", href: "/ventures" },
+  { label: "Web Portfolio", href: "/web-portfolio" },
   { label: "Sectors", href: "#sectors" },
   { label: "People", href: "#people" },
   { label: "Approach", href: "#approach" },
@@ -441,10 +442,10 @@ export default function Home() {
               We build and back brands across commerce, technology, travel, and digital products.
             </p>
             <a
-              href="/ventures"
+              href="/web-portfolio"
               className="group mt-8 inline-flex items-center gap-5 border-b border-[#b99a5b] pb-3 text-base font-semibold text-[#d8b563] transition-colors hover:text-white sm:text-lg"
             >
-              Explore All Ventures
+              Explore Websites We&apos;ve Built
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1.5" />
             </a>
           </div>

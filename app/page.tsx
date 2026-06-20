@@ -1,167 +1,163 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import {
   ArrowRight,
-  ChartNoAxesCombined,
-  Cpu,
-  Expand,
-  Factory,
+  BriefcaseBusiness,
+  Compass,
+  Handshake,
+  Layers3,
   Menu,
-  Monitor,
-  Package,
-  ShoppingBag,
+  Rocket,
+  ShieldCheck,
   Sparkles,
-  Store,
-  Target,
   X
 } from "lucide-react";
 
 const navItems = [
-  { label: "Group", href: "/groups" },
+  { label: "Home", href: "#home" },
+  { label: "Group", href: "#group" },
   { label: "Ventures", href: "#ventures" },
   { label: "Sectors", href: "#sectors" },
-  { label: "People", href: "/groups#people" },
+  { label: "People", href: "#people" },
   { label: "Approach", href: "#approach" },
   { label: "Contact", href: "#contact" }
 ];
 
-const overviewItems = [
+const trustBlocks = [
+  ["Multiple", "Ventures"],
+  ["UAE", "Based"],
+  ["Founder", "Led"],
+  ["Long-Term", "Focus"]
+];
+
+const heroCards = ["Plumlet", "Dearelle", "Tarx Solutions", "Tarx Holidays", "Entry Pazz"];
+
+const whatWeDo = [
   {
     title: "Build",
-    text: "We create and validate businesses in attractive markets.",
-    icon: Target
-  },
-  {
-    title: "Own",
-    text: "We take a long-term ownership mindset aligned with founders.",
-    icon: ChartNoAxesCombined
+    text: "We create and shape new ventures in markets with clear demand and long-term potential.",
+    icon: Sparkles
   },
   {
     title: "Operate",
-    text: "We build strong operators and efficient, scalable systems.",
-    icon: Factory
+    text: "We support businesses with systems, processes, people, technology, and execution.",
+    icon: BriefcaseBusiness
   },
   {
     title: "Scale",
-    text: "We reinvest and scale companies with durable competitive advantages.",
-    icon: Expand
+    text: "We grow ventures through digital strategy, marketing, partnerships, and operational discipline.",
+    icon: Rocket
+  },
+  {
+    title: "Partner",
+    text: "We collaborate with founders, businesses, and investors who share a long-term vision.",
+    icon: Handshake
   }
-];
-
-const metrics = [
-  ["25+", "Companies", "Across Our Portfolio"],
-  ["$1B+", "Aggregate Revenue", "Across Portfolio"],
-  ["10+", "Countries", "Global Footprint"],
-  ["1,000+", "Team Members", "Across Companies"],
-  ["15+", "Years of Combined", "Operating Experience"]
 ];
 
 const sectors = [
-  {
-    title: "E-Commerce",
-    text: "Direct-to-consumer and multi-category e-commerce businesses.",
-    icon: ShoppingBag
-  },
-  {
-    title: "Marketplaces",
-    text: "Platform models that connect buyers and sellers at scale.",
-    icon: Store
-  },
-  {
-    title: "Digital Platforms",
-    text: "SaaS and digital products solving real user problems.",
-    icon: Monitor
-  },
-  {
-    title: "Technology",
-    text: "Infrastructure, tools, and enabling technology.",
-    icon: Cpu
-  },
-  {
-    title: "Consumer Brands",
-    text: "Modern brands built for today's consumer.",
-    icon: Package
-  },
-  {
-    title: "Future Ventures",
-    text: "Early-stage bets on tomorrow's opportunities.",
-    icon: Sparkles
-  }
+  ["Commerce & D2C Brands", "Modern online brands built around clear customer needs."],
+  ["Marketplaces & Platforms", "Digital platforms connecting users, sellers, services, and experiences."],
+  ["Technology & Digital Solutions", "Tools, systems, and software that help businesses operate better."],
+  ["Travel & Experiences", "Curated travel, holiday, ticketing, and experience-led ventures."],
+  ["Consumer Brands", "Lifestyle, fashion, gifting, kids, and everyday product brands."],
+  ["Future Ventures", "New ideas, experimental models, and early-stage opportunities."]
 ];
 
 const companies = [
   {
     name: "Plumlet",
-    category: "E-commerce / Kids & Lifestyle",
-    tagline: "The Sweetest Little Finds",
-    logo: "/ventures/logos/plumlet-logo-trimmed.png",
-    description:
-      "A playful e-commerce brand focused on sweet, useful, and lovable little finds."
+    category: "Kids & Lifestyle Commerce",
+    description: "Sweet, useful, and lovable little finds for modern families.",
+    status: "Building",
+    logo: "/ventures/logos/plumlet-logo-trimmed.png"
   },
   {
     name: "Dearelle",
-    category: "E-commerce / Lifestyle Luxury",
-    tagline: "Your everyday little luxury.",
-    logo: "/ventures/logos/dearelle-logo-trimmed.png",
-    description: "A premium lifestyle commerce brand built around elegant everyday products."
+    category: "Lifestyle & Everyday Luxury",
+    description: "Elegant everyday products designed around beauty, gifting, and personal style.",
+    status: "Building",
+    logo: "/ventures/logos/dearelle-logo-trimmed.png"
   },
   {
     name: "Tarx Solutions",
-    category: "Technology / Digital Solutions",
-    logo: "/ventures/logos/tarx-solutions-logo-trimmed.png",
-    logoSize: "large",
-    description:
-      "A technology and digital solutions company supporting modern business operations."
+    category: "Technology & Digital Solutions",
+    description: "Digital systems, websites, and operational tools for modern businesses.",
+    status: "Active",
+    logo: "/ventures/logos/tarx-solutions-logo-trimmed.png"
   },
   {
     name: "Tarx Holidays",
-    category: "Travel / Holidays",
-    logo: "/ventures/logos/tarx-holidays-logo-trimmed.png",
-    logoSize: "large",
-    description:
-      "A travel and holiday brand focused on curated UAE, Kerala, and international travel experiences."
+    category: "Travel & Experiences",
+    description: "Curated UAE, Kerala, and international travel experiences.",
+    status: "Building",
+    logo: "/ventures/logos/tarx-holidays-logo-trimmed.png"
   },
   {
     name: "Entry Pazz",
-    category: "Marketplace / Events & Tickets",
-    logo: "/ventures/logos/entry-pazz-logo-trimmed.png",
-    description:
-      "A ticketing and event access platform for discovering and booking experiences."
+    category: "Events & Ticketing Marketplace",
+    description: "A platform for discovering and booking events, experiences, and access.",
+    status: "Building",
+    logo: "/ventures/logos/entry-pazz-logo-trimmed.png"
   }
 ];
 
-const pillars = [
-  ["01", "Founder First", "We partner with driven founders and back their vision."],
-  ["02", "Operational Excellence", "We build systems, processes, and teams that scale."],
-  ["03", "Capital Efficiency", "We deploy capital with discipline and focus on returns."],
-  ["04", "Shared Resources", "We leverage a group platform to accelerate growth."],
-  ["05", "Long-Term Mindset", "We think in decades, not quarters."]
+const approach = [
+  ["01", "Identify", "We look for markets, customer problems, and business models with long-term potential."],
+  ["02", "Build", "We shape the brand, product, systems, and early execution plan."],
+  ["03", "Launch", "We bring ventures to market with focused positioning and practical operations."],
+  ["04", "Operate", "We support growth through systems, partnerships, marketing, and business development."],
+  ["05", "Scale", "We reinvest learning, capital, and execution into ventures that show strong potential."]
 ];
 
-function Label({ children, dark = false }: { children: React.ReactNode; dark?: boolean }) {
+const people = [
+  {
+    name: "Ayisha Muneer",
+    initials: "AM",
+    role: "Founder & CEO",
+    bio: "Leads the group's vision, direction, and long-term development across its growing portfolio of ventures."
+  },
+  {
+    name: "Mohammad Fazil",
+    initials: "MF",
+    role: "Co-Founder & Growth / Business Development",
+    bio: "Focused on partnerships, growth strategy, commercial direction, and new venture execution across the Fusion Ventures ecosystem."
+  },
+  {
+    name: "Thameem AR",
+    initials: "TA",
+    role: "Co-Founder & Growth Strategy",
+    bio: "Supports group-level growth, strategic partnerships, business expansion, and venture development across multiple sectors."
+  }
+];
+
+function Label({ children }: { children: React.ReactNode }) {
   return (
-    <p
-      className={`mb-5 text-[11px] font-semibold uppercase tracking-[0.16em] ${
-        dark ? "text-white/55" : "text-black/45"
-      }`}
-    >
+    <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#b99a5b]">
       {children}
     </p>
   );
 }
 
-function ArrowLink({ children, dark = false }: { children: React.ReactNode; dark?: boolean }) {
+function SectionIntro({
+  eyebrow,
+  title,
+  text
+}: {
+  eyebrow: string;
+  title: string;
+  text?: string;
+}) {
   return (
-    <a
-      href="#contact"
-      className={`group mt-8 inline-flex items-center gap-4 text-[12px] font-bold uppercase tracking-[0.08em] ${
-        dark ? "text-white" : "text-black"
-      }`}
-    >
-      {children}
-      <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
-    </a>
+    <div className="scroll-reveal max-w-[760px]">
+      <Label>{eyebrow}</Label>
+      <h2 className="text-4xl font-medium leading-tight tracking-[-0.04em] text-white sm:text-5xl">
+        {title}
+      </h2>
+      {text && <p className="mt-6 text-base leading-8 text-white/62">{text}</p>}
+    </div>
   );
 }
 
@@ -170,10 +166,6 @@ export default function Home() {
 
   useEffect(() => {
     const elements = Array.from(document.querySelectorAll<HTMLElement>(".scroll-reveal"));
-    if (!elements.length) {
-      return;
-    }
-
     let lastScrollY = window.scrollY;
 
     const updateDirection = () => {
@@ -196,10 +188,7 @@ export default function Home() {
           entry.target.classList.toggle("is-visible", entry.isIntersecting);
         });
       },
-      {
-        threshold: 0.18,
-        rootMargin: "0px 0px -8% 0px"
-      }
+      { threshold: 0.16, rootMargin: "0px 0px -8% 0px" }
     );
 
     elements.forEach((element) => observer.observe(element));
@@ -211,36 +200,38 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-paper">
-      <header className="sticky top-0 z-50 border-b border-line bg-white/92 backdrop-blur-md">
-        <div className="mx-auto flex h-[78px] max-w-[1440px] items-center justify-between px-6 sm:px-10 lg:px-14">
-          <a href="#" className="leading-none" aria-label="Fusion Ventures home">
-            <span className="block text-3xl font-medium tracking-[0.24em]">FUSION</span>
-            <span className="ml-1 block text-[11px] font-semibold tracking-[0.42em]">VENTURES</span>
+    <main className="min-h-screen overflow-hidden bg-[#060705] text-white">
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#060705]/86 backdrop-blur-xl">
+        <div className="mx-auto flex h-[78px] max-w-[1440px] items-center justify-between px-5 sm:px-10 lg:px-14">
+          <a href="#home" className="leading-none" aria-label="Fusion Ventures home">
+            <span className="block text-3xl font-medium tracking-[0.24em] text-white">FUSION</span>
+            <span className="ml-1 block text-[11px] font-semibold tracking-[0.42em] text-white/72">
+              VENTURES
+            </span>
           </a>
 
-          <nav className="hidden items-center gap-10 lg:flex">
+          <nav className="hidden items-center gap-8 lg:flex">
             {navItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
-                className="text-[11px] font-bold uppercase tracking-[0.06em] text-black transition-opacity hover:opacity-55"
+                className="text-[11px] font-bold uppercase tracking-[0.08em] text-white/70 transition-colors hover:text-white"
               >
                 {item.label}
               </a>
             ))}
           </nav>
 
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-4">
             <a
               href="#contact"
-              className="hidden border border-black bg-black px-8 py-4 text-[11px] font-bold uppercase tracking-[0.08em] text-white transition-colors hover:bg-white hover:text-black sm:inline-flex"
+              className="hidden border border-[#b99a5b] bg-[#b99a5b] px-7 py-4 text-[11px] font-bold uppercase tracking-[0.08em] text-black transition-colors hover:bg-transparent hover:text-[#d8c38b] sm:inline-flex"
             >
               Partner With Us
             </a>
             <button
               aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
-              className="grid h-10 w-10 place-items-center border border-transparent transition-colors hover:border-black"
+              className="grid h-11 w-11 place-items-center border border-white/10 text-white transition-colors hover:border-[#b99a5b]"
               onClick={() => setMenuOpen((open) => !open)}
             >
               {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -249,13 +240,13 @@ export default function Home() {
         </div>
 
         {menuOpen && (
-          <div className="border-t border-line bg-white px-6 py-5 lg:hidden">
+          <div className="border-t border-white/10 bg-[#060705] px-5 py-5 lg:hidden">
             <div className="grid gap-4">
               {navItems.map((item) => (
                 <a
                   key={item.label}
                   href={item.href}
-                  className="text-sm font-semibold uppercase tracking-[0.08em]"
+                  className="text-sm font-semibold uppercase tracking-[0.1em] text-white/78"
                   onClick={() => setMenuOpen(false)}
                 >
                   {item.label}
@@ -263,7 +254,7 @@ export default function Home() {
               ))}
               <a
                 href="#contact"
-                className="mt-2 border border-black bg-black px-5 py-4 text-center text-xs font-bold uppercase tracking-[0.08em] text-white"
+                className="mt-2 border border-[#b99a5b] bg-[#b99a5b] px-5 py-4 text-center text-xs font-bold uppercase tracking-[0.08em] text-black"
                 onClick={() => setMenuOpen(false)}
               >
                 Partner With Us
@@ -273,225 +264,246 @@ export default function Home() {
         )}
       </header>
 
-      <section className="relative overflow-hidden bg-white" id="group">
-        <div className="mx-auto grid min-h-[640px] max-w-[1440px] lg:grid-cols-[47%_53%]">
-          <div className="flex items-center px-6 py-20 sm:px-10 lg:px-24">
-            <div className="max-w-[620px] scroll-reveal">
-              <Label>Venture Group</Label>
-              <h1 className="text-5xl font-medium leading-[0.98] tracking-[-0.04em] sm:text-6xl lg:text-7xl">
-                Building Companies
-                <br />
-                With Long-Term Vision.
-              </h1>
-              <p className="mt-8 max-w-[560px] text-base leading-8 text-black/65">
-                Fusion Ventures is a diversified venture group that builds, owns, operates, and
-                scales market-leading businesses across e-commerce, marketplaces, digital products,
-                and technology.
-              </p>
-              <div className="mt-9 flex flex-col gap-4 sm:flex-row">
-                <a
-                  href="#group-overview"
-                  className="border border-black bg-black px-8 py-4 text-center text-[12px] font-bold uppercase tracking-[0.08em] text-white transition-colors hover:bg-white hover:text-black"
-                >
-                  Explore Our Group
-                </a>
-                <a
-                  href="#ventures"
-                  className="border border-black px-8 py-4 text-center text-[12px] font-bold uppercase tracking-[0.08em] transition-colors hover:bg-black hover:text-white"
-                >
-                  View Our Ventures
-                </a>
-              </div>
+      <section className="relative px-5 py-20 sm:px-10 lg:px-14 lg:py-28" id="home">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[size:72px_72px] opacity-45" />
+        <div className="absolute right-[-20%] top-24 h-[420px] w-[420px] rounded-full bg-[#143d2c]/35 blur-3xl" />
+        <div className="absolute bottom-10 left-[-16%] h-[360px] w-[360px] rounded-full bg-[#b99a5b]/10 blur-3xl" />
+
+        <div className="relative mx-auto grid max-w-[1280px] gap-14 lg:grid-cols-[52%_48%] lg:items-center">
+          <div className="scroll-reveal">
+            <Label>UAE-Based Venture Group</Label>
+            <h1 className="max-w-[850px] text-5xl font-medium leading-[0.95] tracking-[-0.06em] text-white sm:text-7xl lg:text-8xl">
+              We Build, Own & Scale Modern Businesses.
+            </h1>
+            <p className="mt-8 max-w-[720px] text-lg leading-8 text-white/68">
+              Fusion Ventures is a UAE-based venture group building digital-first companies across
+              commerce, technology, marketplaces, travel, and consumer brands.
+            </p>
+            <p className="mt-5 max-w-[680px] text-base leading-8 text-white/52">
+              We bring together ideas, execution, branding, technology, partnerships, and long-term
+              operating focus to create ventures designed to grow.
+            </p>
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              <a
+                href="#ventures"
+                className="border border-[#b99a5b] bg-[#b99a5b] px-8 py-4 text-center text-[12px] font-bold uppercase tracking-[0.1em] text-black transition-colors hover:bg-transparent hover:text-[#d8c38b]"
+              >
+                Explore Ventures
+              </a>
+              <a
+                href="#contact"
+                className="border border-white/24 px-8 py-4 text-center text-[12px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:border-white hover:bg-white hover:text-black"
+              >
+                Partner With Us
+              </a>
             </div>
           </div>
-          <div className="min-h-[360px] overflow-hidden lg:min-h-[640px]">
-            <div className="architectural-hero h-full min-h-[360px] origin-center transition-transform duration-700 hover:scale-[1.025]" />
-          </div>
-        </div>
-      </section>
 
-      <section className="bg-mist px-6 py-20 sm:px-10 lg:px-24 lg:py-24" id="group-overview">
-        <div className="mx-auto grid max-w-[1280px] gap-14 lg:grid-cols-[38%_62%]">
-          <div className="scroll-reveal">
-            <Label>The Fusion Ventures Group</Label>
-            <h2 className="text-3xl font-medium leading-tight tracking-[-0.03em] sm:text-4xl">
-              A Long-Term Owner
-              <br />& Operator of Businesses
-            </h2>
-            <p className="mt-8 max-w-[520px] text-sm leading-7 text-black/62">
-              We partner with exceptional founders and teams to build and grow enduring companies.
-              Our model combines operational expertise, capital, and decentralized autonomy,
-              empowering businesses to scale with speed and sustainability.
-            </p>
-            <ArrowLink>Learn More About Us</ArrowLink>
-          </div>
-
-          <div className="scroll-reveal grid grid-cols-2 gap-px bg-black/10">
-            {overviewItems.map(({ title, text, icon: Icon }) => (
-              <article key={title} className="bg-mist p-5 sm:p-10">
-                <div className="mb-6 grid h-11 w-11 place-items-center rounded-full border border-black/35 sm:mb-8 sm:h-12 sm:w-12">
-                  <Icon className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={1.6} />
+          <div className="scroll-reveal relative min-h-[520px] rounded-none border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/40">
+            <div className="absolute inset-4 border border-[#b99a5b]/18" />
+            <div className="relative grid h-full gap-4">
+              {heroCards.map((card, index) => (
+                <div
+                  key={card}
+                  className={`flex items-center justify-between border border-white/10 bg-[#0d0f0b]/90 p-5 backdrop-blur-md ${
+                    index % 2 === 0 ? "mr-8" : "ml-8"
+                  }`}
+                >
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#b99a5b]">
+                      Venture {String(index + 1).padStart(2, "0")}
+                    </p>
+                    <h2 className="mt-2 text-2xl font-medium tracking-[-0.04em]">{card}</h2>
+                  </div>
+                  <span className="h-2 w-2 rounded-full bg-[#2d6b4e]" />
                 </div>
-                <h3 className="text-sm font-semibold sm:text-base">{title}</h3>
-                <p className="mt-3 max-w-[260px] text-xs leading-5 text-black/60 sm:text-sm sm:leading-6">
-                  {text}
-                </p>
-              </article>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="bg-black px-6 py-12 text-white sm:px-10 lg:px-24">
-        <div className="mx-auto grid max-w-[1280px] grid-cols-2 gap-px bg-white/18 lg:grid-cols-5">
-          {metrics.map(([number, label, sub]) => (
-            <article key={number} className="bg-black px-5 py-7 sm:px-8 lg:px-10">
-              <p className="text-3xl font-light tracking-[-0.04em] sm:text-4xl">{number}</p>
-              <p className="mt-4 text-xs leading-5 text-white sm:text-sm">{label}</p>
-              <p className="text-xs leading-5 text-white/72 sm:text-sm">{sub}</p>
+      <section className="border-y border-white/10 bg-[#0a0b08] px-5 py-8 sm:px-10 lg:px-14">
+        <div className="mx-auto grid max-w-[1280px] grid-cols-2 gap-px bg-white/10 lg:grid-cols-4">
+          {trustBlocks.map(([top, bottom]) => (
+            <article key={top} className="bg-[#0a0b08] p-6 sm:p-8">
+              <p className="text-3xl font-light tracking-[-0.05em] text-white sm:text-4xl">{top}</p>
+              <p className="mt-2 text-[12px] font-bold uppercase tracking-[0.14em] text-[#b99a5b]">
+                {bottom}
+              </p>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="bg-white px-6 py-20 sm:px-10 lg:px-24" id="sectors">
-        <div className="mx-auto grid max-w-[1280px] gap-12 lg:grid-cols-[22%_78%]">
-          <div className="scroll-reveal">
-            <Label>Core Sectors</Label>
-            <h2 className="text-3xl font-medium leading-tight tracking-[-0.03em] sm:text-4xl">
-              Building In Large,
-              <br />
-              Growing Markets.
-            </h2>
-          </div>
-          <div className="scroll-reveal grid grid-cols-2 gap-px bg-black/12 lg:grid-cols-6">
-            {sectors.map(({ title, text, icon: Icon }) => (
-              <article key={title} className="min-h-[190px] bg-white p-5 sm:min-h-[240px] sm:p-6">
-                <Icon className="mb-6 h-7 w-7 sm:mb-8 sm:h-8 sm:w-8" strokeWidth={1.5} />
-                <h3 className="text-xs font-bold sm:text-sm">{title}</h3>
-                <p className="mt-3 text-xs leading-5 text-black/62 sm:mt-4 sm:text-sm sm:leading-6">
-                  {text}
-                </p>
+      <section className="px-5 py-20 sm:px-10 lg:px-14 lg:py-28" id="group">
+        <div className="mx-auto grid max-w-[1280px] gap-12 lg:grid-cols-[38%_62%]">
+          <SectionIntro eyebrow="The Group" title="A Venture Group Built Around Execution." />
+          <div className="scroll-reveal grid gap-px bg-white/10 sm:grid-cols-2">
+            {[
+              "Fusion Ventures brings multiple businesses under one group structure, while allowing each venture to grow with its own identity.",
+              "We work across the full journey, from idea validation and brand creation to digital product development, operations, partnerships, and growth."
+            ].map((text) => (
+              <article key={text} className="bg-[#0b0d09] p-8 text-base leading-8 text-white/62">
+                {text}
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-black px-6 py-16 text-white sm:px-10 lg:px-24" id="ventures">
-        <div className="mx-auto grid max-w-[1280px] gap-12 lg:grid-cols-[24%_76%]">
-          <div className="scroll-reveal">
-            <Label dark>Portfolio Companies</Label>
-            <h2 className="text-3xl font-medium leading-tight tracking-[-0.03em] sm:text-4xl">
-              A Portfolio of
-              <br />
-              High-Potential
-              <br />
-              Businesses.
+      <section className="bg-[#f3f0e8] px-5 py-20 text-black sm:px-10 lg:px-14 lg:py-28">
+        <div className="mx-auto max-w-[1280px]">
+          <div className="scroll-reveal mb-12 max-w-[680px]">
+            <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#7b6335]">
+              What We Do
+            </p>
+            <h2 className="text-4xl font-medium leading-tight tracking-[-0.04em] sm:text-5xl">
+              Build, operate, scale, and partner.
             </h2>
-            <ArrowLink dark>Explore Our Ventures</ArrowLink>
           </div>
-          <div className="scroll-reveal grid gap-px bg-white/20 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-2 gap-px bg-black/12 lg:grid-cols-4">
+            {whatWeDo.map(({ title, text, icon: Icon }) => (
+              <article key={title} className="bg-[#f3f0e8] p-5 sm:p-8">
+                <Icon className="mb-8 h-7 w-7 text-[#173d2d] sm:h-9 sm:w-9" strokeWidth={1.5} />
+                <h3 className="text-xl font-semibold tracking-[-0.03em]">{title}</h3>
+                <p className="mt-4 text-sm leading-6 text-black/60">{text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-5 py-20 sm:px-10 lg:px-14 lg:py-28" id="sectors">
+        <div className="mx-auto max-w-[1280px]">
+          <SectionIntro
+            eyebrow="Sectors"
+            title="Building Across Digital-First Markets."
+            text="Fusion Ventures focuses on sectors where technology, brand, distribution, and customer experience can create long-term value."
+          />
+          <div className="mt-12 grid grid-cols-2 gap-px bg-white/10 lg:grid-cols-3">
+            {sectors.map(([title, text]) => (
+              <article key={title} className="bg-[#0b0d09] p-5 sm:p-8">
+                <Layers3 className="mb-7 h-7 w-7 text-[#b99a5b]" strokeWidth={1.4} />
+                <h3 className="text-lg font-semibold tracking-[-0.03em]">{title}</h3>
+                <p className="mt-4 text-sm leading-6 text-white/56">{text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#0a0b08] px-5 py-20 sm:px-10 lg:px-14 lg:py-28" id="ventures">
+        <div className="mx-auto max-w-[1280px]">
+          <SectionIntro
+            eyebrow="Portfolio"
+            title="A Growing Portfolio Of Modern Ventures."
+            text="Our portfolio brings together digital brands, platforms, and operating companies built with focused execution and long-term ambition."
+          />
+          <div className="mt-12 grid gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-5">
             {companies.map((company) => (
-              <a
-                key={company.name}
-                href="#ventures"
-                className="group flex min-h-[280px] flex-col border border-transparent bg-black p-7 transition-all duration-300 hover:-translate-y-1 hover:border-white/25 hover:bg-white hover:text-black"
-              >
-                <div className="flex h-32 items-center justify-center bg-white px-6 py-5">
-                  <img
+              <article key={company.name} className="group bg-[#060705] p-5 transition-colors hover:bg-[#10130d]">
+                <div className="flex h-28 items-center justify-center bg-[#f8f6ef] p-5">
+                  <Image
                     src={company.logo}
                     alt={`${company.name} logo`}
-                    className={`w-full object-contain transition-opacity duration-300 group-hover:opacity-75 ${
-                      company.logoSize === "large" ? "max-h-24" : "max-h-20"
-                    }`}
+                    width={320}
+                    height={140}
+                    unoptimized
+                    className="max-h-20 w-full object-contain"
                   />
                 </div>
-                <p className="mt-7 text-[11px] font-bold uppercase tracking-[0.14em] text-white/48 transition-colors group-hover:text-black/45">
-                  {company.category}
-                </p>
-                <h3 className="mt-3 text-2xl font-medium tracking-[-0.03em]">{company.name}</h3>
-                {company.tagline && (
-                  <p className="mt-2 text-sm font-medium text-white/78 transition-colors group-hover:text-black/62">
-                    {company.tagline}
+                <div className="mt-6 flex items-center justify-between gap-4">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#b99a5b]">
+                    {company.category}
                   </p>
-                )}
-                <p className="mt-4 flex-1 text-sm leading-6 text-white/62 transition-colors group-hover:text-black/62">
-                  {company.description}
-                </p>
-                <span className="mt-6 inline-flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.1em]">
-                  View Venture
-                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
-                </span>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-white px-6 py-20 sm:px-10 lg:px-24" id="approach">
-        <div className="mx-auto grid max-w-[1280px] gap-14 lg:grid-cols-[24%_76%]">
-          <div className="scroll-reveal">
-            <Label>How We Create Value</Label>
-            <h2 className="text-3xl font-medium leading-tight tracking-[-0.03em] sm:text-4xl">
-              An Operating Model
-              <br />
-              Built For Scale.
-            </h2>
-            <p className="mt-7 text-sm leading-7 text-black/62">
-              We combine decentralized leadership with a shared playbook, driving performance
-              across our portfolio while preserving founder DNA.
-            </p>
-            <ArrowLink>Our Approach</ArrowLink>
-          </div>
-          <div className="scroll-reveal grid grid-cols-2 gap-px bg-black/12 lg:grid-cols-5">
-            {pillars.map(([number, title, text]) => (
-              <article key={number} className="bg-white p-5 sm:p-6">
-                <p className="text-4xl font-light tracking-[-0.05em] text-black/22 sm:text-5xl">
-                  {number}
-                </p>
-                <div className="my-5 h-px w-10 bg-black/35 sm:my-6 sm:w-12" />
-                <h3 className="text-xs font-bold sm:text-sm">{title}</h3>
-                <p className="mt-3 text-xs leading-5 text-black/62 sm:mt-4 sm:text-sm sm:leading-6">
-                  {text}
-                </p>
+                  <span className="whitespace-nowrap border border-[#2d6b4e]/50 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#8bd0ad]">
+                    {company.status}
+                  </span>
+                </div>
+                <h3 className="mt-5 text-2xl font-medium tracking-[-0.04em]">{company.name}</h3>
+                <p className="mt-4 text-sm leading-6 text-white/58">{company.description}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="architectural-cta px-6 py-16 text-white sm:px-10 lg:px-24" id="contact">
-        <div className="scroll-reveal mx-auto max-w-[760px] text-center">
-          <Label dark>Let&apos;s Build The Future Together</Label>
-          <h2 className="text-4xl font-medium leading-tight tracking-[-0.04em] sm:text-5xl">
-            Partner With A Group
-            <br />
-            That Builds To Last.
+      <section className="bg-[#f3f0e8] px-5 py-20 text-black sm:px-10 lg:px-14 lg:py-28" id="approach">
+        <div className="mx-auto grid max-w-[1280px] gap-12 lg:grid-cols-[30%_70%]">
+          <div className="scroll-reveal">
+            <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#7b6335]">
+              Approach
+            </p>
+            <h2 className="text-4xl font-medium leading-tight tracking-[-0.04em] sm:text-5xl">
+              Our Operating Approach.
+            </h2>
+          </div>
+          <div className="scroll-reveal grid grid-cols-2 gap-px bg-black/12 lg:grid-cols-5">
+            {approach.map(([number, title, text]) => (
+              <article key={number} className="bg-[#f3f0e8] p-5 sm:p-6">
+                <p className="text-4xl font-light tracking-[-0.05em] text-black/24">{number}</p>
+                <div className="my-5 h-px w-10 bg-black/35" />
+                <h3 className="text-sm font-bold">{title}</h3>
+                <p className="mt-4 text-xs leading-5 text-black/60 sm:text-sm sm:leading-6">{text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-5 py-20 sm:px-10 lg:px-14 lg:py-28" id="people">
+        <div className="mx-auto max-w-[1280px]">
+          <SectionIntro
+            eyebrow="People"
+            title="The People Building Fusion Ventures."
+            text="Fusion Ventures is led by a small group of builders, operators, and growth-focused partners working across business development, digital execution, brand building, and venture operations."
+          />
+          <div className="mt-12 grid gap-px bg-white/10 md:grid-cols-3">
+            {people.map((person) => (
+              <article key={person.name} className="bg-[#0b0d09] p-7 sm:p-8">
+                <div className="grid h-16 w-16 place-items-center rounded-full border border-[#b99a5b]/45 text-lg font-medium tracking-[0.12em] text-[#d8c38b]">
+                  {person.initials}
+                </div>
+                <p className="mt-8 text-[11px] font-bold uppercase tracking-[0.14em] text-[#b99a5b]">
+                  {person.role}
+                </p>
+                <h3 className="mt-4 text-2xl font-medium tracking-[-0.04em]">{person.name}</h3>
+                <p className="mt-5 text-sm leading-7 text-white/58">{person.bio}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="relative border-y border-white/10 bg-[#0a0b08] px-5 py-20 sm:px-10 lg:px-14" id="contact">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(185,154,91,0.16),transparent_38%)]" />
+        <div className="scroll-reveal relative mx-auto max-w-[860px] text-center">
+          <Label>Partner With Us</Label>
+          <h2 className="text-5xl font-medium leading-tight tracking-[-0.05em] sm:text-6xl">
+            Let&apos;s Build What&apos;s Next.
           </h2>
+          <p className="mx-auto mt-7 max-w-[720px] text-base leading-8 text-white/62">
+            Whether you are a founder, partner, investor, operator, or business looking to
+            collaborate, Fusion Ventures is open to meaningful conversations aligned with long-term
+            growth.
+          </p>
           <a
-            href="mailto:hello@fusionventures.com"
-            className="mt-9 inline-flex border border-white bg-white px-12 py-4 text-[12px] font-bold uppercase tracking-[0.08em] text-black transition-colors hover:bg-transparent hover:text-white"
+            href="mailto:hello@fusionventuresglobal.com"
+            className="mt-10 inline-flex border border-[#b99a5b] bg-[#b99a5b] px-10 py-4 text-[12px] font-bold uppercase tracking-[0.1em] text-black transition-colors hover:bg-transparent hover:text-[#d8c38b]"
           >
             Start A Conversation
           </a>
         </div>
       </section>
 
-      <footer className="border-t border-line bg-white px-6 py-5 text-[11px] uppercase tracking-[0.06em] text-black/45 sm:px-10 lg:px-24">
+      <footer className="bg-[#060705] px-5 py-6 text-[11px] uppercase tracking-[0.08em] text-white/42 sm:px-10 lg:px-14">
         <div className="mx-auto grid max-w-[1280px] gap-4 text-center sm:grid-cols-3">
           <p className="sm:text-left">© 2026 Fusion Ventures. All rights reserved.</p>
-          <div className="flex justify-center gap-10">
-            <a href="#" className="transition-colors hover:text-black">
-              Privacy Policy
-            </a>
-            <a href="#" className="transition-colors hover:text-black">
-              Terms of Use
-            </a>
-          </div>
-          <a href="#" className="transition-colors hover:text-black sm:text-right">
-            LinkedIn
+          <a href="#home" className="transition-colors hover:text-white">
+            Back To Top
           </a>
+          <p className="sm:text-right">UAE-Based Venture Group</p>
         </div>
       </footer>
     </main>

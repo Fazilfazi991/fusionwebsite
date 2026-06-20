@@ -5,9 +5,9 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "Fusion Ventures | Building Companies With Long-Term Vision",
+  title: "Fusion Ventures | UAE-Based Venture Group",
   description:
-    "Fusion Ventures is a diversified venture group that builds, owns, operates, and scales enduring businesses."
+    "Fusion Ventures is a UAE-based venture group that builds, owns, operates, and scales digital-first businesses across commerce, technology, marketplaces, travel, and consumer brands."
 };
 
 export default function RootLayout({

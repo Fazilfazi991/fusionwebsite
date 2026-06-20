@@ -18,7 +18,7 @@ import {
 const navItems = [
   { label: "Home", href: "#home" },
   { label: "Group", href: "#group" },
-  { label: "Ventures", href: "#ventures" },
+  { label: "Ventures", href: "/ventures" },
   { label: "Sectors", href: "#sectors" },
   { label: "People", href: "#people" },
   { label: "Approach", href: "#approach" },
@@ -66,41 +66,75 @@ const sectors = [
   ["Future Ventures", "New ideas, experimental models, and early-stage opportunities."]
 ];
 
-const companies = [
+type VentureCompany = {
+  name: string;
+  category: string;
+  mobileCategory: string;
+  description: string;
+  logo?: string;
+  initials?: string;
+  panelClass?: string;
+};
+
+const companies: VentureCompany[] = [
   {
     name: "Plumlet",
-    category: "Kids & Lifestyle Commerce",
-    description: "Sweet, useful, and lovable little finds for modern families.",
-    status: "Building",
+    category: "E-COMMERCE / KIDS & LIFESTYLE",
+    mobileCategory: "E-COMMERCE",
+    description: "Playful little finds for kids and families.",
     logo: "/ventures/logos/plumlet-logo-trimmed.png"
   },
   {
     name: "Dearelle",
-    category: "Lifestyle & Everyday Luxury",
-    description: "Elegant everyday products designed around beauty, gifting, and personal style.",
-    status: "Building",
+    category: "E-COMMERCE / LIFESTYLE LUXURY",
+    mobileCategory: "E-COMMERCE",
+    description: "Everyday luxury with a refined lifestyle touch.",
     logo: "/ventures/logos/dearelle-logo-trimmed.png"
   },
   {
     name: "Tarx Solutions",
-    category: "Technology & Digital Solutions",
-    description: "Digital systems, websites, and operational tools for modern businesses.",
-    status: "Active",
+    category: "TECHNOLOGY / DIGITAL SOLUTIONS",
+    mobileCategory: "TECHNOLOGY",
+    description: "Digital systems and business solutions for modern operations.",
     logo: "/ventures/logos/tarx-solutions-logo-trimmed.png"
   },
   {
     name: "Tarx Holidays",
-    category: "Travel & Experiences",
-    description: "Curated UAE, Kerala, and international travel experiences.",
-    status: "Building",
+    category: "TRAVEL / HOLIDAYS",
+    mobileCategory: "TRAVEL",
+    description: "Curated travel experiences across UAE, Kerala, and beyond.",
     logo: "/ventures/logos/tarx-holidays-logo-trimmed.png"
   },
   {
     name: "Entry Pazz",
-    category: "Events & Ticketing Marketplace",
-    description: "A platform for discovering and booking events, experiences, and access.",
-    status: "Building",
+    category: "MARKETPLACE / EVENTS & TICKETS",
+    mobileCategory: "MARKETPLACE",
+    description: "Event discovery, ticketing, and access made simple.",
     logo: "/ventures/logos/entry-pazz-logo-trimmed.png"
+  },
+  {
+    name: "Resumi",
+    category: "CAREERS / HR TECH",
+    mobileCategory: "CAREERS",
+    description: "Smart resume and profile tools for modern job seekers.",
+    initials: "resumi",
+    panelClass: "bg-[#eefdf9] text-[#073d3b]"
+  },
+  {
+    name: "Portify",
+    category: "CREATOR TOOLS / PORTFOLIOS",
+    mobileCategory: "CREATOR TOOLS",
+    description: "Beautiful portfolio building for individuals and brands.",
+    initials: "portify",
+    panelClass: "bg-[#f3f0ff] text-[#111a4a]"
+  },
+  {
+    name: "Inviteio",
+    category: "EVENTS / INVITATIONS",
+    mobileCategory: "EVENTS",
+    description: "Elegant digital invitations and event presentation tools.",
+    initials: "inviteio",
+    panelClass: "bg-[#fff1eb] text-[#ec6d5d]"
   }
 ];
 
@@ -285,7 +319,7 @@ export default function Home() {
             </p>
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
               <a
-                href="#ventures"
+                href="/ventures"
                 className="border border-[#b99a5b] bg-[#b99a5b] px-8 py-4 text-center text-[12px] font-bold uppercase tracking-[0.1em] text-black transition-colors hover:bg-transparent hover:text-[#d8c38b]"
               >
                 Explore Ventures
@@ -393,37 +427,69 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-[#0a0b08] px-5 py-20 sm:px-10 lg:px-14 lg:py-28" id="ventures">
-        <div className="mx-auto max-w-[1280px]">
-          <SectionIntro
-            eyebrow="Portfolio"
-            title="A Growing Portfolio Of Modern Ventures."
-            text="Our portfolio brings together digital brands, platforms, and operating companies built with focused execution and long-term ambition."
-          />
-          <div className="mt-12 grid gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-5">
+      <section className="bg-[#030403] px-4 py-16 sm:px-10 lg:px-14 lg:py-28" id="ventures">
+        <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[30%_70%] lg:items-start">
+          <div className="scroll-reveal lg:sticky lg:top-28">
+            <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.26em] text-[#b99a5b]">
+              Portfolio Ventures
+            </p>
+            <h2 className="max-w-[760px] text-4xl font-medium leading-tight tracking-[-0.05em] text-white sm:text-5xl lg:text-6xl">
+              A Portfolio of High-Potential Ventures.
+            </h2>
+            <p className="mt-6 max-w-[520px] text-base leading-8 text-white/58 sm:text-lg">
+              We build and back brands across commerce, technology, travel, and digital products.
+            </p>
+            <a
+              href="/ventures"
+              className="group mt-8 inline-flex items-center gap-5 border-b border-[#b99a5b] pb-3 text-base font-semibold text-[#d8b563] transition-colors hover:text-white sm:text-lg"
+            >
+              Explore All Ventures
+              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1.5" />
+            </a>
+          </div>
+
+          <div className="scroll-reveal grid grid-cols-4 gap-2 sm:gap-3 md:grid-cols-3 lg:grid-cols-4 lg:gap-5">
             {companies.map((company) => (
-              <article key={company.name} className="group bg-[#060705] p-5 transition-colors hover:bg-[#10130d]">
-                <div className="flex h-28 items-center justify-center bg-[#f8f6ef] p-5">
-                  <Image
-                    src={company.logo}
-                    alt={`${company.name} logo`}
-                    width={320}
-                    height={140}
-                    unoptimized
-                    className="max-h-20 w-full object-contain"
-                  />
+              <a
+                key={company.name}
+                href="/ventures"
+                className="group min-w-0 rounded-lg border border-white/12 bg-[#080908] p-2 shadow-[0_18px_80px_rgba(0,0,0,0.32)] transition-all duration-300 hover:-translate-y-1 hover:border-[#b99a5b]/45 sm:p-3 lg:rounded-xl lg:p-6"
+              >
+                <div className="flex h-16 items-center justify-center rounded-md bg-[#f8f6ef] p-2 sm:h-20 lg:h-36 lg:p-5">
+                  {company.logo ? (
+                    <Image
+                      src={company.logo}
+                      alt={`${company.name} logo`}
+                      width={320}
+                      height={150}
+                      unoptimized
+                      className="max-h-10 w-full object-contain sm:max-h-14 lg:max-h-24"
+                    />
+                  ) : (
+                    <span
+                      className={`flex h-full w-full items-center justify-center rounded-md text-lg font-bold tracking-[-0.06em] sm:text-2xl lg:text-4xl ${
+                        company.panelClass ?? "bg-white text-black"
+                      }`}
+                    >
+                      {company.initials}
+                    </span>
+                  )}
                 </div>
-                <div className="mt-6 flex items-center justify-between gap-4">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#b99a5b]">
-                    {company.category}
-                  </p>
-                  <span className="whitespace-nowrap border border-[#2d6b4e]/50 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#8bd0ad]">
-                    {company.status}
-                  </span>
-                </div>
-                <h3 className="mt-5 text-2xl font-medium tracking-[-0.04em]">{company.name}</h3>
-                <p className="mt-4 text-sm leading-6 text-white/58">{company.description}</p>
-              </article>
+                <p className="mt-3 truncate text-[8px] font-bold uppercase tracking-[0.12em] text-white/48 sm:text-[10px] lg:mt-6 lg:text-[11px] lg:text-white/58">
+                  <span className="lg:hidden">{company.mobileCategory}</span>
+                  <span className="hidden lg:inline">{company.category}</span>
+                </p>
+                <h3 className="mt-2 truncate text-[13px] font-medium tracking-[-0.04em] text-white sm:text-base lg:text-2xl">
+                  {company.name}
+                </h3>
+                <p className="mt-3 hidden text-sm leading-6 text-white/56 lg:block">
+                  {company.description}
+                </p>
+                <span className="mt-4 inline-flex items-center gap-3 text-[#d8b563] lg:mt-7">
+                  <span className="hidden text-sm font-semibold lg:inline">View Venture</span>
+                  <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1.5" />
+                </span>
+              </a>
             ))}
           </div>
         </div>

@@ -132,37 +132,37 @@ function MobileProjectRow({
       type="button"
       onClick={() => onOpen(project)}
       aria-label={`Preview ${project.title}`}
-      className={`group grid h-[128px] w-full grid-cols-[56%_44%] overflow-hidden rounded-xl border bg-[#070809] text-left outline-none transition-transform active:scale-[0.99] sm:h-[146px] sm:grid-cols-[58%_42%] ${
+      className={`group relative mx-auto grid min-h-[142px] max-h-[165px] w-[calc(100%_-_32px)] grid-cols-[58%_42%] overflow-hidden rounded-[18px] border bg-[#050505] text-left outline-none transition-transform active:scale-[0.99] max-[379px]:w-[calc(100%_-_24px)] max-[379px]:grid-cols-[55%_45%] ${
         isGold
-          ? "border-[#d6a84f]/75 shadow-[0_0_18px_rgba(214,168,79,0.13),inset_0_0_0_1px_rgba(214,168,79,0.14)]"
-          : "border-white/55 shadow-[0_0_16px_rgba(230,230,230,0.1),inset_0_0_0_1px_rgba(255,255,255,0.1)]"
+          ? "border-[#d6a84f]/75 shadow-[0_0_0_1px_rgba(214,168,79,0.12),0_12px_40px_rgba(214,168,79,0.08)]"
+          : "border-white/60 shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_12px_36px_rgba(255,255,255,0.05)]"
       } focus-visible:ring-2 focus-visible:ring-[#d6a84f]`}
     >
-      <div className="relative overflow-hidden border-r border-white/10 bg-[#101114]">
+      <div className="relative min-h-[142px] overflow-hidden bg-[#101114]">
         <Image
           src={project.image}
           alt={`${project.title} website preview`}
           fill
           unoptimized
           sizes="58vw"
-          className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.025]"
+          className="block object-cover object-top transition-transform duration-500 group-hover:scale-[1.025]"
         />
       </div>
-      <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_42px] items-stretch sm:grid-cols-[minmax(0,1fr)_52px]">
-        <div className="flex min-w-0 flex-col justify-center px-3 py-2 sm:px-5">
-          <span className={`text-[11px] font-semibold ${isGold ? "text-[#d6a84f]" : "text-white/60"}`}>
+      <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_44px] items-center gap-x-2.5 overflow-hidden px-3.5 py-4 sm:px-4">
+        <div className="min-w-0 overflow-hidden">
+          <span className={`mb-2 block text-[13px] font-semibold tracking-[0.08em] ${isGold ? "text-[#d6a84f]" : "text-white/66"}`}>
             {String(project.number).padStart(2, "0")}
           </span>
-          <h2 className="mt-1 line-clamp-3 font-serif text-[17px] leading-[1.02] text-white sm:text-2xl">
+          <h2 className="line-clamp-2 max-w-full overflow-hidden font-serif text-[clamp(18px,5vw,24px)] leading-[1.08] text-white [hyphens:none] [overflow-wrap:normal] [word-break:normal] max-[379px]:text-[17px]">
             {project.title}
           </h2>
-          <p className={`mt-2 truncate text-[11px] font-medium sm:text-sm ${isGold ? "text-[#d6a84f]" : "text-white/62"}`}>
+          <p className={`mt-2 truncate text-sm font-medium leading-[1.2] ${isGold ? "text-[#d6a84f]" : "text-white/72"}`}>
             {project.industry}
           </p>
         </div>
-        <div className="grid place-items-center border-l border-white/10">
-          <span className={`grid h-8 w-8 place-items-center rounded-full border sm:h-10 sm:w-10 ${isGold ? "border-[#d6a84f]/75 text-[#d6a84f]" : "border-white/55 text-white/75"}`}>
-            <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
+        <div className="grid h-full min-h-[84px] place-items-center border-l border-white/[0.08] pl-2">
+          <span className={`grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full border ${isGold ? "border-[#d6a84f]/75 text-[#d6a84f]" : "border-white/55 text-white/75"}`}>
+            <ArrowRight className="h-5 w-5" />
           </span>
         </div>
       </div>
@@ -198,6 +198,18 @@ function ProjectCard({ project, index, onOpen }: { project: WebProject; index: n
 }
 
 function ProjectPreview({ project, onClose }: { project: WebProject; onClose: () => void }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const previewImage = project.fullImage || project.image;
+
+  useEffect(() => {
+    setIsLoaded(false);
+    setHasError(false);
+    if (!project.fullImage && process.env.NODE_ENV !== "production") {
+      console.warn(`Missing full preview image for ${project.title}. Falling back to card image.`);
+    }
+  }, [project]);
+
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
     const closeOnEscape = (event: KeyboardEvent) => event.key === "Escape" && onClose();
@@ -211,30 +223,51 @@ function ProjectPreview({ project, onClose }: { project: WebProject; onClose: ()
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-[100] overflow-y-auto bg-[#030405]/98" role="dialog" aria-modal="true" aria-labelledby="project-preview-title">
-      <header className="sticky top-0 z-20 border-b border-white/10 bg-black/90 px-4 py-3 backdrop-blur-xl sm:px-8">
-        <div className="mx-auto flex max-w-[1440px] items-center gap-4">
-          <button type="button" onClick={onClose} className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/20 text-white hover:border-[#d6a84f] hover:text-[#d6a84f]" aria-label="Close project preview">
+    <div className="fixed inset-0 z-[100] flex h-[100dvh] flex-col bg-[#030303]" role="dialog" aria-modal="true" aria-labelledby="project-preview-title">
+      <header className="z-30 max-h-24 shrink-0 border-b border-white/[0.08] bg-[#030303]/95 px-5 pb-4 pt-[max(16px,env(safe-area-inset-top))] backdrop-blur-xl sm:px-8">
+        <div className="mx-auto flex max-w-[1100px] items-center gap-4">
+          <button type="button" onClick={onClose} className="grid h-14 w-14 shrink-0 place-items-center rounded-full border border-white/18 text-white transition-colors hover:border-[#d6a84f] hover:text-[#d6a84f] sm:h-12 sm:w-12" aria-label="Close project preview">
             <X className="h-5 w-5" />
           </button>
           <div className="min-w-0">
-            <h2 id="project-preview-title" className="truncate font-serif text-xl text-white sm:text-2xl">{project.title}</h2>
-            <p className="truncate text-xs text-[#d6a84f] sm:text-sm">{project.industry}</p>
+            <h2 id="project-preview-title" className="truncate font-serif text-[28px] leading-none text-white sm:text-3xl">{project.title}</h2>
+            <p className="mt-2 truncate text-lg font-medium leading-none text-[#d6a84f] sm:text-sm">{project.industry}</p>
           </div>
         </div>
       </header>
 
-      <div className="mx-auto max-w-[1440px] px-3 pb-28 pt-4 sm:px-8 sm:pt-8">
-        <div className="overflow-hidden rounded-lg border border-white/12 bg-white shadow-[0_20px_80px_rgba(0,0,0,0.55)]">
-          {/* Full captures have variable heights, so a native image preserves their intrinsic aspect ratio. */}
-          <img src={project.fullImage} alt={`${project.title} full homepage preview`} className="block h-auto w-full" />
+      <div className="flex-1 overflow-y-auto overscroll-contain bg-[#050505] px-3 pb-[calc(110px+env(safe-area-inset-bottom))] pt-4 [-webkit-overflow-scrolling:touch] sm:px-8 sm:pb-32 sm:pt-8">
+        <div className="mx-auto w-full max-w-[720px] overflow-hidden rounded-xl border border-white/14 bg-white shadow-[0_20px_80px_rgba(0,0,0,0.55)] lg:max-w-[1100px]">
+          {!isLoaded && !hasError && (
+            <div className="grid min-h-[420px] place-items-center bg-[linear-gradient(110deg,#0b0b0c_8%,#161719_18%,#0b0b0c_33%)] bg-[length:200%_100%] text-sm font-semibold uppercase tracking-[0.16em] text-white/50 animate-pulse">
+              Loading preview...
+            </div>
+          )}
+          {hasError ? (
+            <div className="grid min-h-[420px] place-items-center bg-[#08090b] px-8 text-center">
+              <p className="max-w-[320px] text-base leading-7 text-white/68">
+                Preview unavailable. You can still open the live website.
+              </p>
+            </div>
+          ) : (
+            /* Full captures have variable heights, so a native image preserves their intrinsic aspect ratio. */
+            <img
+              key={previewImage}
+              src={previewImage}
+              alt={`${project.title} full homepage preview`}
+              className={`block h-auto w-full transition-opacity duration-300 ${isLoaded ? "opacity-100" : "h-0 opacity-0"}`}
+              loading="eager"
+              onLoad={() => setIsLoaded(true)}
+              onError={() => setHasError(true)}
+            />
+          )}
         </div>
       </div>
 
-      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-white/10 bg-black/90 p-4 backdrop-blur-xl">
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/[0.08] bg-[#030303]/96 px-5 pb-[calc(16px+env(safe-area-inset-bottom))] pt-4 backdrop-blur-xl">
         <div className="mx-auto flex max-w-[720px] gap-3">
           <button type="button" onClick={onClose} className="hidden h-[52px] flex-1 items-center justify-center rounded-md border border-white/20 px-6 text-sm font-semibold text-white sm:flex">Close Preview</button>
-          <a href={project.url} target="_blank" rel="noopener noreferrer" className="flex h-[52px] flex-1 items-center justify-center gap-3 rounded-md bg-[#d6a84f] px-6 text-sm font-bold text-black transition-colors hover:bg-[#efc86f]">
+          <a href={project.url} target="_blank" rel="noopener noreferrer" className="flex h-[58px] flex-1 items-center justify-center gap-3 rounded-[10px] bg-[#d6a84f] px-6 text-lg font-bold text-[#050505] transition-colors hover:bg-[#efc86f] sm:h-[52px] sm:text-sm">
             Open Website <ExternalLink className="h-4 w-4" />
           </a>
         </div>
@@ -295,7 +328,7 @@ export default function WebPortfolioClient() {
         <div className="mobile-nav-motion lg:hidden" />
       </header>
 
-      <section className="relative px-5 pb-6 pt-10 sm:px-10 lg:px-14 lg:pb-5 lg:pt-12">
+      <section className="relative px-5 pb-6 pt-12 sm:px-10 lg:px-14 lg:pb-5 lg:pt-12">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_18%,rgba(255,255,255,0.1),transparent_30%),linear-gradient(180deg,#090a0c_0%,#030405_78%)]" />
         <div className="hidden lg:block"><GlobeVisual /></div>
         <div className="relative mx-auto max-w-[1280px]">
@@ -346,13 +379,13 @@ export default function WebPortfolioClient() {
 
       <section className="px-5 pb-16 pt-3 sm:px-10 lg:px-14 lg:pt-8">
         <div className="mx-auto max-w-[1560px]">
-          <div className="-mx-5 mb-5 flex gap-3 overflow-x-auto px-5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:px-0 lg:overflow-visible">
+          <div className="-mx-5 mb-5 flex snap-x gap-3 overflow-x-auto px-5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:px-0 lg:overflow-visible">
             {webPortfolioCategories.map((category) => (
               <button
                 key={category}
                 type="button"
                 onClick={() => setActiveCategory(category)}
-                className={`h-11 min-w-max rounded-full border px-5 text-sm font-medium transition-colors lg:min-w-0 lg:flex-1 ${
+                className={`h-11 min-w-max snap-start rounded-full border px-5 text-sm font-medium transition-colors lg:min-w-0 lg:flex-1 ${
                   activeCategory === category
                     ? "border-[#d6a84f]/70 bg-[#d6a84f]/12 text-[#f2d083]"
                     : "border-white/16 bg-white/[0.02] text-white/72 hover:border-[#d6a84f]/55 hover:text-white"
@@ -363,7 +396,7 @@ export default function WebPortfolioClient() {
             ))}
           </div>
 
-          <div className="space-y-3 lg:hidden">
+          <div className="-mx-5 space-y-4 overflow-hidden lg:hidden">
             {mobileProjects.map((project, index) => (
               <MobileProjectRow key={project.title} project={project} index={index} onOpen={setSelectedProject} />
             ))}

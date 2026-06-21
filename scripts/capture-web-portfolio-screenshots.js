@@ -68,6 +68,7 @@ function createCdpClient(webSocketUrl) {
   const socket = new WebSocket(webSocketUrl);
   socket.binaryType = "arraybuffer";
   const pending = new Map();
+  const listeners = new Map();
   let requestId = 0;
 
   const ready = new Promise((resolve, reject) => {
@@ -78,6 +79,9 @@ function createCdpClient(webSocketUrl) {
   socket.addEventListener("message", ({ data }) => {
     const payload = typeof data === "string" ? data : Buffer.from(data).toString("utf8");
     const message = JSON.parse(payload);
+    if (message.method && listeners.has(message.method)) {
+      listeners.get(message.method).forEach((listener) => listener(message.params ?? {}));
+    }
     if (!message.id || !pending.has(message.id)) return;
     const { resolve, reject } = pending.get(message.id);
     pending.delete(message.id);
@@ -101,8 +105,96 @@ function createCdpClient(webSocketUrl) {
         socket.send(JSON.stringify({ id: requestId, method, params }));
       });
     },
+    on(method, listener) {
+      if (!listeners.has(method)) listeners.set(method, new Set());
+      listeners.get(method).add(listener);
+      return () => listeners.get(method)?.delete(listener);
+    },
     close: () => socket.close()
   };
+}
+
+async function evaluate(cdp, expression, awaitPromise = true) {
+  return cdp.send("Runtime.evaluate", {
+    expression,
+    awaitPromise,
+    returnByValue: true
+  });
+}
+
+async function waitForNetworkIdle(cdp, idleTime = 1200, timeout = 60000) {
+  let inflight = 0;
+  let idleTimer;
+  let timeoutTimer;
+  let cleanup = () => {};
+
+  return new Promise((resolve, reject) => {
+    const finish = (callback) => {
+      clearTimeout(idleTimer);
+      clearTimeout(timeoutTimer);
+      cleanup();
+      callback();
+    };
+    const maybeIdle = () => {
+      clearTimeout(idleTimer);
+      if (inflight <= 0) idleTimer = setTimeout(() => finish(resolve), idleTime);
+    };
+
+    const offStarted = cdp.on("Network.requestWillBeSent", () => {
+      inflight += 1;
+      clearTimeout(idleTimer);
+    });
+    const offFinished = cdp.on("Network.loadingFinished", () => {
+      inflight = Math.max(0, inflight - 1);
+      maybeIdle();
+    });
+    const offFailed = cdp.on("Network.loadingFailed", () => {
+      inflight = Math.max(0, inflight - 1);
+      maybeIdle();
+    });
+
+    cleanup = () => {
+      offStarted();
+      offFinished();
+      offFailed();
+    };
+    timeoutTimer = setTimeout(() => finish(resolve), timeout);
+    maybeIdle();
+  });
+}
+
+async function preparePageForCapture(cdp) {
+  await evaluate(cdp, `(() => {
+    const style = document.createElement("style");
+    style.textContent = \`
+      *, *::before, *::after {
+        animation-duration: 0s !important;
+        animation-delay: 0s !important;
+        transition-duration: 0s !important;
+        scroll-behavior: auto !important;
+      }
+      iframe[src*="chat"], iframe[src*="whatsapp"], [class*="chat"], [id*="chat"],
+      [class*="cookie"], [id*="cookie"], [class*="whatsapp"], [id*="whatsapp"],
+      [aria-label*="chat" i], [aria-label*="cookie" i] {
+        display: none !important;
+        visibility: hidden !important;
+      }
+    \`;
+    document.head.appendChild(style);
+  })();`);
+}
+
+async function triggerLazyLoading(cdp) {
+  const heightResult = await evaluate(cdp, "Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)");
+  const totalHeight = Math.min(Math.max(Math.ceil(heightResult.result.value || 900), 900), 12000);
+
+  for (let y = 0; y < totalHeight; y += 700) {
+    await evaluate(cdp, `window.scrollTo(0, ${y})`, false);
+    await delay(250);
+  }
+  await evaluate(cdp, "window.scrollTo(0, 0)", false);
+  await delay(800);
+  return totalHeight;
 }
 
 async function captureProject(chromePath, slug, url, index) {
@@ -136,14 +228,27 @@ async function captureProject(chromePath, slug, url, index) {
     cdp = createCdpClient(target.webSocketDebuggerUrl);
     await cdp.ready;
     await cdp.send("Page.enable");
+    await cdp.send("Network.enable");
+    await cdp.send("Runtime.enable");
     await cdp.send("Emulation.setDeviceMetricsOverride", {
       width: 1440,
       height: 900,
       deviceScaleFactor: 1,
       mobile: false
     });
+    await cdp.send("Page.addScriptToEvaluateOnNewDocument", {
+      source: `
+        (() => {
+          const style = document.createElement("style");
+          style.textContent = "*,*::before,*::after{animation-duration:0s!important;transition-duration:0s!important;scroll-behavior:auto!important}";
+          document.addEventListener("DOMContentLoaded", () => document.head.appendChild(style));
+        })();
+      `
+    });
     await cdp.send("Page.navigate", { url });
-    await delay(9000);
+    await waitForNetworkIdle(cdp, 1200, 60000);
+    await delay(2500);
+    await preparePageForCapture(cdp);
 
     const cardCapture = await cdp.send("Page.captureScreenshot", {
       format: "png",
@@ -155,8 +260,9 @@ async function captureProject(chromePath, slug, url, index) {
       .webp({ quality: 82, effort: 5 })
       .toFile(cardPath);
 
+    const lazyLoadedHeight = await triggerLazyLoading(cdp);
     const metrics = await cdp.send("Page.getLayoutMetrics");
-    const fullHeight = Math.min(Math.max(Math.ceil(metrics.cssContentSize.height), 900), 20000);
+    const fullHeight = Math.min(Math.max(Math.ceil(metrics.cssContentSize.height), lazyLoadedHeight, 900), 12000);
     const fullCapture = await cdp.send("Page.captureScreenshot", {
       format: "png",
       fromSurface: true,
@@ -164,7 +270,8 @@ async function captureProject(chromePath, slug, url, index) {
       clip: { x: 0, y: 0, width: 1440, height: fullHeight, scale: 1 }
     });
     await sharp(Buffer.from(fullCapture.data, "base64"))
-      .webp({ quality: 74, effort: 5 })
+      .resize({ width: 1440, withoutEnlargement: true })
+      .webp({ quality: 78, effort: 5 })
       .toFile(fullPath);
 
     return { fullHeight };

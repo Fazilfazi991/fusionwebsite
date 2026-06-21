@@ -1,12 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
   Building2,
   Diamond,
   Dribbble,
+  ExternalLink,
   Globe2,
   Instagram,
   Linkedin,
@@ -17,11 +18,13 @@ import {
   Phone,
   Send,
   ShoppingCart,
-  Star
+  Star,
+  X
 } from "lucide-react";
 import {
   webPortfolioCategories,
   webPortfolioContact,
+  webPortfolioMobileOrder,
   webPortfolioStats,
   webProjects,
   type WebPortfolioCategory,
@@ -113,34 +116,67 @@ function PreviewArt({
   );
 }
 
-function FeaturedProjectCard({ project, priority }: { project: WebProject; priority?: boolean }) {
+function MobileProjectRow({
+  project,
+  index,
+  onOpen
+}: {
+  project: WebProject;
+  index: number;
+  onOpen: (project: WebProject) => void;
+}) {
+  const isGold = index % 2 === 0;
+
   return (
-    <a
-      href={project.url}
-      target="_blank"
-      rel="noreferrer"
-      className="group block w-[82vw] max-w-[520px] shrink-0 snap-center overflow-hidden rounded-xl border border-white/16 bg-[#08090b] first:border-[#d6a84f]"
+    <button
+      type="button"
+      onClick={() => onOpen(project)}
+      aria-label={`Preview ${project.title}`}
+      className={`group grid h-[128px] w-full grid-cols-[56%_44%] overflow-hidden rounded-xl border bg-[#070809] text-left outline-none transition-transform active:scale-[0.99] sm:h-[146px] sm:grid-cols-[58%_42%] ${
+        isGold
+          ? "border-[#d6a84f]/75 shadow-[0_0_18px_rgba(214,168,79,0.13),inset_0_0_0_1px_rgba(214,168,79,0.14)]"
+          : "border-white/55 shadow-[0_0_16px_rgba(230,230,230,0.1),inset_0_0_0_1px_rgba(255,255,255,0.1)]"
+      } focus-visible:ring-2 focus-visible:ring-[#d6a84f]`}
     >
-      <PreviewArt project={project} priority={priority} />
-      <div className="flex min-h-[62px] items-center justify-between gap-3 border-t border-white/10 px-4 py-3">
-        <div className="min-w-0">
-          <h2 className="truncate text-lg font-medium text-white">{project.title}</h2>
-          <p className="truncate text-sm text-white/52">{project.industry}</p>
-        </div>
-        <ArrowRight className="h-5 w-5 shrink-0 text-[#d6a84f]" />
+      <div className="relative overflow-hidden border-r border-white/10 bg-[#101114]">
+        <Image
+          src={project.image}
+          alt={`${project.title} website preview`}
+          fill
+          unoptimized
+          sizes="58vw"
+          className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.025]"
+        />
       </div>
-    </a>
+      <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_42px] items-stretch sm:grid-cols-[minmax(0,1fr)_52px]">
+        <div className="flex min-w-0 flex-col justify-center px-3 py-2 sm:px-5">
+          <span className={`text-[11px] font-semibold ${isGold ? "text-[#d6a84f]" : "text-white/60"}`}>
+            {String(project.number).padStart(2, "0")}
+          </span>
+          <h2 className="mt-1 line-clamp-3 font-serif text-[17px] leading-[1.02] text-white sm:text-2xl">
+            {project.title}
+          </h2>
+          <p className={`mt-2 truncate text-[11px] font-medium sm:text-sm ${isGold ? "text-[#d6a84f]" : "text-white/62"}`}>
+            {project.industry}
+          </p>
+        </div>
+        <div className="grid place-items-center border-l border-white/10">
+          <span className={`grid h-8 w-8 place-items-center rounded-full border sm:h-10 sm:w-10 ${isGold ? "border-[#d6a84f]/75 text-[#d6a84f]" : "border-white/55 text-white/75"}`}>
+            <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
+          </span>
+        </div>
+      </div>
+    </button>
   );
 }
 
-function ProjectCard({ project, index }: { project: WebProject; index: number }) {
+function ProjectCard({ project, index, onOpen }: { project: WebProject; index: number; onOpen: (project: WebProject) => void }) {
   return (
-    <a
-      href={project.url}
-      target="_blank"
-      rel="noreferrer"
-      aria-label={`Open ${project.title} website`}
-      className="group min-w-0 overflow-hidden rounded-[14px] border border-white/12 bg-white/[0.035] shadow-[0_16px_50px_rgba(0,0,0,0.26)] outline-none transition-all duration-300 hover:-translate-y-1 hover:border-[#d6a84f]/55 focus-visible:border-[#d6a84f] focus-visible:ring-2 focus-visible:ring-[#d6a84f]/35"
+    <button
+      type="button"
+      onClick={() => onOpen(project)}
+      aria-label={`Preview ${project.title}`}
+      className="group min-w-0 overflow-hidden rounded-[14px] border border-white/12 bg-white/[0.035] text-left shadow-[0_16px_50px_rgba(0,0,0,0.26)] outline-none transition-all duration-300 hover:-translate-y-1 hover:border-[#d6a84f]/55 focus-visible:border-[#d6a84f] focus-visible:ring-2 focus-visible:ring-[#d6a84f]/35"
     >
       <PreviewArt project={project} priority={index < 4} />
       <div className="flex min-h-[64px] items-center justify-between gap-2 border-t border-white/[0.08] bg-[#08090b]/95 px-3 py-3 lg:min-h-[76px] lg:gap-4 lg:px-4 lg:py-4">
@@ -157,12 +193,59 @@ function ProjectCard({ project, index }: { project: WebProject; index: number })
         </div>
         <ArrowRight className="h-4 w-4 shrink-0 text-[#d6a84f] transition-transform group-hover:translate-x-1.5 lg:h-5 lg:w-5" />
       </div>
-    </a>
+    </button>
+  );
+}
+
+function ProjectPreview({ project, onClose }: { project: WebProject; onClose: () => void }) {
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    const closeOnEscape = (event: KeyboardEvent) => event.key === "Escape" && onClose();
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [onClose]);
+
+  return (
+    <div className="fixed inset-0 z-[100] overflow-y-auto bg-[#030405]/98" role="dialog" aria-modal="true" aria-labelledby="project-preview-title">
+      <header className="sticky top-0 z-20 border-b border-white/10 bg-black/90 px-4 py-3 backdrop-blur-xl sm:px-8">
+        <div className="mx-auto flex max-w-[1440px] items-center gap-4">
+          <button type="button" onClick={onClose} className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/20 text-white hover:border-[#d6a84f] hover:text-[#d6a84f]" aria-label="Close project preview">
+            <X className="h-5 w-5" />
+          </button>
+          <div className="min-w-0">
+            <h2 id="project-preview-title" className="truncate font-serif text-xl text-white sm:text-2xl">{project.title}</h2>
+            <p className="truncate text-xs text-[#d6a84f] sm:text-sm">{project.industry}</p>
+          </div>
+        </div>
+      </header>
+
+      <div className="mx-auto max-w-[1440px] px-3 pb-28 pt-4 sm:px-8 sm:pt-8">
+        <div className="overflow-hidden rounded-lg border border-white/12 bg-white shadow-[0_20px_80px_rgba(0,0,0,0.55)]">
+          {/* Full captures have variable heights, so a native image preserves their intrinsic aspect ratio. */}
+          <img src={project.fullImage} alt={`${project.title} full homepage preview`} className="block h-auto w-full" />
+        </div>
+      </div>
+
+      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-white/10 bg-black/90 p-4 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-[720px] gap-3">
+          <button type="button" onClick={onClose} className="hidden h-[52px] flex-1 items-center justify-center rounded-md border border-white/20 px-6 text-sm font-semibold text-white sm:flex">Close Preview</button>
+          <a href={project.url} target="_blank" rel="noopener noreferrer" className="flex h-[52px] flex-1 items-center justify-center gap-3 rounded-md bg-[#d6a84f] px-6 text-sm font-bold text-black transition-colors hover:bg-[#efc86f]">
+            Open Website <ExternalLink className="h-4 w-4" />
+          </a>
+        </div>
+      </div>
+    </div>
   );
 }
 
 export default function WebPortfolioClient() {
   const [activeCategory, setActiveCategory] = useState<WebPortfolioCategory>("All Projects");
+  const [selectedProject, setSelectedProject] = useState<WebProject | null>(null);
   const filteredProjects = useMemo(
     () =>
       activeCategory === "All Projects"
@@ -170,6 +253,12 @@ export default function WebPortfolioClient() {
         : webProjects.filter((project) => project.tags.includes(activeCategory)),
     [activeCategory]
   );
+  const mobileProjects = useMemo(() => {
+    const order = new Map<string, number>(webPortfolioMobileOrder.map((title, index) => [title, index]));
+    return [...filteredProjects].sort(
+      (first, second) => (order.get(first.title) ?? 99) - (order.get(second.title) ?? 99)
+    );
+  }, [filteredProjects]);
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#030405] text-white">
@@ -208,17 +297,30 @@ export default function WebPortfolioClient() {
 
       <section className="relative px-5 pb-6 pt-10 sm:px-10 lg:px-14 lg:pb-5 lg:pt-12">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_18%,rgba(255,255,255,0.1),transparent_30%),linear-gradient(180deg,#090a0c_0%,#030405_78%)]" />
-        <GlobeVisual />
+        <div className="hidden lg:block"><GlobeVisual /></div>
         <div className="relative mx-auto max-w-[1280px]">
-          <div className="max-w-[620px] pt-2 sm:pt-8 lg:pt-10">
-            <Eyebrow>Our Portfolio</Eyebrow>
-            <h1 className="mt-5 text-5xl font-semibold leading-[0.96] tracking-[-0.04em] text-white sm:text-6xl lg:text-7xl">
-              Websites We&apos;ve Built
-            </h1>
-            <p className="mt-6 max-w-[590px] text-lg leading-8 text-white/70">
-              We design and develop high-performing websites that combine strategic thinking, modern
-              design, and seamless functionality to help brands grow online.
-            </p>
+          <div className="max-w-[620px] pt-1 lg:pt-10">
+            <div className="lg:hidden">
+              <p className="flex items-center gap-4 text-xs font-semibold uppercase text-[#d6a84f]">
+                Our Work <span className="h-px w-9 bg-[#d6a84f]" />
+              </p>
+              <h1 className="mt-4 max-w-[360px] font-serif text-[35px] leading-[1.06] text-white sm:text-5xl">
+                Digital experiences that define brands<span className="text-[#d6a84f]">.</span>
+              </h1>
+              <p className="mt-4 max-w-[390px] text-[15px] leading-6 text-white/58">
+                A curated selection of websites we&apos;ve designed and developed for ambitious brands.
+              </p>
+            </div>
+            <div className="hidden lg:block">
+              <Eyebrow>Our Portfolio</Eyebrow>
+              <h1 className="mt-5 text-7xl font-semibold leading-[0.96] tracking-[-0.04em] text-white">
+                Websites We&apos;ve Built
+              </h1>
+              <p className="mt-6 max-w-[590px] text-lg leading-8 text-white/70">
+                We design and develop high-performing websites that combine strategic thinking, modern
+                design, and seamless functionality to help brands grow online.
+              </p>
+            </div>
           </div>
 
           <div className="relative z-10 mt-8 hidden grid-cols-2 gap-3 sm:grid lg:mt-10 lg:grid-cols-4">
@@ -242,17 +344,9 @@ export default function WebPortfolioClient() {
         </div>
       </section>
 
-      <section className="px-5 pb-16 pt-8 sm:px-10 lg:px-14">
+      <section className="px-5 pb-16 pt-3 sm:px-10 lg:px-14 lg:pt-8">
         <div className="mx-auto max-w-[1560px]">
-          {activeCategory === "All Projects" && (
-            <div className="-mx-5 mb-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-3 sm:-mx-10 sm:px-10 lg:hidden">
-              {webProjects.slice(0, 2).map((project, index) => (
-                <FeaturedProjectCard key={project.title} project={project} priority={index === 0} />
-              ))}
-            </div>
-          )}
-
-          <div className="-mx-5 mb-5 flex gap-3 overflow-x-auto px-5 pb-2 sm:mx-0 sm:px-0 lg:overflow-visible">
+          <div className="-mx-5 mb-5 flex gap-3 overflow-x-auto px-5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:px-0 lg:overflow-visible">
             {webPortfolioCategories.map((category) => (
               <button
                 key={category}
@@ -269,14 +363,15 @@ export default function WebPortfolioClient() {
             ))}
           </div>
 
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-3 lg:gap-5 xl:grid-cols-4">
+          <div className="space-y-3 lg:hidden">
+            {mobileProjects.map((project, index) => (
+              <MobileProjectRow key={project.title} project={project} index={index} onOpen={setSelectedProject} />
+            ))}
+          </div>
+
+          <div className="hidden grid-cols-3 gap-5 lg:grid xl:grid-cols-4">
             {filteredProjects.map((project, index) => (
-              <div
-                key={project.title}
-                className={activeCategory === "All Projects" && index < 2 ? "hidden lg:block" : "min-w-0"}
-              >
-                <ProjectCard project={project} index={index} />
-              </div>
+              <ProjectCard key={project.title} project={project} index={index} onOpen={setSelectedProject} />
             ))}
           </div>
         </div>
@@ -359,9 +454,13 @@ export default function WebPortfolioClient() {
           </div>
         </div>
         <div className="mx-auto mt-8 max-w-[1280px] border-t border-white/10 pt-5 text-center text-xs text-white/38">
-          © 2024 Fusion Ventures. All rights reserved.
+          &copy; 2024 Fusion Ventures. All rights reserved.
         </div>
       </footer>
+
+      {selectedProject && (
+        <ProjectPreview project={selectedProject} onClose={() => setSelectedProject(null)} />
+      )}
     </main>
   );
 }

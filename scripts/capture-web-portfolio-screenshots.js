@@ -1,4 +1,4 @@
-const { spawnSync } = require("node:child_process");
+const { spawn } = require("node:child_process");
 const fs = require("node:fs");
 const path = require("node:path");
 const sharp = require("sharp");
@@ -33,100 +33,191 @@ const projects = [
 
 const rootDir = path.resolve(__dirname, "..");
 const outputDir = path.join(rootDir, "public", "images", "web-portfolio");
+const cardsDir = path.join(outputDir, "cards");
+const fullDir = path.join(outputDir, "full");
 const tmpDir = path.join(outputDir, ".tmp");
-const viewport = "1440,900";
 
 function findChrome() {
   const chrome = chromeCandidates.find((candidate) => fs.existsSync(candidate));
-
-  if (!chrome) {
-    throw new Error(
-      "Chrome or Edge was not found. Set CHROME_PATH to a Chromium-based browser executable."
-    );
-  }
-
+  if (!chrome) throw new Error("Chrome or Edge was not found. Set CHROME_PATH to its executable.");
   return chrome;
 }
 
-async function captureProject(chromePath, slug, url) {
-  const pngPath = path.join(tmpDir, `${slug}.png`);
-  const webpPath = path.join(outputDir, `${slug}.webp`);
+const delay = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
+
+async function waitForEndpoint(port) {
+  for (let attempt = 0; attempt < 80; attempt += 1) {
+    try {
+      const response = await fetch(`http://127.0.0.1:${port}/json/version`);
+      if (response.ok) return;
+    } catch {}
+    await delay(100);
+  }
+  throw new Error("Browser debugging endpoint did not start.");
+}
+
+async function openTarget(port, url) {
+  const response = await fetch(`http://127.0.0.1:${port}/json/new?${encodeURIComponent(url)}`, {
+    method: "PUT"
+  });
+  if (!response.ok) throw new Error(`Unable to open browser target (${response.status}).`);
+  return response.json();
+}
+
+function createCdpClient(webSocketUrl) {
+  const socket = new WebSocket(webSocketUrl);
+  socket.binaryType = "arraybuffer";
+  const pending = new Map();
+  let requestId = 0;
+
+  const ready = new Promise((resolve, reject) => {
+    socket.addEventListener("open", resolve, { once: true });
+    socket.addEventListener("error", reject, { once: true });
+  });
+
+  socket.addEventListener("message", ({ data }) => {
+    const payload = typeof data === "string" ? data : Buffer.from(data).toString("utf8");
+    const message = JSON.parse(payload);
+    if (!message.id || !pending.has(message.id)) return;
+    const { resolve, reject } = pending.get(message.id);
+    pending.delete(message.id);
+    if (message.error) reject(new Error(message.error.message));
+    else resolve(message.result);
+  });
+
+  return {
+    ready,
+    send(method, params = {}) {
+      requestId += 1;
+      return new Promise((resolve, reject) => {
+        const timer = setTimeout(() => {
+          pending.delete(requestId);
+          reject(new Error(`${method} timed out.`));
+        }, 30000);
+        pending.set(requestId, {
+          resolve: (result) => { clearTimeout(timer); resolve(result); },
+          reject: (error) => { clearTimeout(timer); reject(error); }
+        });
+        socket.send(JSON.stringify({ id: requestId, method, params }));
+      });
+    },
+    close: () => socket.close()
+  };
+}
+
+async function captureProject(chromePath, slug, url, index) {
+  const cardPath = path.join(cardsDir, `${slug}.webp`);
+  const fullPath = path.join(fullDir, `${slug}.webp`);
   const shouldForce = process.env.CAPTURE_FORCE === "1";
 
-  if (!shouldForce && fs.existsSync(webpPath)) {
-    const sizeKb = Math.round(fs.statSync(webpPath).size / 1024);
-    return { webpPath, sizeKb, skipped: true };
+  if (!shouldForce && fs.existsSync(cardPath) && fs.existsSync(fullPath)) {
+    return { skipped: true };
   }
 
-  fs.rmSync(pngPath, { force: true });
+  const port = 9322 + index;
+  const profileDir = path.join(tmpDir, `profile-${slug}`);
+  const browserProcess = spawn(chromePath, [
+    "--headless=new",
+    "--disable-gpu",
+    "--hide-scrollbars",
+    "--disable-dev-shm-usage",
+    "--no-first-run",
+    "--no-default-browser-check",
+    "--ignore-certificate-errors",
+    `--remote-debugging-port=${port}`,
+    `--user-data-dir=${profileDir}`,
+    "about:blank"
+  ], { stdio: "ignore" });
 
-  const result = spawnSync(
-    chromePath,
-    [
-      "--headless=new",
-      "--disable-gpu",
-      "--hide-scrollbars",
-      "--disable-dev-shm-usage",
-      "--no-first-run",
-      "--no-default-browser-check",
-      "--ignore-certificate-errors",
-      "--timeout=20000",
-      "--virtual-time-budget=12000",
-      `--window-size=${viewport}`,
-      `--screenshot=${pngPath}`,
-      url
-    ],
-    { encoding: "utf8", timeout: 35000 }
-  );
+  let cdp;
+  try {
+    await waitForEndpoint(port);
+    const target = await openTarget(port, url);
+    cdp = createCdpClient(target.webSocketDebuggerUrl);
+    await cdp.ready;
+    await cdp.send("Page.enable");
+    await cdp.send("Emulation.setDeviceMetricsOverride", {
+      width: 1440,
+      height: 900,
+      deviceScaleFactor: 1,
+      mobile: false
+    });
+    await cdp.send("Page.navigate", { url });
+    await delay(9000);
 
-  if (result.error) {
-    throw result.error;
+    const cardCapture = await cdp.send("Page.captureScreenshot", {
+      format: "png",
+      fromSurface: true,
+      captureBeyondViewport: false,
+      clip: { x: 0, y: 0, width: 1440, height: 900, scale: 1 }
+    });
+    await sharp(Buffer.from(cardCapture.data, "base64"))
+      .webp({ quality: 82, effort: 5 })
+      .toFile(cardPath);
+
+    const metrics = await cdp.send("Page.getLayoutMetrics");
+    const fullHeight = Math.min(Math.max(Math.ceil(metrics.cssContentSize.height), 900), 20000);
+    const fullCapture = await cdp.send("Page.captureScreenshot", {
+      format: "png",
+      fromSurface: true,
+      captureBeyondViewport: true,
+      clip: { x: 0, y: 0, width: 1440, height: fullHeight, scale: 1 }
+    });
+    await sharp(Buffer.from(fullCapture.data, "base64"))
+      .webp({ quality: 74, effort: 5 })
+      .toFile(fullPath);
+
+    return { fullHeight };
+  } finally {
+    try {
+      await cdp?.send("Browser.close");
+    } catch {}
+    cdp?.close();
+    browserProcess.kill();
+    await delay(750);
+    try {
+      fs.rmSync(profileDir, { recursive: true, force: true });
+    } catch {}
   }
-
-  if (result.status !== 0 || !fs.existsSync(pngPath)) {
-    throw new Error((result.stderr || result.stdout || "Screenshot failed").trim());
-  }
-
-  await sharp(pngPath)
-    .resize({ width: 1440, height: 900, fit: "cover", position: "top" })
-    .webp({ quality: 82, effort: 5 })
-    .toFile(webpPath);
-
-  const sizeKb = Math.round(fs.statSync(webpPath).size / 1024);
-  return { webpPath, sizeKb };
 }
 
 async function main() {
   const chromePath = findChrome();
-  fs.mkdirSync(outputDir, { recursive: true });
-  fs.mkdirSync(tmpDir, { recursive: true });
-
+  [cardsDir, fullDir, tmpDir].forEach((directory) => fs.mkdirSync(directory, { recursive: true }));
   const failed = [];
-  console.log(`Using browser: ${chromePath}`);
-  console.log(`Saving screenshots to: ${outputDir}`);
 
-  for (const [slug, url] of projects) {
+  console.log(`Using browser: ${chromePath}`);
+  for (let index = 0; index < projects.length; index += 1) {
+    const [slug, url] = projects[index];
     try {
-      const { sizeKb, skipped } = await captureProject(chromePath, slug, url);
-      console.log(`${skipped ? "skip" : "ok  "} ${slug}.webp (${sizeKb} KB)`);
+      const result = await captureProject(chromePath, slug, url, index);
+      console.log(`${result.skipped ? "skip" : "ok  "} ${slug}${result.fullHeight ? ` (${result.fullHeight}px)` : ""}`);
     } catch (error) {
-      failed.push({ slug, url, error: error.message });
+      failed.push({ slug, error: error.message });
+      const cardPath = path.join(cardsDir, `${slug}.webp`);
+      const fullPath = path.join(fullDir, `${slug}.webp`);
+      if (fs.existsSync(cardPath) && !fs.existsSync(fullPath)) fs.copyFileSync(cardPath, fullPath);
       console.log(`fail ${slug}: ${error.message}`);
     }
   }
 
-  fs.rmSync(tmpDir, { recursive: true, force: true });
-
+  try {
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  } catch {}
   if (failed.length) {
-    console.log("\nFailed captures:");
-    failed.forEach(({ slug, url, error }) => console.log(`- ${slug} (${url}): ${error}`));
+    console.log("\nFailed captures (card image copied as the full-preview fallback):");
+    failed.forEach(({ slug, error }) => console.log(`- ${slug}: ${error}`));
     process.exitCode = 1;
   } else {
-    console.log("\nAll screenshots captured.");
+    console.log("\nAll card and full-page screenshots captured.");
   }
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+const keepAlive = setInterval(() => {}, 1000);
+
+main()
+  .catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  })
+  .finally(() => clearInterval(keepAlive));

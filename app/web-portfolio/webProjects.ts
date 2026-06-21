@@ -13,11 +13,10 @@ export const webPortfolioContact = {
 
 export const webPortfolioCategories = [
   "All Projects",
+  "Corporate",
   "Ecommerce",
   "Healthcare",
   "Education",
-  "Corporate",
-  "Beauty",
   "Fashion",
   "Hospitality",
   "Wellness",
@@ -27,13 +26,36 @@ export const webPortfolioCategories = [
 
 export type WebPortfolioCategory = (typeof webPortfolioCategories)[number];
 
+export const webPortfolioMobileOrder = [
+  "Vlearns Educations",
+  "BWMC",
+  "Miracle Designs Boutique",
+  "Ecom Sigma",
+  "Perfect Line",
+  "Lumora",
+  "Biznecto",
+  "Desert GP",
+  "Stepvision Hotel Supplies",
+  "N Universal Yoga",
+  "TAJ",
+  "Aqsa Print",
+  "Worn Soul",
+  "Harven LLC",
+  "Boat Seafood",
+  "Pet Basket Store",
+  "Hydrelle Skincare"
+] as const;
+
 export type WebProject = {
+  number: number;
+  slug: string;
   title: string;
   url: string;
   category: Exclude<WebPortfolioCategory, "All Projects">;
   industry: string;
   description: string;
   image: string;
+  fullImage: string;
   featured?: boolean;
   tags: string[];
   preview: {
@@ -46,7 +68,9 @@ export type WebProject = {
   };
 };
 
-export const webProjects: WebProject[] = [
+type WebProjectSeed = Omit<WebProject, "number" | "slug" | "fullImage">;
+
+const webProjectSeed: WebProjectSeed[] = [
   {
     title: "Harven LLC",
     url: "https://harvenllc.com",
@@ -339,3 +363,16 @@ export const webProjects: WebProject[] = [
     }
   }
 ];
+
+export const webProjects: WebProject[] = webProjectSeed.map((project, index) => {
+  const slug = project.image.split("/").pop()?.replace(/\.webp$/, "") ?? `project-${index + 1}`;
+  const mobileIndex = webPortfolioMobileOrder.indexOf(project.title as (typeof webPortfolioMobileOrder)[number]);
+
+  return {
+    ...project,
+    number: mobileIndex >= 0 ? mobileIndex + 1 : index + 1,
+    slug,
+    image: `/images/web-portfolio/cards/${slug}.webp`,
+    fullImage: `/images/web-portfolio/full/${slug}.webp`
+  };
+});

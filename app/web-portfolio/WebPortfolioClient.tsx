@@ -48,18 +48,15 @@ const statIcons = {
 
 function LogoMark() {
   return (
-    <a href="/" className="flex items-center gap-3 leading-none" aria-label="Fusion Ventures home">
-      <span className="grid h-9 w-9 place-items-center rounded-sm border border-white/30 bg-white/[0.04] text-xl font-black text-white shadow-[0_0_18px_rgba(255,255,255,0.12)]">
-        F
-      </span>
-      <span>
-        <span className="block text-xl font-medium tracking-[0.24em] text-white sm:text-2xl">
-          FUSION
-        </span>
-        <span className="ml-0.5 block text-[9px] font-semibold tracking-[0.42em] text-white/70">
-          VENTURES
-        </span>
-      </span>
+    <a href="/" className="flex items-center leading-none" aria-label="Fusion Ventures home">
+      <Image
+        src="/fusion-ventures-logo.webp"
+        alt="Fusion Ventures"
+        width={640}
+        height={176}
+        priority
+        className="h-9 w-auto shrink-0 sm:h-10"
+      />
     </a>
   );
 }
@@ -150,13 +147,10 @@ function MobileProjectRow({
       </div>
       <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_38px] items-stretch gap-x-2 overflow-hidden px-3 py-3.5 sm:px-3.5">
         <div className="flex min-w-0 flex-col justify-center overflow-hidden">
-          <span className={`mb-1.5 block text-[12px] font-semibold tracking-[0.08em] ${isGold ? "text-[#d6a84f]" : "text-white/66"}`}>
-            {String(project.number).padStart(2, "0")}
-          </span>
           <h2 className="line-clamp-3 max-w-full overflow-hidden font-display text-[17px] font-medium leading-[1.08] text-white max-[379px]:text-[16px]">
             {project.title}
           </h2>
-          <p className={`mt-2 truncate text-[13px] font-medium leading-[1.2] ${isGold ? "text-[#d6a84f]" : "text-white/72"}`}>
+          <p className="mt-2 truncate text-[13px] font-medium leading-[1.2] text-[#d6a84f]">
             {project.industry}
           </p>
         </div>
@@ -181,14 +175,11 @@ function ProjectCard({ project, index, onOpen }: { project: WebProject; index: n
       <PreviewArt project={project} priority={index < 4} />
       <div className="flex min-h-[64px] items-center justify-between gap-2 border-t border-white/[0.08] bg-[#08090b]/95 px-3 py-3 lg:min-h-[76px] lg:gap-4 lg:px-4 lg:py-4">
         <div className="flex min-w-0 items-center gap-3">
-          <span className="hidden h-8 w-8 shrink-0 place-items-center rounded border border-[#d6a84f]/35 bg-black/18 text-[13px] font-medium text-white/86 lg:grid">
-            {String(index + 1).padStart(2, "0")}
-          </span>
           <div className="min-w-0">
             <h3 className="truncate font-display text-sm font-semibold text-white lg:text-base">
               {project.title}
             </h3>
-            <p className="mt-1 truncate text-xs text-white/48 lg:text-sm">{project.industry}</p>
+            <p className="mt-1 truncate text-xs text-[#d6a84f] lg:text-sm">{project.industry}</p>
           </div>
         </div>
         <ArrowRight className="h-4 w-4 shrink-0 text-[#d6a84f] transition-transform group-hover:translate-x-1.5 lg:h-5 lg:w-5" />
@@ -388,7 +379,7 @@ export default function WebPortfolioClient() {
                 className={`h-11 min-w-max snap-start rounded-full border px-5 text-sm font-medium transition-colors lg:min-w-0 lg:flex-1 ${
                   activeCategory === category
                     ? "border-[#d6a84f]/70 bg-[#d6a84f]/12 text-[#f2d083]"
-                    : "border-white/16 bg-white/[0.02] text-white/72 hover:border-[#d6a84f]/55 hover:text-white"
+                    : "border-[#d6a84f]/30 bg-white/[0.02] text-[#d6a84f] hover:border-[#d6a84f]/70 hover:bg-[#d6a84f]/8"
                 }`}
               >
                 {category}

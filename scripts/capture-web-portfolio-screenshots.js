@@ -197,6 +197,30 @@ async function triggerLazyLoading(cdp) {
   return totalHeight;
 }
 
+async function waitForVisiblePage(cdp, timeout = 20000) {
+  const startedAt = Date.now();
+
+  while (Date.now() - startedAt < timeout) {
+    const result = await evaluate(cdp, `(() => {
+      const text = document.body?.innerText?.trim() || "";
+      const visibleImages = [...document.images].filter((image) => {
+        const rect = image.getBoundingClientRect();
+        return image.complete && image.naturalWidth > 0 && rect.width > 80 && rect.height > 80;
+      }).length;
+      return {
+        textLength: text.length,
+        visibleImages,
+        height: Math.max(document.body?.scrollHeight || 0, document.documentElement.scrollHeight || 0)
+      };
+    })()`);
+    const state = result.result.value;
+    if (state.textLength > 80 || state.visibleImages > 0 || state.height > 1000) return state;
+    await delay(1000);
+  }
+
+  throw new Error("Page did not render visible content before capture.");
+}
+
 async function captureProject(chromePath, slug, url, index) {
   const cardPath = path.join(cardsDir, `${slug}.webp`);
   const fullPath = path.join(fullDir, `${slug}.webp`);
@@ -227,6 +251,15 @@ async function captureProject(chromePath, slug, url, index) {
     const target = await openTarget(port, url);
     cdp = createCdpClient(target.webSocketDebuggerUrl);
     await cdp.ready;
+    if (process.env.CAPTURE_DEBUG === "1") {
+      cdp.on("Runtime.exceptionThrown", ({ exceptionDetails }) => {
+        console.log(`page exception: ${exceptionDetails?.exception?.description || exceptionDetails?.text}`);
+      });
+      cdp.on("Runtime.consoleAPICalled", ({ type, args }) => {
+        const message = args?.map((arg) => arg.value || arg.description).filter(Boolean).join(" ");
+        if (message) console.log(`page ${type}: ${message}`);
+      });
+    }
     await cdp.send("Page.enable");
     await cdp.send("Network.enable");
     await cdp.send("Runtime.enable");
@@ -249,6 +282,8 @@ async function captureProject(chromePath, slug, url, index) {
     await waitForNetworkIdle(cdp, 1200, 60000);
     await delay(2500);
     await preparePageForCapture(cdp);
+    await waitForVisiblePage(cdp);
+    await delay(1800);
 
     const cardCapture = await cdp.send("Page.captureScreenshot", {
       format: "png",
@@ -292,10 +327,18 @@ async function main() {
   const chromePath = findChrome();
   [cardsDir, fullDir, tmpDir].forEach((directory) => fs.mkdirSync(directory, { recursive: true }));
   const failed = [];
+  const requestedSlug = process.env.CAPTURE_SLUG;
+  const captureProjects = requestedSlug
+    ? projects.filter(([slug]) => slug === requestedSlug)
+    : projects;
+
+  if (requestedSlug && captureProjects.length === 0) {
+    throw new Error(`Unknown portfolio slug: ${requestedSlug}`);
+  }
 
   console.log(`Using browser: ${chromePath}`);
-  for (let index = 0; index < projects.length; index += 1) {
-    const [slug, url] = projects[index];
+  for (let index = 0; index < captureProjects.length; index += 1) {
+    const [slug, url] = captureProjects[index];
     try {
       const result = await captureProject(chromePath, slug, url, index);
       console.log(`${result.skipped ? "skip" : "ok  "} ${slug}${result.fullHeight ? ` (${result.fullHeight}px)` : ""}`);

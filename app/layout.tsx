@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Roboto } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const roboto = Roboto({
+  subsets: ["latin"],
+  variable: "--font-roboto",
+  weight: ["400", "500", "700"]
+});
 
 export const metadata: Metadata = {
   title: "Fusion Ventures | UAE-Based Venture Group",
@@ -17,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} bg-paper font-sans text-ink`}>
+      <body className={`${inter.variable} ${roboto.variable} bg-paper font-sans text-ink`}>
         {children}
       </body>
     </html>

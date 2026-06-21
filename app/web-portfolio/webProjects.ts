@@ -27,9 +27,13 @@ export const webPortfolioCategories = [
 export type WebPortfolioCategory = (typeof webPortfolioCategories)[number];
 
 export const webPortfolioMobileOrder = [
+  "Pet Basket Store",
+  "Miracle Designs Boutique",
+  "Harven LLC",
+  "Boat Seafood",
+  "Hydrelle Skincare",
   "Vlearns Educations",
   "BWMC",
-  "Miracle Designs Boutique",
   "Ecom Sigma",
   "Perfect Line",
   "Lumora",
@@ -39,11 +43,7 @@ export const webPortfolioMobileOrder = [
   "N Universal Yoga",
   "TAJ",
   "Aqsa Print",
-  "Worn Soul",
-  "Harven LLC",
-  "Boat Seafood",
-  "Pet Basket Store",
-  "Hydrelle Skincare"
+  "Worn Soul"
 ] as const;
 
 export type WebProject = {
@@ -364,15 +364,21 @@ const webProjectSeed: WebProjectSeed[] = [
   }
 ];
 
-export const webProjects: WebProject[] = webProjectSeed.map((project, index) => {
-  const slug = project.image.split("/").pop()?.replace(/\.webp$/, "") ?? `project-${index + 1}`;
-  const mobileIndex = webPortfolioMobileOrder.indexOf(project.title as (typeof webPortfolioMobileOrder)[number]);
+const projectOrder = new Map<string, number>(
+  webPortfolioMobileOrder.map((title, index) => [title, index])
+);
 
-  return {
-    ...project,
-    number: mobileIndex >= 0 ? mobileIndex + 1 : index + 1,
-    slug,
-    image: `/images/web-portfolio/cards/${slug}.webp`,
-    fullImage: `/images/web-portfolio/full/${slug}.webp`
-  };
-});
+export const webProjects: WebProject[] = webProjectSeed
+  .map((project, index) => {
+    const slug = project.image.split("/").pop()?.replace(/\.webp$/, "") ?? `project-${index + 1}`;
+    const orderIndex = projectOrder.get(project.title) ?? index;
+
+    return {
+      ...project,
+      number: orderIndex + 1,
+      slug,
+      image: `/images/web-portfolio/cards/${slug}.webp`,
+      fullImage: `/images/web-portfolio/full/${slug}.webp`
+    };
+  })
+  .sort((first, second) => first.number - second.number);

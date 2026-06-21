@@ -132,37 +132,37 @@ function MobileProjectRow({
       type="button"
       onClick={() => onOpen(project)}
       aria-label={`Preview ${project.title}`}
-      className={`group relative mx-auto grid min-h-[142px] max-h-[165px] w-[calc(100%_-_32px)] grid-cols-[58%_42%] overflow-hidden rounded-[18px] border bg-[#050505] text-left outline-none transition-transform active:scale-[0.99] max-[379px]:w-[calc(100%_-_24px)] max-[379px]:grid-cols-[55%_45%] ${
+      className={`group relative mx-auto grid h-[150px] w-[calc(100%_-_32px)] grid-cols-[54%_46%] overflow-hidden rounded-[18px] border bg-[#050505] text-left outline-none transition-transform active:scale-[0.99] max-[379px]:h-[144px] max-[379px]:w-[calc(100%_-_24px)] max-[379px]:grid-cols-[52%_48%] ${
         isGold
           ? "border-[#d6a84f]/75 shadow-[0_0_0_1px_rgba(214,168,79,0.12),0_12px_40px_rgba(214,168,79,0.08)]"
           : "border-white/60 shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_12px_36px_rgba(255,255,255,0.05)]"
       } focus-visible:ring-2 focus-visible:ring-[#d6a84f]`}
     >
-      <div className="relative min-h-[142px] overflow-hidden bg-[#101114]">
+      <div className="relative min-h-0 overflow-hidden bg-[#101114]">
         <Image
           src={project.image}
           alt={`${project.title} website preview`}
           fill
           unoptimized
-          sizes="58vw"
+          sizes="54vw"
           className="block object-cover object-top transition-transform duration-500 group-hover:scale-[1.025]"
         />
       </div>
-      <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_44px] items-center gap-x-2.5 overflow-hidden px-3.5 py-4 sm:px-4">
-        <div className="min-w-0 overflow-hidden">
-          <span className={`mb-2 block text-[13px] font-semibold tracking-[0.08em] ${isGold ? "text-[#d6a84f]" : "text-white/66"}`}>
+      <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_38px] items-stretch gap-x-2 overflow-hidden px-3 py-3.5 sm:px-3.5">
+        <div className="flex min-w-0 flex-col justify-center overflow-hidden">
+          <span className={`mb-1.5 block text-[12px] font-semibold tracking-[0.08em] ${isGold ? "text-[#d6a84f]" : "text-white/66"}`}>
             {String(project.number).padStart(2, "0")}
           </span>
-          <h2 className="line-clamp-2 max-w-full overflow-hidden font-serif text-[clamp(18px,5vw,24px)] leading-[1.08] text-white [hyphens:none] [overflow-wrap:normal] [word-break:normal] max-[379px]:text-[17px]">
+          <h2 className="line-clamp-3 max-w-full overflow-hidden font-display text-[17px] font-medium leading-[1.08] text-white max-[379px]:text-[16px]">
             {project.title}
           </h2>
-          <p className={`mt-2 truncate text-sm font-medium leading-[1.2] ${isGold ? "text-[#d6a84f]" : "text-white/72"}`}>
+          <p className={`mt-2 truncate text-[13px] font-medium leading-[1.2] ${isGold ? "text-[#d6a84f]" : "text-white/72"}`}>
             {project.industry}
           </p>
         </div>
-        <div className="grid h-full min-h-[84px] place-items-center border-l border-white/[0.08] pl-2">
-          <span className={`grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full border ${isGold ? "border-[#d6a84f]/75 text-[#d6a84f]" : "border-white/55 text-white/75"}`}>
-            <ArrowRight className="h-5 w-5" />
+        <div className="grid h-full place-items-center border-l border-white/[0.08] pl-2">
+          <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-full border ${isGold ? "border-[#d6a84f]/75 text-[#d6a84f]" : "border-white/55 text-white/75"}`}>
+            <ArrowRight className="h-[18px] w-[18px]" />
           </span>
         </div>
       </div>
@@ -185,7 +185,7 @@ function ProjectCard({ project, index, onOpen }: { project: WebProject; index: n
             {String(index + 1).padStart(2, "0")}
           </span>
           <div className="min-w-0">
-            <h3 className="truncate text-sm font-semibold text-white lg:text-base lg:tracking-[-0.02em]">
+            <h3 className="truncate font-display text-sm font-semibold text-white lg:text-base">
               {project.title}
             </h3>
             <p className="mt-1 truncate text-xs text-white/48 lg:text-sm">{project.industry}</p>
@@ -230,7 +230,7 @@ function ProjectPreview({ project, onClose }: { project: WebProject; onClose: ()
             <X className="h-5 w-5" />
           </button>
           <div className="min-w-0">
-            <h2 id="project-preview-title" className="truncate font-serif text-[28px] leading-none text-white sm:text-3xl">{project.title}</h2>
+            <h2 id="project-preview-title" className="truncate font-display text-[28px] font-medium leading-none text-white sm:text-3xl">{project.title}</h2>
             <p className="mt-2 truncate text-lg font-medium leading-none text-[#d6a84f] sm:text-sm">{project.industry}</p>
           </div>
         </div>
@@ -328,7 +328,7 @@ export default function WebPortfolioClient() {
         <div className="mobile-nav-motion lg:hidden" />
       </header>
 
-      <section className="relative px-5 pb-6 pt-12 sm:px-10 lg:px-14 lg:pb-5 lg:pt-12">
+      <section className="relative px-5 pb-3 pt-7 sm:px-10 sm:pt-9 lg:px-14 lg:pb-5 lg:pt-12">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_18%,rgba(255,255,255,0.1),transparent_30%),linear-gradient(180deg,#090a0c_0%,#030405_78%)]" />
         <div className="hidden lg:block"><GlobeVisual /></div>
         <div className="relative mx-auto max-w-[1280px]">
@@ -337,16 +337,16 @@ export default function WebPortfolioClient() {
               <p className="flex items-center gap-4 text-xs font-semibold uppercase text-[#d6a84f]">
                 Our Work <span className="h-px w-9 bg-[#d6a84f]" />
               </p>
-              <h1 className="mt-4 max-w-[360px] font-serif text-[35px] leading-[1.06] text-white sm:text-5xl">
+              <h1 className="mt-3 max-w-[340px] font-display text-[30px] font-medium leading-[1.08] text-white sm:text-[40px]">
                 Digital experiences that define brands<span className="text-[#d6a84f]">.</span>
               </h1>
-              <p className="mt-4 max-w-[390px] text-[15px] leading-6 text-white/58">
+              <p className="mt-3 max-w-[370px] text-[14px] leading-[1.55] text-white/58">
                 A curated selection of websites we&apos;ve designed and developed for ambitious brands.
               </p>
             </div>
             <div className="hidden lg:block">
               <Eyebrow>Our Portfolio</Eyebrow>
-              <h1 className="mt-5 text-7xl font-semibold leading-[0.96] tracking-[-0.04em] text-white">
+              <h1 className="mt-5 font-display text-7xl font-semibold leading-[0.96] text-white">
                 Websites We&apos;ve Built
               </h1>
               <p className="mt-6 max-w-[590px] text-lg leading-8 text-white/70">
@@ -417,7 +417,7 @@ export default function WebPortfolioClient() {
               <Send className="h-6 w-6" strokeWidth={1.5} />
             </span>
             <div>
-              <h2 className="text-3xl font-medium tracking-[-0.04em] text-white">Have a project in mind?</h2>
+              <h2 className="font-display text-3xl font-medium text-white">Have a project in mind?</h2>
               <p className="mt-1 text-base text-white/62">Let&apos;s build something exceptional together.</p>
             </div>
           </div>

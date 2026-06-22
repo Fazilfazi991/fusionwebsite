@@ -79,7 +79,6 @@ const sectors = [
 type VentureCompany = {
   name: string;
   category: string;
-  mobileCategory: string;
   description: string;
   logo?: string;
   initials?: string;
@@ -89,59 +88,51 @@ type VentureCompany = {
 const companies: VentureCompany[] = [
   {
     name: "Plumlet",
-    category: "E-COMMERCE / KIDS & LIFESTYLE",
-    mobileCategory: "E-COMMERCE",
+    category: "E-Commerce",
     description: "Playful little finds for kids and families.",
     logo: "/ventures/logos/plumlet-logo-trimmed.png"
   },
   {
     name: "Dearelle",
-    category: "E-COMMERCE / LIFESTYLE LUXURY",
-    mobileCategory: "E-COMMERCE",
+    category: "E-Commerce",
     description: "Everyday luxury with a refined lifestyle touch.",
     logo: "/ventures/logos/dearelle-logo-trimmed.png"
   },
   {
     name: "Tarx Solutions",
-    category: "TECHNOLOGY / DIGITAL SOLUTIONS",
-    mobileCategory: "TECHNOLOGY",
+    category: "Technology",
     description: "Digital systems and business solutions for modern operations.",
     logo: "/ventures/logos/tarx-solutions-logo-trimmed.png"
   },
   {
     name: "Tarx Holidays",
-    category: "TRAVEL / HOLIDAYS",
-    mobileCategory: "TRAVEL",
+    category: "Travel",
     description: "Curated travel experiences across UAE, Kerala, and beyond.",
     logo: "/ventures/logos/tarx-holidays-logo-trimmed.png"
   },
   {
     name: "Entry Pazz",
-    category: "MARKETPLACE / EVENTS & TICKETS",
-    mobileCategory: "MARKETPLACE",
+    category: "Events",
     description: "Event discovery, ticketing, and access made simple.",
     logo: "/ventures/logos/entry-pazz-logo-trimmed.png"
   },
   {
     name: "Resumi",
-    category: "CAREERS / HR TECH",
-    mobileCategory: "CAREERS",
+    category: "Careers",
     description: "Smart resume and profile tools for modern job seekers.",
     initials: "resumi",
     panelClass: "bg-[#eefdf9] text-[#073d3b]"
   },
   {
     name: "Portify",
-    category: "CREATOR TOOLS / PORTFOLIOS",
-    mobileCategory: "CREATOR TOOLS",
+    category: "Creator Tools",
     description: "Beautiful portfolio building for individuals and brands.",
     initials: "portify",
     panelClass: "bg-[#f3f0ff] text-[#111a4a]"
   },
   {
     name: "Inviteio",
-    category: "EVENTS / INVITATIONS",
-    mobileCategory: "EVENTS",
+    category: "Events",
     description: "Elegant digital invitations and event presentation tools.",
     initials: "inviteio",
     panelClass: "bg-[#fff1eb] text-[#ec6d5d]"
@@ -207,6 +198,7 @@ function SectionIntro({
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [flippedVenture, setFlippedVenture] = useState<string | null>(null);
 
   useEffect(() => {
     const elements = Array.from(document.querySelectorAll<HTMLElement>(".scroll-reveal"));
@@ -447,70 +439,129 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-[#030403] px-4 py-16 sm:px-10 lg:px-14 lg:py-28" id="ventures">
-        <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[30%_70%] lg:items-start">
-          <div className="scroll-reveal lg:sticky lg:top-28">
-            <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.26em] text-[#b99a5b]">
-              Portfolio Ventures
+      <section className="relative overflow-hidden bg-[#050505] px-5 py-16 sm:px-10 lg:px-14 lg:py-24" id="ventures">
+        <div className="pointer-events-none absolute inset-0 opacity-45 [background-image:linear-gradient(rgba(214,168,79,0.055)_1px,transparent_1px),linear-gradient(90deg,rgba(214,168,79,0.055)_1px,transparent_1px),radial-gradient(circle_at_72%_48%,rgba(214,168,79,0.09),transparent_30%)] [background-size:120px_120px,120px_120px,auto]" />
+        <div className="relative mx-auto grid max-w-[1500px] gap-12 lg:grid-cols-[29%_71%] lg:items-start lg:gap-10">
+          <div className="scroll-reveal lg:sticky lg:top-24">
+            <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.28em] text-[#d6a84f]">
+              Our Portfolio
             </p>
-            <h2 className="max-w-[760px] text-4xl font-medium leading-tight tracking-[-0.05em] text-white sm:text-5xl lg:text-6xl">
-              A Portfolio of High-Potential Ventures.
+            <h2 className="max-w-[410px] font-display text-4xl font-normal leading-[1.04] text-white sm:text-5xl lg:text-[58px]">
+              Ventures we&apos;re proud to build with.
             </h2>
-            <p className="mt-6 max-w-[520px] text-base leading-8 text-white/58 sm:text-lg">
-              We build and back brands across commerce, technology, travel, and digital products.
+            <span className="mt-7 block h-px w-12 bg-[#d6a84f]" />
+            <p className="mt-8 max-w-[340px] text-sm leading-7 text-white/62 sm:text-base">
+              We partner with visionary founders to build category-defining brands across diverse industries.
             </p>
             <a
-              href="/web-portfolio"
-              className="group mt-8 inline-flex items-center gap-5 border-b border-[#b99a5b] pb-3 text-base font-semibold text-[#d8b563] transition-colors hover:text-white sm:text-lg"
+              href="/ventures"
+              className="group mt-8 inline-flex items-center gap-5 text-sm font-medium text-[#d6a84f] transition-colors hover:text-white sm:text-base"
             >
-              Explore Websites We&apos;ve Built
+              Explore all ventures
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1.5" />
             </a>
+
+            <div className="mt-12 flex items-stretch gap-8">
+              <div>
+                <p className="font-serif text-4xl text-[#d6a84f]">08</p>
+                <p className="mt-2 text-[9px] font-semibold uppercase tracking-[0.22em] text-white/55">Ventures</p>
+              </div>
+              <span className="w-px bg-[#d6a84f]/35" />
+              <div>
+                <p className="font-serif text-4xl text-[#d6a84f]">06</p>
+                <p className="mt-2 text-[9px] font-semibold uppercase tracking-[0.22em] text-white/55">Categories</p>
+              </div>
+            </div>
+
+            <div className="mt-10 hidden items-center gap-3 lg:flex">
+              <span className="grid h-11 w-11 place-items-center rounded-full border border-white/15 text-white/45">
+                <ArrowRight className="h-4 w-4 rotate-180" />
+              </span>
+              <span className="grid h-11 w-11 place-items-center rounded-full border border-[#d6a84f]/55 text-[#d6a84f]">
+                <ArrowRight className="h-4 w-4" />
+              </span>
+            </div>
           </div>
 
-          <div className="scroll-reveal grid grid-cols-3 gap-2 min-[520px]:grid-cols-4 sm:gap-3 md:grid-cols-3 lg:grid-cols-4 lg:gap-5">
-            {companies.map((company) => (
-              <a
-                key={company.name}
-                href="/ventures"
-                className="group min-w-0 rounded-lg border border-white/12 bg-[#080908] p-2 shadow-[0_18px_80px_rgba(0,0,0,0.32)] transition-all duration-300 hover:-translate-y-1 hover:border-[#b99a5b]/45 sm:p-3 lg:rounded-xl lg:p-6"
-              >
-                <div className="flex h-16 items-center justify-center rounded-md bg-[#f8f6ef] p-2 sm:h-20 lg:h-36 lg:p-5">
-                  {company.logo ? (
-                    <Image
-                      src={company.logo}
-                      alt={`${company.name} logo`}
-                      width={320}
-                      height={150}
-                      unoptimized
-                      className="max-h-10 w-full object-contain sm:max-h-14 lg:max-h-24"
-                    />
-                  ) : (
-                    <span
-                      className={`flex h-full w-full items-center justify-center rounded-md text-lg font-bold tracking-[-0.06em] sm:text-2xl lg:text-4xl ${
-                        company.panelClass ?? "bg-white text-black"
-                      }`}
-                    >
-                      {company.initials}
-                    </span>
-                  )}
-                </div>
-                <p className="mt-3 truncate text-[8px] font-bold uppercase tracking-[0.12em] text-white/48 sm:text-[10px] lg:mt-6 lg:text-[11px] lg:text-white/58">
-                  <span className="lg:hidden">{company.mobileCategory}</span>
-                  <span className="hidden lg:inline">{company.category}</span>
-                </p>
-                <h3 className="mt-2 truncate text-[13px] font-medium tracking-[-0.04em] text-white sm:text-base lg:text-2xl">
-                  {company.name}
-                </h3>
-                <p className="mt-3 hidden text-sm leading-6 text-white/56 lg:block">
-                  {company.description}
-                </p>
-                <span className="mt-4 inline-flex items-center gap-3 text-[#d8b563] lg:mt-7">
-                  <span className="hidden text-sm font-semibold lg:inline">View Venture</span>
-                  <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1.5" />
-                </span>
-              </a>
-            ))}
+          <div className="scroll-reveal grid grid-cols-1 gap-3 min-[390px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-4">
+            {companies.map((company, index) => {
+              const isFlipped = flippedVenture === company.name;
+
+              return (
+                <article
+                  key={company.name}
+                  className={`venture-card group h-[280px] min-w-0 cursor-pointer outline-none min-[390px]:h-[330px] md:h-[320px] lg:h-[360px] ${
+                    isFlipped ? "is-flipped" : ""
+                  }`}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`${isFlipped ? "Hide" : "View"} details for ${company.name}`}
+                  aria-pressed={isFlipped}
+                  onClick={() => setFlippedVenture(isFlipped ? null : company.name)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      setFlippedVenture(isFlipped ? null : company.name);
+                    }
+                  }}
+                >
+                  <div className="venture-card-inner">
+                    <div className="venture-card-face venture-card-front rounded-lg border border-white/18 bg-[linear-gradient(145deg,rgba(255,255,255,0.055),rgba(255,255,255,0.018))] p-4 shadow-[0_18px_60px_rgba(0,0,0,0.3)] sm:p-5">
+                      <p className="text-[10px] font-medium tracking-[0.1em] text-[#d6a84f]">
+                        {String(index + 1).padStart(2, "0")}
+                      </p>
+                      <div className="absolute inset-x-4 top-1/2 flex h-[126px] -translate-y-1/2 items-center justify-center rounded-lg bg-[#f8f6ef] p-5 shadow-[inset_0_0_25px_rgba(0,0,0,0.035)] sm:inset-x-5 lg:h-[150px]">
+                        {company.logo ? (
+                          <Image
+                            src={company.logo}
+                            alt={`${company.name} logo`}
+                            width={320}
+                            height={150}
+                            unoptimized
+                            className="max-h-20 w-full object-contain lg:max-h-24"
+                          />
+                        ) : (
+                          <span
+                            className={`flex h-full w-full items-center justify-center rounded-md font-display text-3xl font-bold tracking-[-0.04em] lg:text-4xl ${
+                              company.panelClass ?? "bg-white text-black"
+                            }`}
+                          >
+                            {company.initials}
+                          </span>
+                        )}
+                      </div>
+                      <p className="absolute inset-x-4 bottom-5 text-center text-[9px] font-semibold uppercase tracking-[0.24em] text-white/48 sm:inset-x-5">
+                        {company.category}
+                      </p>
+                    </div>
+
+                    <div className="venture-card-face venture-card-back flex flex-col rounded-lg border border-[#d6a84f]/75 bg-[radial-gradient(circle_at_90%_10%,rgba(214,168,79,0.16),transparent_35%),linear-gradient(145deg,#181814,#090a08)] p-5 shadow-[0_18px_70px_rgba(214,168,79,0.12)] sm:p-6">
+                      <div className="flex items-center justify-between text-[9px] font-medium uppercase tracking-[0.16em] text-[#d6a84f]">
+                        <span>{String(index + 1).padStart(2, "0")}</span>
+                        <span className="max-w-[65%] truncate text-right">{company.category}</span>
+                      </div>
+                      <div className="flex min-h-0 flex-1 flex-col justify-center pt-4">
+                        <h3 className="font-display text-xl font-medium leading-tight text-white sm:text-2xl lg:text-3xl">
+                          {company.name}
+                        </h3>
+                        <p className="mt-3 text-xs leading-5 text-white/62 sm:mt-4 sm:text-sm sm:leading-6">
+                          {company.description}
+                        </p>
+                        <span className="mt-5 h-px w-16 bg-[#d6a84f]/70 sm:mt-7 sm:w-20" />
+                        <a
+                          href="/ventures"
+                          className="mt-5 inline-flex w-fit items-center gap-2 text-xs font-medium text-[#d6a84f] transition-colors hover:text-white sm:mt-6 sm:gap-3 sm:text-sm"
+                          onClick={(event) => event.stopPropagation()}
+                        >
+                          View venture
+                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -573,7 +624,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(185,154,91,0.16),transparent_38%)]" />
         <div className="scroll-reveal relative mx-auto max-w-[860px] text-center">
           <Label>Partner With Us</Label>
-          <h2 className="text-5xl font-medium leading-tight tracking-[-0.05em] sm:text-6xl">
+          <h2 className="font-display text-5xl font-normal leading-tight sm:text-6xl">
             Let&apos;s Build What&apos;s Next.
           </h2>
           <p className="mx-auto mt-7 max-w-[720px] text-base leading-8 text-white/62">

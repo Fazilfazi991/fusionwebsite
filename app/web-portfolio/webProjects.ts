@@ -21,16 +21,21 @@ export const webPortfolioCategories = [
   "Hospitality",
   "Wellness",
   "Printing",
-  "Lighting"
+  "Lighting",
+  "Clinic",
+  "Event"
 ] as const;
 
 export type WebPortfolioCategory = (typeof webPortfolioCategories)[number];
 
 export const webPortfolioMobileOrder = [
   "Pet Basket Store",
+  "Dearelle",
   "Miracle Designs Boutique",
   "Harven LLC",
+  "Occazn",
   "Boat Seafood",
+  "Dentiva",
   "Hydrelle Skincare",
   "Vlearns Educations",
   "BWMC",
@@ -122,6 +127,57 @@ const webProjectSeed: WebProjectSeed[] = [
       palette: "from-[#e7f8b8] via-[#b9df7b] to-[#f8ffe3]",
       accent: "#5e8f28",
       subject: "pet"
+    }
+  },
+  {
+    title: "Dearelle",
+    url: "https://dearelle.in",
+    category: "Ecommerce",
+    industry: "Ecommerce",
+    description: "A refined ecommerce experience for modern lifestyle products.",
+    image: "/images/web-portfolio/dearelle.webp",
+    tags: ["Ecommerce"],
+    preview: {
+      headline: "Everyday Luxury, Thoughtfully Curated.",
+      kicker: "Modern lifestyle ecommerce.",
+      cta: "Shop Now",
+      palette: "from-[#f4eee8] via-[#d9c5b8] to-[#8b6556]",
+      accent: "#d6a84f",
+      subject: "beauty"
+    }
+  },
+  {
+    title: "Occazn",
+    url: "https://occazn.com",
+    category: "Event",
+    industry: "Event",
+    description: "An event platform designed for memorable occasions and easy discovery.",
+    image: "/images/web-portfolio/occazn.webp",
+    tags: ["Event"],
+    preview: {
+      headline: "Make Every Occasion Memorable.",
+      kicker: "Events, experiences and celebrations.",
+      cta: "Explore Events",
+      palette: "from-[#150d24] via-[#542f73] to-[#d6a84f]",
+      accent: "#d6a84f",
+      subject: "business"
+    }
+  },
+  {
+    title: "Dentiva",
+    url: "https://dentiva.ae",
+    category: "Clinic",
+    industry: "Clinic",
+    description: "A polished dental clinic website focused on trust, care, and appointments.",
+    image: "/images/web-portfolio/dentiva.webp",
+    tags: ["Clinic", "Healthcare"],
+    preview: {
+      headline: "Confident Smiles Start Here.",
+      kicker: "Modern dental care.",
+      cta: "Book Appointment",
+      palette: "from-[#edfaff] via-[#b7e9f2] to-[#2c8395]",
+      accent: "#53a9b8",
+      subject: "medical"
     }
   },
   {

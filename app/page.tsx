@@ -17,6 +17,7 @@ import {
 
 const navItems = [
   { label: "Home", href: "#home" },
+  { label: "About Us", href: "/about" },
   { label: "Ventures", href: "/ventures" },
   { label: "Web Portfolio", href: "/web-portfolio" },
   { label: "Contact", href: "#contact" }
@@ -298,7 +299,7 @@ export default function Home() {
           disablePictureInPicture
           aria-hidden="true"
         >
-          <source src="/videos/fusion-hero.mp4" type="video/mp4" />
+          <source src="/videos/business-meeting-hero.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-black/60" />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.88)_0%,rgba(0,0,0,0.66)_58%,rgba(0,0,0,0.48)_100%)]" />

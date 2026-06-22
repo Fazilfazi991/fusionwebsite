@@ -32,11 +32,11 @@ import {
 } from "./webProjects";
 
 const navItems = [
-  { label: "About Us", href: "/" },
-  { label: "Our Portfolio", href: "/web-portfolio" },
-  { label: "Our Edge", href: "/#approach" },
-  { label: "Insights", href: "/#sectors" },
-  { label: "Careers", href: "/groups" }
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/about" },
+  { label: "Ventures", href: "/ventures" },
+  { label: "Web Portfolio", href: "/web-portfolio" },
+  { label: "Contact", href: "/#contact" }
 ];
 
 const statIcons = {
@@ -67,27 +67,6 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
       <Diamond className="h-3 w-3" />
       {children}
     </p>
-  );
-}
-
-function GlobeVisual() {
-  return (
-    <div className="pointer-events-none absolute right-[-18%] top-10 h-[340px] w-[340px] opacity-55 sm:right-[-5%] sm:h-[460px] sm:w-[460px] lg:right-[2%] lg:top-5 lg:h-[620px] lg:w-[620px] lg:opacity-80">
-      <div className="absolute inset-0 rounded-full border border-white/12 bg-[radial-gradient(circle_at_35%_28%,rgba(255,255,255,0.32),transparent_9%),radial-gradient(circle_at_64%_35%,rgba(255,255,255,0.24),transparent_8%),radial-gradient(circle_at_48%_60%,rgba(255,255,255,0.18),transparent_10%),radial-gradient(circle_at_50%_50%,rgba(214,168,79,0.12),transparent_55%)] shadow-[inset_0_0_80px_rgba(255,255,255,0.06)]" />
-      <div className="absolute inset-[8%] rounded-full border border-white/10" />
-      <div className="absolute inset-[18%] rounded-full border border-white/8" />
-      <div className="absolute left-[8%] top-1/2 h-px w-[84%] -translate-y-1/2 bg-white/18" />
-      <div className="absolute left-1/2 top-[8%] h-[84%] w-px -translate-x-1/2 bg-white/14" />
-      <div className="absolute left-[12%] top-[27%] h-px w-[74%] rotate-[-18deg] bg-white/18" />
-      <div className="absolute left-[16%] top-[62%] h-px w-[68%] rotate-[16deg] bg-white/14" />
-      {[18, 28, 42, 56, 68, 78].map((left, index) => (
-        <span
-          key={left}
-          className="absolute h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_14px_rgba(255,255,255,0.95)]"
-          style={{ left: `${left}%`, top: `${index % 2 ? 36 : 58}%` }}
-        />
-      ))}
-    </div>
   );
 }
 
@@ -287,15 +266,15 @@ export default function WebPortfolioClient() {
   return (
     <main className="min-h-screen overflow-hidden bg-[#030405] text-white">
       <header className="sticky top-0 z-50 border-b border-white/10 bg-black/88 backdrop-blur-xl">
-        <div className="mx-auto flex h-[76px] max-w-[1500px] items-center justify-between px-5 sm:px-10 lg:px-14">
+        <div className="mx-auto flex h-[78px] max-w-[1440px] items-center justify-between px-5 sm:px-10 lg:px-14">
           <LogoMark />
-          <nav className="hidden items-center gap-12 lg:flex">
+          <nav className="hidden items-center gap-8 lg:flex">
             {navItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
-                className={`text-sm font-medium transition-colors hover:text-[#d6a84f] ${
-                  item.label === "Our Portfolio" ? "border-b-2 border-[#d6a84f] pb-2 text-white" : "text-white/72"
+                className={`text-[11px] font-bold uppercase tracking-[0.08em] transition-colors hover:text-white ${
+                  item.label === "Web Portfolio" ? "border-b border-[#b99a5b] pb-2 text-[#d8c38b]" : "text-white/70"
                 }`}
               >
                 {item.label}
@@ -303,11 +282,10 @@ export default function WebPortfolioClient() {
             ))}
           </nav>
           <a
-            href={`mailto:${webPortfolioContact.email}`}
-            className="hidden items-center gap-3 rounded-md border border-[#d6a84f]/60 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#d6a84f] hover:text-black sm:inline-flex"
+            href="/#contact"
+            className="hidden border border-[#b99a5b] bg-[#b99a5b] px-7 py-4 text-[11px] font-bold uppercase tracking-[0.08em] text-black transition-colors hover:bg-transparent hover:text-[#d8c38b] sm:inline-flex"
           >
-            Let&apos;s Connect
-            <ArrowRight className="h-4 w-4" />
+            Partner With Us
           </a>
           <button
             className="grid h-11 w-11 place-items-center rounded-md border border-[#d6a84f]/45 text-[#d6a84f] lg:hidden"
@@ -321,26 +299,25 @@ export default function WebPortfolioClient() {
 
       <section className="relative px-5 pb-3 pt-7 sm:px-10 sm:pt-9 lg:px-14 lg:pb-5 lg:pt-12">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_18%,rgba(255,255,255,0.1),transparent_30%),linear-gradient(180deg,#090a0c_0%,#030405_78%)]" />
-        <div className="hidden lg:block"><GlobeVisual /></div>
-        <div className="relative mx-auto max-w-[1280px]">
-          <div className="max-w-[620px] pt-1 lg:pt-10">
+        <div className="relative mx-auto max-w-[1280px] text-center">
+          <div className="mx-auto max-w-[900px] pt-1 lg:pt-10">
             <div className="lg:hidden">
-              <p className="flex items-center gap-4 text-xs font-semibold uppercase text-[#d6a84f]">
+              <p className="flex items-center justify-center gap-4 text-xs font-semibold uppercase text-[#d6a84f]">
                 Our Work <span className="h-px w-9 bg-[#d6a84f]" />
               </p>
-              <h1 className="mt-3 max-w-[340px] font-display text-[30px] font-medium leading-[1.08] text-white sm:text-[40px]">
+              <h1 className="mx-auto mt-3 max-w-[360px] font-display text-[30px] font-medium leading-[1.08] text-white sm:text-[40px]">
                 Digital experiences that define brands<span className="text-[#d6a84f]">.</span>
               </h1>
-              <p className="mt-3 max-w-[370px] text-[14px] leading-[1.55] text-white/58">
+              <p className="mx-auto mt-3 max-w-[370px] text-[14px] leading-[1.55] text-white/58">
                 A curated selection of websites we&apos;ve designed and developed for ambitious brands.
               </p>
             </div>
             <div className="hidden lg:block">
               <Eyebrow>Our Portfolio</Eyebrow>
-              <h1 className="mt-5 font-display text-7xl font-semibold leading-[0.96] text-white">
+              <h1 className="mx-auto mt-5 font-display text-6xl font-semibold leading-[0.98] text-white xl:text-7xl">
                 Websites We&apos;ve Built
               </h1>
-              <p className="mt-6 max-w-[590px] text-lg leading-8 text-white/70">
+              <p className="mx-auto mt-6 max-w-[720px] text-lg leading-8 text-white/70">
                 We design and develop high-performing websites that combine strategic thinking, modern
                 design, and seamless functionality to help brands grow online.
               </p>

@@ -1,12 +1,11 @@
 import { ArrowRight, Linkedin } from "lucide-react";
 
 const navItems = [
-  { label: "Group", href: "/groups" },
-  { label: "Ventures", href: "/#ventures" },
-  { label: "Sectors", href: "/#sectors" },
-  { label: "People", href: "#people" },
-  { label: "Approach", href: "/#approach" },
-  { label: "Contact", href: "#contact" }
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/about" },
+  { label: "Ventures", href: "/ventures" },
+  { label: "Web Portfolio", href: "/web-portfolio" },
+  { label: "Contact", href: "/#contact" }
 ];
 
 const partners = [
@@ -64,12 +63,12 @@ export default function GroupsPage() {
             <span className="ml-1 block text-[11px] font-semibold tracking-[0.42em]">VENTURES</span>
           </a>
 
-          <nav className="hidden items-center gap-10 lg:flex">
+          <nav className="hidden items-center gap-8 lg:flex">
             {navItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
-                className="text-[11px] font-bold uppercase tracking-[0.06em] text-black transition-opacity hover:opacity-55"
+                className="text-[11px] font-bold uppercase tracking-[0.08em] text-black/70 transition-colors hover:text-black"
               >
                 {item.label}
               </a>
@@ -77,7 +76,7 @@ export default function GroupsPage() {
           </nav>
 
           <a
-            href="#contact"
+            href="/#contact"
             className="border border-black bg-black px-8 py-4 text-[11px] font-bold uppercase tracking-[0.08em] text-white transition-colors hover:bg-white hover:text-black"
           >
             Partner With Us

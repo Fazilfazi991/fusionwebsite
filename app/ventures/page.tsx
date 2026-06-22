@@ -20,7 +20,13 @@ export const metadata: Metadata = {
     "Explore the Fusion Ventures ecosystem — a growing portfolio of digital-first ventures across consumer brands, technology, travel, events, career tools, and creator platforms."
 };
 
-const navItems = ["About Us", "Our Portfolio", "Our Edge", "Insights", "Careers", "Contact"];
+const navItems = [
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/about" },
+  { label: "Ventures", href: "/ventures" },
+  { label: "Web Portfolio", href: "/web-portfolio" },
+  { label: "Contact", href: "/#contact" }
+];
 
 const ventures = [
   {
@@ -171,31 +177,24 @@ export default function VenturesPage() {
       <header className="sticky top-0 z-50 border-b border-[#d6a84f]/12 bg-[#05080d]/88 backdrop-blur-xl">
         <div className="mx-auto flex h-[76px] max-w-[1500px] items-center justify-between px-5 sm:px-10">
           <LogoMark />
-          <nav className="hidden items-center gap-12 lg:flex">
+          <nav className="hidden items-center gap-8 lg:flex">
             {navItems.map((item) => (
               <a
-                key={item}
-                href={
-                  item === "Our Portfolio"
-                    ? "/web-portfolio"
-                    : item === "Our Edge"
-                      ? "#edge"
-                      : item === "Contact"
-                        ? "#contact"
-                        : "#"
-                }
-                className="text-sm font-medium text-[#f5f5f0]/72 transition-colors hover:text-[#d6a84f]"
+                key={item.label}
+                href={item.href}
+                className={`text-[11px] font-bold uppercase tracking-[0.08em] transition-colors hover:text-[#f5f5f0] ${
+                  item.label === "Ventures" ? "border-b border-[#b99a5b] pb-2 text-[#d8c38b]" : "text-[#f5f5f0]/70"
+                }`}
               >
-                {item}
+                {item.label}
               </a>
             ))}
           </nav>
           <a
-            href="#contact"
-            className="hidden items-center gap-3 rounded-md border border-[#d6a84f]/45 px-6 py-3 text-sm font-semibold text-[#f5f5f0] transition-colors hover:bg-[#d6a84f] hover:text-black sm:inline-flex"
+            href="/#contact"
+            className="hidden border border-[#b99a5b] bg-[#b99a5b] px-7 py-4 text-[11px] font-bold uppercase tracking-[0.08em] text-black transition-colors hover:bg-transparent hover:text-[#d8c38b] sm:inline-flex"
           >
-            Let&apos;s Connect
-            <ArrowRight className="h-4 w-4" />
+            Partner With Us
           </a>
           <button className="grid h-11 w-11 place-items-center rounded-md border border-[#d6a84f]/45 text-[#d6a84f] lg:hidden" aria-label="Open navigation menu">
             <Menu className="h-6 w-6" />
@@ -384,8 +383,8 @@ export default function VenturesPage() {
           <LogoMark />
           <nav className="flex flex-wrap gap-6 text-sm text-[#f5f5f0]/58">
             {navItems.slice(0, 5).map((item) => (
-              <a key={item} href="#" className="hover:text-[#d6a84f]">
-                {item}
+              <a key={item.label} href={item.href} className="hover:text-[#d6a84f]">
+                {item.label}
               </a>
             ))}
           </nav>

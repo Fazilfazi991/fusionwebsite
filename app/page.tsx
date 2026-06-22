@@ -301,8 +301,8 @@ export default function Home() {
         >
           <source src="/videos/business-meeting-hero.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.88)_0%,rgba(0,0,0,0.66)_58%,rgba(0,0,0,0.48)_100%)]" />
+        <div className="absolute inset-0 bg-black/24" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.34)_0%,rgba(0,0,0,0.18)_48%,rgba(0,0,0,0.38)_100%)]" />
 
         <div className="relative mx-auto max-w-[1280px]">
           <div className="scroll-reveal mx-auto max-w-[980px] text-center">

@@ -17,12 +17,8 @@ import {
 
 const navItems = [
   { label: "Home", href: "#home" },
-  { label: "Group", href: "#group" },
   { label: "Ventures", href: "/ventures" },
   { label: "Web Portfolio", href: "/web-portfolio" },
-  { label: "Sectors", href: "#sectors" },
-  { label: "People", href: "#people" },
-  { label: "Approach", href: "#approach" },
   { label: "Contact", href: "#contact" }
 ];
 
@@ -291,26 +287,33 @@ export default function Home() {
         <div className="mobile-nav-motion lg:hidden" />
       </header>
 
-      <section className="relative px-5 py-20 sm:px-10 lg:px-14 lg:py-28" id="home">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[size:72px_72px] opacity-45" />
-        <div className="absolute right-[-20%] top-24 h-[420px] w-[420px] rounded-full bg-[#143d2c]/35 blur-3xl" />
-        <div className="absolute bottom-10 left-[-16%] h-[360px] w-[360px] rounded-full bg-[#b99a5b]/10 blur-3xl" />
+      <section className="relative overflow-hidden px-5 py-20 sm:px-10 lg:px-14 lg:py-28" id="home">
+        <video
+          className="absolute inset-0 h-full w-full object-cover object-center"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          disablePictureInPicture
+          aria-hidden="true"
+        >
+          <source src="/videos/fusion-hero.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.88)_0%,rgba(0,0,0,0.66)_58%,rgba(0,0,0,0.48)_100%)]" />
 
         <div className="relative mx-auto max-w-[1280px]">
-          <div className="scroll-reveal max-w-[980px]">
+          <div className="scroll-reveal mx-auto max-w-[980px] text-center">
             <Label>UAE-Based Venture Group</Label>
-            <h1 className="max-w-[850px] text-5xl font-medium leading-[0.95] tracking-[-0.06em] text-white sm:text-7xl lg:text-8xl">
+            <h1 className="mx-auto max-w-[850px] text-5xl font-medium leading-[0.95] tracking-[-0.06em] text-white sm:text-7xl lg:text-8xl">
               We Build, Own & Scale Modern Businesses.
             </h1>
-            <p className="mt-8 max-w-[720px] text-lg leading-8 text-white/68">
-              Fusion Ventures is a UAE-based venture group building digital-first companies across
-              commerce, technology, marketplaces, travel, and consumer brands.
-            </p>
-            <p className="mt-5 max-w-[680px] text-base leading-8 text-white/52">
+            <p className="mx-auto mt-8 max-w-[680px] text-base leading-8 text-white/72">
               We bring together ideas, execution, branding, technology, partnerships, and long-term
               operating focus to create ventures designed to grow.
             </p>
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+            <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
               <a
                 href="/ventures"
                 className="border border-[#b99a5b] bg-[#b99a5b] px-8 py-4 text-center text-[12px] font-bold uppercase tracking-[0.1em] text-black transition-colors hover:bg-transparent hover:text-[#d8c38b]"

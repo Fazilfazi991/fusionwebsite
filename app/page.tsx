@@ -348,55 +348,55 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-[#050505] px-5 py-20 sm:px-10 lg:px-14 lg:py-28" id="group">
+      <section className="relative overflow-hidden bg-[#050505] px-5 py-12 sm:px-10 sm:py-14 lg:px-14 lg:py-10" id="group">
         <div className="pointer-events-none absolute inset-0 opacity-50 [background-image:radial-gradient(circle_at_18%_18%,rgba(214,168,79,0.07),transparent_28%),radial-gradient(circle_at_80%_70%,rgba(255,255,255,0.035),transparent_30%),repeating-linear-gradient(118deg,rgba(255,255,255,0.012)_0,rgba(255,255,255,0.012)_1px,transparent_1px,transparent_16px)]" />
         <div className="relative mx-auto max-w-[1440px]">
-          <div className="grid gap-8 lg:grid-cols-[42%_58%] lg:items-center lg:gap-12">
+          <div className="grid gap-6 lg:grid-cols-[42%_58%] lg:items-center lg:gap-10">
             <div className="scroll-reveal">
               <div className="flex items-center gap-4">
                 <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#d6a84f]">The Group</p>
                 <span className="h-px w-24 bg-gradient-to-r from-[#d6a84f] to-transparent" />
               </div>
-              <h2 className="mt-7 max-w-[610px] font-serif text-5xl font-normal leading-[0.98] text-white sm:text-6xl lg:text-7xl">
+              <h2 className="mt-5 max-w-[520px] font-serif text-4xl font-normal leading-[0.98] text-white sm:text-5xl lg:text-[52px]">
                 A Venture Group Built Around Execution<span className="text-[#d6a84f]">.</span>
               </h2>
-              <span className="mt-9 block h-px w-72 max-w-full bg-gradient-to-r from-[#d6a84f] via-[#d6a84f]/55 to-transparent shadow-[0_0_12px_rgba(214,168,79,0.32)]" />
+              <span className="mt-6 block h-px w-56 max-w-full bg-gradient-to-r from-[#d6a84f] via-[#d6a84f]/55 to-transparent shadow-[0_0_12px_rgba(214,168,79,0.32)]" />
             </div>
 
-            <div className="grid gap-4">
+            <div className="grid gap-3">
               {groupStatements.map(({ text, icon: Icon }) => (
                 <article
                   key={text}
-                  className="group scroll-reveal relative grid min-h-[190px] grid-cols-[64px_1px_minmax(0,1fr)] items-center gap-5 overflow-hidden rounded-lg border border-[#d6a84f]/30 bg-white/[0.035] p-5 shadow-[0_18px_55px_rgba(0,0,0,0.28)] transition-colors hover:border-[#d6a84f]/55 sm:grid-cols-[92px_1px_minmax(0,1fr)] sm:gap-8 sm:p-8"
+                  className="group scroll-reveal relative grid min-h-[124px] grid-cols-[52px_1px_minmax(0,1fr)] items-center gap-4 overflow-hidden rounded-lg border border-[#d6a84f]/30 bg-white/[0.035] p-4 shadow-[0_18px_55px_rgba(0,0,0,0.28)] transition-colors hover:border-[#d6a84f]/55 sm:grid-cols-[64px_1px_minmax(0,1fr)] sm:gap-5 sm:p-5"
                 >
                   <span className="pointer-events-none absolute right-0 top-0 h-16 w-16 bg-[radial-gradient(circle_at_top_right,rgba(214,168,79,0.22),transparent_68%)]" />
-                  <span className="grid h-16 w-16 place-items-center rounded-full border border-[#d6a84f]/65 text-[#d6a84f] shadow-[0_0_24px_rgba(214,168,79,0.08)] sm:h-20 sm:w-20">
-                    <Icon className="h-8 w-8" strokeWidth={1.35} />
+                  <span className="grid h-12 w-12 place-items-center rounded-full border border-[#d6a84f]/65 text-[#d6a84f] shadow-[0_0_24px_rgba(214,168,79,0.08)] sm:h-14 sm:w-14">
+                    <Icon className="h-6 w-6" strokeWidth={1.35} />
                   </span>
-                  <span className="h-28 w-px bg-[#d6a84f]/35" />
-                  <p className="text-[15px] leading-7 text-white/72 sm:text-lg sm:leading-9">{text}</p>
+                  <span className="h-20 w-px bg-[#d6a84f]/35" />
+                  <p className="text-[14px] leading-6 text-white/72 sm:text-base sm:leading-7">{text}</p>
                 </article>
               ))}
             </div>
           </div>
 
-          <div className="relative mt-10 overflow-hidden rounded-lg border border-[#d6a84f]/32 bg-[radial-gradient(circle_at_50%_130%,rgba(214,168,79,0.18),transparent_36%),linear-gradient(135deg,rgba(255,255,255,0.035),rgba(255,255,255,0.012))] shadow-[0_22px_70px_rgba(0,0,0,0.32)]">
+          <div className="relative mt-6 overflow-hidden rounded-lg border border-[#d6a84f]/32 bg-[radial-gradient(circle_at_50%_130%,rgba(214,168,79,0.18),transparent_36%),linear-gradient(135deg,rgba(255,255,255,0.035),rgba(255,255,255,0.012))] shadow-[0_22px_70px_rgba(0,0,0,0.32)]">
             <span className="pointer-events-none absolute bottom-0 left-1/2 h-px w-56 -translate-x-1/2 bg-[#d6a84f] shadow-[0_0_18px_4px_rgba(214,168,79,0.45)]" />
             <div className="grid grid-cols-2 sm:grid-cols-4">
               {groupMetrics.map(({ value, label, icon: Icon }, index) => (
                 <article
                   key={label}
-                  className={`scroll-reveal min-w-0 px-5 py-7 transition-colors hover:bg-[#d6a84f]/[0.035] sm:px-7 sm:py-9 ${
+                  className={`scroll-reveal min-w-0 px-4 py-5 transition-colors hover:bg-[#d6a84f]/[0.035] sm:px-5 sm:py-5 ${
                     index >= 2 ? "border-t border-[#d6a84f]/18 sm:border-t-0" : ""
                   } ${index % 2 === 1 ? "border-l border-[#d6a84f]/18" : ""} ${
                     index > 0 ? "sm:border-l sm:border-[#d6a84f]/18" : ""
                   }`}
                 >
-                  <div className="flex items-center gap-3 sm:gap-4">
-                    <Icon className="h-8 w-8 shrink-0 text-[#d6a84f] sm:h-10 sm:w-10" strokeWidth={1.35} />
-                    <p className="font-serif text-4xl leading-none text-[#d6a84f] sm:text-5xl">{value}</p>
+                  <div className="flex items-center gap-3">
+                    <Icon className="h-7 w-7 shrink-0 text-[#d6a84f] sm:h-8 sm:w-8" strokeWidth={1.35} />
+                    <p className="font-serif text-3xl leading-none text-[#d6a84f] sm:text-4xl">{value}</p>
                   </div>
-                  <p className="mt-4 text-[10px] font-semibold uppercase leading-5 tracking-[0.16em] text-white/66 sm:text-[11px]">
+                  <p className="mt-3 text-[9px] font-semibold uppercase leading-4 tracking-[0.14em] text-white/66 sm:text-[10px]">
                     {label}
                   </p>
                 </article>

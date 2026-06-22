@@ -187,16 +187,54 @@ async function preparePageForCapture(cdp) {
   })();`);
 }
 
+async function waitForImagesNearViewport(cdp, timeout = 8000) {
+  await evaluate(cdp, `(() => {
+    const images = [...document.images].filter((image) => {
+      const rect = image.getBoundingClientRect();
+      return rect.bottom >= -900 && rect.top <= window.innerHeight + 900;
+    });
+
+    return Promise.race([
+      Promise.all(images.map(async (image) => {
+        const lazySource =
+          image.dataset.src ||
+          image.dataset.lazySrc ||
+          image.dataset.original ||
+          image.getAttribute("data-lazy-src");
+        if (lazySource && (!image.currentSrc || image.currentSrc.startsWith("data:"))) {
+          image.src = lazySource;
+        }
+        image.loading = "eager";
+        if (!image.complete) {
+          await new Promise((resolve) => {
+            image.addEventListener("load", resolve, { once: true });
+            image.addEventListener("error", resolve, { once: true });
+            setTimeout(resolve, ${timeout});
+          });
+        }
+        if (image.complete && image.naturalWidth > 0 && image.decode) {
+          try {
+            await image.decode();
+          } catch {}
+        }
+      })),
+      new Promise((resolve) => setTimeout(resolve, ${timeout}))
+    ]);
+  })()`);
+}
+
 async function triggerLazyLoading(cdp) {
   const heightResult = await evaluate(cdp, "Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)");
   const totalHeight = Math.min(Math.max(Math.ceil(heightResult.result.value || 900), 900), 12000);
 
-  for (let y = 0; y < totalHeight; y += 700) {
+  for (let y = 0; y < totalHeight; y += 600) {
     await evaluate(cdp, `window.scrollTo(0, ${y})`, false);
-    await delay(250);
+    await delay(350);
+    await waitForImagesNearViewport(cdp);
   }
   await evaluate(cdp, "window.scrollTo(0, 0)", false);
-  await delay(800);
+  await waitForImagesNearViewport(cdp);
+  await delay(1200);
   return totalHeight;
 }
 

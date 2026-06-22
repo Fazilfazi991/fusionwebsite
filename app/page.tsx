@@ -150,19 +150,19 @@ const approach = [
 const people = [
   {
     name: "Ayisha Muneer",
-    initials: "AM",
+    photo: "/team/ayisha-muneer.webp",
     role: "Founder & CEO",
     bio: "Leads the group's vision, direction, and long-term development across its growing portfolio of ventures."
   },
   {
     name: "Mohammad Fazil",
-    initials: "MF",
+    photo: "/team/mohammad-fazil.webp",
     role: "Co-Founder & Growth / Business Development",
     bio: "Focused on partnerships, growth strategy, commercial direction, and new venture execution across the Fusion Ventures ecosystem."
   },
   {
     name: "Thameem AR",
-    initials: "TA",
+    photo: "/team/thameem-ar.webp",
     role: "Co-Founder & Growth Strategy",
     bio: "Supports group-level growth, strategic partnerships, business expansion, and venture development across multiple sectors."
   }
@@ -345,12 +345,7 @@ export default function Home() {
                     index % 2 === 0 ? "mr-8" : "ml-8"
                   }`}
                 >
-                  <div>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#b99a5b]">
-                      Venture {String(index + 1).padStart(2, "0")}
-                    </p>
-                    <h2 className="mt-2 text-2xl font-medium tracking-[-0.04em]">{card}</h2>
-                  </div>
+                  <h2 className="text-2xl font-medium tracking-[-0.04em]">{card}</h2>
                   <span className="h-2 w-2 rounded-full bg-[#2d6b4e]" />
                 </div>
               ))}
@@ -530,8 +525,14 @@ export default function Home() {
           <div className="mt-12 grid gap-px bg-white/10 md:grid-cols-3">
             {people.map((person) => (
               <article key={person.name} className="bg-[#0b0d09] p-7 sm:p-8">
-                <div className="grid h-16 w-16 place-items-center rounded-full border border-[#b99a5b]/45 text-lg font-medium tracking-[0.12em] text-[#d8c38b]">
-                  {person.initials}
+                <div className="relative h-20 w-20 overflow-hidden rounded-full border border-[#b99a5b]/55 shadow-[0_0_28px_rgba(185,154,91,0.12)] sm:h-24 sm:w-24">
+                  <Image
+                    src={person.photo}
+                    alt={`${person.name} portrait`}
+                    fill
+                    sizes="(min-width: 640px) 96px, 80px"
+                    className="object-cover object-center"
+                  />
                 </div>
                 <p className="mt-8 text-[11px] font-bold uppercase tracking-[0.14em] text-[#b99a5b]">
                   {person.role}

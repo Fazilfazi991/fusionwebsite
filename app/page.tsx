@@ -5,13 +5,17 @@ import { useEffect, useState } from "react";
 import {
   ArrowRight,
   BriefcaseBusiness,
+  Building2,
   Compass,
+  Flag,
+  Globe2,
   Handshake,
   Layers3,
   Menu,
   Rocket,
   ShieldCheck,
   Sparkles,
+  TrendingUp,
   X
 } from "lucide-react";
 
@@ -44,6 +48,23 @@ const whatWeDo = [
     text: "We collaborate with founders, businesses, and investors who share a long-term vision.",
     icon: Handshake
   }
+];
+
+const groupStatements = [
+  {
+    text: "Fusion Ventures brings multiple businesses under one group structure, while allowing each venture to grow with its own identity.",
+    icon: Building2
+  },
+  {
+    text: "We work across the full journey, from idea validation and brand creation to digital product development, operations, partnerships, and growth.",
+    icon: Flag
+  }
+];
+
+const groupMetrics = [
+  { value: "8", label: "Ventures", icon: Rocket },
+  { value: "10+", label: "Markets Explored", icon: Globe2 },
+  { value: "4", label: "Growth Verticals", icon: TrendingUp }
 ];
 
 const sectors = [
@@ -189,37 +210,27 @@ export default function Home() {
 
   useEffect(() => {
     const elements = Array.from(document.querySelectorAll<HTMLElement>(".scroll-reveal"));
-    let lastScrollY = window.scrollY;
-
-    const updateDirection = () => {
-      const currentScrollY = window.scrollY;
-      document.documentElement.dataset.scrollDir = currentScrollY < lastScrollY ? "up" : "down";
-      lastScrollY = currentScrollY;
-    };
-
-    updateDirection();
-    window.addEventListener("scroll", updateDirection, { passive: true });
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       elements.forEach((element) => element.classList.add("is-visible"));
-      return () => window.removeEventListener("scroll", updateDirection);
+      return;
     }
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          entry.target.classList.toggle("is-visible", entry.isIntersecting);
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
         });
       },
-      { threshold: 0.16, rootMargin: "0px 0px -8% 0px" }
+      { threshold: 0.1, rootMargin: "0px 0px -4% 0px" }
     );
 
     elements.forEach((element) => observer.observe(element));
 
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("scroll", updateDirection);
-    };
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -334,15 +345,50 @@ export default function Home() {
       </section>
 
       <section className="px-5 py-20 sm:px-10 lg:px-14 lg:py-28" id="group">
-        <div className="mx-auto grid max-w-[1280px] gap-12 lg:grid-cols-[38%_62%]">
-          <SectionIntro eyebrow="The Group" title="A Venture Group Built Around Execution." />
-          <div className="scroll-reveal grid gap-px bg-white/10 sm:grid-cols-2">
-            {[
-              "Fusion Ventures brings multiple businesses under one group structure, while allowing each venture to grow with its own identity.",
-              "We work across the full journey, from idea validation and brand creation to digital product development, operations, partnerships, and growth."
-            ].map((text) => (
-              <article key={text} className="bg-[#0b0d09] p-8 text-base leading-8 text-white/62">
-                {text}
+        <div className="mx-auto max-w-[1440px]">
+          <div className="grid gap-4 lg:grid-cols-[46%_54%]">
+            <article className="scroll-reveal relative min-h-[390px] overflow-hidden rounded-lg border border-[#b99a5b]/65 bg-[#0a0b09] p-7 sm:p-10 lg:row-span-2 lg:min-h-[510px] lg:p-14">
+              <div className="relative z-10 max-w-[610px]">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d8b563]">
+                  The Group
+                </p>
+                <span className="mt-4 block h-px w-10 bg-[#d8b563]" />
+                <h2 className="mt-8 text-4xl font-medium leading-[1.08] tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl">
+                  A Venture Group Built Around Execution<span className="text-[#d8b563]">.</span>
+                </h2>
+              </div>
+              <div className="pointer-events-none absolute -bottom-36 -right-24 h-80 w-[620px] rotate-[-8deg] rounded-[50%] border border-[#d8b563]/45 shadow-[0_0_42px_rgba(216,181,99,0.18)]" />
+              <div className="pointer-events-none absolute -bottom-44 -right-10 h-72 w-[560px] rotate-[6deg] rounded-[50%] border border-[#d8b563]/25" />
+              <div className="pointer-events-none absolute -bottom-52 right-24 h-72 w-[500px] rotate-[-3deg] rounded-[50%] border border-[#d8b563]/16" />
+            </article>
+
+            {groupStatements.map(({ text, icon: Icon }) => (
+              <article
+                key={text}
+                className="scroll-reveal grid min-h-[210px] grid-cols-[72px_1px_minmax(0,1fr)] items-center gap-6 rounded-lg border border-white/16 bg-[#0b0c0b] p-6 sm:grid-cols-[96px_1px_minmax(0,1fr)] sm:gap-8 sm:p-9"
+              >
+                <span className="grid h-16 w-16 place-items-center rounded-full border border-[#d8b563]/70 text-[#d8b563] sm:h-20 sm:w-20">
+                  <Icon className="h-8 w-8" strokeWidth={1.4} />
+                </span>
+                <span className="h-28 w-px bg-[#d8b563]/48" />
+                <p className="text-base leading-8 text-white/78 sm:text-lg sm:leading-9">{text}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-4 grid gap-4 sm:grid-cols-3">
+            {groupMetrics.map(({ value, label, icon: Icon }) => (
+              <article
+                key={label}
+                className="scroll-reveal relative overflow-hidden rounded-lg border border-white/16 bg-[#0b0c0b] px-6 py-9 text-center"
+              >
+                <span className="absolute left-1/2 top-0 h-px w-28 -translate-x-1/2 bg-[#d8b563] shadow-[0_0_14px_rgba(216,181,99,0.9)]" />
+                <span className="mx-auto grid h-20 w-20 place-items-center rounded-full border border-[#d8b563]/70 text-[#d8b563]">
+                  <Icon className="h-9 w-9" strokeWidth={1.4} />
+                </span>
+                <p className="mt-5 text-5xl font-medium tracking-[-0.04em] text-white">{value}</p>
+                <span className="mx-auto mt-4 block h-px w-8 bg-[#d8b563]" />
+                <p className="mt-4 text-base text-white/72">{label}</p>
               </article>
             ))}
           </div>

@@ -44,23 +44,15 @@ a {
 
 .scroll-reveal {
   opacity: 0;
-  transform: translateY(22px);
-  filter: blur(8px);
+  transform: translate3d(0, 18px, 0);
   transition:
-    opacity 700ms ease,
-    transform 800ms cubic-bezier(0.22, 1, 0.36, 1),
-    filter 800ms ease;
-  will-change: opacity, transform, filter;
-}
-
-html[data-scroll-dir="up"] .scroll-reveal:not(.is-visible) {
-  transform: translateY(-18px);
+    opacity 520ms ease,
+    transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .scroll-reveal.is-visible {
   opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
+  transform: translate3d(0, 0, 0);
 }
 
 .mobile-nav-motion {
@@ -118,7 +110,6 @@ html[data-scroll-dir="up"] .scroll-reveal:not(.is-visible) {
   .scroll-reveal {
     opacity: 1;
     transform: none;
-    filter: none;
     transition: none;
   }
 }

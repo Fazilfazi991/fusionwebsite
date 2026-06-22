@@ -26,15 +26,6 @@ const navItems = [
   { label: "Contact", href: "#contact" }
 ];
 
-const trustBlocks = [
-  ["Multiple", "Ventures"],
-  ["UAE", "Based"],
-  ["Founder", "Led"],
-  ["Long-Term", "Focus"]
-];
-
-const heroCards = ["Plumlet", "Dearelle", "Tarx Solutions", "Tarx Holidays", "Entry Pazz"];
-
 const whatWeDo = [
   {
     title: "Build",
@@ -305,8 +296,8 @@ export default function Home() {
         <div className="absolute right-[-20%] top-24 h-[420px] w-[420px] rounded-full bg-[#143d2c]/35 blur-3xl" />
         <div className="absolute bottom-10 left-[-16%] h-[360px] w-[360px] rounded-full bg-[#b99a5b]/10 blur-3xl" />
 
-        <div className="relative mx-auto grid max-w-[1280px] gap-14 lg:grid-cols-[52%_48%] lg:items-center">
-          <div className="scroll-reveal">
+        <div className="relative mx-auto max-w-[1280px]">
+          <div className="scroll-reveal max-w-[980px]">
             <Label>UAE-Based Venture Group</Label>
             <h1 className="max-w-[850px] text-5xl font-medium leading-[0.95] tracking-[-0.06em] text-white sm:text-7xl lg:text-8xl">
               We Build, Own & Scale Modern Businesses.
@@ -335,35 +326,6 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="scroll-reveal relative min-h-[520px] rounded-none border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/40">
-            <div className="absolute inset-4 border border-[#b99a5b]/18" />
-            <div className="relative grid h-full gap-4">
-              {heroCards.map((card, index) => (
-                <div
-                  key={card}
-                  className={`flex items-center justify-between border border-white/10 bg-[#0d0f0b]/90 p-5 backdrop-blur-md ${
-                    index % 2 === 0 ? "mr-8" : "ml-8"
-                  }`}
-                >
-                  <h2 className="text-2xl font-medium tracking-[-0.04em]">{card}</h2>
-                  <span className="h-2 w-2 rounded-full bg-[#2d6b4e]" />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-y border-white/10 bg-[#0a0b08] px-5 py-8 sm:px-10 lg:px-14">
-        <div className="mx-auto grid max-w-[1280px] grid-cols-2 gap-px bg-white/10 lg:grid-cols-4">
-          {trustBlocks.map(([top, bottom]) => (
-            <article key={top} className="bg-[#0a0b08] p-6 sm:p-8">
-              <p className="text-3xl font-light tracking-[-0.05em] text-white sm:text-4xl">{top}</p>
-              <p className="mt-2 text-[12px] font-bold uppercase tracking-[0.14em] text-[#b99a5b]">
-                {bottom}
-              </p>
-            </article>
-          ))}
         </div>
       </section>
 
@@ -530,6 +492,7 @@ export default function Home() {
                     src={person.photo}
                     alt={`${person.name} portrait`}
                     fill
+                    unoptimized
                     sizes="(min-width: 640px) 96px, 80px"
                     className="object-cover object-center"
                   />

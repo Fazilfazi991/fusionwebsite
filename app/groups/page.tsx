@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ArrowRight, Linkedin } from "lucide-react";
 
 const navItems = [
@@ -56,11 +57,17 @@ function Label({ children, dark = false }: { children: React.ReactNode; dark?: b
 export default function GroupsPage() {
   return (
     <main className="min-h-screen bg-white text-ink">
-      <header className="sticky top-0 z-50 border-b border-line bg-white/92 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#060705]/94 text-white backdrop-blur-md">
         <div className="mx-auto flex h-[78px] max-w-[1440px] items-center justify-between px-6 sm:px-10 lg:px-14">
-          <a href="/" className="leading-none" aria-label="Fusion Ventures home">
-            <span className="block text-3xl font-medium tracking-[0.24em]">FUSION</span>
-            <span className="ml-1 block text-[11px] font-semibold tracking-[0.42em]">VENTURES</span>
+          <a href="/" aria-label="Fusion Ventures home">
+            <Image
+              src="/fusion-ventures-logo.webp"
+              alt="Fusion Ventures"
+              width={640}
+              height={176}
+              priority
+              className="h-9 w-auto sm:h-10"
+            />
           </a>
 
           <nav className="hidden items-center gap-8 lg:flex">
@@ -68,7 +75,7 @@ export default function GroupsPage() {
               <a
                 key={item.label}
                 href={item.href}
-                className="text-[11px] font-bold uppercase tracking-[0.08em] text-black/70 transition-colors hover:text-black"
+                className="text-[11px] font-bold uppercase tracking-[0.08em] text-white/70 transition-colors hover:text-white"
               >
                 {item.label}
               </a>
@@ -77,7 +84,7 @@ export default function GroupsPage() {
 
           <a
             href="/#contact"
-            className="border border-black bg-black px-8 py-4 text-[11px] font-bold uppercase tracking-[0.08em] text-white transition-colors hover:bg-white hover:text-black"
+            className="border border-[#b99a5b] bg-[#b99a5b] px-8 py-4 text-[11px] font-bold uppercase tracking-[0.08em] text-black transition-colors hover:bg-transparent hover:text-[#d8c38b]"
           >
             Partner With Us
           </a>

@@ -117,13 +117,15 @@ const edgeItems = [
 
 function LogoMark() {
   return (
-    <a href="/" className="leading-none" aria-label="Fusion Ventures home">
-      <span className="block text-2xl font-medium tracking-[0.24em] text-[#f5f5f0] sm:text-3xl">
-        FUSION
-      </span>
-      <span className="ml-1 block text-[10px] font-semibold tracking-[0.42em] text-[#f5f5f0]/68">
-        VENTURES
-      </span>
+    <a href="/" aria-label="Fusion Ventures home">
+      <Image
+        src="/fusion-ventures-logo.webp"
+        alt="Fusion Ventures"
+        width={640}
+        height={176}
+        priority
+        className="h-9 w-auto sm:h-10"
+      />
     </a>
   );
 }

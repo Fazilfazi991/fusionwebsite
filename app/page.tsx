@@ -5,13 +5,12 @@ import { useEffect, useState } from "react";
 import {
   ArrowRight,
   BriefcaseBusiness,
-  Building2,
   Compass,
-  Flag,
   Globe2,
   Handshake,
   Layers3,
   Menu,
+  Network,
   Rocket,
   ShieldCheck,
   Sparkles,
@@ -53,18 +52,19 @@ const whatWeDo = [
 const groupStatements = [
   {
     text: "Fusion Ventures brings multiple businesses under one group structure, while allowing each venture to grow with its own identity.",
-    icon: Building2
+    icon: Layers3
   },
   {
     text: "We work across the full journey, from idea validation and brand creation to digital product development, operations, partnerships, and growth.",
-    icon: Flag
+    icon: Compass
   }
 ];
 
 const groupMetrics = [
-  { value: "8", label: "Ventures", icon: Rocket },
+  { value: "8+", label: "Ventures", icon: Rocket },
   { value: "10+", label: "Markets Explored", icon: Globe2 },
-  { value: "4", label: "Growth Verticals", icon: TrendingUp }
+  { value: "4+", label: "Growth Verticals", icon: TrendingUp },
+  { value: "1", label: "Unified Group", icon: Network }
 ];
 
 const sectors = [
@@ -235,13 +235,17 @@ export default function Home() {
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#060705] text-white">
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#060705]/86 backdrop-blur-xl">
+      <header className="absolute inset-x-0 top-0 z-50 border-b border-white/10 bg-transparent">
         <div className="mx-auto flex h-[78px] max-w-[1440px] items-center justify-between px-5 sm:px-10 lg:px-14">
-          <a href="#home" className="leading-none" aria-label="Fusion Ventures home">
-            <span className="block text-3xl font-medium tracking-[0.24em] text-white">FUSION</span>
-            <span className="ml-1 block text-[11px] font-semibold tracking-[0.42em] text-white/72">
-              VENTURES
-            </span>
+          <a href="#home" aria-label="Fusion Ventures home">
+            <Image
+              src="/fusion-ventures-logo.webp"
+              alt="Fusion Ventures"
+              width={640}
+              height={176}
+              priority
+              className="h-9 w-auto sm:h-10"
+            />
           </a>
 
           <nav className="hidden items-center gap-8 lg:flex">
@@ -259,13 +263,13 @@ export default function Home() {
           <div className="flex items-center gap-4">
             <a
               href="#contact"
-              className="hidden border border-[#b99a5b] bg-[#b99a5b] px-7 py-4 text-[11px] font-bold uppercase tracking-[0.08em] text-black transition-colors hover:bg-transparent hover:text-[#d8c38b] sm:inline-flex"
+              className="hidden border border-[#d6a84f]/75 bg-transparent px-7 py-4 text-[11px] font-bold uppercase tracking-[0.08em] text-[#e0ba68] transition-colors hover:bg-[#d6a84f] hover:text-black sm:inline-flex"
             >
               Partner With Us
             </a>
             <button
               aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
-              className="grid h-11 w-11 place-items-center border border-white/10 text-white transition-colors hover:border-[#b99a5b]"
+              className="grid h-11 w-11 place-items-center border border-white/20 text-white transition-colors hover:border-[#b99a5b] lg:hidden"
               onClick={() => setMenuOpen((open) => !open)}
             >
               {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -288,7 +292,7 @@ export default function Home() {
               ))}
               <a
                 href="#contact"
-                className="mt-2 border border-[#b99a5b] bg-[#b99a5b] px-5 py-4 text-center text-xs font-bold uppercase tracking-[0.08em] text-black"
+                className="mt-2 border border-[#d6a84f]/75 bg-transparent px-5 py-4 text-center text-xs font-bold uppercase tracking-[0.08em] text-[#e0ba68] transition-colors hover:bg-[#d6a84f] hover:text-black"
                 onClick={() => setMenuOpen(false)}
               >
                 Partner With Us
@@ -299,7 +303,7 @@ export default function Home() {
         <div className="mobile-nav-motion lg:hidden" />
       </header>
 
-      <section className="relative overflow-hidden px-5 py-20 sm:px-10 lg:px-14 lg:py-28" id="home">
+      <section className="relative overflow-hidden px-5 pb-20 pt-32 sm:px-10 sm:pt-36 lg:px-14 lg:pb-28 lg:pt-40" id="home">
         <video
           className="absolute inset-0 h-full w-full object-cover object-center"
           autoPlay
@@ -328,13 +332,13 @@ export default function Home() {
             <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
               <a
                 href="/ventures"
-                className="border border-[#b99a5b] bg-[#b99a5b] px-8 py-4 text-center text-[12px] font-bold uppercase tracking-[0.1em] text-black transition-colors hover:bg-transparent hover:text-[#d8c38b]"
+                className="border border-[#d6a84f]/80 bg-transparent px-8 py-4 text-center text-[12px] font-bold uppercase tracking-[0.1em] text-[#e0ba68] transition-colors hover:bg-[#d6a84f] hover:text-black"
               >
                 Explore Ventures
               </a>
               <a
                 href="#contact"
-                className="border border-white/24 px-8 py-4 text-center text-[12px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:border-white hover:bg-white hover:text-black"
+                className="border border-[#d6a84f]/45 bg-black/10 px-8 py-4 text-center text-[12px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:border-[#d6a84f] hover:bg-[#d6a84f] hover:text-black"
               >
                 Partner With Us
               </a>
@@ -344,53 +348,60 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-5 py-20 sm:px-10 lg:px-14 lg:py-28" id="group">
-        <div className="mx-auto max-w-[1440px]">
-          <div className="grid gap-4 lg:grid-cols-[46%_54%]">
-            <article className="scroll-reveal relative min-h-[390px] overflow-hidden rounded-lg border border-[#b99a5b]/65 bg-[#0a0b09] p-7 sm:p-10 lg:row-span-2 lg:min-h-[510px] lg:p-14">
-              <div className="relative z-10 max-w-[610px]">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d8b563]">
-                  The Group
-                </p>
-                <span className="mt-4 block h-px w-10 bg-[#d8b563]" />
-                <h2 className="mt-8 text-4xl font-medium leading-[1.08] tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl">
-                  A Venture Group Built Around Execution<span className="text-[#d8b563]">.</span>
-                </h2>
+      <section className="relative overflow-hidden bg-[#050505] px-5 py-20 sm:px-10 lg:px-14 lg:py-28" id="group">
+        <div className="pointer-events-none absolute inset-0 opacity-50 [background-image:radial-gradient(circle_at_18%_18%,rgba(214,168,79,0.07),transparent_28%),radial-gradient(circle_at_80%_70%,rgba(255,255,255,0.035),transparent_30%),repeating-linear-gradient(118deg,rgba(255,255,255,0.012)_0,rgba(255,255,255,0.012)_1px,transparent_1px,transparent_16px)]" />
+        <div className="relative mx-auto max-w-[1440px]">
+          <div className="grid gap-8 lg:grid-cols-[42%_58%] lg:items-center lg:gap-12">
+            <div className="scroll-reveal">
+              <div className="flex items-center gap-4">
+                <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#d6a84f]">The Group</p>
+                <span className="h-px w-24 bg-gradient-to-r from-[#d6a84f] to-transparent" />
               </div>
-              <div className="pointer-events-none absolute -bottom-36 -right-24 h-80 w-[620px] rotate-[-8deg] rounded-[50%] border border-[#d8b563]/45 shadow-[0_0_42px_rgba(216,181,99,0.18)]" />
-              <div className="pointer-events-none absolute -bottom-44 -right-10 h-72 w-[560px] rotate-[6deg] rounded-[50%] border border-[#d8b563]/25" />
-              <div className="pointer-events-none absolute -bottom-52 right-24 h-72 w-[500px] rotate-[-3deg] rounded-[50%] border border-[#d8b563]/16" />
-            </article>
+              <h2 className="mt-7 max-w-[610px] font-serif text-5xl font-normal leading-[0.98] text-white sm:text-6xl lg:text-7xl">
+                A Venture Group Built Around Execution<span className="text-[#d6a84f]">.</span>
+              </h2>
+              <span className="mt-9 block h-px w-72 max-w-full bg-gradient-to-r from-[#d6a84f] via-[#d6a84f]/55 to-transparent shadow-[0_0_12px_rgba(214,168,79,0.32)]" />
+            </div>
 
-            {groupStatements.map(({ text, icon: Icon }) => (
-              <article
-                key={text}
-                className="scroll-reveal grid min-h-[210px] grid-cols-[72px_1px_minmax(0,1fr)] items-center gap-6 rounded-lg border border-white/16 bg-[#0b0c0b] p-6 sm:grid-cols-[96px_1px_minmax(0,1fr)] sm:gap-8 sm:p-9"
-              >
-                <span className="grid h-16 w-16 place-items-center rounded-full border border-[#d8b563]/70 text-[#d8b563] sm:h-20 sm:w-20">
-                  <Icon className="h-8 w-8" strokeWidth={1.4} />
-                </span>
-                <span className="h-28 w-px bg-[#d8b563]/48" />
-                <p className="text-base leading-8 text-white/78 sm:text-lg sm:leading-9">{text}</p>
-              </article>
-            ))}
+            <div className="grid gap-4">
+              {groupStatements.map(({ text, icon: Icon }) => (
+                <article
+                  key={text}
+                  className="group scroll-reveal relative grid min-h-[190px] grid-cols-[64px_1px_minmax(0,1fr)] items-center gap-5 overflow-hidden rounded-lg border border-[#d6a84f]/30 bg-white/[0.035] p-5 shadow-[0_18px_55px_rgba(0,0,0,0.28)] transition-colors hover:border-[#d6a84f]/55 sm:grid-cols-[92px_1px_minmax(0,1fr)] sm:gap-8 sm:p-8"
+                >
+                  <span className="pointer-events-none absolute right-0 top-0 h-16 w-16 bg-[radial-gradient(circle_at_top_right,rgba(214,168,79,0.22),transparent_68%)]" />
+                  <span className="grid h-16 w-16 place-items-center rounded-full border border-[#d6a84f]/65 text-[#d6a84f] shadow-[0_0_24px_rgba(214,168,79,0.08)] sm:h-20 sm:w-20">
+                    <Icon className="h-8 w-8" strokeWidth={1.35} />
+                  </span>
+                  <span className="h-28 w-px bg-[#d6a84f]/35" />
+                  <p className="text-[15px] leading-7 text-white/72 sm:text-lg sm:leading-9">{text}</p>
+                </article>
+              ))}
+            </div>
           </div>
 
-          <div className="mt-4 grid gap-4 sm:grid-cols-3">
-            {groupMetrics.map(({ value, label, icon: Icon }) => (
-              <article
-                key={label}
-                className="scroll-reveal relative overflow-hidden rounded-lg border border-white/16 bg-[#0b0c0b] px-6 py-9 text-center"
-              >
-                <span className="absolute left-1/2 top-0 h-px w-28 -translate-x-1/2 bg-[#d8b563] shadow-[0_0_14px_rgba(216,181,99,0.9)]" />
-                <span className="mx-auto grid h-20 w-20 place-items-center rounded-full border border-[#d8b563]/70 text-[#d8b563]">
-                  <Icon className="h-9 w-9" strokeWidth={1.4} />
-                </span>
-                <p className="mt-5 text-5xl font-medium tracking-[-0.04em] text-white">{value}</p>
-                <span className="mx-auto mt-4 block h-px w-8 bg-[#d8b563]" />
-                <p className="mt-4 text-base text-white/72">{label}</p>
-              </article>
-            ))}
+          <div className="relative mt-10 overflow-hidden rounded-lg border border-[#d6a84f]/32 bg-[radial-gradient(circle_at_50%_130%,rgba(214,168,79,0.18),transparent_36%),linear-gradient(135deg,rgba(255,255,255,0.035),rgba(255,255,255,0.012))] shadow-[0_22px_70px_rgba(0,0,0,0.32)]">
+            <span className="pointer-events-none absolute bottom-0 left-1/2 h-px w-56 -translate-x-1/2 bg-[#d6a84f] shadow-[0_0_18px_4px_rgba(214,168,79,0.45)]" />
+            <div className="grid grid-cols-2 sm:grid-cols-4">
+              {groupMetrics.map(({ value, label, icon: Icon }, index) => (
+                <article
+                  key={label}
+                  className={`scroll-reveal min-w-0 px-5 py-7 transition-colors hover:bg-[#d6a84f]/[0.035] sm:px-7 sm:py-9 ${
+                    index >= 2 ? "border-t border-[#d6a84f]/18 sm:border-t-0" : ""
+                  } ${index % 2 === 1 ? "border-l border-[#d6a84f]/18" : ""} ${
+                    index > 0 ? "sm:border-l sm:border-[#d6a84f]/18" : ""
+                  }`}
+                >
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <Icon className="h-8 w-8 shrink-0 text-[#d6a84f] sm:h-10 sm:w-10" strokeWidth={1.35} />
+                    <p className="font-serif text-4xl leading-none text-[#d6a84f] sm:text-5xl">{value}</p>
+                  </div>
+                  <p className="mt-4 text-[10px] font-semibold uppercase leading-5 tracking-[0.16em] text-white/66 sm:text-[11px]">
+                    {label}
+                  </p>
+                </article>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -572,7 +583,7 @@ export default function Home() {
           </p>
           <a
             href="mailto:hello@fusionventuresglobal.com"
-            className="mt-10 inline-flex border border-[#b99a5b] bg-[#b99a5b] px-10 py-4 text-[12px] font-bold uppercase tracking-[0.1em] text-black transition-colors hover:bg-transparent hover:text-[#d8c38b]"
+            className="mt-10 inline-flex border border-[#d6a84f]/80 bg-transparent px-10 py-4 text-[12px] font-bold uppercase tracking-[0.1em] text-[#e0ba68] transition-colors hover:bg-[#d6a84f] hover:text-black"
           >
             Start A Conversation
           </a>

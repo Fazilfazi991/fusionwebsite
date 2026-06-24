@@ -643,15 +643,38 @@ export default function FyntaClient() {
         </div>
       </section>
 
-      <section className="border-b border-[#1a1712]/12 px-5 py-14 sm:px-10 lg:px-14 lg:py-16">
-        <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[18%_82%]">
-          <EditorialSidebar title={"What We\nDeliver"} text="End-to-end digital solutions that build brands and drive growth." cta="Explore Services" />
-          <div className="grid gap-px bg-[#1a1712]/12 sm:grid-cols-2 lg:grid-cols-6">
+      <section className="border-b border-[#1a1712]/10 bg-[#f5efe4] px-5 py-20 sm:px-10 lg:px-14 lg:py-28">
+        <div className="mx-auto grid max-w-[1320px] gap-14 lg:grid-cols-[minmax(300px,30%)_minmax(0,1fr)] lg:items-center lg:gap-20 xl:gap-24">
+          <aside className="max-w-[430px]">
+            <p className="text-[13px] font-bold uppercase tracking-[0.24em] text-[#b99047]">Fusion Ventures</p>
+            <h2 className="mt-7 whitespace-pre-line font-serif text-[52px] font-normal uppercase leading-[0.95] tracking-[-0.035em] text-[#15120e] sm:text-6xl lg:text-[70px]">
+              WHAT WE{"\n"}DELIVER
+            </h2>
+            <div className="relative my-9 h-[2px] max-w-[300px] bg-[#b99047]/70">
+              <span className="absolute left-1/2 top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rotate-45 border border-[#b99047] bg-[#f5efe4]" />
+            </div>
+            <p className="max-w-[340px] text-[18px] leading-9 text-black/72">
+              End-to-end digital solutions that build brands and drive growth.
+            </p>
+            <a
+              href="#contact"
+              className="group mt-12 inline-flex items-center gap-5 border-b border-[#b99047] pb-2 text-[12px] font-bold uppercase tracking-[0.2em] text-[#15120e]"
+            >
+              Explore Services
+              <ArrowRight className="h-4 w-4 text-[#b99047] transition-transform duration-500 group-hover:translate-x-1.5" />
+            </a>
+          </aside>
+          <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
             {services.map(([title, text, Icon]) => (
-              <article key={title as string} className="bg-[#f3eee5] p-6">
-                <Icon className="h-7 w-7 text-[#b99047]" strokeWidth={1.45} />
-                <h3 className="mt-6 text-[11px] font-bold uppercase tracking-[0.16em]">{title as string}</h3>
-                <p className="mt-4 text-[13px] leading-6 text-black/60">{text as string}</p>
+              <article
+                key={title as string}
+                className="group relative min-h-[245px] overflow-hidden rounded-[6px] bg-[#fbf6ee] p-9 shadow-[0_18px_55px_rgba(54,39,19,0.07)] transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-[0_24px_70px_rgba(54,39,19,0.12)] sm:p-10"
+              >
+                <span className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-[#b99047] transition-transform duration-500 group-hover:scale-x-100" />
+                <Icon className="h-10 w-10 text-[#b99047] transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:rotate-3" strokeWidth={1.45} />
+                <h3 className="mt-8 text-[13px] font-bold uppercase tracking-[0.22em] text-[#15120e]">{title as string}</h3>
+                <span className="mt-5 block h-px w-12 bg-[#b99047]/58 transition-all duration-500 group-hover:w-20" />
+                <p className="mt-5 max-w-[280px] text-[16px] leading-7 text-black/62">{text as string}</p>
               </article>
             ))}
           </div>

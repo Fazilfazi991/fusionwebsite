@@ -106,6 +106,18 @@ const companies: VentureCompany[] = [
     logo: "/ventures/logos/dearelle-logo-trimmed.png"
   },
   {
+    name: "Fynta",
+    category: "Marketing",
+    description: "Creative marketing and growth support for modern brands.",
+    logo: "/ventures/logos/fynta_logo_transparent_cropped.png"
+  },
+  {
+    name: "Occazn",
+    category: "Events",
+    description: "Occasion-focused experiences, planning, and social event presentation.",
+    logo: "/ventures/logos/occazn-logo-clean.png"
+  },
+  {
     name: "Tarx Solutions",
     category: "Technology",
     description: "Digital systems and business solutions for modern operations.",
@@ -128,18 +140,6 @@ const companies: VentureCompany[] = [
     category: "Careers",
     description: "Smart resume and profile tools for modern job seekers.",
     logo: "/ventures/logos/resumi_logo_transparent_cropped.png"
-  },
-  {
-    name: "Fynta",
-    category: "Marketing",
-    description: "Creative marketing and growth support for modern brands.",
-    logo: "/ventures/logos/fynta_logo_transparent_cropped.png"
-  },
-  {
-    name: "Occazn",
-    category: "Events",
-    description: "Occasion-focused experiences, planning, and social event presentation.",
-    logo: "/ventures/logos/occazn-logo-clean.png"
   }
 ];
 

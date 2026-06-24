@@ -46,6 +46,22 @@ const ventures = [
     initials: "D"
   },
   {
+    name: "Fynta",
+    category: "Marketing Agency",
+    description: "Creative marketing and growth support for modern brands.",
+    logo: "/ventures/logos/fynta_logo_transparent_cropped.png",
+    accent: "#a962ff",
+    initials: "F"
+  },
+  {
+    name: "Occazn",
+    category: "Occasions & Social Planning",
+    description: "Occasion-focused experiences, planning, and social event presentation.",
+    logo: "/ventures/logos/occazn-logo-clean.png",
+    accent: "#ff7a2d",
+    initials: "O"
+  },
+  {
     name: "Tarx Solutions",
     category: "Technology Solutions",
     description: "Digital transformation and engineering solutions for forward-thinking businesses.",
@@ -76,22 +92,6 @@ const ventures = [
     logo: "/ventures/logos/resumi_logo_transparent_cropped.png",
     accent: "#6bcf7b",
     initials: "R"
-  },
-  {
-    name: "Fynta",
-    category: "Marketing Agency",
-    description: "Creative marketing and growth support for modern brands.",
-    logo: "/ventures/logos/fynta_logo_transparent_cropped.png",
-    accent: "#a962ff",
-    initials: "F"
-  },
-  {
-    name: "Occazn",
-    category: "Occasions & Social Planning",
-    description: "Occasion-focused experiences, planning, and social event presentation.",
-    logo: "/ventures/logos/occazn-logo-clean.png",
-    accent: "#ff7a2d",
-    initials: "O"
   }
 ];
 

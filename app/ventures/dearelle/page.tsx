@@ -100,21 +100,26 @@ const statusItems = [
   { label: "Focus", value: "Everyday luxury ecommerce", icon: TrendingUp }
 ];
 
+function FusionLogo({ compact = false }: { compact?: boolean }) {
+  return (
+    <a href="/" className="relative block" aria-label="Fusion Ventures home">
+      <Image
+        src="/fusion-ventures-logo-original.webp"
+        alt="Fusion Ventures"
+        width={252}
+        height={86}
+        priority
+        className={`${compact ? "h-auto w-[168px] sm:w-[190px]" : "h-auto w-[190px]"} object-contain`}
+      />
+    </a>
+  );
+}
+
 function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-[#9e5361]/10 bg-[#fffaf8]/88 backdrop-blur-xl">
       <div className="mx-auto flex h-[76px] max-w-[1440px] items-center justify-between px-5 sm:px-10 lg:px-14">
-        <a href="/" aria-label="Fusion Ventures home">
-          <Image
-            src="/fusion-ventures-logo.webp"
-            alt="Fusion Ventures"
-            width={640}
-            height={176}
-            priority
-            className="h-9 w-auto sm:h-10"
-            style={{ height: "2.25rem", width: "auto", maxWidth: "180px" }}
-          />
-        </a>
+        <FusionLogo compact />
         <nav className="hidden items-center gap-8 lg:flex">
           {navItems.map((item) => (
             <a
@@ -206,16 +211,7 @@ function Footer() {
     <footer className="border-t border-[#9e5361]/12 bg-white px-5 py-10 text-[#321b1d] sm:px-10 lg:px-14">
       <div className="mx-auto grid max-w-[1280px] gap-9 md:grid-cols-[1.5fr_1fr_1fr_1.4fr] lg:grid-cols-[1.6fr_1fr_1fr_1fr_1.35fr]">
         <div>
-          <a href="/" aria-label="Fusion Ventures home">
-            <Image
-              src="/fusion-ventures-logo.webp"
-              alt="Fusion Ventures"
-              width={640}
-              height={176}
-              className="h-10 w-auto"
-              style={{ height: "2.5rem", width: "auto", maxWidth: "190px" }}
-            />
-          </a>
+          <FusionLogo />
           <p className="mt-5 max-w-[270px] text-sm leading-6 text-[#321b1d]/58">
             Building, operating, and scaling digital-first ventures with long-term focus.
           </p>
@@ -278,9 +274,16 @@ export default function DearellePage() {
           <span className="inline-flex rounded-full border border-[#d65a75]/30 bg-[#fff0f1] px-4 py-2 text-sm font-semibold text-[#c74763]">
             Jewelry & Gifting Venture
           </span>
-          <h1 className="mt-5 text-[4.4rem] font-semibold leading-[.86] tracking-[-0.06em] text-[#5a282b] drop-shadow-[0_14px_34px_rgba(112,47,52,.12)] sm:text-8xl lg:text-[8.6rem]">
-            Dearelle
-          </h1>
+          <div className="mt-5 max-w-[520px]">
+            <Image
+              src="/ventures/logos/dearelle-logo-trimmed.png"
+              alt="Dearelle"
+              width={900}
+              height={260}
+              priority
+              className="h-auto w-full max-w-[420px] object-contain drop-shadow-[0_14px_34px_rgba(112,47,52,.12)] sm:max-w-[500px]"
+            />
+          </div>
           <h2 className="mt-5 max-w-[500px] text-3xl font-normal leading-tight tracking-[-0.04em] text-[#cd5268] sm:text-4xl">
             Everyday little luxuries made for love and gifting.
           </h2>

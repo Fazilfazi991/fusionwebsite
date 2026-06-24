@@ -142,9 +142,22 @@ function LogoMark() {
   );
 }
 
+function DarkLogoMark() {
+  return (
+    <Image
+      src="/fusion-ventures-logo-original.webp"
+      alt="Fusion Ventures"
+      width={640}
+      height={176}
+      priority
+      className="h-8 w-auto sm:h-9"
+    />
+  );
+}
+
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#a9823f]">
+    <p className="text-[11px] font-bold uppercase tracking-[0.26em] text-[#9c7738]">
       {children}
     </p>
   );
@@ -160,17 +173,17 @@ function EditorialSidebar({
   cta: string;
 }) {
   return (
-    <aside className="border-b border-[#1a1712]/12 pb-5 lg:border-b-0 lg:pb-0">
-      <h2 className="whitespace-pre-line font-serif text-3xl font-normal uppercase leading-[0.95] tracking-[-0.04em] text-[#15120e] sm:text-4xl">
+    <aside className="border-b border-[#1a1712]/12 pb-6 lg:border-b-0 lg:pb-0">
+      <h2 className="whitespace-pre-line font-serif text-3xl font-normal uppercase leading-[0.98] tracking-[-0.035em] text-[#15120e] sm:text-4xl">
         {title}
       </h2>
-      <p className="mt-5 max-w-[270px] text-sm leading-6 text-black/58">{text}</p>
+      <p className="mt-5 max-w-[290px] text-[15px] leading-7 text-black/62">{text}</p>
       <a
         href="#contact"
-        className="mt-6 inline-flex items-center gap-3 border-b border-[#b99047] pb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#15120e]"
+        className="group mt-7 inline-flex items-center gap-3 border-b border-[#b99047] pb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#15120e]"
       >
         {cta}
-        <ArrowRight className="h-3.5 w-3.5" />
+        <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
       </a>
     </aside>
   );
@@ -190,20 +203,20 @@ function ImageCard({
   large?: boolean;
 }) {
   return (
-    <article className={`group relative overflow-hidden border border-[#1a1712]/12 bg-[#f5efe4] ${large ? "min-h-[360px]" : "min-h-[270px]"}`}>
+    <article className={`group relative overflow-hidden border border-[#1a1712]/12 bg-[#f5efe4] transition-colors duration-300 hover:border-[#b99047]/55 ${large ? "min-h-[390px]" : "min-h-[300px]"}`}>
       <Image
         src={image}
         alt={title}
         fill
         unoptimized
         sizes="(min-width: 1024px) 30vw, 90vw"
-        className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.045]"
+        className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.035]"
       />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,9,7,0.04),rgba(10,9,7,0.72))]" />
-      <div className="absolute inset-x-4 bottom-4 bg-[#f6f0e7]/92 p-4 shadow-[0_18px_60px_rgba(0,0,0,0.18)] backdrop-blur-md">
+      <div className="absolute inset-x-0 bottom-0 h-[64%] bg-[linear-gradient(180deg,transparent,rgba(7,6,5,0.76))]" />
+      <div className="absolute inset-x-5 bottom-5 bg-[#f6f0e7]/94 p-5 backdrop-blur-md">
         <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-[#a9823f]">{type}</p>
         <h3 className="mt-2 font-serif text-2xl leading-none text-[#15120e]">{title}</h3>
-        <p className="mt-3 text-xs leading-5 text-black/58">{text}</p>
+        <p className="mt-3 text-[13px] leading-6 text-black/64">{text}</p>
         <span className="mt-4 inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#15120e]">
           View Case <ArrowRight className="h-3.5 w-3.5" />
         </span>
@@ -213,7 +226,7 @@ function ImageCard({
   );
 }
 
-export default function WebPortfolioClient() {
+export default function FyntaClient() {
   const [activeFilter, setActiveFilter] = useState("All");
   const [websiteIndex, setWebsiteIndex] = useState(0);
   const [productIndex, setProductIndex] = useState(0);
@@ -239,16 +252,16 @@ export default function WebPortfolioClient() {
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#f3eee5] text-[#15120e]">
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-black/88 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-[#1a1712]/10 bg-[#f3eee5]/92 backdrop-blur-xl">
         <div className="mx-auto flex h-[78px] max-w-[1440px] items-center justify-between px-5 sm:px-10 lg:px-14">
-          <LogoMark />
+          <DarkLogoMark />
           <nav className="hidden items-center gap-8 lg:flex">
             {navItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
-                className={`text-[11px] font-bold uppercase tracking-[0.08em] transition-colors hover:text-white ${
-                  item.label === "Fynta" ? "border-b border-[#b99a5b] pb-2 text-[#d8c38b]" : "text-white/70"
+                className={`text-[11px] font-bold uppercase tracking-[0.08em] transition-colors hover:text-[#15120e] ${
+                  item.label === "Fynta" ? "border-b border-[#b99a5b] pb-2 text-[#9c7738]" : "text-black/58"
                 }`}
               >
                 {item.label}
@@ -257,7 +270,7 @@ export default function WebPortfolioClient() {
           </nav>
           <a
             href="/#contact"
-            className="hidden border border-[#b99a5b] bg-[#b99a5b] px-7 py-4 text-[11px] font-bold uppercase tracking-[0.08em] text-black transition-colors hover:bg-transparent hover:text-[#d8c38b] sm:inline-flex"
+            className="hidden border border-[#b99a5b] bg-[#b99a5b] px-7 py-4 text-[11px] font-bold uppercase tracking-[0.08em] text-black transition-colors hover:bg-transparent hover:text-[#9c7738] sm:inline-flex"
           >
             Partner With Us
           </a>
@@ -271,67 +284,69 @@ export default function WebPortfolioClient() {
         <div className="mobile-nav-motion lg:hidden" />
       </header>
 
-      <section className="relative overflow-hidden border-b border-[#1a1712]/12 px-5 py-12 sm:px-10 lg:px-14 lg:py-16">
-        <div className="absolute inset-0 opacity-[0.35] [background-image:linear-gradient(rgba(21,18,14,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(21,18,14,0.04)_1px,transparent_1px)] [background-size:96px_96px]" />
-        <div className="relative mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[36%_64%] lg:items-center">
+      <section className="relative overflow-hidden border-b border-[#1a1712]/12 px-5 py-14 sm:px-10 lg:px-14 lg:py-20">
+        <div className="absolute inset-0 opacity-[0.32] [background-image:linear-gradient(rgba(21,18,14,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(21,18,14,0.04)_1px,transparent_1px)] [background-size:96px_96px]" />
+        <div className="relative mx-auto grid max-w-[1440px] gap-12 lg:grid-cols-[44%_56%] lg:items-center">
           <div className="relative">
-            <p className="absolute -left-10 top-1/2 hidden -translate-y-1/2 -rotate-90 text-[10px] font-bold uppercase tracking-[0.28em] text-black/38 xl:block">
-              Strategy - Creative - Media - Performance
-            </p>
+            <div className="mb-10">
+              <DarkLogoMark />
+            </div>
             <SectionLabel>Fynta Portfolio</SectionLabel>
-            <h1 className="mt-5 font-serif text-5xl font-normal leading-[0.92] tracking-[-0.045em] text-[#15120e] sm:text-6xl lg:text-[78px]">
-              Bold ideas.
-              <br />
-              Smart strategy.
-              <br />
-              <em className="font-serif italic text-[#b99047]">Measurable impact.</em>
+            <h1 className="mt-5 font-serif text-[46px] font-normal leading-[0.95] tracking-[-0.04em] text-[#15120e] sm:text-6xl lg:text-[64px] xl:text-[68px]">
+              <span className="block">Bold ideas.</span>
+              <span className="block whitespace-nowrap">Smart strategy.</span>
+              <em className="block font-serif italic text-[#b99047] md:whitespace-nowrap">Measurable impact.</em>
             </h1>
-            <p className="mt-7 max-w-[520px] text-sm leading-7 text-black/62">
+            <p className="mt-8 max-w-[560px] text-[16px] leading-8 text-black/66">
               A curated portfolio of digital campaigns, content, websites and experiences Fynta has crafted to help ambitious brands break through and grow.
             </p>
-            <a href="#featured" className="mt-8 inline-flex items-center gap-5 border-b border-[#b99047] pb-2 text-[11px] font-bold uppercase tracking-[0.16em]">
+            <a href="#featured" className="group mt-9 inline-flex items-center gap-5 border-b border-[#b99047] pb-2 text-[11px] font-bold uppercase tracking-[0.16em]">
               Explore Fynta Work
-              <ArrowRight className="h-4 w-4 rounded-full bg-[#c59a4a] p-0.5 text-white" />
+              <ArrowRight className="h-4 w-4 rounded-full bg-[#c59a4a] p-0.5 text-white transition-transform group-hover:translate-x-1" />
             </a>
-            <p className="mt-9 font-serif text-xl italic text-[#b99047]">Strategy meets creativity</p>
+            <p className="mt-10 font-serif text-xl italic text-[#b99047]">Strategy meets creativity</p>
           </div>
 
-          <div className="relative min-h-[520px] lg:min-h-[620px]">
-            <span className="absolute left-[18%] top-[7%] h-[390px] w-[390px] rounded-full border-[18px] border-[#b99047]/45" />
-            <div className="absolute left-[18%] top-[22%] w-[58%] rotate-[-2deg] border border-[#15120e]/10 bg-[#f7f2ea] p-3 shadow-[0_28px_80px_rgba(0,0,0,0.28)]">
+          <div className="relative min-h-[500px] sm:min-h-[620px] lg:min-h-[660px]">
+            <span className="absolute left-[11%] top-[7%] h-[430px] w-[430px] rounded-full border-[18px] border-[#b99047]/44 sm:h-[500px] sm:w-[500px]" />
+            <div className="absolute left-[6%] top-[25%] z-20 w-[70%] rotate-[-1.5deg] border border-[#15120e]/12 bg-[#f8f2e9] p-3 shadow-[0_24px_70px_rgba(40,29,12,0.22)] sm:top-[22%] sm:w-[66%]">
               <div className="relative aspect-[16/10] overflow-hidden">
-                <Image src="/images/web-portfolio/cards/hydrelle-skincare.webp" alt="Laptop campaign preview" fill unoptimized className="object-cover object-top" />
+                <Image src="/images/web-portfolio/cards/hydrelle-skincare.webp" alt="Laptop campaign preview" fill unoptimized priority className="object-cover object-top" />
               </div>
             </div>
-            <div className="absolute right-[6%] top-[25%] w-[22%] rotate-[3deg] border border-[#15120e]/12 bg-[#111] p-2 shadow-2xl">
+            <div className="absolute right-[2%] top-[28%] z-30 w-[24%] rotate-[2deg] border border-[#15120e]/12 bg-[#f8f2e9] p-2 shadow-[0_18px_46px_rgba(40,29,12,0.2)] sm:right-[5%]">
               <div className="relative aspect-[9/16] overflow-hidden">
                 <Image src="/images/web-portfolio/cards/miracle-designs-boutique.webp" alt="Mobile campaign preview" fill unoptimized className="object-cover object-top" />
               </div>
             </div>
-            <div className="absolute right-[14%] top-[2%] h-[150px] w-[240px] overflow-hidden border border-[#15120e]/12 grayscale">
+            <div className="absolute right-[17%] top-[2%] z-10 h-[150px] w-[230px] overflow-hidden border border-[#15120e]/12 grayscale sm:h-[170px] sm:w-[270px]">
               <Image src="/images/web-portfolio/cards/n-universal-yoga.webp" alt="Campaign portrait" fill unoptimized className="object-cover" />
             </div>
-            <div className="absolute bottom-[6%] right-[12%] h-[170px] w-[260px] overflow-hidden border border-[#15120e]/12">
-              <Image src="/images/web-portfolio/cards/lumora.webp" alt="Product visual" fill unoptimized className="object-cover object-top" />
+            <div className="absolute bottom-[5%] right-[11%] z-20 h-[160px] w-[240px] overflow-hidden border border-[#15120e]/12 bg-[#f8f2e9] p-2 sm:h-[180px] sm:w-[280px]">
+              <div className="relative h-full w-full overflow-hidden">
+                <Image src="/images/web-portfolio/cards/lumora.webp" alt="Product visual" fill unoptimized className="object-cover object-top" />
+              </div>
             </div>
-            <div className="absolute bottom-[11%] left-[8%] h-[170px] w-[190px] bg-[radial-gradient(circle_at_35%_20%,rgba(185,144,71,0.36),transparent_28%),linear-gradient(135deg,#1b1712,#050505)]" />
-            <div className="absolute bottom-[23%] right-[2%] grid h-24 w-24 place-items-center rounded-full bg-[#070707] text-center text-2xl font-serif text-white shadow-2xl">
+            <div className="absolute bottom-[15%] left-[4%] z-10 h-[140px] w-[190px] overflow-hidden border border-[#15120e]/10 opacity-90 sm:h-[170px] sm:w-[220px]">
+              <Image src="/images/web-portfolio/cards/aqsa-print.webp" alt="Texture campaign visual" fill unoptimized className="object-cover object-center" />
+            </div>
+            <div className="absolute bottom-[23%] right-[1%] z-40 grid h-20 w-20 place-items-center rounded-full bg-[#070707] text-center text-2xl font-serif text-white shadow-[0_18px_45px_rgba(0,0,0,0.24)] sm:h-24 sm:w-24">
               F
             </div>
           </div>
         </div>
       </section>
 
-      <section className="sticky top-[78px] z-40 border-b border-[#1a1712]/12 bg-[#f3eee5]/95 px-5 py-3 backdrop-blur-xl sm:px-10 lg:px-14">
-        <div className="mx-auto flex max-w-[1440px] items-center gap-5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <section className="sticky top-[78px] z-40 border-b border-[#1a1712]/12 bg-[#f3eee5]/95 px-5 py-4 backdrop-blur-xl sm:px-10 lg:px-14">
+        <div className="mx-auto flex max-w-[1440px] items-center gap-3 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <span className="shrink-0 text-[10px] font-bold uppercase tracking-[0.16em] text-black/58">Filter Work</span>
           {filters.map((filter) => (
             <button
               key={filter}
               type="button"
               onClick={() => setActiveFilter(filter)}
-              className={`shrink-0 border-b px-5 py-2 text-[10px] font-bold uppercase tracking-[0.16em] transition-colors ${
-                activeFilter === filter ? "border-[#b99047] text-[#15120e]" : "border-transparent text-black/52 hover:text-[#15120e]"
+              className={`shrink-0 rounded-full border px-5 py-2.5 text-[10px] font-bold uppercase tracking-[0.16em] transition-colors ${
+                activeFilter === filter ? "border-[#b99047] bg-[#15120e] text-[#f5efe4]" : "border-[#15120e]/14 text-black/58 hover:border-[#b99047]/70 hover:text-[#15120e]"
               }`}
             >
               {filter}
@@ -343,10 +358,10 @@ export default function WebPortfolioClient() {
         </div>
       </section>
 
-      <section id="featured" className="border-b border-[#1a1712]/12 px-5 py-10 sm:px-10 lg:px-14">
-        <div className="mx-auto grid max-w-[1440px] gap-8 lg:grid-cols-[23%_77%]">
+      <section id="featured" className="border-b border-[#1a1712]/12 px-5 py-14 sm:px-10 lg:px-14 lg:py-16">
+        <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[23%_77%]">
           <EditorialSidebar title={"Featured\nBrand Stories"} text="Integrated campaigns built to inspire, connect and convert." cta="View All Case Studies" />
-          <div className="grid gap-4 lg:grid-cols-3">
+          <div className="grid gap-5 lg:grid-cols-3">
             {(filteredStories.length ? filteredStories : featuredStories).map((story) => (
               <ImageCard key={story.title} title={story.title} type={story.type} text={story.text} image={story.image} />
             ))}
@@ -354,8 +369,8 @@ export default function WebPortfolioClient() {
         </div>
       </section>
 
-      <section className="border-b border-[#1a1712]/12 px-5 py-10 sm:px-10 lg:px-14">
-        <div className="mx-auto grid max-w-[1440px] gap-8 lg:grid-cols-[23%_77%]">
+      <section className="border-b border-[#1a1712]/12 px-5 py-14 sm:px-10 lg:px-14 lg:py-16">
+        <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[23%_77%]">
           <EditorialSidebar title={"Website\nProjects"} text="Conversion-focused websites designed for performance and beautiful experiences." cta="View All Websites" />
           <div className="relative">
             <button
@@ -366,7 +381,7 @@ export default function WebPortfolioClient() {
             >
               <ArrowRight className="h-4 w-4 rotate-180" />
             </button>
-            <div className="grid gap-3 md:grid-cols-3">
+            <div className="grid gap-5 md:grid-cols-3">
               {visibleWebsiteProjects.map((item) => (
                 <ImageCard key={item.title} title={item.title} type={item.subtitle} text="Website experience shaped for storytelling, conversion, and brand trust." image={item.image} large />
               ))}
@@ -383,14 +398,14 @@ export default function WebPortfolioClient() {
         </div>
       </section>
 
-      <section className="border-b border-[#1a1712]/12 px-5 py-10 sm:px-10 lg:px-14">
-        <div className="mx-auto grid max-w-[1440px] gap-8 lg:grid-cols-[23%_77%]">
+      <section className="border-b border-[#1a1712]/12 px-5 py-14 sm:px-10 lg:px-14 lg:py-16">
+        <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[23%_77%]">
           <EditorialSidebar title={"Search Engine\nOptimization"} text="Organic growth that compounds. Rank higher. Get found. Grow." cta="View SEO Cases" />
           <div className="grid overflow-hidden border border-[#1a1712]/12 bg-[#f8f3eb] lg:grid-cols-[30%_45%_25%]">
             <div className="relative min-h-[250px]">
               <Image src="/images/web-portfolio/cards/ecom-sigma.webp" alt="Search performance screenshot" fill unoptimized className="object-cover object-top" />
             </div>
-            <div className="grid grid-cols-3 gap-px bg-[#1a1712]/12 p-px">
+            <div className="grid gap-px bg-[#1a1712]/12 p-px sm:grid-cols-3">
               {[
                 ["215%", "Increase in organic traffic"],
                 ["187%", "Growth in keyword rankings"],
@@ -415,15 +430,15 @@ export default function WebPortfolioClient() {
         </div>
       </section>
 
-      <section className="border-b border-[#1a1712]/12 px-5 py-10 sm:px-10 lg:px-14">
-        <div className="mx-auto grid max-w-[1440px] gap-8 lg:grid-cols-[23%_77%]">
+      <section className="border-b border-[#1a1712]/12 px-5 py-14 sm:px-10 lg:px-14 lg:py-16">
+        <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[23%_77%]">
           <EditorialSidebar title={"Ad + Video\nCampaigns"} text="Scroll-stopping creative that drives real results." cta="View All Campaigns" />
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {videos.map(([title, label, image]) => (
-              <button key={title} type="button" onClick={() => setActiveVideo(title)} className="group relative min-h-[230px] overflow-hidden border border-[#1a1712]/12 text-left">
+              <button key={title} type="button" onClick={() => setActiveVideo(title)} className="group relative min-h-[240px] overflow-hidden border border-[#1a1712]/12 text-left transition-colors hover:border-[#b99047]/60">
                 <Image src={image} alt={`${title} video thumbnail`} fill unoptimized className="object-cover transition-transform duration-700 group-hover:scale-105" />
-                <div className="absolute inset-0 bg-black/38" />
-                <span className="absolute left-1/2 top-1/2 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white/60 bg-black/35 text-white">
+                <div className="absolute inset-x-0 bottom-0 h-[60%] bg-[linear-gradient(180deg,transparent,rgba(7,6,5,0.72))]" />
+                <span className="absolute left-1/2 top-1/2 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white/70 bg-black/28 text-white backdrop-blur-sm">
                   <Play className="h-5 w-5 fill-current" />
                 </span>
                 <div className="absolute inset-x-4 bottom-4 text-white">
@@ -436,8 +451,8 @@ export default function WebPortfolioClient() {
         </div>
       </section>
 
-      <section className="border-b border-[#1a1712]/12 px-5 py-10 sm:px-10 lg:px-14">
-        <div className="mx-auto grid max-w-[1440px] gap-8 lg:grid-cols-[23%_77%]">
+      <section className="border-b border-[#1a1712]/12 px-5 py-14 sm:px-10 lg:px-14 lg:py-16">
+        <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[23%_77%]">
           <EditorialSidebar title={"Product\nShowcase"} text="Beautifully presented. Perfectly positioned." cta="View All Products" />
           <div className="relative">
             <button
@@ -448,7 +463,7 @@ export default function WebPortfolioClient() {
             >
               <ArrowRight className="h-4 w-4 rotate-180" />
             </button>
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {visibleProducts.map(([title, label, image]) => (
                 <ImageCard key={title} title={title} type={label} text="A refined product story built to inform, persuade, and convert." image={image} />
               ))}
@@ -465,7 +480,7 @@ export default function WebPortfolioClient() {
         </div>
       </section>
 
-      <section className="bg-[radial-gradient(circle_at_82%_24%,rgba(185,144,71,0.22),transparent_28%),linear-gradient(135deg,#15120e,#030303)] px-5 py-12 text-white sm:px-10 lg:px-14">
+      <section className="bg-[radial-gradient(circle_at_82%_24%,rgba(185,144,71,0.22),transparent_28%),linear-gradient(135deg,#15120e,#030303)] px-5 py-14 text-white sm:px-10 lg:px-14 lg:py-16">
         <div className="mx-auto grid max-w-[1440px] gap-8 lg:grid-cols-[23%_77%] lg:items-center">
           <div>
             <h2 className="font-serif text-3xl uppercase leading-none">Our Impact<br />By The Numbers</h2>
@@ -483,22 +498,22 @@ export default function WebPortfolioClient() {
         </div>
       </section>
 
-      <section className="border-b border-[#1a1712]/12 px-5 py-10 sm:px-10 lg:px-14">
-        <div className="mx-auto grid max-w-[1440px] gap-8 lg:grid-cols-[18%_82%]">
+      <section className="border-b border-[#1a1712]/12 px-5 py-14 sm:px-10 lg:px-14 lg:py-16">
+        <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[18%_82%]">
           <EditorialSidebar title={"What We\nDeliver"} text="End-to-end digital solutions that build brands and drive growth." cta="Explore Services" />
           <div className="grid gap-px bg-[#1a1712]/12 sm:grid-cols-2 lg:grid-cols-6">
             {services.map(([title, text, Icon]) => (
               <article key={title as string} className="bg-[#f3eee5] p-6">
                 <Icon className="h-7 w-7 text-[#b99047]" strokeWidth={1.45} />
                 <h3 className="mt-6 text-[11px] font-bold uppercase tracking-[0.16em]">{title as string}</h3>
-                <p className="mt-4 text-xs leading-5 text-black/58">{text as string}</p>
+                <p className="mt-4 text-[13px] leading-6 text-black/60">{text as string}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="border-b border-[#1a1712]/12 px-5 py-9 sm:px-10 lg:px-14">
+      <section className="border-b border-[#1a1712]/12 px-5 py-12 sm:px-10 lg:px-14 lg:py-14">
         <div className="mx-auto grid max-w-[1440px] gap-8 lg:grid-cols-[18%_82%] lg:items-center">
           <EditorialSidebar title={"Brands We've\nGrown"} text="Proud to partner with visionary brands." cta="View All Clients" />
           <div className="grid grid-cols-2 gap-8 text-center font-serif text-2xl text-[#15120e] sm:grid-cols-3 lg:grid-cols-6">
@@ -509,14 +524,14 @@ export default function WebPortfolioClient() {
         </div>
       </section>
 
-      <section className="border-b border-[#1a1712]/12 px-5 py-10 sm:px-10 lg:px-14">
-        <div className="mx-auto grid max-w-[1440px] gap-8 lg:grid-cols-[18%_82%]">
+      <section className="border-b border-[#1a1712]/12 px-5 py-14 sm:px-10 lg:px-14 lg:py-16">
+        <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[18%_82%]">
           <EditorialSidebar title={"Kind Words\nFrom Partners"} text="Trusted by founders and marketing leaders." cta="View All Testimonials" />
           <div className="grid gap-px bg-[#1a1712]/12 lg:grid-cols-3">
             {testimonials.map(([quote, person]) => (
               <blockquote key={person} className="bg-[#f3eee5] p-8">
                 <p className="font-serif text-4xl text-[#b99047]">&ldquo;</p>
-                <p className="text-sm leading-7 text-black/70">{quote}</p>
+                <p className="text-[15px] leading-7 text-black/70">{quote}</p>
                 <footer className="mt-6 text-[10px] font-bold uppercase tracking-[0.12em] text-black/54">- {person}</footer>
               </blockquote>
             ))}
@@ -524,7 +539,7 @@ export default function WebPortfolioClient() {
         </div>
       </section>
 
-      <section className="bg-[radial-gradient(circle_at_80%_34%,rgba(185,144,71,0.24),transparent_26%),linear-gradient(135deg,#111,#020202)] px-5 py-10 text-white sm:px-10 lg:px-14" id="contact">
+      <section className="bg-[radial-gradient(circle_at_80%_34%,rgba(185,144,71,0.24),transparent_26%),linear-gradient(135deg,#111,#020202)] px-5 py-14 text-white sm:px-10 lg:px-14 lg:py-16" id="contact">
         <div className="mx-auto grid max-w-[1440px] gap-8 lg:grid-cols-[16%_42%_42%] lg:items-center">
           <div className="grid h-28 w-28 place-items-center rounded-full border border-[#b99047]/55 font-serif text-4xl text-[#c59a4a]">F</div>
           <div>

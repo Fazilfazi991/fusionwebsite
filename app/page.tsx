@@ -681,7 +681,7 @@ export default function Home() {
 
             <article
               key={activePerson.name}
-              className="people-preview scroll-reveal relative overflow-hidden rounded-lg border border-[#d6a84f]/22 bg-[radial-gradient(circle_at_82%_28%,rgba(214,168,79,0.11),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.045),rgba(255,255,255,0.018))] p-6 shadow-[0_28px_90px_rgba(0,0,0,0.36)] sm:p-8 lg:min-h-[470px] lg:p-12"
+              className="people-preview scroll-reveal relative overflow-hidden rounded-lg border border-[#d6a84f]/22 bg-[radial-gradient(circle_at_82%_28%,rgba(214,168,79,0.11),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.045),rgba(255,255,255,0.018))] p-6 shadow-[0_28px_90px_rgba(0,0,0,0.36)] sm:p-8 lg:min-h-[390px] lg:p-9"
             >
               <div className="pointer-events-none absolute inset-0 opacity-45 [background-image:linear-gradient(90deg,transparent,rgba(214,168,79,0.09),transparent),radial-gradient(circle_at_90%_50%,rgba(255,255,255,0.055),transparent_22%)]" />
               <div className="relative grid gap-9 lg:grid-cols-[48%_52%] lg:items-center">
@@ -692,33 +692,33 @@ export default function Home() {
                   <h3 className="mt-8 font-serif text-4xl font-normal leading-tight text-white sm:text-5xl">
                     {activePerson.name}
                   </h3>
-                  <span className="mt-8 block h-px w-44 bg-gradient-to-r from-[#d6a84f] via-[#d6a84f]/50 to-transparent shadow-[0_0_16px_rgba(214,168,79,0.36)]" />
-                  <p className="mt-8 max-w-[430px] text-base leading-8 text-white/70">
+                  <span className="mt-6 block h-px w-44 bg-gradient-to-r from-[#d6a84f] via-[#d6a84f]/50 to-transparent shadow-[0_0_16px_rgba(214,168,79,0.36)]" />
+                  <p className="mt-6 max-w-[430px] text-base leading-8 text-white/70">
                     {activePerson.bio}
                   </p>
                 </div>
 
-                <div className="relative mx-auto grid h-[260px] w-[260px] place-items-center sm:h-[340px] sm:w-[340px]">
+                <div className="relative mx-auto grid h-[240px] w-[240px] place-items-center sm:h-[300px] sm:w-[300px]">
                   <span className="absolute inset-0 rounded-full border border-[#d6a84f]/18" />
                   <span className="absolute inset-5 rounded-full border border-[#d6a84f]/24" />
                   <span className="absolute inset-10 rounded-full border border-white/10" />
                   <span className="absolute left-8 top-10 h-2 w-2 rounded-full bg-[#d6a84f] shadow-[0_0_18px_rgba(214,168,79,0.85)]" />
                   <span className="absolute bottom-12 right-10 h-1.5 w-1.5 rounded-full bg-[#d6a84f]/80 shadow-[0_0_14px_rgba(214,168,79,0.65)]" />
-                  <div className="relative h-[176px] w-[176px] overflow-hidden rounded-full border border-[#d6a84f]/65 shadow-[0_0_42px_rgba(214,168,79,0.18)] sm:h-[220px] sm:w-[220px]">
+                  <div className="relative h-[164px] w-[164px] overflow-hidden rounded-full border border-[#d6a84f]/65 shadow-[0_0_42px_rgba(214,168,79,0.18)] sm:h-[200px] sm:w-[200px]">
                     <Image
                       src={activePerson.photo}
                       alt={`${activePerson.name} portrait`}
                       fill
                       unoptimized
                       priority={activePersonIndex === 0}
-                      sizes="(min-width: 640px) 220px, 176px"
+                      sizes="(min-width: 640px) 200px, 164px"
                       className="people-preview-image object-cover object-center"
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="relative mt-10 flex items-center justify-between border-t border-white/10 pt-5">
+              <div className="relative mt-7 flex items-center justify-between border-t border-white/10 pt-5">
                 <button
                   type="button"
                   aria-label="Show previous profile"

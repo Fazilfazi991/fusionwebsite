@@ -6,11 +6,18 @@ import {
   ArrowRight,
   BriefcaseBusiness,
   Compass,
+  Dribbble,
   Globe2,
   Handshake,
+  Instagram,
   Layers3,
+  Linkedin,
+  Mail,
+  MapPin,
   Menu,
+  MousePointer2,
   Network,
+  Phone,
   Rocket,
   ShieldCheck,
   Sparkles,
@@ -152,19 +159,25 @@ const people = [
     name: "Ayisha Muneer",
     photo: "/team/ayisha-muneer.webp",
     role: "Founder & CEO",
-    bio: "Leads the group's vision, direction, and long-term development across its growing portfolio of ventures."
+    bio: "As the Founder & CEO of Fusion Ventures, Ayisha leads the company's mission to build and scale innovative businesses under a unified vision. Adding her expertise in marketing strategy, people leadership, and business growth, she focuses on creating sustainable ventures, adding strong teams, and transforming ambitious ideas into impactful, future-ready businesses.",
+    website: "https://ayishamuneer.com",
+    linkedin: "https://www.linkedin.com/in/ayishamuneer"
   },
   {
     name: "Mohammad Fazil",
     photo: "/team/mohammad-fazil.webp",
-    role: "Co-Founder & Growth / Business Development",
-    bio: "Focused on partnerships, growth strategy, commercial direction, and new venture execution across the Fusion Ventures ecosystem."
+    role: "Co-Founder, Technical & Business Development",
+    bio: "As Co-Founder of Fusion Ventures, Fazil brings over 8+ years of experience in technology, product innovation, and business development. He plays a crucial role in shaping the company's technical vision, building scalable digital solutions, and transforming business concepts into sustainable ventures. His ability to bridge technology and business strategy enables Fusion Ventures to deliver innovative solutions and long-term value across diverse industries.",
+    website: "https://fazildigital.com",
+    linkedin: "https://www.linkedin.com/in/fazilfazi"
   },
   {
     name: "Thameem AR",
     photo: "/team/thameem-ar.webp",
-    role: "Co-Founder & Growth Strategy",
-    bio: "Supports group-level growth, strategic partnerships, business expansion, and venture development across multiple sectors."
+    role: "Co-Founder, Branding & Growth Strategy",
+    bio: "As Co-Founder of Fusion Ventures, Thameem brings over 10+ years of experience in branding, growth strategy, and venture development. He leads strategic initiatives that drive business expansion, strengthen market positioning, and unlock new growth opportunities. With a strong focus on long-term value creation, Thameem plays a key role in shaping the vision and sustainable growth of the ventures within the Fusion Ventures ecosystem.",
+    website: "https://thameemar.online",
+    linkedin: "https://www.linkedin.com/in/thameemar"
   }
 ];
 
@@ -696,6 +709,26 @@ export default function Home() {
                   <p className="mt-6 max-w-[430px] text-base leading-8 text-white/70">
                     {activePerson.bio}
                   </p>
+                  <div className="mt-7 flex items-center gap-3">
+                    <a
+                      href={activePerson.website}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`${activePerson.name} personal website`}
+                      className="grid h-10 w-10 place-items-center rounded-full border border-white/15 text-white/55 transition-colors hover:border-[#d6a84f]/70 hover:text-[#d6a84f]"
+                    >
+                      <Globe2 className="h-4 w-4" strokeWidth={1.55} />
+                    </a>
+                    <a
+                      href={activePerson.linkedin}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`${activePerson.name} LinkedIn profile`}
+                      className="grid h-10 w-10 place-items-center rounded-full border border-white/15 text-white/55 transition-colors hover:border-[#d6a84f]/70 hover:text-[#d6a84f]"
+                    >
+                      <Linkedin className="h-4 w-4" strokeWidth={1.55} />
+                    </a>
+                  </div>
                 </div>
 
                 <div className="relative mx-auto grid h-[240px] w-[240px] place-items-center sm:h-[300px] sm:w-[300px]">
@@ -762,8 +795,102 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="bg-[#060705] px-5 py-6 text-[11px] uppercase tracking-[0.08em] text-white/42 sm:px-10 lg:px-14">
-        <div className="mx-auto grid max-w-[1280px] gap-4 text-center sm:grid-cols-3">
+      <footer className="border-t border-white/10 bg-black px-5 py-10 sm:px-10 lg:px-14">
+        <div className="mx-auto grid max-w-[1280px] gap-9 md:grid-cols-[1.5fr_1fr_1fr_1.4fr] lg:grid-cols-[1.6fr_1fr_1fr_1fr_1.35fr]">
+          <div>
+            <a href="#home" aria-label="Fusion Ventures home">
+              <Image
+                src="/fusion-ventures-logo.webp"
+                alt="Fusion Ventures"
+                width={640}
+                height={176}
+                className="h-9 w-auto sm:h-10"
+              />
+            </a>
+            <p className="mt-5 max-w-[270px] text-sm leading-6 text-white/52">
+              Building, operating, and scaling digital-first ventures with long-term focus.
+            </p>
+            <div className="mt-5 flex gap-3">
+              {[Linkedin, Instagram, Dribbble, MousePointer2].map((Icon, index) => (
+                <span
+                  key={index}
+                  className="grid h-8 w-8 place-items-center rounded-full border border-white/14 text-white/68 transition-colors hover:border-[#d6a84f]/60 hover:text-[#d6a84f]"
+                >
+                  <Icon className="h-4 w-4" strokeWidth={1.55} />
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h3 className="mb-4 text-sm font-semibold text-white">Quick Links</h3>
+            {[
+              ["Home", "#home"],
+              ["About", "/about"],
+              ["Ventures", "/ventures"],
+              ["Insights", "#"],
+              ["Contact", "#contact"]
+            ].map(([item, href]) => (
+              <a key={item} href={href} className="mb-3 block text-sm text-white/52 transition-colors hover:text-[#d6a84f]">
+                {item}
+              </a>
+            ))}
+          </div>
+
+          <div>
+            <h3 className="mb-4 text-sm font-semibold text-white">Portfolio</h3>
+            {[
+              ["Web Portfolio", "/web-portfolio"],
+              ["Our Edge", "#group"],
+              ["Sectors", "#sectors"],
+              ["People", "#people"]
+            ].map(([item, href]) => (
+              <a key={item} href={href} className="mb-3 block text-sm text-white/52 transition-colors hover:text-[#d6a84f]">
+                {item}
+              </a>
+            ))}
+          </div>
+
+          <div>
+            <h3 className="mb-4 text-sm font-semibold text-white">Legal</h3>
+            {["Privacy Policy", "Terms of Service", "Cookie Policy"].map((item) => (
+              <a key={item} href="#" className="mb-3 block text-sm text-white/52 transition-colors hover:text-[#d6a84f]">
+                {item}
+              </a>
+            ))}
+          </div>
+
+          <div>
+            <h3 className="mb-4 text-sm font-semibold text-white">Let&apos;s Connect</h3>
+            <a
+              href="mailto:hello@fusionventuresglobal.com"
+              className="mb-3 flex items-center gap-3 text-sm text-white/56 transition-colors hover:text-[#d6a84f]"
+            >
+              <Mail className="h-4 w-4 shrink-0" strokeWidth={1.55} />
+              hello@fusionventuresglobal.com
+            </a>
+            <a
+              href="tel:+13024703135"
+              className="mb-3 flex items-center gap-3 text-sm text-white/56 transition-colors hover:text-[#d6a84f]"
+            >
+              <Phone className="h-4 w-4 shrink-0" strokeWidth={1.55} />
+              +1 (302) 470-3135
+            </a>
+            <p className="flex items-center gap-3 text-sm text-white/56">
+              <MapPin className="h-4 w-4 shrink-0" strokeWidth={1.55} />
+              UAE-Based Venture Group
+            </p>
+          </div>
+        </div>
+
+        <div className="mx-auto mt-9 flex max-w-[1280px] flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/38 sm:flex-row sm:items-center sm:justify-between">
+          <p>&copy; 2026 Fusion Ventures. All rights reserved.</p>
+          <a href="#home" className="transition-colors hover:text-[#d6a84f]">
+            Back To Top
+          </a>
+        </div>
+
+        <div className="hidden">
           <p className="sm:text-left">© 2026 Fusion Ventures. All rights reserved.</p>
           <a href="#home" className="transition-colors hover:text-white">
             Back To Top

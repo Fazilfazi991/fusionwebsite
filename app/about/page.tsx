@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ArrowRight, BriefcaseBusiness, Menu, Rocket, Target } from "lucide-react";
+import { ArrowRight, BriefcaseBusiness, Globe2, Linkedin, Menu, Rocket, Target } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About Us | Fusion Ventures",
@@ -38,17 +38,23 @@ const leaders = [
   {
     name: "Ayisha Muneer",
     role: "Founder & CEO",
-    photo: "/team/ayisha-muneer.webp"
+    photo: "/team/ayisha-muneer.webp",
+    website: "https://ayishamuneer.com",
+    linkedin: "https://www.linkedin.com/in/ayishamuneer"
   },
   {
     name: "Mohammad Fazil",
-    role: "Co-Founder & Growth / Business Development",
-    photo: "/team/mohammad-fazil.webp"
+    role: "Co-Founder, Technical & Business Development",
+    photo: "/team/mohammad-fazil.webp",
+    website: "https://fazildigital.com",
+    linkedin: "https://www.linkedin.com/in/fazilfazi"
   },
   {
     name: "Thameem AR",
-    role: "Co-Founder & Growth Strategy",
-    photo: "/team/thameem-ar.webp"
+    role: "Co-Founder, Branding & Growth Strategy",
+    photo: "/team/thameem-ar.webp",
+    website: "https://thameemar.online",
+    linkedin: "https://www.linkedin.com/in/thameemar"
   }
 ];
 
@@ -176,6 +182,26 @@ export default function AboutPage() {
                 <div className="min-w-0">
                   <h3 className="text-xl font-medium">{leader.name}</h3>
                   <p className="mt-2 text-xs font-bold uppercase leading-5 tracking-[0.08em] text-[#b99a5b]">{leader.role}</p>
+                  <div className="mt-4 flex items-center gap-2">
+                    <a
+                      href={leader.website}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`${leader.name} personal website`}
+                      className="grid h-8 w-8 place-items-center rounded-full border border-white/12 text-white/48 transition-colors hover:border-[#b99a5b] hover:text-[#d8c38b]"
+                    >
+                      <Globe2 className="h-3.5 w-3.5" strokeWidth={1.6} />
+                    </a>
+                    <a
+                      href={leader.linkedin}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`${leader.name} LinkedIn profile`}
+                      className="grid h-8 w-8 place-items-center rounded-full border border-white/12 text-white/48 transition-colors hover:border-[#b99a5b] hover:text-[#d8c38b]"
+                    >
+                      <Linkedin className="h-3.5 w-3.5" strokeWidth={1.6} />
+                    </a>
+                  </div>
                 </div>
               </article>
             ))}

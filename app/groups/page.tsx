@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowRight, Linkedin } from "lucide-react";
+import { ArrowRight, Globe2, Linkedin } from "lucide-react";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -14,21 +14,24 @@ const partners = [
     name: "Ayisha Muneer",
     initials: "AM",
     label: "Founder & CEO",
-    bio: "Founder and CEO of Fusion Ventures, leading the group's vision, direction, and long-term development across its portfolio of businesses and ventures.",
+    bio: "As the Founder & CEO of Fusion Ventures, Ayisha leads the company's mission to build and scale innovative businesses under a unified vision. Adding her expertise in marketing strategy, people leadership, and business growth, she focuses on creating sustainable ventures, adding strong teams, and transforming ambitious ideas into impactful, future-ready businesses.",
+    website: "https://ayishamuneer.com",
     linkedin: "https://www.linkedin.com/in/ayishamuneer/"
   },
   {
     name: "Mohammad Fazil",
     initials: "MF",
-    label: "Co-Founder & Business Development Lead",
-    bio: "Focused on business development, partnerships, growth strategy, and venture execution across the Fusion Ventures ecosystem. Works across new opportunities, commercial direction, digital ventures, and long-term business growth.",
+    label: "Co-Founder, Technical & Business Development",
+    bio: "As Co-Founder of Fusion Ventures, Fazil brings over 8+ years of experience in technology, product innovation, and business development. He plays a crucial role in shaping the company's technical vision, building scalable digital solutions, and transforming business concepts into sustainable ventures. His ability to bridge technology and business strategy enables Fusion Ventures to deliver innovative solutions and long-term value across diverse industries.",
+    website: "https://fazildigital.com",
     linkedin: "https://www.linkedin.com/in/fazilfazi/"
   },
   {
     name: "Thameem AR",
     initials: "TA",
-    label: "Co-Founder & CGO",
-    bio: "Co-Founder and CGO of Fusion Ventures, supporting the group's strategic direction, growth, partnerships, and venture expansion across multiple business sectors.",
+    label: "Co-Founder, Branding & Growth Strategy",
+    bio: "As Co-Founder of Fusion Ventures, Thameem brings over 10+ years of experience in branding, growth strategy, and venture development. He leads strategic initiatives that drive business expansion, strengthen market positioning, and unlock new growth opportunities. With a strong focus on long-term value creation, Thameem plays a key role in shaping the vision and sustainable growth of the ventures within the Fusion Ventures ecosystem.",
+    website: "https://thameemar.online",
     linkedin: "https://www.linkedin.com/in/thameemar/"
   }
 ];
@@ -146,15 +149,26 @@ export default function GroupsPage() {
                 </p>
                 <h3 className="mt-4 text-2xl font-medium tracking-[-0.03em]">{partner.name}</h3>
                 <p className="mt-5 flex-1 text-sm leading-7 text-black/62">{partner.bio}</p>
-                <a
-                  href={partner.linkedin}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-8 inline-flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.1em] text-black"
-                >
-                  <Linkedin className="h-4 w-4" />
-                  LinkedIn
-                </a>
+                <div className="mt-8 flex items-center gap-3">
+                  <a
+                    href={partner.website}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`${partner.name} personal website`}
+                    className="grid h-9 w-9 place-items-center rounded-full border border-black/15 text-black/58 transition-colors hover:border-[#b99a5b] hover:text-[#7b6335]"
+                  >
+                    <Globe2 className="h-4 w-4" strokeWidth={1.6} />
+                  </a>
+                  <a
+                    href={partner.linkedin}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`${partner.name} LinkedIn profile`}
+                    className="grid h-9 w-9 place-items-center rounded-full border border-black/15 text-black/58 transition-colors hover:border-[#b99a5b] hover:text-[#7b6335]"
+                  >
+                    <Linkedin className="h-4 w-4" strokeWidth={1.6} />
+                  </a>
+                </div>
               </article>
             ))}
           </div>

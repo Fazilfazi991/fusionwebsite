@@ -73,6 +73,7 @@ const ventures = [
     name: "Resumi",
     category: "Career Tools",
     description: "Smarter resumes, stronger profiles, better opportunities.",
+    logo: "/ventures/logos/resumi_logo_transparent_cropped.png",
     accent: "#6bcf7b",
     initials: "R"
   },
@@ -84,11 +85,12 @@ const ventures = [
     initials: "P"
   },
   {
-    name: "Inviteio",
-    category: "Invitations & Social Planning",
-    description: "Beautiful invitations and effortless planning for life's moments.",
+    name: "Occazn",
+    category: "Occasions & Social Planning",
+    description: "Occasion-focused experiences, planning, and social event presentation.",
+    logo: "/ventures/logos/occazn-logo-clean.png",
     accent: "#ff7a2d",
-    initials: "I"
+    initials: "O"
   }
 ];
 
@@ -277,7 +279,7 @@ export default function VenturesPage() {
             {ventures.map((venture) => (
               <a
                 key={venture.name}
-                href="#"
+                href={venture.name === "Dearelle" ? "/ventures/dearelle" : "#"}
                 className="group relative rounded-xl border bg-white/[0.035] p-4 outline-none transition-all duration-300 hover:-translate-y-1 focus:-translate-y-1 lg:min-h-[150px] lg:p-5"
                 style={{
                   borderColor: `${venture.accent}55`,

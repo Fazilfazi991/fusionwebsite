@@ -127,8 +127,7 @@ const companies: VentureCompany[] = [
     name: "Resumi",
     category: "Careers",
     description: "Smart resume and profile tools for modern job seekers.",
-    initials: "resumi",
-    panelClass: "bg-[#eefdf9] text-[#073d3b]"
+    logo: "/ventures/logos/resumi_logo_transparent_cropped.png"
   },
   {
     name: "Portify",
@@ -138,11 +137,10 @@ const companies: VentureCompany[] = [
     panelClass: "bg-[#f3f0ff] text-[#111a4a]"
   },
   {
-    name: "Inviteio",
+    name: "Occazn",
     category: "Events",
-    description: "Elegant digital invitations and event presentation tools.",
-    initials: "inviteio",
-    panelClass: "bg-[#fff1eb] text-[#ec6d5d]"
+    description: "Occasion-focused experiences, planning, and social event presentation.",
+    logo: "/ventures/logos/occazn-logo-clean.png"
   }
 ];
 

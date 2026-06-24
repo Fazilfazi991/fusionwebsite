@@ -199,6 +199,8 @@ function SectionIntro({
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [flippedVenture, setFlippedVenture] = useState<string | null>(null);
+  const [activePersonIndex, setActivePersonIndex] = useState(0);
+  const activePerson = people[activePersonIndex];
 
   useEffect(() => {
     const elements = Array.from(document.querySelectorAll<HTMLElement>(".scroll-reveal"));
@@ -589,33 +591,152 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-5 py-20 sm:px-10 lg:px-14 lg:py-28" id="people">
-        <div className="mx-auto max-w-[1280px]">
-          <SectionIntro
-            eyebrow="People"
-            title="The People Building Fusion Ventures."
-            text="Fusion Ventures is led by a small group of builders, operators, and growth-focused partners working across business development, digital execution, brand building, and venture operations."
-          />
-          <div className="mt-12 grid gap-px bg-white/10 md:grid-cols-3">
-            {people.map((person) => (
-              <article key={person.name} className="bg-[#0b0d09] p-7 sm:p-8">
-                <div className="relative h-20 w-20 overflow-hidden rounded-full border border-[#b99a5b]/55 shadow-[0_0_28px_rgba(185,154,91,0.12)] sm:h-24 sm:w-24">
-                  <Image
-                    src={person.photo}
-                    alt={`${person.name} portrait`}
-                    fill
-                    unoptimized
-                    sizes="(min-width: 640px) 96px, 80px"
-                    className="object-cover object-center"
-                  />
+      <section className="relative overflow-hidden bg-[#050505] px-5 py-20 sm:px-10 lg:px-14 lg:py-28" id="people">
+        <div className="pointer-events-none absolute inset-0 opacity-70 [background-image:radial-gradient(circle_at_85%_35%,rgba(214,168,79,0.08),transparent_30%),radial-gradient(circle_at_12%_70%,rgba(255,255,255,0.035),transparent_26%),linear-gradient(125deg,rgba(255,255,255,0.018),transparent_36%)]" />
+        <div className="relative mx-auto max-w-[1400px]">
+          <div className="scroll-reveal grid gap-8 lg:grid-cols-[36%_1fr] lg:items-end">
+            <div>
+              <div className="flex items-center gap-4">
+                <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#d6a84f]">People</p>
+                <span className="h-px w-20 bg-gradient-to-r from-[#d6a84f] to-transparent" />
+              </div>
+              <h2 className="mt-5 max-w-[560px] font-display text-4xl font-normal leading-[1.04] tracking-[-0.045em] text-white sm:text-5xl lg:text-[56px]">
+                The People Building Fusion Ventures<span className="text-[#d6a84f]">.</span>
+              </h2>
+            </div>
+            <p className="max-w-[690px] text-sm leading-7 text-white/68 sm:text-base sm:leading-8 lg:pb-2">
+              Fusion Ventures is led by a small group of builders, operators, and growth-focused partners working
+              across business development, digital execution, brand building, and venture operations.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-8 lg:grid-cols-[38%_62%] lg:gap-12">
+            <div className="scroll-reveal flex gap-3 overflow-x-auto pb-2 lg:block lg:space-y-0 lg:overflow-visible lg:pb-0">
+              {people.map((person, index) => {
+                const isActive = index === activePersonIndex;
+
+                return (
+                  <button
+                    key={person.name}
+                    type="button"
+                    aria-pressed={isActive}
+                    onMouseEnter={() => setActivePersonIndex(index)}
+                    onFocus={() => setActivePersonIndex(index)}
+                    onClick={() => setActivePersonIndex(index)}
+                    className={`group relative grid min-w-[270px] grid-cols-[34px_56px_minmax(0,1fr)_24px] items-center gap-4 border-b border-white/10 px-0 py-5 text-left outline-none transition-colors lg:min-w-0 lg:grid-cols-[38px_72px_minmax(0,1fr)_32px] lg:py-7 ${
+                      isActive ? "text-white" : "text-white/72 hover:text-white"
+                    }`}
+                  >
+                    <span
+                      className={`absolute left-0 top-6 hidden h-[calc(100%-48px)] w-px origin-top transition-all duration-300 lg:block ${
+                        isActive ? "scale-y-100 bg-[#d6a84f]" : "scale-y-0 bg-white/20 group-hover:scale-y-75"
+                      }`}
+                    />
+                    <span className={`self-start pt-1 text-xs font-semibold tracking-[0.12em] ${isActive ? "text-[#d6a84f]" : "text-white/46"}`}>
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span
+                      className={`relative h-14 w-14 overflow-hidden rounded-full border transition-all duration-300 lg:h-[72px] lg:w-[72px] ${
+                        isActive
+                          ? "border-[#d6a84f]/75 shadow-[0_0_28px_rgba(214,168,79,0.2)]"
+                          : "border-white/14 grayscale group-hover:border-[#d6a84f]/45 group-hover:grayscale-0"
+                      }`}
+                    >
+                      <Image
+                        src={person.photo}
+                        alt={`${person.name} portrait`}
+                        fill
+                        unoptimized
+                        sizes="(min-width: 1024px) 72px, 56px"
+                        className="object-cover object-center"
+                      />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block truncate font-display text-xl font-normal leading-tight tracking-[-0.03em] text-white sm:text-2xl">
+                        {person.name}
+                      </span>
+                      <span
+                        className={`mt-2 block text-[9px] font-bold uppercase leading-4 tracking-[0.18em] transition-colors sm:text-[10px] ${
+                          isActive ? "text-[#d6a84f]" : "text-white/46 group-hover:text-[#d6a84f]/80"
+                        }`}
+                      >
+                        {person.role}
+                      </span>
+                      <span
+                        className={`mt-4 block h-px transition-all duration-300 ${
+                          isActive ? "w-full bg-[#d6a84f]/75" : "w-2/3 bg-white/12 group-hover:w-full group-hover:bg-white/20"
+                        }`}
+                      />
+                    </span>
+                    <ArrowRight
+                      className={`h-5 w-5 justify-self-end transition-all duration-300 ${
+                        isActive ? "translate-x-1 text-[#d6a84f]" : "text-white/35 group-hover:translate-x-1 group-hover:text-[#d6a84f]/80"
+                      }`}
+                      strokeWidth={1.5}
+                    />
+                  </button>
+                );
+              })}
+            </div>
+
+            <article
+              key={activePerson.name}
+              className="people-preview scroll-reveal relative overflow-hidden rounded-lg border border-[#d6a84f]/22 bg-[radial-gradient(circle_at_82%_28%,rgba(214,168,79,0.11),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.045),rgba(255,255,255,0.018))] p-6 shadow-[0_28px_90px_rgba(0,0,0,0.36)] sm:p-8 lg:min-h-[470px] lg:p-12"
+            >
+              <div className="pointer-events-none absolute inset-0 opacity-45 [background-image:linear-gradient(90deg,transparent,rgba(214,168,79,0.09),transparent),radial-gradient(circle_at_90%_50%,rgba(255,255,255,0.055),transparent_22%)]" />
+              <div className="relative grid gap-9 lg:grid-cols-[48%_52%] lg:items-center">
+                <div>
+                  <span className="inline-flex rounded-full border border-[#d6a84f]/35 bg-black/20 px-5 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-[#d6a84f]">
+                    {activePerson.role}
+                  </span>
+                  <h3 className="mt-8 font-serif text-4xl font-normal leading-tight text-white sm:text-5xl">
+                    {activePerson.name}
+                  </h3>
+                  <span className="mt-8 block h-px w-44 bg-gradient-to-r from-[#d6a84f] via-[#d6a84f]/50 to-transparent shadow-[0_0_16px_rgba(214,168,79,0.36)]" />
+                  <p className="mt-8 max-w-[430px] text-base leading-8 text-white/70">
+                    {activePerson.bio}
+                  </p>
                 </div>
-                <p className="mt-8 text-[11px] font-bold uppercase tracking-[0.14em] text-[#b99a5b]">
-                  {person.role}
-                </p>
-                <h3 className="mt-4 text-2xl font-medium tracking-[-0.04em]">{person.name}</h3>
-                <p className="mt-5 text-sm leading-7 text-white/58">{person.bio}</p>
-              </article>
-            ))}
+
+                <div className="relative mx-auto grid h-[260px] w-[260px] place-items-center sm:h-[340px] sm:w-[340px]">
+                  <span className="absolute inset-0 rounded-full border border-[#d6a84f]/18" />
+                  <span className="absolute inset-5 rounded-full border border-[#d6a84f]/24" />
+                  <span className="absolute inset-10 rounded-full border border-white/10" />
+                  <span className="absolute left-8 top-10 h-2 w-2 rounded-full bg-[#d6a84f] shadow-[0_0_18px_rgba(214,168,79,0.85)]" />
+                  <span className="absolute bottom-12 right-10 h-1.5 w-1.5 rounded-full bg-[#d6a84f]/80 shadow-[0_0_14px_rgba(214,168,79,0.65)]" />
+                  <div className="relative h-[176px] w-[176px] overflow-hidden rounded-full border border-[#d6a84f]/65 shadow-[0_0_42px_rgba(214,168,79,0.18)] sm:h-[220px] sm:w-[220px]">
+                    <Image
+                      src={activePerson.photo}
+                      alt={`${activePerson.name} portrait`}
+                      fill
+                      unoptimized
+                      priority={activePersonIndex === 0}
+                      sizes="(min-width: 640px) 220px, 176px"
+                      className="people-preview-image object-cover object-center"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative mt-10 flex items-center justify-between border-t border-white/10 pt-5">
+                <button
+                  type="button"
+                  aria-label="Show previous profile"
+                  className="grid h-11 w-11 place-items-center rounded-full border border-white/18 text-white/45 transition-colors hover:border-[#d6a84f]/70 hover:text-[#d6a84f]"
+                  onClick={() => setActivePersonIndex((index) => (index === 0 ? people.length - 1 : index - 1))}
+                >
+                  <ArrowRight className="h-4 w-4 rotate-180" strokeWidth={1.5} />
+                </button>
+                <button
+                  type="button"
+                  aria-label="Show next profile"
+                  className="grid h-11 w-11 place-items-center rounded-full border border-[#d6a84f]/55 text-[#d6a84f] transition-colors hover:bg-[#d6a84f] hover:text-black"
+                  onClick={() => setActivePersonIndex((index) => (index + 1) % people.length)}
+                >
+                  <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
+                </button>
+              </div>
+            </article>
           </div>
         </div>
       </section>

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
   BarChart3,
@@ -203,22 +203,22 @@ function ImageCard({
   large?: boolean;
 }) {
   return (
-    <article className={`group relative overflow-hidden border border-[#1a1712]/12 bg-[#f5efe4] transition-colors duration-300 hover:border-[#b99047]/55 ${large ? "min-h-[390px]" : "min-h-[300px]"}`}>
+    <article className={`group relative overflow-hidden border border-[#1a1712]/12 bg-[#f5efe4] transition-colors duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-[#b99047]/70 ${large ? "min-h-[390px]" : "min-h-[300px]"}`}>
       <Image
         src={image}
         alt={title}
         fill
         unoptimized
         sizes="(min-width: 1024px) 30vw, 90vw"
-        className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.035]"
+        className="object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.035]"
       />
       <div className="absolute inset-x-0 bottom-0 h-[64%] bg-[linear-gradient(180deg,transparent,rgba(7,6,5,0.76))]" />
       <div className="absolute inset-x-5 bottom-5 bg-[#f6f0e7]/94 p-5 backdrop-blur-md">
         <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-[#a9823f]">{type}</p>
-        <h3 className="mt-2 font-serif text-2xl leading-none text-[#15120e]">{title}</h3>
+        <h3 className="mt-2 font-serif text-2xl leading-none text-[#15120e] transition-transform duration-500 group-hover:-translate-y-0.5">{title}</h3>
         <p className="mt-3 text-[13px] leading-6 text-black/64">{text}</p>
         <span className="mt-4 inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#15120e]">
-          View Case <ArrowRight className="h-3.5 w-3.5" />
+          View Case <ArrowRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-x-1" />
         </span>
       </div>
       <span className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-[#b99047] transition-transform duration-500 group-hover:scale-x-100" />
@@ -231,11 +231,112 @@ export default function FyntaClient() {
   const [websiteIndex, setWebsiteIndex] = useState(0);
   const [productIndex, setProductIndex] = useState(0);
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
+  const [heroMotion, setHeroMotion] = useState({ x: 0, y: 0 });
+  const [hoveredHeroItem, setHoveredHeroItem] = useState<string | null>(null);
+  const [isFilterChanging, setIsFilterChanging] = useState(false);
+  const canAnimateHeroRef = useRef(false);
+  const heroFrameRef = useRef<number | null>(null);
+  const filterTimerRef = useRef<number | null>(null);
 
   const filteredStories = useMemo(
     () => featuredStories.filter((story) => story.tags.includes(activeFilter)),
     [activeFilter]
   );
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const precisePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+
+    const updateHeroAnimationAvailability = () => {
+      canAnimateHeroRef.current = precisePointer.matches && !reducedMotion.matches;
+    };
+
+    updateHeroAnimationAvailability();
+    reducedMotion.addEventListener("change", updateHeroAnimationAvailability);
+    precisePointer.addEventListener("change", updateHeroAnimationAvailability);
+
+    return () => {
+      reducedMotion.removeEventListener("change", updateHeroAnimationAvailability);
+      precisePointer.removeEventListener("change", updateHeroAnimationAvailability);
+      if (heroFrameRef.current) {
+        cancelAnimationFrame(heroFrameRef.current);
+      }
+      if (filterTimerRef.current) {
+        window.clearTimeout(filterTimerRef.current);
+      }
+    };
+  }, []);
+
+  const handleHeroPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!canAnimateHeroRef.current) return;
+
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width - 0.5;
+    const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+    if (heroFrameRef.current) {
+      cancelAnimationFrame(heroFrameRef.current);
+    }
+
+    heroFrameRef.current = requestAnimationFrame(() => {
+      setHeroMotion({ x, y });
+    });
+  };
+
+  const resetHeroMotion = () => {
+    setHeroMotion({ x: 0, y: 0 });
+    setHoveredHeroItem(null);
+  };
+
+  const selectFilter = (filter: string) => {
+    if (filter === activeFilter) return;
+
+    setIsFilterChanging(true);
+    setActiveFilter(filter);
+
+    if (filterTimerRef.current) {
+      window.clearTimeout(filterTimerRef.current);
+    }
+
+    filterTimerRef.current = window.setTimeout(() => {
+      setIsFilterChanging(false);
+    }, 280);
+  };
+
+  const heroItemState = (id: string) => {
+    const active = hoveredHeroItem === id;
+    const muted = hoveredHeroItem !== null && !active;
+
+    return {
+      className: `transition-[opacity,filter,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+        muted ? "opacity-70 blur-[0.6px]" : "opacity-100"
+      } ${active ? "z-50 shadow-[0_28px_80px_rgba(40,29,12,0.28)]" : ""}`,
+      active
+    };
+  };
+
+  const heroTransform = ({
+    id,
+    strength,
+    rotate,
+    opposite = false
+  }: {
+    id: string;
+    strength: number;
+    rotate: number;
+    opposite?: boolean;
+  }) => {
+    const active = hoveredHeroItem === id;
+    const direction = opposite ? -1 : 1;
+    const x = heroMotion.x * strength * direction;
+    const y = heroMotion.y * strength * direction;
+    const focusedRotate = active ? rotate * 0.16 : rotate;
+    const scale = active ? 1.035 : 1;
+
+    return {
+      transform: `translate3d(${x}px, ${y}px, 0) rotate(${focusedRotate}deg) scale(${scale})`
+    };
+  };
 
   const visibleWebsiteProjects = [
     websiteProjects[websiteIndex],
@@ -307,30 +408,69 @@ export default function FyntaClient() {
             <p className="mt-10 font-serif text-xl italic text-[#b99047]">Strategy meets creativity</p>
           </div>
 
-          <div className="relative min-h-[500px] sm:min-h-[620px] lg:min-h-[660px]">
-            <span className="absolute left-[11%] top-[7%] h-[430px] w-[430px] rounded-full border-[18px] border-[#b99047]/44 sm:h-[500px] sm:w-[500px]" />
-            <div className="absolute left-[6%] top-[25%] z-20 w-[70%] rotate-[-1.5deg] border border-[#15120e]/12 bg-[#f8f2e9] p-3 shadow-[0_24px_70px_rgba(40,29,12,0.22)] sm:top-[22%] sm:w-[66%]">
+          <div
+            className="relative min-h-[500px] sm:min-h-[620px] lg:min-h-[660px]"
+            onPointerMove={handleHeroPointerMove}
+            onPointerLeave={resetHeroMotion}
+          >
+            <span
+              className="fynta-brush-orbit absolute left-[11%] top-[7%] h-[430px] w-[430px] rounded-full border-[18px] border-[#b99047]/44 sm:h-[500px] sm:w-[500px]"
+              aria-hidden="true"
+            />
+            <div
+              className={`absolute left-[6%] top-[25%] z-20 w-[70%] border border-[#15120e]/12 bg-[#f8f2e9] p-3 shadow-[0_24px_70px_rgba(40,29,12,0.22)] sm:top-[22%] sm:w-[66%] ${heroItemState("main").className}`}
+              style={heroTransform({ id: "main", strength: 9, rotate: -1.5 })}
+              onPointerEnter={() => setHoveredHeroItem("main")}
+            >
               <div className="relative aspect-[16/10] overflow-hidden">
                 <Image src="/images/web-portfolio/cards/hydrelle-skincare.webp" alt="Laptop campaign preview" fill unoptimized priority className="object-cover object-top" />
               </div>
+              <span className={`absolute bottom-5 right-5 inline-flex items-center gap-2 bg-[#f8f2e9]/95 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#15120e] backdrop-blur-sm transition-all duration-500 ${hoveredHeroItem === "main" ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}>
+                View Case Study <ArrowRight className="h-3.5 w-3.5" />
+              </span>
             </div>
-            <div className="absolute right-[2%] top-[28%] z-30 w-[24%] rotate-[2deg] border border-[#15120e]/12 bg-[#f8f2e9] p-2 shadow-[0_18px_46px_rgba(40,29,12,0.2)] sm:right-[5%]">
+            <div
+              className={`absolute right-[2%] top-[28%] z-30 w-[24%] border border-[#15120e]/12 bg-[#f8f2e9] p-2 shadow-[0_18px_46px_rgba(40,29,12,0.2)] sm:right-[5%] ${heroItemState("mobile").className}`}
+              style={heroTransform({ id: "mobile", strength: 18, rotate: 2 })}
+              onPointerEnter={() => setHoveredHeroItem("mobile")}
+            >
               <div className="relative aspect-[9/16] overflow-hidden">
                 <Image src="/images/web-portfolio/cards/miracle-designs-boutique.webp" alt="Mobile campaign preview" fill unoptimized className="object-cover object-top" />
               </div>
+              <span className={`absolute bottom-4 left-4 right-4 inline-flex items-center justify-center gap-2 bg-[#f8f2e9]/95 px-3 py-2 text-[9px] font-bold uppercase tracking-[0.12em] text-[#15120e] backdrop-blur-sm transition-all duration-500 ${hoveredHeroItem === "mobile" ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}>
+                View Case Study <ArrowRight className="h-3 w-3" />
+              </span>
             </div>
-            <div className="absolute right-[17%] top-[2%] z-10 h-[150px] w-[230px] overflow-hidden border border-[#15120e]/12 grayscale sm:h-[170px] sm:w-[270px]">
+            <div
+              className={`absolute right-[17%] top-[2%] z-10 h-[150px] w-[230px] overflow-hidden border border-[#15120e]/12 grayscale sm:h-[170px] sm:w-[270px] ${heroItemState("portrait").className}`}
+              style={heroTransform({ id: "portrait", strength: 24, rotate: 0.5 })}
+              onPointerEnter={() => setHoveredHeroItem("portrait")}
+            >
               <Image src="/images/web-portfolio/cards/n-universal-yoga.webp" alt="Campaign portrait" fill unoptimized className="object-cover" />
             </div>
-            <div className="absolute bottom-[5%] right-[11%] z-20 h-[160px] w-[240px] overflow-hidden border border-[#15120e]/12 bg-[#f8f2e9] p-2 sm:h-[180px] sm:w-[280px]">
+            <div
+              className={`absolute bottom-[5%] right-[11%] z-20 h-[160px] w-[240px] overflow-hidden border border-[#15120e]/12 bg-[#f8f2e9] p-2 sm:h-[180px] sm:w-[280px] ${heroItemState("product").className}`}
+              style={heroTransform({ id: "product", strength: 11, rotate: 0.8, opposite: true })}
+              onPointerEnter={() => setHoveredHeroItem("product")}
+            >
               <div className="relative h-full w-full overflow-hidden">
                 <Image src="/images/web-portfolio/cards/lumora.webp" alt="Product visual" fill unoptimized className="object-cover object-top" />
               </div>
+              <span className={`absolute bottom-4 right-4 inline-flex items-center gap-2 bg-[#f8f2e9]/95 px-3 py-2 text-[9px] font-bold uppercase tracking-[0.12em] text-[#15120e] backdrop-blur-sm transition-all duration-500 ${hoveredHeroItem === "product" ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}>
+                View Case Study <ArrowRight className="h-3 w-3" />
+              </span>
             </div>
-            <div className="absolute bottom-[15%] left-[4%] z-10 h-[140px] w-[190px] overflow-hidden border border-[#15120e]/10 opacity-90 sm:h-[170px] sm:w-[220px]">
+            <div
+              className={`absolute bottom-[15%] left-[4%] z-10 h-[140px] w-[190px] overflow-hidden border border-[#15120e]/10 opacity-90 sm:h-[170px] sm:w-[220px] ${heroItemState("texture").className}`}
+              style={heroTransform({ id: "texture", strength: 14, rotate: -0.4, opposite: true })}
+              onPointerEnter={() => setHoveredHeroItem("texture")}
+            >
               <Image src="/images/web-portfolio/cards/aqsa-print.webp" alt="Texture campaign visual" fill unoptimized className="object-cover object-center" />
             </div>
-            <div className="absolute bottom-[23%] right-[1%] z-40 grid h-20 w-20 place-items-center rounded-full bg-[#070707] text-center text-2xl font-serif text-white shadow-[0_18px_45px_rgba(0,0,0,0.24)] sm:h-24 sm:w-24">
+            <div
+              className="absolute bottom-[23%] right-[1%] z-40 grid h-20 w-20 place-items-center rounded-full bg-[#070707] text-center text-2xl font-serif text-white shadow-[0_18px_45px_rgba(0,0,0,0.24)] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:h-24 sm:w-24"
+              style={{ transform: `translate3d(${heroMotion.x * 6}px, ${heroMotion.y * 6}px, 0) rotate(${heroMotion.x * 8}deg)` }}
+            >
               F
             </div>
           </div>
@@ -344,12 +484,13 @@ export default function FyntaClient() {
             <button
               key={filter}
               type="button"
-              onClick={() => setActiveFilter(filter)}
-              className={`shrink-0 rounded-full border px-5 py-2.5 text-[10px] font-bold uppercase tracking-[0.16em] transition-colors ${
+              onClick={() => selectFilter(filter)}
+              className={`group relative shrink-0 rounded-full border px-5 py-2.5 text-[10px] font-bold uppercase tracking-[0.16em] transition-colors duration-300 ${
                 activeFilter === filter ? "border-[#b99047] bg-[#15120e] text-[#f5efe4]" : "border-[#15120e]/14 text-black/58 hover:border-[#b99047]/70 hover:text-[#15120e]"
               }`}
             >
               {filter}
+              <span className={`absolute -bottom-1 left-5 right-5 h-px origin-center bg-[#b99047] transition-transform duration-300 ${activeFilter === filter ? "scale-x-100" : "scale-x-0 group-hover:scale-x-75"}`} />
             </button>
           ))}
           <span className="ml-auto hidden shrink-0 items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-black/52 lg:flex">
@@ -361,7 +502,7 @@ export default function FyntaClient() {
       <section id="featured" className="border-b border-[#1a1712]/12 px-5 py-14 sm:px-10 lg:px-14 lg:py-16">
         <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[23%_77%]">
           <EditorialSidebar title={"Featured\nBrand Stories"} text="Integrated campaigns built to inspire, connect and convert." cta="View All Case Studies" />
-          <div className="grid gap-5 lg:grid-cols-3">
+          <div className={`grid gap-5 transition-[opacity,transform] duration-300 ease-out lg:grid-cols-3 ${isFilterChanging ? "translate-y-2 opacity-55" : "translate-y-0 opacity-100"}`}>
             {(filteredStories.length ? filteredStories : featuredStories).map((story) => (
               <ImageCard key={story.title} title={story.title} type={story.type} text={story.text} image={story.image} />
             ))}
@@ -435,15 +576,19 @@ export default function FyntaClient() {
           <EditorialSidebar title={"Ad + Video\nCampaigns"} text="Scroll-stopping creative that drives real results." cta="View All Campaigns" />
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {videos.map(([title, label, image]) => (
-              <button key={title} type="button" onClick={() => setActiveVideo(title)} className="group relative min-h-[240px] overflow-hidden border border-[#1a1712]/12 text-left transition-colors hover:border-[#b99047]/60">
-                <Image src={image} alt={`${title} video thumbnail`} fill unoptimized className="object-cover transition-transform duration-700 group-hover:scale-105" />
+              <button key={title} type="button" onClick={() => setActiveVideo(title)} className="group relative min-h-[240px] overflow-hidden border border-[#1a1712]/12 text-left transition-colors duration-500 hover:border-[#b99047]/70">
+                <Image src={image} alt={`${title} video thumbnail`} fill unoptimized className="object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105" />
+                <div className="absolute inset-0 bg-black/0 transition-colors duration-500 group-hover:bg-black/14" />
                 <div className="absolute inset-x-0 bottom-0 h-[60%] bg-[linear-gradient(180deg,transparent,rgba(7,6,5,0.72))]" />
-                <span className="absolute left-1/2 top-1/2 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white/70 bg-black/28 text-white backdrop-blur-sm">
+                <span className="absolute left-1/2 top-1/2 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 scale-[0.85] place-items-center rounded-full border border-white/70 bg-black/28 text-white backdrop-blur-sm transition-transform duration-500 group-hover:scale-100">
                   <Play className="h-5 w-5 fill-current" />
                 </span>
                 <div className="absolute inset-x-4 bottom-4 text-white">
                   <h3 className="font-serif text-2xl">{title}</h3>
                   <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.16em] text-white/72">{label}</p>
+                  <p className="mt-3 inline-flex translate-y-1 items-center gap-2 border-b border-[#c59a4a] pb-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#e5c16b] opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                    Watch Reel <ArrowRight className="h-3 w-3" />
+                  </p>
                 </div>
               </button>
             ))}
@@ -632,11 +777,42 @@ export default function FyntaClient() {
               </button>
             </div>
             <div className="grid aspect-video place-items-center bg-[linear-gradient(135deg,#1b1712,#020202)]">
-              <Play className="h-16 w-16 text-[#c59a4a]" strokeWidth={1.2} />
+              <div className="text-center">
+                <Play className="mx-auto h-16 w-16 text-[#c59a4a]" strokeWidth={1.2} />
+                <p className="mt-5 text-sm leading-6 text-white/62">Video link placeholder. Add a YouTube, Vimeo, or hosted reel URL to play the full campaign here.</p>
+              </div>
             </div>
           </div>
         </div>
       )}
+      <style jsx global>{`
+        @media (prefers-reduced-motion: no-preference) {
+          .fynta-brush-orbit {
+            animation: fyntaBrushReveal 900ms cubic-bezier(0.22, 1, 0.36, 1) both,
+              fyntaBrushDrift 24s linear 900ms infinite;
+          }
+        }
+
+        @keyframes fyntaBrushReveal {
+          from {
+            opacity: 0;
+            transform: scale(0.96) rotate(-4deg);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+          }
+        }
+
+        @keyframes fyntaBrushDrift {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
     </main>
   );
 }

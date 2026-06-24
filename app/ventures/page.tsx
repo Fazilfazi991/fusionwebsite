@@ -32,7 +32,7 @@ const ventures = [
   {
     name: "Plumlet",
     category: "Consumer Brands",
-    description: "Modern social commerce for creators and communities.",
+    description: "A creative marketplace connecting artists, makers, and creators with people who appreciate unique handmade products, art, and craftsmanship.",
     logo: "/ventures/logos/plumlet-logo-trimmed.png",
     accent: "#b45cff",
     initials: "P"
@@ -40,7 +40,7 @@ const ventures = [
   {
     name: "Dearelle",
     category: "Lifestyle & Beauty",
-    description: "Clean, effective, and conscious beauty for the modern individual.",
+    description: "A modern jewelry brand offering premium, stylish, and meaningful pieces that reflect individuality and elegance.",
     logo: "/ventures/logos/dearelle-logo-trimmed.png",
     accent: "#ef527f",
     initials: "D"

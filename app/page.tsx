@@ -96,13 +96,13 @@ const companies: VentureCompany[] = [
   {
     name: "Plumlet",
     category: "E-Commerce",
-    description: "Playful little finds for kids and families.",
+    description: "A creative marketplace connecting artists, makers, and creators with people who appreciate unique handmade products, art, and craftsmanship.",
     logo: "/ventures/logos/plumlet-logo-trimmed.png"
   },
   {
     name: "Dearelle",
     category: "E-Commerce",
-    description: "Everyday luxury with a refined lifestyle touch.",
+    description: "A modern jewelry brand offering premium, stylish, and meaningful pieces that reflect individuality and elegance.",
     logo: "/ventures/logos/dearelle-logo-trimmed.png"
   },
   {

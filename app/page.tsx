@@ -130,11 +130,10 @@ const companies: VentureCompany[] = [
     logo: "/ventures/logos/resumi_logo_transparent_cropped.png"
   },
   {
-    name: "Portify",
-    category: "Creator Tools",
-    description: "Beautiful portfolio building for individuals and brands.",
-    initials: "portify",
-    panelClass: "bg-[#f3f0ff] text-[#111a4a]"
+    name: "Fynta",
+    category: "Marketing",
+    description: "Creative marketing and growth support for modern brands.",
+    logo: "/ventures/logos/fynta_logo_transparent_cropped.png"
   },
   {
     name: "Occazn",

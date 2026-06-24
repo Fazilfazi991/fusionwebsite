@@ -78,11 +78,12 @@ const ventures = [
     initials: "R"
   },
   {
-    name: "Portify",
-    category: "Portfolio / Creator Presence",
-    description: "Build and share your portfolio. Your work, your brand.",
+    name: "Fynta",
+    category: "Marketing Agency",
+    description: "Creative marketing and growth support for modern brands.",
+    logo: "/ventures/logos/fynta_logo_transparent_cropped.png",
     accent: "#a962ff",
-    initials: "P"
+    initials: "F"
   },
   {
     name: "Occazn",

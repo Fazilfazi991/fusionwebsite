@@ -30,65 +30,46 @@ const navItems = [
 
 const ventures = [
   {
-    name: "Plumlet",
-    category: "Consumer Brands",
-    description: "A creative marketplace connecting artists, makers, and creators with people who appreciate unique handmade products, art, and craftsmanship.",
-    logo: "/ventures/logos/plumlet-logo-trimmed.png",
-    accent: "#b45cff",
-    initials: "P"
-  },
-  {
     name: "Dearelle",
     category: "Lifestyle & Beauty",
     description: "A modern jewelry brand offering premium, stylish, and meaningful pieces that reflect individuality and elegance.",
+    url: "https://dearelle.in",
     logo: "/ventures/logos/dearelle-logo-trimmed.png",
     accent: "#ef527f",
     initials: "D"
   },
   {
-    name: "Fynta",
-    category: "Marketing Agency",
-    description: "Creative marketing and growth support for modern brands.",
-    logo: "/ventures/logos/fynta_logo_transparent_cropped.png",
-    accent: "#a962ff",
-    initials: "F"
-  },
-  {
     name: "Occazn",
     category: "Occasions & Social Planning",
     description: "Occasion-focused experiences, planning, and social event presentation.",
+    url: "https://www.occazn.com/",
     logo: "/ventures/logos/occazn-logo-clean.png",
     accent: "#ff7a2d",
     initials: "O"
   },
   {
-    name: "Tarx Solutions",
+    name: "Fynta",
+    category: "Marketing Agency",
+    description: "Marketing strategy and creative growth support for modern brands.",
+    url: "https://www.fusionventuresglobal.com/fynta",
+    logo: "/ventures/logos/fynta_logo_transparent_cropped.png",
+    accent: "#a962ff",
+    initials: "F"
+  },
+  {
+    name: "Tarx",
     category: "Technology Solutions",
     description: "Digital transformation and engineering solutions for forward-thinking businesses.",
+    url: "https://tarx.in",
     logo: "/ventures/logos/tarx-solutions-logo-trimmed.png",
     accent: "#3d8cff",
     initials: "TS"
   },
   {
-    name: "Tarx Holidays",
-    category: "Travel & Experiences",
-    description: "Curated travel experiences that combine comfort, culture and connection.",
-    logo: "/ventures/logos/tarx-holidays-logo-trimmed.png",
-    accent: "#26d7c2",
-    initials: "TH"
-  },
-  {
-    name: "Entry Pazz",
-    category: "Events & Communities",
-    description: "Unlocking opportunities through events, access, and communities.",
-    logo: "/ventures/logos/entry-pazz-logo-trimmed.png",
-    accent: "#d6a84f",
-    initials: "EP"
-  },
-  {
     name: "Resumi",
     category: "Career Tools",
     description: "Smarter resumes, stronger profiles, better opportunities.",
+    url: "https://resumi.live/",
     logo: "/ventures/logos/resumi_logo_transparent_cropped.png",
     accent: "#6bcf7b",
     initials: "R"
@@ -280,7 +261,9 @@ export default function VenturesPage() {
             {ventures.map((venture) => (
               <a
                 key={venture.name}
-                href={venture.name === "Dearelle" ? "/ventures/dearelle" : "#"}
+                href={venture.url}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group relative rounded-xl border bg-white/[0.035] p-4 outline-none transition-all duration-300 hover:-translate-y-1 focus:-translate-y-1 lg:min-h-[150px] lg:p-5"
                 style={{
                   borderColor: `${venture.accent}55`,
@@ -304,7 +287,7 @@ export default function VenturesPage() {
                   <ArrowRight className="h-5 w-5 shrink-0 transition-transform group-hover:translate-x-1" style={{ color: venture.accent }} />
                 </div>
                 <p className="mt-4 text-sm font-medium" style={{ color: venture.accent }}>
-                  Learn More
+                  Visit Website
                 </p>
               </a>
             ))}

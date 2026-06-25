@@ -87,6 +87,7 @@ type VentureCompany = {
   name: string;
   category: string;
   description: string;
+  url: string;
   logo?: string;
   initials?: string;
   panelClass?: string;
@@ -94,51 +95,38 @@ type VentureCompany = {
 
 const companies: VentureCompany[] = [
   {
-    name: "Plumlet",
-    category: "E-Commerce",
-    description: "A creative marketplace connecting artists, makers, and creators with people who appreciate unique handmade products, art, and craftsmanship.",
-    logo: "/ventures/logos/plumlet-logo-trimmed.png"
-  },
-  {
     name: "Dearelle",
     category: "E-Commerce",
     description: "A modern jewelry brand offering premium, stylish, and meaningful pieces that reflect individuality and elegance.",
+    url: "https://dearelle.in",
     logo: "/ventures/logos/dearelle-logo-trimmed.png"
-  },
-  {
-    name: "Fynta",
-    category: "Marketing",
-    description: "Creative marketing and growth support for modern brands.",
-    logo: "/ventures/logos/fynta_logo_transparent_cropped.png"
   },
   {
     name: "Occazn",
     category: "Events",
     description: "Occasion-focused experiences, planning, and social event presentation.",
+    url: "https://www.occazn.com/",
     logo: "/ventures/logos/occazn-logo-clean.png"
   },
   {
-    name: "Tarx Solutions",
+    name: "Fynta",
+    category: "Marketing",
+    description: "Marketing strategy and creative growth support for modern brands.",
+    url: "https://www.fusionventuresglobal.com/fynta",
+    logo: "/ventures/logos/fynta_logo_transparent_cropped.png"
+  },
+  {
+    name: "Tarx",
     category: "Technology",
     description: "Digital systems and business solutions for modern operations.",
+    url: "https://tarx.in",
     logo: "/ventures/logos/tarx-solutions-logo-trimmed.png"
-  },
-  {
-    name: "Tarx Holidays",
-    category: "Travel",
-    description: "Curated travel experiences across UAE, Kerala, and beyond.",
-    logo: "/ventures/logos/tarx-holidays-logo-trimmed.png"
-  },
-  {
-    name: "Entry Pazz",
-    category: "Events",
-    description: "Event discovery, ticketing, and access made simple.",
-    logo: "/ventures/logos/entry-pazz-logo-trimmed.png"
   },
   {
     name: "Resumi",
     category: "Careers",
     description: "Smart resume and profile tools for modern job seekers.",
+    url: "https://resumi.live/",
     logo: "/ventures/logos/resumi_logo_transparent_cropped.png"
   }
 ];
@@ -208,7 +196,6 @@ function SectionIntro({
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [flippedVenture, setFlippedVenture] = useState<string | null>(null);
   const [activePersonIndex, setActivePersonIndex] = useState(0);
   const activePerson = people[activePersonIndex];
 
@@ -496,26 +483,14 @@ export default function Home() {
           </div>
 
           <div className="scroll-reveal grid grid-cols-1 gap-3 min-[390px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-4">
-            {companies.map((company, index) => {
-              const isFlipped = flippedVenture === company.name;
-
-              return (
-                <article
+            {companies.map((company, index) => (
+                <a
                   key={company.name}
-                  className={`venture-card group h-[280px] min-w-0 cursor-pointer outline-none min-[390px]:h-[330px] md:h-[320px] lg:h-[360px] ${
-                    isFlipped ? "is-flipped" : ""
-                  }`}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`${isFlipped ? "Hide" : "View"} details for ${company.name}`}
-                  aria-pressed={isFlipped}
-                  onClick={() => setFlippedVenture(isFlipped ? null : company.name)}
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter" || event.key === " ") {
-                      event.preventDefault();
-                      setFlippedVenture(isFlipped ? null : company.name);
-                    }
-                  }}
+                  href={company.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="venture-card group h-[280px] min-w-0 cursor-pointer outline-none min-[390px]:h-[330px] md:h-[320px] lg:h-[360px]"
+                  aria-label={`Visit ${company.name} website`}
                 >
                   <div className="venture-card-inner">
                     <div className="venture-card-face venture-card-front rounded-lg border border-white/18 bg-[linear-gradient(145deg,rgba(255,255,255,0.055),rgba(255,255,255,0.018))] p-4 shadow-[0_18px_60px_rgba(0,0,0,0.3)] sm:p-5">
@@ -548,9 +523,8 @@ export default function Home() {
                     </div>
 
                     <div className="venture-card-face venture-card-back flex flex-col rounded-lg border border-[#d6a84f]/75 bg-[radial-gradient(circle_at_90%_10%,rgba(214,168,79,0.16),transparent_35%),linear-gradient(145deg,#181814,#090a08)] p-5 shadow-[0_18px_70px_rgba(214,168,79,0.12)] sm:p-6">
-                      <div className="flex items-center justify-between text-[9px] font-medium uppercase tracking-[0.16em] text-[#d6a84f]">
-                        <span>{String(index + 1).padStart(2, "0")}</span>
-                        <span className="max-w-[65%] truncate text-right">{company.category}</span>
+                      <div className="flex justify-end text-[9px] font-medium uppercase tracking-[0.16em] text-[#d6a84f]">
+                        <span className="max-w-full truncate text-right">{company.category}</span>
                       </div>
                       <div className="flex min-h-0 flex-1 flex-col justify-center pt-4">
                         <h3 className="font-display text-xl font-medium leading-tight text-white sm:text-2xl lg:text-3xl">
@@ -560,20 +534,15 @@ export default function Home() {
                           {company.description}
                         </p>
                         <span className="mt-5 h-px w-16 bg-[#d6a84f]/70 sm:mt-7 sm:w-20" />
-                        <a
-                          href="/ventures"
-                          className="mt-5 inline-flex w-fit items-center gap-2 text-xs font-medium text-[#d6a84f] transition-colors hover:text-white sm:mt-6 sm:gap-3 sm:text-sm"
-                          onClick={(event) => event.stopPropagation()}
-                        >
-                          View venture
+                        <span className="mt-5 inline-flex w-fit items-center gap-2 text-xs font-medium text-[#d6a84f] transition-colors group-hover:text-white sm:mt-6 sm:gap-3 sm:text-sm">
+                          Visit Website
                           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                        </a>
+                        </span>
                       </div>
                     </div>
                   </div>
-                </article>
-              );
-            })}
+                </a>
+              ))}
           </div>
         </div>
       </section>

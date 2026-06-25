@@ -14,6 +14,7 @@ import {
   Mail,
   MapPin,
   Menu,
+  MessageCircle,
   MousePointer2,
   Phone,
   Play,
@@ -26,14 +27,6 @@ import {
   X
 } from "lucide-react";
 import { webPortfolioContact } from "../web-portfolio/webProjects";
-
-const navItems = [
-  { label: "Home", href: "/" },
-  { label: "About Us", href: "/about" },
-  { label: "Ventures", href: "/ventures" },
-  { label: "Fynta", href: "/fynta" },
-  { label: "Contact", href: "/#contact" }
-];
 
 const filters = ["All", "Website", "SEO", "Ad / Video", "Social", "Product", "Campaign", "Branding"];
 
@@ -127,6 +120,39 @@ const testimonials = [
   ]
 ];
 
+const heroServices = [
+  {
+    title: "Strategy",
+    description: "Research-led planning that defines the direction.",
+    Icon: Sparkles
+  },
+  {
+    title: "Creative",
+    description: "Visual systems, content, and experiences that capture attention.",
+    Icon: Diamond
+  },
+  {
+    title: "Paid Media",
+    description: "Campaigns built to reach, convert, and scale.",
+    Icon: Send
+  },
+  {
+    title: "SEO",
+    description: "Search visibility that compounds over time.",
+    Icon: Search
+  },
+  {
+    title: "Social",
+    description: "Content and community that build brand momentum.",
+    Icon: MessageCircle
+  },
+  {
+    title: "Analytics",
+    description: "Clear tracking, reporting, and insights for smarter growth.",
+    Icon: BarChart3
+  }
+];
+
 function LogoMark() {
   return (
     <a href="/" className="flex items-center leading-none" aria-label="Fusion Ventures home">
@@ -139,19 +165,6 @@ function LogoMark() {
         className="h-9 w-auto shrink-0 sm:h-10"
       />
     </a>
-  );
-}
-
-function DarkLogoMark() {
-  return (
-    <Image
-      src="/fusion-ventures-logo-original.webp"
-      alt="Fusion Ventures"
-      width={640}
-      height={176}
-      priority
-      className="h-8 w-auto sm:h-9"
-    />
   );
 }
 
@@ -232,7 +245,8 @@ export default function FyntaClient() {
   const [productIndex, setProductIndex] = useState(0);
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [heroMotion, setHeroMotion] = useState({ x: 0, y: 0 });
-  const [hoveredHeroItem, setHoveredHeroItem] = useState<string | null>(null);
+  const [activeHeroService, setActiveHeroService] = useState(0);
+  const [hoveredHeroService, setHoveredHeroService] = useState<number | null>(null);
   const [isFilterChanging, setIsFilterChanging] = useState(false);
   const canAnimateHeroRef = useRef(false);
   const heroFrameRef = useRef<number | null>(null);
@@ -285,7 +299,7 @@ export default function FyntaClient() {
 
   const resetHeroMotion = () => {
     setHeroMotion({ x: 0, y: 0 });
-    setHoveredHeroItem(null);
+    setHoveredHeroService(null);
   };
 
   const selectFilter = (filter: string) => {
@@ -303,40 +317,7 @@ export default function FyntaClient() {
     }, 280);
   };
 
-  const heroItemState = (id: string) => {
-    const active = hoveredHeroItem === id;
-    const muted = hoveredHeroItem !== null && !active;
-
-    return {
-      className: `transition-[opacity,filter,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-        muted ? "opacity-70 blur-[0.6px]" : "opacity-100"
-      } ${active ? "z-50 shadow-[0_28px_80px_rgba(40,29,12,0.28)]" : ""}`,
-      active
-    };
-  };
-
-  const heroTransform = ({
-    id,
-    strength,
-    rotate,
-    opposite = false
-  }: {
-    id: string;
-    strength: number;
-    rotate: number;
-    opposite?: boolean;
-  }) => {
-    const active = hoveredHeroItem === id;
-    const direction = opposite ? -1 : 1;
-    const x = heroMotion.x * strength * direction;
-    const y = heroMotion.y * strength * direction;
-    const focusedRotate = active ? rotate * 0.16 : rotate;
-    const scale = active ? 1.035 : 1;
-
-    return {
-      transform: `translate3d(${x}px, ${y}px, 0) rotate(${focusedRotate}deg) scale(${scale})`
-    };
-  };
+  const currentHeroService = hoveredHeroService ?? activeHeroService;
 
   const visibleWebsiteProjects = [
     websiteProjects[websiteIndex],
@@ -353,125 +334,132 @@ export default function FyntaClient() {
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#f3eee5] text-[#15120e]">
-      <header className="sticky top-0 z-50 border-b border-[#1a1712]/10 bg-[#f3eee5]/92 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-[rgba(5,5,5,0.94)] backdrop-blur-xl">
         <div className="mx-auto flex h-[78px] max-w-[1440px] items-center justify-between px-5 sm:px-10 lg:px-14">
-          <DarkLogoMark />
-          <nav className="hidden items-center gap-8 lg:flex">
-            {navItems.map((item) => (
+          <LogoMark />
+          <nav className="hidden items-center gap-10 lg:flex">
+            {[
+              ["Work", "#featured"],
+              ["Services", "#services"],
+              ["About", "/about"],
+              ["Journal", "#"],
+              ["Contact", "#contact"]
+            ].map(([label, href]) => (
               <a
-                key={item.label}
-                href={item.href}
-                className={`text-[11px] font-bold uppercase tracking-[0.08em] transition-colors hover:text-[#15120e] ${
-                  item.label === "Fynta" ? "border-b border-[#b99a5b] pb-2 text-[#9c7738]" : "text-black/58"
-                }`}
+                key={label}
+                href={href}
+                className="group relative text-[12px] font-bold uppercase tracking-[0.16em] text-white/76 transition-colors hover:text-white"
               >
-                {item.label}
+                {label}
+                <span className="absolute -bottom-2 left-0 h-px w-full origin-left scale-x-0 bg-[#c49a45] transition-transform duration-300 group-hover:scale-x-100" />
               </a>
             ))}
           </nav>
-          <a
-            href="/#contact"
-            className="hidden border border-[#b99a5b] bg-[#b99a5b] px-7 py-4 text-[11px] font-bold uppercase tracking-[0.08em] text-black transition-colors hover:bg-transparent hover:text-[#9c7738] sm:inline-flex"
-          >
-            Partner With Us
-          </a>
           <button
-            className="grid h-11 w-11 place-items-center rounded-md border border-[#d6a84f]/45 text-[#d6a84f] lg:hidden"
+            className="group inline-flex items-center gap-3 text-[12px] font-bold uppercase tracking-[0.16em] text-white/82 transition-colors hover:text-white"
             aria-label="Open navigation menu"
           >
-            <Menu className="h-6 w-6" />
+            Menu
+            <span className="flex h-5 w-8 flex-col justify-center gap-1.5">
+              <span className="h-px w-full bg-[#c49a45] transition-transform group-hover:translate-x-1" />
+              <span className="h-px w-full bg-[#c49a45] transition-transform group-hover:translate-x-0.5" />
+            </span>
           </button>
         </div>
-        <div className="mobile-nav-motion lg:hidden" />
       </header>
 
-      <section className="relative overflow-hidden border-b border-[#1a1712]/12 px-5 py-14 sm:px-10 lg:px-14 lg:py-20">
-        <div className="absolute inset-0 opacity-[0.32] [background-image:linear-gradient(rgba(21,18,14,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(21,18,14,0.04)_1px,transparent_1px)] [background-size:96px_96px]" />
-        <div className="relative mx-auto grid max-w-[1440px] gap-12 lg:grid-cols-[44%_56%] lg:items-center">
-          <div className="relative">
-            <div className="mb-10">
-              <DarkLogoMark />
-            </div>
-            <SectionLabel>Fynta Portfolio</SectionLabel>
-            <h1 className="mt-5 font-serif text-[46px] font-normal leading-[0.95] tracking-[-0.04em] text-[#15120e] sm:text-6xl lg:text-[64px] xl:text-[68px]">
-              <span className="block">Bold ideas.</span>
-              <span className="block whitespace-nowrap">Smart strategy.</span>
-              <em className="block font-serif italic text-[#b99047] md:whitespace-nowrap">Measurable impact.</em>
+      <section
+        className="relative isolate overflow-hidden bg-[#050505] px-5 py-16 text-[#f5f1ea] sm:px-10 lg:min-h-[820px] lg:px-14 lg:py-20"
+        onPointerMove={handleHeroPointerMove}
+        onPointerLeave={resetHeroMotion}
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_45%,rgba(196,154,69,0.14),transparent_34%),linear-gradient(115deg,#050505,#0a0907_54%,#040403)]" />
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.24] [background-image:radial-gradient(circle,rgba(212,168,79,0.34)_1px,transparent_1.5px)] [background-size:42px_42px]"
+          style={{ transform: `translate3d(${heroMotion.x * -10}px, ${heroMotion.y * -10}px, 0)` }}
+        />
+        <div
+          className="pointer-events-none absolute h-[360px] w-[360px] rounded-full bg-[radial-gradient(circle,rgba(196,154,69,0.18),transparent_62%)] opacity-70 blur-2xl"
+          style={{
+            left: `calc(50% + ${heroMotion.x * 44}px)`,
+            top: `calc(38% + ${heroMotion.y * 44}px)`,
+            transform: "translate3d(-50%, -50%, 0)"
+          }}
+        />
+        <div className="relative mx-auto grid max-w-[1440px] gap-16 lg:grid-cols-[45%_55%] lg:items-center">
+          <div className="fynta-hero-copy relative z-20">
+            <p className="font-serif text-[56px] leading-none text-[#c49a45] sm:text-[62px]">02</p>
+            <span className="mt-4 block h-px w-14 bg-[#c49a45]/70" />
+            <p className="mt-8 text-[13px] font-bold uppercase tracking-[0.28em] text-[#c49a45]">Fynta Portfolio</p>
+            <h1 className="mt-8 font-serif text-[48px] font-normal leading-[0.96] tracking-[-0.035em] text-[#f5f1ea] sm:text-6xl lg:text-[60px] xl:text-[64px]">
+              <span className="fynta-hero-line block">Bold ideas.</span>
+              <span className="fynta-hero-line block whitespace-nowrap">Smart strategy.</span>
+              <em className="fynta-hero-line fynta-gold-shimmer block font-serif italic text-[#c49a45] md:whitespace-nowrap">Measurable impact.</em>
             </h1>
-            <p className="mt-8 max-w-[560px] text-[16px] leading-8 text-black/66">
+            <p className="mt-10 max-w-[560px] text-[17px] leading-9 text-[#d8d0c4]">
               A curated portfolio of digital campaigns, content, websites and experiences Fynta has crafted to help ambitious brands break through and grow.
             </p>
-            <a href="#featured" className="group mt-9 inline-flex items-center gap-5 border-b border-[#b99047] pb-2 text-[11px] font-bold uppercase tracking-[0.16em]">
-              Explore Fynta Work
-              <ArrowRight className="h-4 w-4 rounded-full bg-[#c59a4a] p-0.5 text-white transition-transform group-hover:translate-x-1" />
+            <a href="#featured" className="group mt-10 inline-flex items-center gap-6 text-[13px] font-bold uppercase tracking-[0.22em] text-white">
+              <span className="relative pb-2">
+                Explore Fynta Work
+                <span className="absolute bottom-0 left-0 h-px w-full origin-left bg-[#c49a45] transition-transform duration-500 group-hover:scale-x-125" />
+              </span>
+              <span className="grid h-12 w-12 place-items-center rounded-full bg-[#c49a45] text-[#050505] transition-[transform,box-shadow] duration-500 group-hover:translate-x-1.5 group-hover:shadow-[0_0_32px_rgba(196,154,69,0.35)]">
+                <ArrowRight className="h-4 w-4" />
+              </span>
             </a>
-            <p className="mt-10 font-serif text-xl italic text-[#b99047]">Strategy meets creativity</p>
+            <p className="mt-16 font-serif text-3xl italic text-[#c49a45] lg:mt-20">Strategy meets creativity</p>
           </div>
 
-          <div
-            className="relative min-h-[500px] sm:min-h-[620px] lg:min-h-[660px]"
-            onPointerMove={handleHeroPointerMove}
-            onPointerLeave={resetHeroMotion}
-          >
-            <span
-              className="fynta-brush-orbit absolute left-[11%] top-[7%] h-[430px] w-[430px] rounded-full border-[18px] border-[#b99047]/44 sm:h-[500px] sm:w-[500px]"
-              aria-hidden="true"
-            />
+          <div className="relative z-10 mt-10 min-h-[620px] lg:mt-0 lg:min-h-[700px]">
             <div
-              className={`absolute left-[6%] top-[25%] z-20 w-[70%] border border-[#15120e]/12 bg-[#f8f2e9] p-3 shadow-[0_24px_70px_rgba(40,29,12,0.22)] sm:top-[22%] sm:w-[66%] ${heroItemState("main").className}`}
-              style={heroTransform({ id: "main", strength: 9, rotate: -1.5 })}
-              onPointerEnter={() => setHoveredHeroItem("main")}
+              className="fynta-orbit-system absolute left-[54%] top-[48%] h-[430px] w-[430px] -translate-x-1/2 -translate-y-1/2 sm:h-[560px] sm:w-[560px] lg:h-[680px] lg:w-[680px]"
+              style={{ transform: `translate3d(calc(-50% + ${heroMotion.x * 28}px), calc(-50% + ${heroMotion.y * 28}px), 0) rotateX(${heroMotion.y * -5}deg) rotateY(${heroMotion.x * 5}deg)` }}
             >
-              <div className="relative aspect-[16/10] overflow-hidden">
-                <Image src="/images/web-portfolio/cards/hydrelle-skincare.webp" alt="Laptop campaign preview" fill unoptimized priority className="object-cover object-top" />
+              <span className="fynta-orbit-ring fynta-orbit-ring-a" />
+              <span className="fynta-orbit-ring fynta-orbit-ring-b" />
+              <span className="fynta-orbit-ring fynta-orbit-ring-c" />
+              <span className="fynta-orbit-particle fynta-orbit-particle-a" />
+              <span className="fynta-orbit-particle fynta-orbit-particle-b" />
+              <span className="fynta-orbit-particle fynta-orbit-particle-c" />
+              <span className="fynta-orbit-spark fynta-orbit-spark-a" />
+              <span className="fynta-orbit-spark fynta-orbit-spark-b" />
+              <span className="fynta-orbit-spark fynta-orbit-spark-c" />
+            </div>
+
+            <div className="absolute inset-0 z-20 flex items-start justify-center pt-8 lg:items-center lg:pt-0">
+              <div className="w-full max-w-[430px] py-6 pr-6 sm:pr-8 lg:border-r lg:border-[#c49a45]/28">
+                <div className="space-y-5">
+                  {heroServices.map(({ title, description, Icon }, index) => {
+                    const isActive = currentHeroService === index;
+
+                    return (
+                      <button
+                        key={title}
+                        type="button"
+                        onMouseEnter={() => setHoveredHeroService(index)}
+                        onFocus={() => setHoveredHeroService(index)}
+                        onClick={() => setActiveHeroService(index)}
+                        className={`group relative flex w-full items-start gap-6 rounded-sm px-3 py-2 text-left transition-colors duration-300 ${
+                          isActive ? "text-[#f4d083]" : "text-white/80 hover:text-[#f4d083]"
+                        }`}
+                      >
+                        <Icon className={`mt-0.5 h-7 w-7 shrink-0 text-[#c49a45] transition-[transform,filter] duration-500 ${isActive ? "scale-110 drop-shadow-[0_0_12px_rgba(196,154,69,0.45)]" : "group-hover:scale-105"}`} strokeWidth={1.45} />
+                        <span>
+                          <span className="block text-[14px] font-bold uppercase tracking-[0.22em]">{title}</span>
+                          <span className={`mt-2 block max-w-[270px] text-[12px] leading-5 text-[#d8d0c4]/76 transition-all duration-300 ${isActive ? "translate-y-0 opacity-100" : "-translate-y-1 opacity-0"}`}>
+                            {description}
+                          </span>
+                          <span className={`mt-2 inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#c49a45] transition-all duration-300 ${isActive ? "translate-y-0 opacity-100" : "-translate-y-1 opacity-0"}`}>
+                            Explore {title} Work <ArrowRight className="h-3 w-3" />
+                          </span>
+                        </span>
+                        <span className={`absolute right-[-34px] top-6 hidden h-px bg-[#c49a45] transition-all duration-500 lg:block ${isActive ? "w-28 opacity-100" : "w-0 opacity-0"}`} />
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-              <span className={`absolute bottom-5 right-5 inline-flex items-center gap-2 bg-[#f8f2e9]/95 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#15120e] backdrop-blur-sm transition-all duration-500 ${hoveredHeroItem === "main" ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}>
-                View Case Study <ArrowRight className="h-3.5 w-3.5" />
-              </span>
-            </div>
-            <div
-              className={`absolute right-[2%] top-[28%] z-30 w-[24%] border border-[#15120e]/12 bg-[#f8f2e9] p-2 shadow-[0_18px_46px_rgba(40,29,12,0.2)] sm:right-[5%] ${heroItemState("mobile").className}`}
-              style={heroTransform({ id: "mobile", strength: 18, rotate: 2 })}
-              onPointerEnter={() => setHoveredHeroItem("mobile")}
-            >
-              <div className="relative aspect-[9/16] overflow-hidden">
-                <Image src="/images/web-portfolio/cards/miracle-designs-boutique.webp" alt="Mobile campaign preview" fill unoptimized className="object-cover object-top" />
-              </div>
-              <span className={`absolute bottom-4 left-4 right-4 inline-flex items-center justify-center gap-2 bg-[#f8f2e9]/95 px-3 py-2 text-[9px] font-bold uppercase tracking-[0.12em] text-[#15120e] backdrop-blur-sm transition-all duration-500 ${hoveredHeroItem === "mobile" ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}>
-                View Case Study <ArrowRight className="h-3 w-3" />
-              </span>
-            </div>
-            <div
-              className={`absolute right-[17%] top-[2%] z-10 h-[150px] w-[230px] overflow-hidden border border-[#15120e]/12 grayscale sm:h-[170px] sm:w-[270px] ${heroItemState("portrait").className}`}
-              style={heroTransform({ id: "portrait", strength: 24, rotate: 0.5 })}
-              onPointerEnter={() => setHoveredHeroItem("portrait")}
-            >
-              <Image src="/images/web-portfolio/cards/n-universal-yoga.webp" alt="Campaign portrait" fill unoptimized className="object-cover" />
-            </div>
-            <div
-              className={`absolute bottom-[5%] right-[11%] z-20 h-[160px] w-[240px] overflow-hidden border border-[#15120e]/12 bg-[#f8f2e9] p-2 sm:h-[180px] sm:w-[280px] ${heroItemState("product").className}`}
-              style={heroTransform({ id: "product", strength: 11, rotate: 0.8, opposite: true })}
-              onPointerEnter={() => setHoveredHeroItem("product")}
-            >
-              <div className="relative h-full w-full overflow-hidden">
-                <Image src="/images/web-portfolio/cards/lumora.webp" alt="Product visual" fill unoptimized className="object-cover object-top" />
-              </div>
-              <span className={`absolute bottom-4 right-4 inline-flex items-center gap-2 bg-[#f8f2e9]/95 px-3 py-2 text-[9px] font-bold uppercase tracking-[0.12em] text-[#15120e] backdrop-blur-sm transition-all duration-500 ${hoveredHeroItem === "product" ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}>
-                View Case Study <ArrowRight className="h-3 w-3" />
-              </span>
-            </div>
-            <div
-              className={`absolute bottom-[15%] left-[4%] z-10 h-[140px] w-[190px] overflow-hidden border border-[#15120e]/10 opacity-90 sm:h-[170px] sm:w-[220px] ${heroItemState("texture").className}`}
-              style={heroTransform({ id: "texture", strength: 14, rotate: -0.4, opposite: true })}
-              onPointerEnter={() => setHoveredHeroItem("texture")}
-            >
-              <Image src="/images/web-portfolio/cards/aqsa-print.webp" alt="Texture campaign visual" fill unoptimized className="object-cover object-center" />
-            </div>
-            <div
-              className="absolute bottom-[23%] right-[1%] z-40 grid h-20 w-20 place-items-center rounded-full bg-[#070707] text-center text-2xl font-serif text-white shadow-[0_18px_45px_rgba(0,0,0,0.24)] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:h-24 sm:w-24"
-              style={{ transform: `translate3d(${heroMotion.x * 6}px, ${heroMotion.y * 6}px, 0) rotate(${heroMotion.x * 8}deg)` }}
-            >
-              F
             </div>
           </div>
         </div>
@@ -808,34 +796,6 @@ export default function FyntaClient() {
           </div>
         </div>
       )}
-      <style jsx global>{`
-        @media (prefers-reduced-motion: no-preference) {
-          .fynta-brush-orbit {
-            animation: fyntaBrushReveal 900ms cubic-bezier(0.22, 1, 0.36, 1) both,
-              fyntaBrushDrift 24s linear 900ms infinite;
-          }
-        }
-
-        @keyframes fyntaBrushReveal {
-          from {
-            opacity: 0;
-            transform: scale(0.96) rotate(-4deg);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1) rotate(0deg);
-          }
-        }
-
-        @keyframes fyntaBrushDrift {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-      `}</style>
     </main>
   );
 }

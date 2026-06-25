@@ -87,7 +87,7 @@ type VentureCompany = {
   name: string;
   category: string;
   description: string;
-  url: string;
+  url?: string;
   logo?: string;
   initials?: string;
   panelClass?: string;
@@ -104,14 +104,14 @@ const companies: VentureCompany[] = [
   {
     name: "Occazn",
     category: "Events",
-    description: "Occasion-focused experiences, planning, and social event presentation.",
+    description: "Occazn helps you create stunning event invitations, organize every detail, and turn special occasions into unforgettable experiences.",
     url: "https://www.occazn.com/",
     logo: "/ventures/logos/occazn-logo-clean.png"
   },
   {
     name: "Fynta",
     category: "Marketing",
-    description: "Marketing strategy and creative growth support for modern brands.",
+    description: "Fynta empowers brands with strategic marketing, creative content, and performance-driven campaigns that accelerate business growth.",
     url: "https://www.fusionventuresglobal.com/fynta",
     logo: "/ventures/logos/fynta_logo_transparent_cropped.png"
   },
@@ -125,9 +125,27 @@ const companies: VentureCompany[] = [
   {
     name: "Resumi",
     category: "Careers",
-    description: "Smart resume and profile tools for modern job seekers.",
+    description: "Resumi is an AI-powered resume builder that helps professionals create polished, ATS-friendly resumes and stand out in today's competitive job market.",
     url: "https://resumi.live/",
     logo: "/ventures/logos/resumi_logo_transparent_cropped.png"
+  },
+  {
+    name: "Plumlet",
+    category: "E-Commerce",
+    description: "A creative marketplace connecting artists, makers, and creators with people who appreciate unique handmade products, art, and craftsmanship.",
+    logo: "/ventures/logos/plumlet-logo-trimmed.png"
+  },
+  {
+    name: "Getaway",
+    category: "Travel",
+    description: "Travel and holiday experiences being shaped for the Fusion Ventures ecosystem.",
+    logo: "/ventures/logos/getaway_logo_white_background.webp"
+  },
+  {
+    name: "Entry Pazz",
+    category: "Events",
+    description: "Event discovery, ticketing, and access made simple.",
+    logo: "/ventures/logos/entry-pazz-logo-trimmed.png"
   }
 ];
 
@@ -483,7 +501,60 @@ export default function Home() {
           </div>
 
           <div className="scroll-reveal grid grid-cols-1 gap-3 min-[390px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-4">
-            {companies.map((company, index) => (
+            {companies.map((company, index) => {
+              const cardContent = (
+                <div className="venture-card-inner">
+                  <div className="venture-card-face venture-card-front rounded-lg border border-white/18 bg-[linear-gradient(145deg,rgba(255,255,255,0.055),rgba(255,255,255,0.018))] p-4 shadow-[0_18px_60px_rgba(0,0,0,0.3)] sm:p-5">
+                    <p className="text-[10px] font-medium tracking-[0.1em] text-[#d6a84f]">
+                      {String(index + 1).padStart(2, "0")}
+                    </p>
+                    <div className="absolute inset-x-4 top-1/2 flex h-[126px] -translate-y-1/2 items-center justify-center rounded-lg bg-[#f8f6ef] p-5 shadow-[inset_0_0_25px_rgba(0,0,0,0.035)] sm:inset-x-5 lg:h-[150px]">
+                      {company.logo ? (
+                        <Image
+                          src={company.logo}
+                          alt={`${company.name} logo`}
+                          width={320}
+                          height={150}
+                          unoptimized
+                          className="max-h-20 w-full object-contain lg:max-h-24"
+                        />
+                      ) : (
+                        <span
+                          className={`flex h-full w-full items-center justify-center rounded-md font-display text-3xl font-bold tracking-[-0.04em] lg:text-4xl ${
+                            company.panelClass ?? "bg-white text-black"
+                          }`}
+                        >
+                          {company.initials}
+                        </span>
+                      )}
+                    </div>
+                    <p className="absolute inset-x-4 bottom-5 text-center text-[9px] font-semibold uppercase tracking-[0.24em] text-white/48 sm:inset-x-5">
+                      {company.category}
+                    </p>
+                  </div>
+
+                  <div className="venture-card-face venture-card-back flex flex-col rounded-lg border border-[#d6a84f]/75 bg-[radial-gradient(circle_at_90%_10%,rgba(214,168,79,0.16),transparent_35%),linear-gradient(145deg,#181814,#090a08)] p-5 shadow-[0_18px_70px_rgba(214,168,79,0.12)] sm:p-6">
+                    <div className="flex justify-end text-[9px] font-medium uppercase tracking-[0.16em] text-[#d6a84f]">
+                      <span className="max-w-full truncate text-right">{company.category}</span>
+                    </div>
+                    <div className="flex min-h-0 flex-1 flex-col justify-center pt-4">
+                      <h3 className="font-display text-xl font-medium leading-tight text-white sm:text-2xl lg:text-3xl">
+                        {company.name}
+                      </h3>
+                      <p className="mt-3 text-xs leading-5 text-white/62 sm:mt-4 sm:text-sm sm:leading-6">
+                        {company.description}
+                      </p>
+                      <span className="mt-5 h-px w-16 bg-[#d6a84f]/70 sm:mt-7 sm:w-20" />
+                      <span className="mt-5 inline-flex w-fit items-center gap-2 text-xs font-medium text-[#d6a84f] transition-colors group-hover:text-white sm:mt-6 sm:gap-3 sm:text-sm">
+                        {company.url ? "Visit Website" : "Coming Soon"}
+                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              );
+
+              return company.url ? (
                 <a
                   key={company.name}
                   href={company.url}
@@ -492,57 +563,18 @@ export default function Home() {
                   className="venture-card group h-[280px] min-w-0 cursor-pointer outline-none min-[390px]:h-[330px] md:h-[320px] lg:h-[360px]"
                   aria-label={`Visit ${company.name} website`}
                 >
-                  <div className="venture-card-inner">
-                    <div className="venture-card-face venture-card-front rounded-lg border border-white/18 bg-[linear-gradient(145deg,rgba(255,255,255,0.055),rgba(255,255,255,0.018))] p-4 shadow-[0_18px_60px_rgba(0,0,0,0.3)] sm:p-5">
-                      <p className="text-[10px] font-medium tracking-[0.1em] text-[#d6a84f]">
-                        {String(index + 1).padStart(2, "0")}
-                      </p>
-                      <div className="absolute inset-x-4 top-1/2 flex h-[126px] -translate-y-1/2 items-center justify-center rounded-lg bg-[#f8f6ef] p-5 shadow-[inset_0_0_25px_rgba(0,0,0,0.035)] sm:inset-x-5 lg:h-[150px]">
-                        {company.logo ? (
-                          <Image
-                            src={company.logo}
-                            alt={`${company.name} logo`}
-                            width={320}
-                            height={150}
-                            unoptimized
-                            className="max-h-20 w-full object-contain lg:max-h-24"
-                          />
-                        ) : (
-                          <span
-                            className={`flex h-full w-full items-center justify-center rounded-md font-display text-3xl font-bold tracking-[-0.04em] lg:text-4xl ${
-                              company.panelClass ?? "bg-white text-black"
-                            }`}
-                          >
-                            {company.initials}
-                          </span>
-                        )}
-                      </div>
-                      <p className="absolute inset-x-4 bottom-5 text-center text-[9px] font-semibold uppercase tracking-[0.24em] text-white/48 sm:inset-x-5">
-                        {company.category}
-                      </p>
-                    </div>
-
-                    <div className="venture-card-face venture-card-back flex flex-col rounded-lg border border-[#d6a84f]/75 bg-[radial-gradient(circle_at_90%_10%,rgba(214,168,79,0.16),transparent_35%),linear-gradient(145deg,#181814,#090a08)] p-5 shadow-[0_18px_70px_rgba(214,168,79,0.12)] sm:p-6">
-                      <div className="flex justify-end text-[9px] font-medium uppercase tracking-[0.16em] text-[#d6a84f]">
-                        <span className="max-w-full truncate text-right">{company.category}</span>
-                      </div>
-                      <div className="flex min-h-0 flex-1 flex-col justify-center pt-4">
-                        <h3 className="font-display text-xl font-medium leading-tight text-white sm:text-2xl lg:text-3xl">
-                          {company.name}
-                        </h3>
-                        <p className="mt-3 text-xs leading-5 text-white/62 sm:mt-4 sm:text-sm sm:leading-6">
-                          {company.description}
-                        </p>
-                        <span className="mt-5 h-px w-16 bg-[#d6a84f]/70 sm:mt-7 sm:w-20" />
-                        <span className="mt-5 inline-flex w-fit items-center gap-2 text-xs font-medium text-[#d6a84f] transition-colors group-hover:text-white sm:mt-6 sm:gap-3 sm:text-sm">
-                          Visit Website
-                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+                  {cardContent}
                 </a>
-              ))}
+              ) : (
+                <article
+                  key={company.name}
+                  className="venture-card group h-[280px] min-w-0 outline-none min-[390px]:h-[330px] md:h-[320px] lg:h-[360px]"
+                  aria-label={`${company.name} venture`}
+                >
+                  {cardContent}
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>

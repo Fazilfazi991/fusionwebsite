@@ -41,7 +41,7 @@ const ventures = [
   {
     name: "Occazn",
     category: "Occasions & Social Planning",
-    description: "Occasion-focused experiences, planning, and social event presentation.",
+    description: "Occazn helps you create stunning event invitations, organize every detail, and turn special occasions into unforgettable experiences.",
     url: "https://www.occazn.com/",
     logo: "/ventures/logos/occazn-logo-clean.png",
     accent: "#ff7a2d",
@@ -50,7 +50,7 @@ const ventures = [
   {
     name: "Fynta",
     category: "Marketing Agency",
-    description: "Marketing strategy and creative growth support for modern brands.",
+    description: "Fynta empowers brands with strategic marketing, creative content, and performance-driven campaigns that accelerate business growth.",
     url: "https://www.fusionventuresglobal.com/fynta",
     logo: "/ventures/logos/fynta_logo_transparent_cropped.png",
     accent: "#a962ff",
@@ -68,11 +68,35 @@ const ventures = [
   {
     name: "Resumi",
     category: "Career Tools",
-    description: "Smarter resumes, stronger profiles, better opportunities.",
+    description: "Resumi is an AI-powered resume builder that helps professionals create polished, ATS-friendly resumes and stand out in today's competitive job market.",
     url: "https://resumi.live/",
     logo: "/ventures/logos/resumi_logo_transparent_cropped.png",
     accent: "#6bcf7b",
     initials: "R"
+  },
+  {
+    name: "Plumlet",
+    category: "Consumer Brands",
+    description: "A creative marketplace connecting artists, makers, and creators with people who appreciate unique handmade products, art, and craftsmanship.",
+    logo: "/ventures/logos/plumlet-logo-trimmed.png",
+    accent: "#b45cff",
+    initials: "P"
+  },
+  {
+    name: "Getaway",
+    category: "Travel & Experiences",
+    description: "Travel and holiday experiences being shaped for the Fusion Ventures ecosystem.",
+    logo: "/ventures/logos/getaway_logo_white_background.webp",
+    accent: "#26d7c2",
+    initials: "G"
+  },
+  {
+    name: "Entry Pazz",
+    category: "Events & Communities",
+    description: "Unlocking opportunities through events, access, and communities.",
+    logo: "/ventures/logos/entry-pazz-logo-trimmed.png",
+    accent: "#d6a84f",
+    initials: "EP"
   }
 ];
 
@@ -258,18 +282,9 @@ export default function VenturesPage() {
           </div>
           <div className="pointer-events-none absolute left-1/2 top-16 hidden h-px w-[980px] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#d6a84f]/44 to-transparent lg:block" />
           <div className="grid gap-4 min-[390px]:grid-cols-2 lg:grid-cols-4 lg:gap-x-6 lg:gap-y-8">
-            {ventures.map((venture) => (
-              <a
-                key={venture.name}
-                href={venture.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative rounded-xl border bg-white/[0.035] p-4 outline-none transition-all duration-300 hover:-translate-y-1 focus:-translate-y-1 lg:min-h-[150px] lg:p-5"
-                style={{
-                  borderColor: `${venture.accent}55`,
-                  boxShadow: `0 0 34px ${venture.accent}12`
-                }}
-              >
+            {ventures.map((venture) => {
+              const cardContent = (
+                <>
                 <span className="absolute -top-5 left-1/2 hidden h-5 w-px -translate-x-1/2 bg-[#d6a84f]/42 lg:block" />
                 <span className="absolute -top-[22px] left-1/2 hidden h-2 w-2 -translate-x-1/2 rounded-full bg-[#d6a84f] shadow-[0_0_14px_rgba(214,168,79,0.9)] lg:block" />
                 <p className="mb-4 text-[9px] font-bold uppercase tracking-[0.18em] lg:hidden" style={{ color: venture.accent }}>
@@ -287,10 +302,38 @@ export default function VenturesPage() {
                   <ArrowRight className="h-5 w-5 shrink-0 transition-transform group-hover:translate-x-1" style={{ color: venture.accent }} />
                 </div>
                 <p className="mt-4 text-sm font-medium" style={{ color: venture.accent }}>
-                  Visit Website
+                  {venture.url ? "Visit Website" : "Coming Soon"}
                 </p>
-              </a>
-            ))}
+                </>
+              );
+
+              return venture.url ? (
+                <a
+                  key={venture.name}
+                  href={venture.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative rounded-xl border bg-white/[0.035] p-4 outline-none transition-all duration-300 hover:-translate-y-1 focus:-translate-y-1 lg:min-h-[150px] lg:p-5"
+                  style={{
+                    borderColor: `${venture.accent}55`,
+                    boxShadow: `0 0 34px ${venture.accent}12`
+                  }}
+                >
+                  {cardContent}
+                </a>
+              ) : (
+                <article
+                  key={venture.name}
+                  className="group relative rounded-xl border bg-white/[0.035] p-4 outline-none transition-all duration-300 hover:-translate-y-1 lg:min-h-[150px] lg:p-5"
+                  style={{
+                    borderColor: `${venture.accent}55`,
+                    boxShadow: `0 0 34px ${venture.accent}12`
+                  }}
+                >
+                  {cardContent}
+                </article>
+              );
+            })}
           </div>
           <div className="mt-8 text-center">
             <a

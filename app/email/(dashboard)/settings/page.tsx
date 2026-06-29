@@ -44,6 +44,14 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
           <input name="daily_send_limit" type="number" min="1" defaultValue={settings?.daily_send_limit || emailConfig.dailyLimit || 25} className="mt-1 w-full" />
         </label>
         <label>
+          <span className="field-label">Manual approval before first send</span>
+          <input type="hidden" name="require_manual_approval_before_first_send" value="off" />
+          <div className="mt-3 flex items-center gap-2 text-sm">
+            <input name="require_manual_approval_before_first_send" type="checkbox" defaultChecked={settings?.require_manual_approval_before_first_send !== false} />
+            Require review before queueing first emails
+          </div>
+        </label>
+        <label>
           <span className="field-label">Generation Mode</span>
           <select name="generation_mode" defaultValue={settings?.generation_mode === "openai" ? "gemini" : settings?.generation_mode || (process.env.AI_PROVIDER === "gemini" ? "gemini" : "template")} className="mt-1 w-full">
             <option value="template">Template fallback</option>
@@ -54,6 +62,33 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
         <label>
           <span className="field-label">Legacy daily draft limit</span>
           <input name="daily_draft_limit" type="number" min="1" defaultValue={settings?.daily_draft_limit || 25} className="mt-1 w-full" />
+        </label>
+        <label>
+          <span className="field-label">Default working hours start</span>
+          <input name="default_working_hours_start" type="time" defaultValue={settings?.default_working_hours_start || "09:00"} className="mt-1 w-full" />
+        </label>
+        <label>
+          <span className="field-label">Default working hours end</span>
+          <input name="default_working_hours_end" type="time" defaultValue={settings?.default_working_hours_end || "17:00"} className="mt-1 w-full" />
+        </label>
+        <label>
+          <span className="field-label">Weekend sending</span>
+          <div className="mt-3 flex items-center gap-2 text-sm">
+            <input name="send_weekends" type="checkbox" defaultChecked={settings?.send_weekends || false} />
+            Allow campaigns to send on weekends by default
+          </div>
+        </label>
+        <label>
+          <span className="field-label">Follow-up 1 delay days</span>
+          <input name="followup1_delay_days" type="number" min="1" defaultValue={settings?.followup1_delay_days || 3} className="mt-1 w-full" />
+        </label>
+        <label>
+          <span className="field-label">Follow-up 2 delay days</span>
+          <input name="followup2_delay_days" type="number" min="1" defaultValue={settings?.followup2_delay_days || 7} className="mt-1 w-full" />
+        </label>
+        <label>
+          <span className="field-label">Follow-up 3 delay days</span>
+          <input name="followup3_delay_days" type="number" min="1" defaultValue={settings?.followup3_delay_days || 12} className="mt-1 w-full" />
         </label>
         <label className="md:col-span-2">
           <span className="field-label">Default signature</span>

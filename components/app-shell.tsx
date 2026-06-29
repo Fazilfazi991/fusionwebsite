@@ -1,11 +1,14 @@
 import Link from "next/link";
-import { BarChart3, ClipboardList, Inbox, LogOut, Settings, UserPlus } from "lucide-react";
+import { BarChart3, ClipboardList, Inbox, ListChecks, LogOut, Megaphone, Settings, UserPlus } from "lucide-react";
 
 const navItems = [
   { href: "/email/dashboard", label: "Dashboard", icon: BarChart3 },
+  { href: "/email/campaigns", label: "Campaigns", icon: Megaphone },
   { href: "/email/leads", label: "Leads", icon: UserPlus },
   { href: "/email/review", label: "Review", icon: ClipboardList },
+  { href: "/email/queue", label: "Queue", icon: ListChecks },
   { href: "/email/follow-ups", label: "Follow-ups", icon: Inbox },
+  { href: "/email/reports", label: "Reports", icon: BarChart3 },
   { href: "/email/settings", label: "Settings", icon: Settings }
 ];
 

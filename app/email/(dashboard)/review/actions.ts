@@ -2,8 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { getLead, getSettings } from "@/lib/db";
 import { generateOutreachEmail } from "@/lib/ai";
+import { queueApprovedEmail } from "@/lib/automation";
+import { getLead, getSettings, logActivity } from "@/lib/db";
 import { getSupabaseAdmin } from "@/lib/supabase/server";
 
 export async function generateForLead(formData: FormData) {
@@ -25,12 +26,13 @@ export async function generateForLead(formData: FormData) {
         body: generated.body,
         follow_up_1: generated.followup1,
         follow_up_2: generated.followup2,
+        follow_up_3: generated.followup3,
         status: "Need Review",
         model: generated.generation_provider
       });
       if (error) throw error;
 
-      const { error: statusError } = await supabase.from("leads").update({ status: "Need Review" }).eq("id", lead.id);
+      const { error: statusError } = await supabase.from("leads").update({ status: "Need Review", sequence_status: "review_needed" }).eq("id", lead.id);
       if (statusError) {
         await supabase.from("leads").update({ status: "Generated" }).eq("id", lead.id);
       }
@@ -69,11 +71,12 @@ export async function generateForAllNewLeads() {
         body: generated.body,
         follow_up_1: generated.followup1,
         follow_up_2: generated.followup2,
+        follow_up_3: generated.followup3,
         status: "Need Review",
         model: generated.generation_provider
       });
       if (!insertError) {
-        const { error: statusError } = await supabase.from("leads").update({ status: "Need Review" }).eq("id", lead.id);
+        const { error: statusError } = await supabase.from("leads").update({ status: "Need Review", sequence_status: "review_needed" }).eq("id", lead.id);
         if (statusError) {
           await supabase.from("leads").update({ status: "Generated" }).eq("id", lead.id);
         }
@@ -150,6 +153,7 @@ export async function regenerateEmail(formData: FormData) {
       body: generated.body,
       follow_up_1: generated.followup1,
       follow_up_2: generated.followup2,
+      follow_up_3: generated.followup3,
       edited_subject: null,
       edited_body: null,
       model: generated.generation_provider
@@ -188,6 +192,7 @@ export async function regenerateWithTemplate(formData: FormData) {
       body: generated.body,
       follow_up_1: generated.followup1,
       follow_up_2: generated.followup2,
+      follow_up_3: generated.followup3,
       edited_subject: null,
       edited_body: null,
       approved_subject: null,
@@ -230,6 +235,7 @@ export async function regenerateWithAi(formData: FormData) {
       body: generated.body,
       follow_up_1: generated.followup1,
       follow_up_2: generated.followup2,
+      follow_up_3: generated.followup3,
       edited_subject: null,
       edited_body: null,
       approved_subject: null,
@@ -245,17 +251,44 @@ export async function regenerateWithAi(formData: FormData) {
   redirect("/email/review?toast=ai-regenerated");
 }
 
-export async function markSent(formData: FormData) {
+export async function approveEmail(formData: FormData) {
+  const generatedId = String(formData.get("generatedId"));
   const leadId = String(formData.get("leadId"));
-  const due = new Date();
-  due.setDate(due.getDate() + 3);
+  const subject = String(formData.get("subject"));
+  const body = String(formData.get("body"));
+  const lead = await getLead(leadId);
+  if (!lead) throw new Error("Lead not found.");
 
   const supabase = getSupabaseAdmin();
-  await supabase.from("leads").update({ status: "Sent", last_contacted_at: new Date().toISOString(), follow_up_due_at: due.toISOString() }).eq("id", leadId);
-  await supabase.from("outreach_events").insert({ lead_id: leadId, event_type: "Sent", notes: "Marked as sent manually." });
+  const approvedAt = new Date().toISOString();
+  await supabase
+    .from("generated_emails")
+    .update({ edited_subject: subject, edited_body: body, approved_subject: subject, approved_body: body, approved_at: approvedAt, status: "Approved" })
+    .eq("id", generatedId);
+  await queueApprovedEmail(generatedId);
+  await logActivity({ leadId: lead.id, campaignId: lead.campaign_id, type: "email_approved", message: "Email approved and queued." });
+
   revalidatePath("/email/review");
-  revalidatePath("/email/follow-ups");
-  redirect("/email/follow-ups?toast=marked-sent");
+  revalidatePath("/email/queue");
+  revalidatePath("/email/dashboard");
+  redirect("/email/review?toast=email-approved");
+}
+
+export async function approveSelected(formData: FormData) {
+  const supabase = getSupabaseAdmin();
+  const ids = formData.getAll("generatedIds").map(String).filter(Boolean);
+  for (const id of ids) {
+    const { data } = await supabase.from("generated_emails").select("id,subject,body").eq("id", id).maybeSingle();
+    if (!data) continue;
+    await supabase
+      .from("generated_emails")
+      .update({ approved_subject: data.subject, approved_body: data.body, approved_at: new Date().toISOString(), status: "Approved" })
+      .eq("id", id);
+    await queueApprovedEmail(id);
+  }
+  revalidatePath("/email/review");
+  revalidatePath("/email/queue");
+  redirect(`/email/review?toast=emails-approved&count=${ids.length}`);
 }
 
 export async function skipLead(formData: FormData) {

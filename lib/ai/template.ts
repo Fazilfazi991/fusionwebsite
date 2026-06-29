@@ -54,7 +54,8 @@ function sanitize(output: GeneratedOutreachEmail, lead: OutreachLeadInput, setti
     subject: replaceUnresolvedPlaceholders(output.subject, safe),
     body: replaceUnresolvedPlaceholders(output.body, safe),
     followup1: replaceUnresolvedPlaceholders(output.followup1, safe),
-    followup2: replaceUnresolvedPlaceholders(output.followup2, safe)
+    followup2: replaceUnresolvedPlaceholders(output.followup2, safe),
+    followup3: replaceUnresolvedPlaceholders(output.followup3, safe)
   };
 }
 
@@ -80,6 +81,7 @@ export function generateTemplateOutreach(lead: OutreachLeadInput, settings: Outr
       body: `${greeting(lead)}\n\n${intro}\n\n${observation}\n\n${serviceParagraph(service, agencyName)}\n\n${concept}\n\nNo obligation at all. If the ideas are useful, we can continue the conversation. If not, you still get a fresh perspective.${portfolio}\n\nWould you like me to prepare the concept?\n\n${signature(settings)}`,
       followup1: `${greeting(lead)}\n\nJust checking if this would be useful.\n\nI can prepare a quick homepage concept for ${name} and share a few practical improvement ideas.\n\nWould you like me to send it over?\n\n${signature(settings)}`,
       followup2: `${greeting(lead)}\n\nNo worries if this is not a priority right now.\n\nI just felt there may be a small opportunity to make the website journey clearer and improve enquiry flow.\n\nShould I close this for now?\n\n${signature(settings)}`,
+      followup3: `${greeting(lead)}\n\nI'll close the loop after this.\n\nIf improving the website or enquiry flow becomes useful later, happy to share a few practical ideas for ${name}.\n\nShould I leave this with you for now?\n\n${signature(settings)}`,
       generation_provider: "template"
     },
     lead,

@@ -24,6 +24,7 @@ export type GeneratedOutreachEmail = {
   body: string;
   followup1: string;
   followup2: string;
+  followup3: string;
   generation_provider: "gemini" | "template";
   warning?: string;
 };

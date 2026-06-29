@@ -5,6 +5,7 @@ import { LeadForm } from "@/components/lead-form";
 import { SetupWarning } from "@/components/setup-warning";
 import { ToastBanner } from "@/components/toast-banner";
 import { isDatabaseReady, listLeads } from "@/lib/db";
+import { updateLeadSequenceStatus } from "@/app/email/(dashboard)/leads/actions";
 import { generateAuditAngle, generateForAllNewLeads, generateForLead } from "@/app/email/(dashboard)/review/actions";
 
 export default async function LeadsPage({ searchParams }: { searchParams: Promise<{ toast?: string; count?: string }> }) {
@@ -34,6 +35,7 @@ export default async function LeadsPage({ searchParams }: { searchParams: Promis
                   <th className="px-4 py-3">Business</th>
                   <th className="px-4 py-3">Service</th>
                   <th className="px-4 py-3">Status</th>
+                  <th className="px-4 py-3">Manual outcome</th>
                   <th className="px-4 py-3">Action</th>
                 </tr>
               </thead>
@@ -46,7 +48,21 @@ export default async function LeadsPage({ searchParams }: { searchParams: Promis
                     </td>
                     <td className="px-4 py-3">{lead.service_to_pitch}</td>
                     <td className="px-4 py-3">
-                      <span className="rounded-md bg-cloud px-2 py-1 text-xs font-semibold text-muted">{lead.status}</span>
+                      <span className="rounded-md bg-cloud px-2 py-1 text-xs font-semibold text-muted">{lead.sequence_status || lead.status}</span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <form action={updateLeadSequenceStatus} className="flex gap-2">
+                        <input type="hidden" name="leadId" value={lead.id} />
+                        <select name="status" className="min-w-36 text-xs">
+                          <option value="replied">Replied</option>
+                          <option value="interested">Interested</option>
+                          <option value="not_interested">Not interested</option>
+                          <option value="converted">Converted</option>
+                          <option value="unsubscribed">Unsubscribed</option>
+                          <option value="closed">Closed</option>
+                        </select>
+                        <button className="btn-secondary text-xs" type="submit">Update</button>
+                      </form>
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex flex-wrap gap-2">
@@ -71,7 +87,7 @@ export default async function LeadsPage({ searchParams }: { searchParams: Promis
                 ))}
                 {!leads.length ? (
                   <tr>
-                    <td className="px-4 py-10 text-center text-sm text-muted" colSpan={4}>
+                    <td className="px-4 py-10 text-center text-sm text-muted" colSpan={5}>
                       Add your first dummy lead or upload a CSV to test the full flow.
                     </td>
                   </tr>

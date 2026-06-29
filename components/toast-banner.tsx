@@ -11,6 +11,14 @@ const messages: Record<string, string> = {
   "template-regenerated": "Template email regenerated.",
   "ai-regenerated": "AI email regenerated.",
   "gmail-draft-created": "Gmail draft created.",
+  "email-approved": "Email approved and queued.",
+  "emails-approved": "Selected emails approved and queued.",
+  "campaign-created": "Campaign created.",
+  "campaign-updated": "Campaign updated.",
+  "campaign-emails-generated": "Campaign emails generated.",
+  "automation-run": "Automation run completed.",
+  "daily-report": "Daily report generated.",
+  "lead-status-updated": "Lead status updated and future follow-ups cancelled.",
   "email-sent": "Approved email sent through Resend.",
   "audit-generated": "Website audit angle generated.",
   "audit-error": "Could not generate the audit angle. Template fallback will still work for email generation.",
@@ -24,7 +32,7 @@ export function ToastBanner({ toast, count }: { toast?: string; count?: string }
   if (!toast) return null;
 
   const message = messages[toast] || "Done.";
-  const suffix = toast === "csv-uploaded" && count ? ` ${count} row${count === "1" ? "" : "s"} processed.` : "";
+  const suffix = count && ["csv-uploaded", "emails-approved", "campaign-emails-generated"].includes(toast) ? ` ${count} item${count === "1" ? "" : "s"} processed.` : "";
 
   return (
     <div className="mb-5 rounded-md border border-mint/30 bg-mint/10 px-4 py-3 text-sm font-medium text-ink">

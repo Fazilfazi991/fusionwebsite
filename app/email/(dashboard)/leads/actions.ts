@@ -5,6 +5,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { SERVICE_OPTIONS } from "@/lib/constants";
+import { cancelFutureFollowups } from "@/lib/automation";
+import { logActivity } from "@/lib/db";
 import { getSupabaseAdmin } from "@/lib/supabase/server";
 
 const leadSchema = z.object({
@@ -24,6 +26,7 @@ export async function createLead(formData: FormData) {
   const supabase = getSupabaseAdmin();
   const { error } = await supabase.from("leads").upsert(values, { onConflict: "email", ignoreDuplicates: true });
   if (error) throw error;
+  await logActivity({ type: "lead_created", message: `Lead created: ${values.business_name}` });
   revalidatePath("/email/leads");
   redirect("/email/leads?toast=lead-added");
 }
@@ -62,4 +65,41 @@ export async function uploadLeadsCsv(formData: FormData) {
 
   revalidatePath("/email/leads");
   redirect(`/email/leads?toast=csv-uploaded&count=${leads.length}`);
+}
+
+const statusMap: Record<string, { sequence_status: string; status: string; field?: string }> = {
+  replied: { sequence_status: "replied", status: "Replied", field: "replied_at" },
+  interested: { sequence_status: "interested", status: "Replied", field: "replied_at" },
+  not_interested: { sequence_status: "not_interested", status: "Not Interested", field: "closed_at" },
+  converted: { sequence_status: "converted", status: "Converted", field: "closed_at" },
+  unsubscribed: { sequence_status: "unsubscribed", status: "Skipped", field: "unsubscribed_at" },
+  closed: { sequence_status: "closed", status: "Skipped", field: "closed_at" }
+};
+
+export async function updateLeadSequenceStatus(formData: FormData) {
+  const leadId = String(formData.get("leadId"));
+  const status = String(formData.get("status"));
+  const mapped = statusMap[status];
+  if (!mapped) throw new Error("Invalid status.");
+
+  const now = new Date().toISOString();
+  const payload: Record<string, string | null> = {
+    sequence_status: mapped.sequence_status,
+    status: mapped.status,
+    reply_status: mapped.sequence_status,
+    next_action_at: null
+  };
+  if (mapped.field) payload[mapped.field] = now;
+
+  const supabase = getSupabaseAdmin();
+  const { data: lead } = await supabase.from("leads").select("campaign_id").eq("id", leadId).maybeSingle();
+  const { error } = await supabase.from("leads").update(payload).eq("id", leadId);
+  if (error) throw error;
+
+  await cancelFutureFollowups(leadId, `Lead marked ${mapped.sequence_status}.`);
+  await logActivity({ leadId, campaignId: lead?.campaign_id || null, type: `lead_marked_${mapped.sequence_status}`, message: `Lead marked ${mapped.sequence_status}. Future follow-ups cancelled.` });
+  revalidatePath("/email/leads");
+  revalidatePath("/email/queue");
+  revalidatePath("/email/follow-ups");
+  redirect("/email/leads?toast=lead-status-updated");
 }

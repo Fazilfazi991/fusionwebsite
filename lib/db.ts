@@ -1,5 +1,5 @@
 import { getSupabaseAdmin } from "@/lib/supabase/server";
-import type { AgencySettings, GeneratedEmail, Lead } from "@/lib/types";
+import type { ActivityLog, AgencySettings, Campaign, EmailQueueItem, GeneratedEmail, Lead } from "@/lib/types";
 
 type SupabaseLikeError = {
   code?: string;
@@ -57,6 +57,14 @@ export async function upsertSettings(input: Partial<AgencySettings>) {
     openai_api_key_encrypted: input.openai_api_key_encrypted || null,
     gmail_connected: Boolean(input.gmail_connected),
     bulk_unsubscribe_line: input.bulk_unsubscribe_line || "If this is not relevant, reply unsubscribe and I will not contact you again."
+    ,
+    require_manual_approval_before_first_send: input.require_manual_approval_before_first_send ?? true,
+    default_working_hours_start: input.default_working_hours_start || "09:00",
+    default_working_hours_end: input.default_working_hours_end || "17:00",
+    send_weekends: input.send_weekends ?? false,
+    followup1_delay_days: Number(input.followup1_delay_days || 3),
+    followup2_delay_days: Number(input.followup2_delay_days || 7),
+    followup3_delay_days: Number(input.followup3_delay_days || 12)
   };
 
   if (current) {
@@ -100,6 +108,144 @@ export async function listReviewItems(): Promise<Array<GeneratedEmail & { leads:
     throwReadableError(error);
   }
   return (data || []) as Array<GeneratedEmail & { leads: Lead }>;
+}
+
+export async function listCampaigns(): Promise<Campaign[]> {
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase.from("campaigns").select("*").order("created_at", { ascending: false });
+  if (error) {
+    if (isMissingSchemaError(error)) return [];
+    throwReadableError(error);
+  }
+  return data || [];
+}
+
+export async function getCampaign(id: string): Promise<Campaign | null> {
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase.from("campaigns").select("*").eq("id", id).maybeSingle();
+  if (error) {
+    if (isMissingSchemaError(error)) return null;
+    throwReadableError(error);
+  }
+  return data;
+}
+
+export async function listCampaignLeads(campaignId: string): Promise<Lead[]> {
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase.from("leads").select("*").eq("campaign_id", campaignId).order("created_at", { ascending: false });
+  if (error) {
+    if (isMissingSchemaError(error)) return [];
+    throwReadableError(error);
+  }
+  return data || [];
+}
+
+export async function listQueueItems(): Promise<Array<EmailQueueItem & { leads: Lead | null; campaigns: Campaign | null }>> {
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase
+    .from("email_queue")
+    .select("*, leads(*), campaigns(*)")
+    .order("scheduled_at", { ascending: true });
+  if (error) {
+    if (isMissingSchemaError(error)) return [];
+    throwReadableError(error);
+  }
+  return (data || []) as Array<EmailQueueItem & { leads: Lead | null; campaigns: Campaign | null }>;
+}
+
+export async function listRecentActivity(limit = 15): Promise<ActivityLog[]> {
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase.from("activity_logs").select("*").order("created_at", { ascending: false }).limit(limit);
+  if (error) {
+    if (isMissingSchemaError(error)) return [];
+    throwReadableError(error);
+  }
+  return data || [];
+}
+
+export async function logActivity({
+  leadId,
+  campaignId,
+  type,
+  message,
+  metadata
+}: {
+  leadId?: string | null;
+  campaignId?: string | null;
+  type: string;
+  message: string;
+  metadata?: Record<string, unknown>;
+}) {
+  const supabase = getSupabaseAdmin();
+  await supabase.from("activity_logs").insert({
+    lead_id: leadId || null,
+    campaign_id: campaignId || null,
+    type,
+    message,
+    metadata: metadata || {}
+  });
+}
+
+export async function countQueuedDueNow() {
+  const supabase = getSupabaseAdmin();
+  const { count, error } = await supabase
+    .from("email_queue")
+    .select("id", { count: "exact", head: true })
+    .eq("status", "queued")
+    .lte("scheduled_at", new Date().toISOString());
+  if (error) {
+    if (isMissingSchemaError(error)) return 0;
+    throwReadableError(error);
+  }
+  return count || 0;
+}
+
+export async function getReportStats() {
+  const supabase = getSupabaseAdmin();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const week = new Date(today);
+  week.setDate(week.getDate() - 6);
+
+  const [leads, reviewItems, queueItems, campaigns, recentActivity] = await Promise.all([
+    listLeads(),
+    listReviewItems(),
+    listQueueItems(),
+    listCampaigns(),
+    listRecentActivity(20)
+  ]);
+
+  const { data: sentEmails } = await supabase.from("sent_emails").select("*").order("sent_at", { ascending: false });
+  const sent = sentEmails || [];
+  const sentToday = sent.filter((item) => item.sent_at && new Date(item.sent_at) >= today);
+  const sentThisWeek = sent.filter((item) => item.sent_at && new Date(item.sent_at) >= week);
+  const replies = leads.filter((lead) => ["Replied"].includes(lead.status) || lead.sequence_status === "replied");
+  const interested = leads.filter((lead) => lead.sequence_status === "interested");
+  const converted = leads.filter((lead) => lead.status === "Converted" || lead.sequence_status === "converted");
+  const failed = queueItems.filter((item) => item.status === "failed").length;
+
+  return {
+    leads,
+    campaigns,
+    queueItems,
+    recentActivity,
+    sent,
+    sentToday,
+    sentThisWeek,
+    totalSent: sent.length,
+    generated: reviewItems.length,
+    pendingReview: reviewItems.filter((item) => item.status !== "Approved" && item.status !== "Sent").length,
+    scheduled: queueItems.filter((item) => item.status === "queued").length,
+    followupsDueToday: queueItems.filter((item) => item.status === "queued" && item.step !== "initial" && new Date(item.scheduled_at) <= new Date()).length,
+    replies: replies.length,
+    interested: interested.length,
+    notInterested: leads.filter((lead) => lead.status === "Not Interested" || lead.sequence_status === "not_interested").length,
+    converted: converted.length,
+    failed,
+    replyRate: sent.length ? Math.round((replies.length / sent.length) * 100) : 0,
+    interestedRate: sent.length ? Math.round((interested.length / sent.length) * 100) : 0,
+    conversionRate: sent.length ? Math.round((converted.length / sent.length) * 100) : 0
+  };
 }
 
 export async function listFollowUps(): Promise<Lead[]> {

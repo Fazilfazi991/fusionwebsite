@@ -1,8 +1,7 @@
-import { RotateCcw, SearchCheck, SkipForward } from "lucide-react";
-import { SendApprovedEmailButton } from "@/components/send-approved-email-button";
+import { CheckCircle2, RotateCcw, SearchCheck, SkipForward } from "lucide-react";
 import { findUnresolvedPlaceholders } from "@/lib/placeholders";
 import type { AgencySettings, GeneratedEmail, Lead } from "@/lib/types";
-import { generateAuditAngle, regenerateWithAi, regenerateWithTemplate, skipLead } from "@/app/email/(dashboard)/review/actions";
+import { approveEmail, generateAuditAngle, regenerateWithAi, regenerateWithTemplate, skipLead } from "@/app/email/(dashboard)/review/actions";
 
 export function EmailEditor({
   item,
@@ -83,7 +82,10 @@ export function EmailEditor({
         </div>
         <div className="flex flex-wrap gap-2">
           <input type="hidden" name="returnTo" value="/email/review" />
-          <SendApprovedEmailButton generatedEmailId={item.id} leadId={item.lead_id} leadEmail={item.leads.email} />
+          <button className="btn-primary" formAction={approveEmail} disabled={Boolean(placeholders.length)}>
+            <CheckCircle2 className="h-4 w-4" />
+            Approve and Queue
+          </button>
           <button className="btn-secondary" formAction={regenerateWithTemplate}>
             <RotateCcw className="h-4 w-4" />
             Regenerate with Template

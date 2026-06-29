@@ -29,6 +29,7 @@ export async function POST(request: Request) {
       body: generated.body,
       follow_up_1: generated.followup1,
       follow_up_2: generated.followup2,
+      follow_up_3: generated.followup3,
       status: "Need Review",
       model: generated.generation_provider
     })
@@ -36,7 +37,7 @@ export async function POST(request: Request) {
     .single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  const { error: statusError } = await supabase.from("leads").update({ status: "Need Review" }).eq("id", lead.id);
+  const { error: statusError } = await supabase.from("leads").update({ status: "Need Review", sequence_status: "review_needed" }).eq("id", lead.id);
   if (statusError) {
     await supabase.from("leads").update({ status: "Generated" }).eq("id", lead.id);
   }

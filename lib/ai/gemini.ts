@@ -43,7 +43,8 @@ Return valid JSON only:
   "subject": "",
   "body": "",
   "followup1": "",
-  "followup2": ""
+  "followup2": "",
+  "followup3": ""
 }
 
 Email rules:
@@ -54,6 +55,7 @@ Email rules:
 - Do not say "I was genuinely impressed" unless notes clearly support it
 - Mention only one service_to_pitch
 - End with a soft question
+- Follow-ups should be short, human, non-aggressive, and guilt-free
 - Use sender_name and agency_name in signature
 - Include portfolio_url if available
 - No unresolved placeholders like {{Your Name}}, {{sender_name}}, {{business_name}}
@@ -91,6 +93,7 @@ ${JSON.stringify(input.settings, null, 2)}`
       body: replaceUnresolvedPlaceholders(parsed.body, safe),
       followup1: replaceUnresolvedPlaceholders(parsed.followup1 || "", safe),
       followup2: replaceUnresolvedPlaceholders(parsed.followup2 || "", safe),
+      followup3: replaceUnresolvedPlaceholders(parsed.followup3 || fallback(input).followup3, safe),
       generation_provider: "gemini"
     };
   } catch {

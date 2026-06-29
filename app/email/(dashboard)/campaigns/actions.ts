@@ -37,6 +37,18 @@ const leadImportSchema = z.object({
   notes: z.string().optional()
 });
 
+async function getLatestActiveGeneratedEmail(leadId: string, campaignId: string) {
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase
+    .from("generated_emails")
+    .select("id,subject,body,status,created_at")
+    .eq("lead_id", leadId)
+    .eq("campaign_id", campaignId)
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return (data || []).find((item) => !["archived", "Sent"].includes(item.status)) || null;
+}
+
 export async function createCampaign(formData: FormData) {
   const values = campaignSchema.parse({
     ...Object.fromEntries(formData),
@@ -224,11 +236,19 @@ export async function generateEmailsForCampaign(formData: FormData) {
   if (!campaign) throw new Error("Campaign not found.");
 
   const supabase = getSupabaseAdmin();
-  let count = 0;
+  let generatedCount = 0;
+  let alreadyGenerated = 0;
+  let skipped = 0;
   for (const lead of leads) {
-    if (!lead.business_name || !lead.email || !lead.service_to_pitch) continue;
-    const { data: existing } = await supabase.from("generated_emails").select("id").eq("lead_id", lead.id).limit(1).maybeSingle();
-    if (existing?.id && lead.sequence_status !== "new") continue;
+    if (!lead.business_name || !lead.email || !lead.service_to_pitch) {
+      skipped += 1;
+      continue;
+    }
+    const existing = await getLatestActiveGeneratedEmail(lead.id, campaignId);
+    if (existing) {
+      alreadyGenerated += 1;
+      continue;
+    }
 
     const generated = await generateOutreachEmail({ lead, settings });
     const { data: inserted, error } = await supabase
@@ -242,6 +262,7 @@ export async function generateEmailsForCampaign(formData: FormData) {
         follow_up_2: generated.followup2,
         follow_up_3: generated.followup3,
         status: settings?.require_manual_approval_before_first_send === false ? "Approved" : "Need Review",
+        campaign_id: campaignId,
         model: generated.generation_provider
       })
       .select("id,subject,body")
@@ -258,13 +279,13 @@ export async function generateEmailsForCampaign(formData: FormData) {
       await supabase.from("leads").update({ status: "Need Review", sequence_status: "review_needed" }).eq("id", lead.id);
     }
     await logActivity({ leadId: lead.id, campaignId, type: "email_generated", message: `Generated using ${generated.generation_provider}.` });
-    count += 1;
+    generatedCount += 1;
   }
 
   revalidatePath(`/email/campaigns/${campaignId}`);
   revalidatePath("/email/review");
   revalidatePath("/email/queue");
-  redirect(`/email/campaigns/${campaignId}?toast=campaign-emails-generated&count=${count}`);
+  redirect(`/email/campaigns/${campaignId}?toast=campaign-emails-generated&count=${generatedCount}&alreadyGenerated=${alreadyGenerated}&skipped=${skipped}`);
 }
 
 export async function generateEmailsForSelectedCampaignLeads(formData: FormData) {
@@ -274,14 +295,25 @@ export async function generateEmailsForSelectedCampaignLeads(formData: FormData)
   if (!campaign) throw new Error("Campaign not found.");
   const supabase = getSupabaseAdmin();
 
-  let count = 0;
+  let generatedCount = 0;
+  let alreadyGenerated = 0;
+  let skipped = 0;
   for (const leadId of leadIds) {
     const { data: lead, error: leadError } = await supabase.from("leads").select("*").eq("id", leadId).eq("campaign_id", campaignId).maybeSingle();
     if (leadError) throw leadError;
-    if (!lead?.business_name || !lead?.email || !lead?.service_to_pitch) continue;
+    if (!lead?.business_name || !lead?.email || !lead?.service_to_pitch) {
+      skipped += 1;
+      continue;
+    }
+    const existing = await getLatestActiveGeneratedEmail(lead.id, campaignId);
+    if (existing) {
+      alreadyGenerated += 1;
+      continue;
+    }
     const generated = await generateOutreachEmail({ lead, settings });
     const { error } = await supabase.from("generated_emails").insert({
       lead_id: lead.id,
+      campaign_id: campaignId,
       lead_observation: generated.observation,
       subject: generated.subject,
       body: generated.body,
@@ -293,44 +325,42 @@ export async function generateEmailsForSelectedCampaignLeads(formData: FormData)
     });
     if (error) throw error;
     await supabase.from("leads").update({ status: "Need Review", sequence_status: "review_needed" }).eq("id", lead.id);
-    count += 1;
+    generatedCount += 1;
   }
 
-  await logActivity({ campaignId, type: "selected_emails_generated", message: `Generated emails for ${count} selected leads.` });
+  await logActivity({ campaignId, type: "selected_emails_generated", message: `Generated emails for ${generatedCount} selected leads. ${alreadyGenerated} already had generated emails.` });
   revalidatePath(`/email/campaigns/${campaignId}`);
   revalidatePath("/email/review");
-  redirect(`/email/campaigns/${campaignId}?toast=campaign-emails-generated&count=${count}`);
+  redirect(`/email/campaigns/${campaignId}?toast=campaign-emails-generated&count=${generatedCount}&alreadyGenerated=${alreadyGenerated}&skipped=${skipped}`);
 }
 
 export async function approveGeneratedEmailsForSelectedLeads(formData: FormData) {
   const campaignId = String(formData.get("campaignId"));
   const leadIds = formData.getAll("leadIds").map(String);
   const supabase = getSupabaseAdmin();
-  let count = 0;
+  let approved = 0;
+  let alreadyQueued = 0;
+  let skipped = 0;
 
   for (const leadId of leadIds) {
-    const { data: generated, error } = await supabase
-      .from("generated_emails")
-      .select("id,subject,body")
-      .eq("lead_id", leadId)
-      .in("status", ["Need Review", "Draft"])
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .maybeSingle();
-    if (error) throw error;
-    if (!generated) continue;
+    const generated = await getLatestActiveGeneratedEmail(leadId, campaignId);
+    if (!generated || !["Need Review", "Draft", "Approved"].includes(generated.status)) {
+      skipped += 1;
+      continue;
+    }
     await supabase
       .from("generated_emails")
       .update({ approved_subject: generated.subject, approved_body: generated.body, approved_at: new Date().toISOString(), status: "Approved" })
       .eq("id", generated.id);
-    await queueApprovedEmail(generated.id);
-    count += 1;
+    const result = await queueApprovedEmail(generated.id);
+    approved += result.queued;
+    alreadyQueued += result.alreadyQueued;
   }
 
-  await logActivity({ campaignId, type: "selected_emails_approved", message: `Approved and queued ${count} selected generated emails.` });
+  await logActivity({ campaignId, type: "selected_emails_approved", message: `Approved and queued ${approved} selected generated emails. ${alreadyQueued} were already queued.` });
   revalidatePath(`/email/campaigns/${campaignId}`);
   revalidatePath("/email/queue");
-  redirect(`/email/campaigns/${campaignId}?toast=emails-approved&count=${count}`);
+  redirect(`/email/campaigns/${campaignId}?toast=emails-approved&count=${approved}&alreadyQueued=${alreadyQueued}&skipped=${skipped}`);
 }
 
 export async function removeSelectedLeadsFromCampaign(formData: FormData) {

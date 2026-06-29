@@ -35,6 +35,7 @@ export type Lead = {
 export type GeneratedEmail = {
   id: string;
   lead_id: string;
+  campaign_id: string | null;
   lead_observation: string;
   subject: string;
   body: string;

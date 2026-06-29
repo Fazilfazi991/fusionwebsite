@@ -4,11 +4,19 @@ import { ToastBanner } from "@/components/toast-banner";
 import { getSettings, isDatabaseReady, listReviewItems } from "@/lib/db";
 import { approveSelected } from "@/app/email/(dashboard)/review/actions";
 
-export default async function ReviewPage({ searchParams }: { searchParams: Promise<{ toast?: string }> }) {
+export default async function ReviewPage({ searchParams }: { searchParams: Promise<{ toast?: string; count?: string; alreadyQueued?: string }> }) {
   const params = await searchParams;
   const [databaseReady, reviewItems, settings] = await Promise.all([isDatabaseReady(), listReviewItems(), getSettings()]);
   const aiAvailable = Boolean(process.env.GEMINI_API_KEY);
-  const items = reviewItems.filter((item) => !["Draft Created", "Sent", "Skipped", "Converted"].includes(item.leads.status));
+  const latestByLeadCampaign = new Map<string, (typeof reviewItems)[number]>();
+  for (const item of reviewItems) {
+    const key = `${item.lead_id}:${item.campaign_id || item.leads.campaign_id || "none"}`;
+    const current = latestByLeadCampaign.get(key);
+    if (!current || new Date(item.created_at) > new Date(current.created_at)) {
+      latestByLeadCampaign.set(key, item);
+    }
+  }
+  const items = Array.from(latestByLeadCampaign.values()).filter((item) => !["Draft Created", "Sent", "Skipped", "Converted"].includes(item.leads.status));
 
   return (
     <div>
@@ -17,7 +25,7 @@ export default async function ReviewPage({ searchParams }: { searchParams: Promi
         <p className="text-sm text-muted">Edit AI output, regenerate it, then approve emails into the controlled sending queue.</p>
       </div>
       <SetupWarning ready={databaseReady} />
-      <ToastBanner toast={params.toast} />
+      <ToastBanner toast={params.toast} count={params.count} alreadyQueued={params.alreadyQueued} />
       {items.length ? (
         <div className="panel mb-5 p-5">
           <h2 className="text-sm font-semibold">Bulk approval</h2>

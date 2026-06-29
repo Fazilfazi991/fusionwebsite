@@ -21,7 +21,7 @@ export default async function CampaignDetailPage({
   searchParams
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ toast?: string; count?: string; assigned?: string; skipped?: string }>;
+  searchParams: Promise<{ toast?: string; count?: string; assigned?: string; skipped?: string; alreadyGenerated?: string; alreadyQueued?: string }>;
 }) {
   const [{ id }, query] = await Promise.all([params, searchParams]);
   const [databaseReady, campaign, campaignLeads, allLeads, queueItems, reviewItems, activity] = await Promise.all([
@@ -39,10 +39,14 @@ export default async function CampaignDetailPage({
   }
 
   const campaignQueue = queueItems.filter((item) => item.campaign_id === id);
-  const campaignReview = reviewItems.filter((item) => item.leads.campaign_id === id);
+  const generatedLeadIds = new Set(
+    reviewItems
+      .filter((item) => item.status !== "archived" && (item.campaign_id === id || item.leads.campaign_id === id))
+      .map((item) => item.lead_id)
+  );
   const stats = [
     { label: "Total leads", value: campaignLeads.length },
-    { label: "Generated", value: campaignReview.length },
+    { label: "Generated", value: generatedLeadIds.size },
     { label: "Scheduled", value: campaignQueue.filter((item) => item.status === "queued").length },
     { label: "Sent", value: campaignQueue.filter((item) => item.status === "sent").length },
     { label: "Replied", value: campaignLeads.filter((lead) => lead.sequence_status === "replied" || lead.status === "Replied").length },
@@ -68,7 +72,7 @@ export default async function CampaignDetailPage({
         </form>
       </div>
       <SetupWarning ready={databaseReady} />
-      <ToastBanner toast={query.toast} count={query.count} />
+      <ToastBanner toast={query.toast} count={query.count} alreadyGenerated={query.alreadyGenerated} alreadyQueued={query.alreadyQueued} skipped={query.skipped} />
       <div className="grid gap-4 md:grid-cols-5">
         {stats.map((stat) => (
           <div key={stat.label} className="panel p-4">

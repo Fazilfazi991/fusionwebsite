@@ -18,12 +18,26 @@ export async function POST(request: Request) {
   if (!lead) return NextResponse.json({ error: "Lead not found" }, { status: 404 });
 
   const settings = await getSettings();
-  const generated = await generateOutreachEmail({ lead, settings });
   const supabase = getSupabaseAdmin();
+  let existingQuery = supabase
+    .from("generated_emails")
+    .select("id,status,created_at")
+    .eq("lead_id", lead.id)
+    .order("created_at", { ascending: false });
+  existingQuery = lead.campaign_id ? existingQuery.eq("campaign_id", lead.campaign_id) : existingQuery.is("campaign_id", null);
+  const { data: existingRows, error: existingError } = await existingQuery;
+  if (existingError) return NextResponse.json({ error: existingError.message }, { status: 500 });
+  const existing = (existingRows || []).find((item) => !["archived", "Sent"].includes(item.status));
+  if (existing) {
+    return NextResponse.json({ alreadyGenerated: true, generatedEmailId: existing.id });
+  }
+
+  const generated = await generateOutreachEmail({ lead, settings });
   const { data, error } = await supabase
     .from("generated_emails")
     .insert({
       lead_id: lead.id,
+      campaign_id: lead.campaign_id,
       lead_observation: generated.observation,
       subject: generated.subject,
       body: generated.body,

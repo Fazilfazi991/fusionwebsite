@@ -7,6 +7,19 @@ import { queueApprovedEmail } from "@/lib/automation";
 import { getLead, getSettings, logActivity } from "@/lib/db";
 import { getSupabaseAdmin } from "@/lib/supabase/server";
 
+async function getLatestActiveGeneratedEmail(leadId: string, campaignId: string | null) {
+  const supabase = getSupabaseAdmin();
+  let query = supabase
+    .from("generated_emails")
+    .select("id,subject,body,status,created_at")
+    .eq("lead_id", leadId)
+    .order("created_at", { ascending: false });
+  query = campaignId ? query.eq("campaign_id", campaignId) : query.is("campaign_id", null);
+  const { data, error } = await query;
+  if (error) throw error;
+  return (data || []).find((item) => !["archived", "Sent"].includes(item.status)) || null;
+}
+
 export async function generateForLead(formData: FormData) {
   let destination = "/email/leads?toast=generate-error";
   try {
@@ -18,33 +31,39 @@ export async function generateForLead(formData: FormData) {
       const settings = await getSettings();
       const generated = await generateOutreachEmail({ lead, settings });
       const supabase = getSupabaseAdmin();
+      const existing = await getLatestActiveGeneratedEmail(lead.id, lead.campaign_id);
+      if (existing) {
+        destination = "/email/review?toast=already-generated";
+        revalidatePath("/email/review");
+      } else {
+        const { error } = await supabase.from("generated_emails").insert({
+          lead_id: lead.id,
+          campaign_id: lead.campaign_id,
+          lead_observation: generated.observation,
+          subject: generated.subject,
+          body: generated.body,
+          follow_up_1: generated.followup1,
+          follow_up_2: generated.followup2,
+          follow_up_3: generated.followup3,
+          status: "Need Review",
+          model: generated.generation_provider
+        });
+        if (error) throw error;
 
-      const { error } = await supabase.from("generated_emails").insert({
-        lead_id: lead.id,
-        lead_observation: generated.observation,
-        subject: generated.subject,
-        body: generated.body,
-        follow_up_1: generated.followup1,
-        follow_up_2: generated.followup2,
-        follow_up_3: generated.followup3,
-        status: "Need Review",
-        model: generated.generation_provider
-      });
-      if (error) throw error;
+        const { error: statusError } = await supabase.from("leads").update({ status: "Need Review", sequence_status: "review_needed" }).eq("id", lead.id);
+        if (statusError) {
+          await supabase.from("leads").update({ status: "Generated" }).eq("id", lead.id);
+        }
+        await supabase.from("outreach_events").insert({
+          lead_id: lead.id,
+          event_type: "Generated",
+          notes: generated.warning || `Generated using ${generated.generation_provider}.`
+        });
 
-      const { error: statusError } = await supabase.from("leads").update({ status: "Need Review", sequence_status: "review_needed" }).eq("id", lead.id);
-      if (statusError) {
-        await supabase.from("leads").update({ status: "Generated" }).eq("id", lead.id);
+        revalidatePath("/email/leads");
+        revalidatePath("/email/review");
+        destination = generated.warning ? "/email/review?toast=template-fallback-used" : "/email/review?toast=email-generated";
       }
-      await supabase.from("outreach_events").insert({
-        lead_id: lead.id,
-        event_type: "Generated",
-        notes: generated.warning || `Generated using ${generated.generation_provider}.`
-      });
-
-      revalidatePath("/email/leads");
-      revalidatePath("/email/review");
-      destination = generated.warning ? "/email/review?toast=template-fallback-used" : "/email/review?toast=email-generated";
     }
   } catch {
     destination = "/email/leads?toast=generate-error";
@@ -64,8 +83,11 @@ export async function generateForAllNewLeads() {
     for (const lead of leads || []) {
       if (!lead.business_name || !lead.email || !lead.service_to_pitch) continue;
       const generated = await generateOutreachEmail({ lead, settings });
+      const existing = await getLatestActiveGeneratedEmail(lead.id, lead.campaign_id || null);
+      if (existing) continue;
       const { error: insertError } = await supabase.from("generated_emails").insert({
         lead_id: lead.id,
+        campaign_id: lead.campaign_id || null,
         lead_observation: generated.observation,
         subject: generated.subject,
         body: generated.body,
@@ -260,12 +282,20 @@ export async function approveEmail(formData: FormData) {
   if (!lead) throw new Error("Lead not found.");
 
   const supabase = getSupabaseAdmin();
+  const { data: currentGenerated, error: currentGeneratedError } = await supabase
+    .from("generated_emails")
+    .select("lead_id,campaign_id")
+    .eq("id", generatedId)
+    .maybeSingle();
+  if (currentGeneratedError) throw currentGeneratedError;
+  const latest = currentGenerated ? await getLatestActiveGeneratedEmail(currentGenerated.lead_id, currentGenerated.campaign_id || null) : null;
+  const approvalId = latest?.id || generatedId;
   const approvedAt = new Date().toISOString();
   await supabase
     .from("generated_emails")
     .update({ edited_subject: subject, edited_body: body, approved_subject: subject, approved_body: body, approved_at: approvedAt, status: "Approved" })
-    .eq("id", generatedId);
-  await queueApprovedEmail(generatedId);
+    .eq("id", approvalId);
+  await queueApprovedEmail(approvalId);
   await logActivity({ leadId: lead.id, campaignId: lead.campaign_id, type: "email_approved", message: "Email approved and queued." });
 
   revalidatePath("/email/review");
@@ -277,18 +307,28 @@ export async function approveEmail(formData: FormData) {
 export async function approveSelected(formData: FormData) {
   const supabase = getSupabaseAdmin();
   const ids = formData.getAll("generatedIds").map(String).filter(Boolean);
+  const processedLeadCampaigns = new Set<string>();
+  let approved = 0;
+  let alreadyQueued = 0;
   for (const id of ids) {
-    const { data } = await supabase.from("generated_emails").select("id,subject,body").eq("id", id).maybeSingle();
+    const { data } = await supabase.from("generated_emails").select("id,lead_id,campaign_id,subject,body,created_at,status").eq("id", id).maybeSingle();
     if (!data) continue;
+    const key = `${data.lead_id}:${data.campaign_id || "none"}`;
+    if (processedLeadCampaigns.has(key)) continue;
+    processedLeadCampaigns.add(key);
+    const latest = await getLatestActiveGeneratedEmail(data.lead_id, data.campaign_id || null);
+    if (!latest) continue;
     await supabase
       .from("generated_emails")
-      .update({ approved_subject: data.subject, approved_body: data.body, approved_at: new Date().toISOString(), status: "Approved" })
-      .eq("id", id);
-    await queueApprovedEmail(id);
+      .update({ approved_subject: latest.subject, approved_body: latest.body, approved_at: new Date().toISOString(), status: "Approved" })
+      .eq("id", latest.id);
+    const result = await queueApprovedEmail(latest.id);
+    approved += result.queued;
+    alreadyQueued += result.alreadyQueued;
   }
   revalidatePath("/email/review");
   revalidatePath("/email/queue");
-  redirect(`/email/review?toast=emails-approved&count=${ids.length}`);
+  redirect(`/email/review?toast=emails-approved&count=${approved}&alreadyQueued=${alreadyQueued}`);
 }
 
 export async function skipLead(formData: FormData) {

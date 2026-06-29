@@ -79,6 +79,7 @@ create table leads (
 create table generated_emails (
   id uuid primary key default gen_random_uuid(),
   lead_id uuid not null references leads(id) on delete cascade,
+  campaign_id uuid,
   lead_observation text not null,
   subject text not null,
   body text not null,
@@ -247,3 +248,17 @@ alter table if exists leads add column if not exists unsubscribed_at timestamptz
 alter table if exists leads add column if not exists closed_at timestamptz;
 
 alter table if exists generated_emails add column if not exists follow_up_3 text;
+alter table if exists generated_emails add column if not exists campaign_id uuid;
+
+update generated_emails
+set campaign_id = leads.campaign_id
+from leads
+where generated_emails.lead_id = leads.id
+  and generated_emails.campaign_id is null;
+
+create unique index if not exists generated_emails_one_active_per_lead_campaign_idx
+on generated_emails(lead_id, campaign_id)
+where status not in ('archived', 'Sent');
+create unique index if not exists email_queue_one_initial_per_lead_campaign_idx
+on email_queue(lead_id, campaign_id, step)
+where step = 'initial' and status in ('queued', 'sending', 'sent');

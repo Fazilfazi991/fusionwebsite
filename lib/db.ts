@@ -107,7 +107,7 @@ export async function listReviewItems(): Promise<Array<GeneratedEmail & { leads:
     if (isMissingSchemaError(error)) return [];
     throwReadableError(error);
   }
-  return (data || []) as Array<GeneratedEmail & { leads: Lead }>;
+  return ((data || []) as Array<GeneratedEmail & { leads: Lead }>).filter((item) => item.status !== "archived");
 }
 
 export async function listCampaigns(): Promise<Campaign[]> {

@@ -7,6 +7,7 @@ const messages: Record<string, string> = {
   "generate-validation-error": "Business name, email, and service to pitch are required before generation.",
   "bulk-generated": "Generated review emails for new leads.",
   "bulk-generate-error": "Could not bulk generate emails. Please check the database setup.",
+  "already-generated": "This lead already has a generated email. Use regenerate if you want to replace it.",
   "email-regenerated": "Email regenerated.",
   "template-regenerated": "Template email regenerated.",
   "ai-regenerated": "AI email regenerated.",
@@ -31,16 +32,34 @@ const messages: Record<string, string> = {
   "settings-saved": "Settings saved."
 };
 
-export function ToastBanner({ toast, count }: { toast?: string; count?: string }) {
+export function ToastBanner({
+  toast,
+  count,
+  alreadyGenerated,
+  skipped,
+  alreadyQueued
+}: {
+  toast?: string;
+  count?: string;
+  alreadyGenerated?: string;
+  skipped?: string;
+  alreadyQueued?: string;
+}) {
   if (!toast) return null;
 
   const message = messages[toast] || "Done.";
   const suffix = count && ["csv-uploaded", "emails-approved", "campaign-emails-generated", "campaign-csv-uploaded", "leads-removed"].includes(toast) ? ` ${count} item${count === "1" ? "" : "s"} processed.` : "";
+  const details = [
+    alreadyGenerated ? `${alreadyGenerated} already generated` : "",
+    alreadyQueued ? `${alreadyQueued} already queued` : "",
+    skipped ? `${skipped} skipped` : ""
+  ].filter(Boolean);
 
   return (
     <div className="mb-5 rounded-md border border-mint/30 bg-mint/10 px-4 py-3 text-sm font-medium text-ink">
       {message}
       {suffix}
+      {details.length ? <span className="ml-1 text-muted">{details.join(". ")}.</span> : null}
     </div>
   );
 }

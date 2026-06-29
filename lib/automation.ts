@@ -91,6 +91,20 @@ export async function queueApprovedEmail(generatedEmailId: string, scheduledAt =
   if (!lead.email || !isValidEmail(lead.email)) throw new Error("Lead recipient email is missing or invalid.");
   if (hasUnresolvedPlaceholders(`${subject}\n${body}`)) throw new Error("Email has unresolved placeholders.");
 
+  let existingQueueQuery = supabase
+    .from("email_queue")
+    .select("id,status")
+    .eq("lead_id", lead.id)
+    .eq("step", "initial")
+    .in("status", ["queued", "sending", "sent"])
+    .limit(1);
+  existingQueueQuery = lead.campaign_id ? existingQueueQuery.eq("campaign_id", lead.campaign_id) : existingQueueQuery.is("campaign_id", null);
+  const { data: existingQueue, error: existingQueueError } = await existingQueueQuery.maybeSingle();
+  if (existingQueueError) throw existingQueueError;
+  if (existingQueue) {
+    return { queued: 0, alreadyQueued: 1 };
+  }
+
   const { error } = await supabase.from("email_queue").upsert(
     {
       lead_id: lead.id,
@@ -114,6 +128,7 @@ export async function queueApprovedEmail(generatedEmailId: string, scheduledAt =
     .eq("id", lead.id);
   await supabase.from("generated_emails").update({ status: "Approved" }).eq("id", generated.id);
   await logActivity({ leadId: lead.id, campaignId: lead.campaign_id, type: "email_queued", message: "Initial email queued for controlled sending." });
+  return { queued: 1, alreadyQueued: 0 };
 }
 
 export async function cancelFutureFollowups(leadId: string, reason: string) {

@@ -16,6 +16,9 @@ const messages: Record<string, string> = {
   "campaign-created": "Campaign created.",
   "campaign-updated": "Campaign updated.",
   "campaign-emails-generated": "Campaign emails generated.",
+  "leads-assigned": "Leads assigned to campaign.",
+  "leads-removed": "Leads removed from campaign.",
+  "campaign-csv-uploaded": "CSV leads uploaded to campaign.",
   "automation-run": "Automation run completed.",
   "daily-report": "Daily report generated.",
   "lead-status-updated": "Lead status updated and future follow-ups cancelled.",
@@ -32,7 +35,7 @@ export function ToastBanner({ toast, count }: { toast?: string; count?: string }
   if (!toast) return null;
 
   const message = messages[toast] || "Done.";
-  const suffix = count && ["csv-uploaded", "emails-approved", "campaign-emails-generated"].includes(toast) ? ` ${count} item${count === "1" ? "" : "s"} processed.` : "";
+  const suffix = count && ["csv-uploaded", "emails-approved", "campaign-emails-generated", "campaign-csv-uploaded", "leads-removed"].includes(toast) ? ` ${count} item${count === "1" ? "" : "s"} processed.` : "";
 
   return (
     <div className="mb-5 rounded-md border border-mint/30 bg-mint/10 px-4 py-3 text-sm font-medium text-ink">

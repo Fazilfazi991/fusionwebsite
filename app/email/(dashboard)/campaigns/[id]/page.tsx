@@ -1,7 +1,19 @@
 import { Sparkles } from "lucide-react";
+import { CampaignAssignedLeadsTable } from "@/components/campaign-assigned-leads-table";
+import { CampaignLeadAssignment } from "@/components/campaign-lead-assignment";
 import { SetupWarning } from "@/components/setup-warning";
 import { ToastBanner } from "@/components/toast-banner";
-import { assignLeadToCampaign, generateEmailsForCampaign } from "@/app/email/(dashboard)/campaigns/actions";
+import {
+  approveGeneratedEmailsForSelectedLeads,
+  assignMatchingLeadsToCampaign,
+  assignSelectedLeadsToCampaign,
+  generateEmailsForCampaign,
+  generateEmailsForSelectedCampaignLeads,
+  markSelectedLeadsClosed,
+  removeSelectedLeadsFromCampaign,
+  updateCampaignLeadStatus,
+  uploadLeadsToCampaign
+} from "@/app/email/(dashboard)/campaigns/actions";
 import { getCampaign, isDatabaseReady, listCampaignLeads, listLeads, listQueueItems, listRecentActivity, listReviewItems } from "@/lib/db";
 
 export default async function CampaignDetailPage({
@@ -9,7 +21,7 @@ export default async function CampaignDetailPage({
   searchParams
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ toast?: string; count?: string }>;
+  searchParams: Promise<{ toast?: string; count?: string; assigned?: string; skipped?: string }>;
 }) {
   const [{ id }, query] = await Promise.all([params, searchParams]);
   const [databaseReady, campaign, campaignLeads, allLeads, queueItems, reviewItems, activity] = await Promise.all([
@@ -40,8 +52,6 @@ export default async function CampaignDetailPage({
     { label: "Failed", value: campaignQueue.filter((item) => item.status === "failed").length },
     { label: "Follow-ups due", value: campaignQueue.filter((item) => item.status === "queued" && item.step !== "initial" && new Date(item.scheduled_at) <= new Date()).length }
   ];
-  const unassignedLeads = allLeads.filter((lead) => !lead.campaign_id);
-
   return (
     <div>
       <div className="mb-6 flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
@@ -67,66 +77,39 @@ export default async function CampaignDetailPage({
           </div>
         ))}
       </div>
-      <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_360px]">
-        <section className="panel overflow-hidden">
-          <div className="border-b border-line p-5">
-            <h2 className="text-lg font-semibold">Campaign leads</h2>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-cloud text-xs uppercase text-muted">
-                <tr>
-                  <th className="px-4 py-3">Business</th>
-                  <th className="px-4 py-3">Status</th>
-                  <th className="px-4 py-3">Next action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {campaignLeads.map((lead) => (
-                  <tr key={lead.id} className="border-t border-line">
-                    <td className="px-4 py-3">
-                      <p className="font-medium">{lead.business_name}</p>
-                      <p className="text-xs text-muted">{lead.email}</p>
-                    </td>
-                    <td className="px-4 py-3">{lead.sequence_status || lead.status}</td>
-                    <td className="px-4 py-3">{lead.next_action_at ? new Date(lead.next_action_at).toLocaleString() : "None"}</td>
-                  </tr>
-                ))}
-                {!campaignLeads.length ? (
-                  <tr><td colSpan={3} className="px-4 py-10 text-center text-sm text-muted">Assign test leads before generating campaign emails.</td></tr>
-                ) : null}
-              </tbody>
-            </table>
-          </div>
-        </section>
-        <aside className="space-y-5">
-          <section className="panel p-5">
-            <h2 className="text-lg font-semibold">Assign lead</h2>
-            <form action={assignLeadToCampaign} className="mt-4 grid gap-3">
-              <input type="hidden" name="campaignId" value={campaign.id} />
-              <select name="leadId" className="w-full" required>
-                <option value="">Select unassigned lead</option>
-                {unassignedLeads.map((lead) => (
-                  <option key={lead.id} value={lead.id}>{lead.business_name} - {lead.email}</option>
-                ))}
-              </select>
-              <button className="btn-secondary" type="submit">Assign to campaign</button>
-            </form>
-          </section>
-          <section className="panel p-5">
-            <h2 className="text-lg font-semibold">Activity log</h2>
-            <div className="mt-4 grid gap-3 text-sm">
-              {activity.filter((item) => item.campaign_id === campaign.id).slice(0, 12).map((item) => (
-                <div key={item.id} className="rounded-md border border-line p-3">
-                  <p className="font-medium">{item.message}</p>
-                  <p className="text-xs text-muted">{new Date(item.created_at).toLocaleString()}</p>
-                </div>
-              ))}
-              {!activity.filter((item) => item.campaign_id === campaign.id).length ? <p className="text-sm text-muted">No activity yet.</p> : null}
-            </div>
-          </section>
-        </aside>
+      <div className="mt-6">
+        <CampaignAssignedLeadsTable
+          campaignId={campaign.id}
+          leads={campaignLeads}
+          generateSelectedAction={generateEmailsForSelectedCampaignLeads}
+          approveSelectedAction={approveGeneratedEmailsForSelectedLeads}
+          removeSelectedAction={removeSelectedLeadsFromCampaign}
+          closeSelectedAction={markSelectedLeadsClosed}
+          updateStatusAction={updateCampaignLeadStatus}
+        />
       </div>
+      <div className="mt-6">
+        <CampaignLeadAssignment
+          campaignId={campaign.id}
+          leads={allLeads}
+          assignSelectedAction={assignSelectedLeadsToCampaign}
+          assignMatchingAction={assignMatchingLeadsToCampaign}
+          uploadAction={uploadLeadsToCampaign}
+          summary={{ assigned: query.assigned, skipped: query.skipped }}
+        />
+      </div>
+      <section className="panel mt-6 p-5">
+        <h2 className="text-lg font-semibold">Activity log</h2>
+        <div className="mt-4 grid gap-3 text-sm md:grid-cols-2">
+          {activity.filter((item) => item.campaign_id === campaign.id).slice(0, 12).map((item) => (
+            <div key={item.id} className="rounded-md border border-line p-3">
+              <p className="font-medium">{item.message}</p>
+              <p className="text-xs text-muted">{new Date(item.created_at).toLocaleString()}</p>
+            </div>
+          ))}
+          {!activity.filter((item) => item.campaign_id === campaign.id).length ? <p className="text-sm text-muted">No activity yet.</p> : null}
+        </div>
+      </section>
     </div>
   );
 }

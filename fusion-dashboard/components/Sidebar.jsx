@@ -7,7 +7,7 @@ export function FusionMark({ compact = false }) {
   return (
     <div className={`grid shrink-0 place-items-center overflow-hidden rounded-lg bg-white px-3 py-2 ${compact ? 'h-[72px] w-[200px]' : 'h-[96px] w-full'}`}>
       <img
-        src="/fusion-ventures-logo.webp"
+        src="/fusion-ventures-logo-original.webp"
         alt="Fusion Ventures"
         className="block h-full max-h-full w-full max-w-full object-contain"
       />

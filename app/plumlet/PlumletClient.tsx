@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import {
   ArrowRight,
-  Facebook,
+  Dribbble,
   Instagram,
   Linkedin,
   Mail,
@@ -83,11 +83,11 @@ function FusionHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#060705]/94 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-[#eee7fb] bg-white/94 backdrop-blur-xl">
       <div className="mx-auto flex h-[78px] max-w-[1440px] items-center justify-between px-5 sm:px-10 lg:px-14">
         <a href="/" aria-label="Fusion Ventures home">
           <Image
-            src="/fusion-ventures-logo.webp"
+            src="/fusion-ventures-logo-original.webp"
             alt="Fusion Ventures"
             width={640}
             height={176}
@@ -101,7 +101,7 @@ function FusionHeader() {
             <a
               key={item.label}
               href={item.href}
-              className="text-[11px] font-bold uppercase tracking-[0.08em] text-white/70 transition-colors hover:text-white"
+              className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#241246]/68 transition-colors hover:text-[#241246]"
             >
               {item.label}
             </a>
@@ -111,13 +111,13 @@ function FusionHeader() {
         <div className="flex items-center gap-4">
           <a
             href="/#contact"
-            className="hidden border border-[#d6a84f]/75 bg-transparent px-7 py-4 text-[11px] font-bold uppercase tracking-[0.08em] text-[#e0ba68] transition-colors hover:bg-[#d6a84f] hover:text-black sm:inline-flex"
+            className="hidden border border-[#b99a5b]/80 bg-transparent px-7 py-4 text-[11px] font-bold uppercase tracking-[0.08em] text-[#8a6a2a] transition-colors hover:bg-[#d6a84f] hover:text-black sm:inline-flex"
           >
             Partner With Us
           </a>
           <button
             aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
-            className="grid h-11 w-11 place-items-center border border-white/20 text-white transition-colors hover:border-[#b99a5b] lg:hidden"
+            className="grid h-11 w-11 place-items-center border border-[#241246]/16 text-[#241246] transition-colors hover:border-[#b99a5b] lg:hidden"
             onClick={() => setMenuOpen((open) => !open)}
           >
             {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -126,13 +126,13 @@ function FusionHeader() {
       </div>
 
       {menuOpen && (
-        <div className="border-t border-white/10 bg-[#060705] px-5 py-5 lg:hidden">
+        <div className="border-t border-[#eee7fb] bg-white px-5 py-5 shadow-[0_20px_45px_rgba(55,27,98,.08)] lg:hidden">
           <div className="grid gap-4">
             {navItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
-                className="text-sm font-semibold uppercase tracking-[0.1em] text-white/78"
+                className="text-sm font-semibold uppercase tracking-[0.1em] text-[#241246]/78"
                 onClick={() => setMenuOpen(false)}
               >
                 {item.label}
@@ -140,7 +140,7 @@ function FusionHeader() {
             ))}
             <a
               href="/#contact"
-              className="mt-2 border border-[#d6a84f]/75 bg-transparent px-5 py-4 text-center text-xs font-bold uppercase tracking-[0.08em] text-[#e0ba68] transition-colors hover:bg-[#d6a84f] hover:text-black"
+              className="mt-2 border border-[#b99a5b]/80 bg-transparent px-5 py-4 text-center text-xs font-bold uppercase tracking-[0.08em] text-[#8a6a2a] transition-colors hover:bg-[#d6a84f] hover:text-black"
               onClick={() => setMenuOpen(false)}
             >
               Partner With Us
@@ -170,7 +170,7 @@ function FusionFooter() {
             Building, operating, and scaling digital-first ventures with long-term focus.
           </p>
           <div className="mt-5 flex gap-3">
-            {[Linkedin, Instagram, Facebook, MousePointer2].map((Icon, index) => (
+            {[Linkedin, Instagram, Dribbble, MousePointer2].map((Icon, index) => (
               <span
                 key={index}
                 className="grid h-8 w-8 place-items-center rounded-full border border-white/14 text-white/68 transition-colors hover:border-[#d6a84f]/60 hover:text-[#d6a84f]"
@@ -252,17 +252,6 @@ function FusionFooter() {
   );
 }
 
-function PlumletMark() {
-  return (
-    <a href="#top" className="inline-flex items-center gap-2" aria-label="Plumlet top">
-      <span className="grid h-8 w-8 place-items-center rounded-full bg-[#efe7ff] text-lg font-black text-[#5b2fc2]">
-        P
-      </span>
-      <span className="text-xl font-black tracking-[-0.04em] text-[#26144f]">Plumlet</span>
-    </a>
-  );
-}
-
 function EmailSignup({ dark = false }: { dark?: boolean }) {
   return (
     <form className={`flex w-full flex-col gap-3 sm:flex-row ${dark ? "text-white" : "text-[#20113f]"}`}>
@@ -296,23 +285,22 @@ export default function PlumletClient() {
     <main id="top" className="min-h-screen overflow-hidden bg-[#fffefd] text-[#241246]">
       <FusionHeader />
 
-      <section className="relative overflow-hidden bg-[radial-gradient(circle_at_78%_14%,rgba(220,205,255,.72),transparent_26%),linear-gradient(135deg,#fffafd_0%,#f7f0ff_52%,#fffdf8_100%)] px-5 pb-12 pt-12 sm:px-10 lg:px-14 lg:pb-20 lg:pt-16">
+      <section className="relative overflow-hidden bg-[radial-gradient(circle_at_78%_14%,rgba(220,205,255,.62),transparent_25%),linear-gradient(135deg,#fffafd_0%,#f7f0ff_52%,#fffdf8_100%)] px-5 pb-10 pt-10 sm:px-10 lg:px-14 lg:pb-16 lg:pt-14">
         <div className="pointer-events-none absolute left-[12%] top-24 h-32 w-32 rounded-full bg-[#eadcff]/70 blur-3xl" />
         <div className="pointer-events-none absolute bottom-10 right-[38%] h-40 w-40 rounded-full bg-[#fff0bf]/45 blur-3xl" />
 
-        <div className="mx-auto grid max-w-[1280px] gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+        <div className="mx-auto grid max-w-[1200px] gap-9 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div className="relative z-10">
-            <PlumletMark />
-            <span className="mt-12 inline-flex rounded-full bg-[#efe7ff] px-4 py-2 text-xs font-bold text-[#6d44d5]">
+            <span className="inline-flex rounded-full bg-[#efe7ff] px-4 py-2 text-xs font-bold text-[#6d44d5]">
               Coming Soon
             </span>
-            <h1 className="mt-5 max-w-[560px] text-5xl font-black leading-[0.96] tracking-[-0.055em] text-[#241246] sm:text-6xl lg:text-7xl">
+            <h1 className="mt-5 max-w-[560px] text-6xl font-black leading-[0.92] tracking-[-0.06em] text-[#241246] sm:text-7xl lg:text-[88px]">
               Plumlet
-              <span className="mt-2 block text-[0.58em] leading-[1.02] tracking-[-0.04em]">
+              <span className="mt-3 block max-w-[560px] text-[0.48em] font-black leading-[1.02] tracking-[-0.045em]">
                 A Marketplace for Creative Minds
               </span>
             </h1>
-            <p className="mt-6 max-w-[560px] text-base leading-8 text-[#4b3c66]">
+            <p className="mt-6 max-w-[540px] text-base leading-8 text-[#4b3c66]">
               Plumlet is an upcoming marketplace where creativity meets opportunity. A platform for artists,
               makers, and dreamers to showcase, sell, and celebrate unique art, crafts, and handmade creations.
             </p>
@@ -333,25 +321,29 @@ export default function PlumletClient() {
             </div>
           </div>
 
-          <div className="relative min-h-[340px] lg:min-h-[590px]">
-            <div className="absolute inset-x-0 top-8 mx-auto h-[78%] max-w-[760px] rounded-[42px] bg-[radial-gradient(circle_at_20%_18%,rgba(255,255,255,.95),transparent_22%),linear-gradient(135deg,rgba(235,222,255,.95),rgba(255,255,255,.24))] shadow-[0_32px_90px_rgba(118,72,180,.14)]" />
-            <Image
-              src={`${assetsPath}/01_hero_creative_composition.webp`}
-              alt="Creative handmade objects with pottery, painting, macrame and baskets"
-              width={980}
-              height={760}
-              priority
-              className="relative z-10 h-auto w-full object-contain drop-shadow-[0_35px_70px_rgba(70,42,98,.18)]"
-            />
+          <div className="relative min-h-[300px] lg:min-h-[520px]">
+            <div className="absolute inset-x-4 top-6 mx-auto h-[78%] max-w-[720px] rounded-[46px] bg-[radial-gradient(circle_at_20%_18%,rgba(255,255,255,.96),transparent_22%),linear-gradient(135deg,rgba(235,222,255,.88),rgba(255,255,255,.36))] shadow-[0_28px_80px_rgba(118,72,180,.13)]" />
+            <span className="absolute right-[11%] top-[10%] h-3 w-3 rounded-full bg-[#8d63ea]/28" />
+            <span className="absolute bottom-[18%] left-[10%] h-4 w-4 rounded-full bg-[#f6d8ff]/70" />
+            <div className="relative z-10 overflow-hidden rounded-[34px] bg-white/22 p-2 shadow-[0_24px_70px_rgba(70,42,98,.11)]">
+              <Image
+                src={`${assetsPath}/01_hero_creative_composition.webp`}
+                alt="Creative handmade objects with pottery, painting, macrame and baskets"
+                width={980}
+                height={760}
+                priority
+                className="h-auto w-full rounded-[28px] object-contain"
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="-mt-6 px-5 sm:px-10 lg:px-14">
-        <div className="mx-auto grid max-w-[1120px] gap-px overflow-hidden rounded-[22px] border border-[#eee7fb] bg-[#eee7fb] shadow-[0_18px_60px_rgba(55,27,98,.08)] md:grid-cols-3">
+      <section className="-mt-5 px-5 sm:px-10 lg:px-14">
+        <div className="mx-auto grid max-w-[1120px] gap-px overflow-hidden rounded-[24px] border border-[#eee7fb] bg-[#eee7fb] shadow-[0_18px_60px_rgba(55,27,98,.08)] md:grid-cols-3">
           {audienceCards.map((item) => (
-            <article key={item.title} className="flex items-center gap-5 bg-white p-6 transition-transform hover:-translate-y-0.5">
-              <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-[#f2eaff]">
+            <article key={item.title} className="flex min-h-[116px] items-center gap-5 bg-white p-6 transition-transform hover:-translate-y-0.5">
+              <span className="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-[#f2eaff] shadow-[inset_0_0_0_1px_rgba(93,45,204,.05)]">
                 <Image src={item.icon} alt="" width={30} height={30} className="h-7 w-7 object-contain" />
               </span>
               <div>
@@ -364,7 +356,7 @@ export default function PlumletClient() {
       </section>
 
       <section className="px-5 py-10 sm:px-10 lg:px-14">
-        <div className="mx-auto grid max-w-[1120px] gap-6 rounded-[26px] bg-[#f2eaff] p-6 shadow-[0_20px_70px_rgba(93,45,204,.08)] md:grid-cols-[1fr_0.85fr] md:items-center md:p-9">
+        <div className="mx-auto grid max-w-[1120px] gap-6 rounded-[28px] bg-[#f2eaff] p-6 shadow-[0_20px_70px_rgba(93,45,204,.08)] md:grid-cols-[1fr_0.85fr] md:items-center md:p-9">
           <div className="flex gap-5">
             <span className="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-white">
               <Image src={`${assetsPath}/05_icon_gift.webp`} alt="" width={34} height={34} />
@@ -392,18 +384,26 @@ export default function PlumletClient() {
             A Glimpse of What&apos;s Coming
           </h2>
           <div className="mx-auto mt-4 h-1 w-20 rounded-full bg-[#7b4be2]" />
-          <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4 md:auto-rows-[160px] lg:auto-rows-[190px]">
-            {galleryImages.map((image) => (
+          <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-[1fr_2.1fr_1fr] md:auto-rows-[170px] lg:auto-rows-[205px]">
+            {[
+              galleryImages[0],
+              galleryImages[3],
+              galleryImages[5],
+              galleryImages[1],
+              galleryImages[2],
+              galleryImages[4],
+              galleryImages[6]
+            ].map((image, index) => (
               <figure
-                key={image.src}
+                key={`${image.src}-${index}`}
                 className={`group overflow-hidden rounded-[18px] bg-[#f6f0ff] shadow-[0_16px_42px_rgba(55,27,98,.1)] ${
-                  image.featured ? "md:col-span-2 md:row-span-2" : ""
-                }`}
+                  index === 3 ? "md:col-start-2 md:row-span-2 md:row-start-1" : ""
+                } ${index === 6 ? "md:col-start-2" : ""}`}
               >
                 <Image
                   src={image.src}
                   alt={image.alt}
-                  width={580}
+                  width={620}
                   height={520}
                   className="h-full min-h-[150px] w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
@@ -421,7 +421,7 @@ export default function PlumletClient() {
       </section>
 
       <section id="learn" className="px-5 py-12 sm:px-10 lg:px-14">
-        <div className="mx-auto grid max-w-[1120px] gap-9 overflow-hidden rounded-[30px] bg-[radial-gradient(circle_at_92%_18%,rgba(255,255,255,.85),transparent_16rem),linear-gradient(135deg,#f3eaff,#fff9ff)] p-6 shadow-[0_22px_80px_rgba(93,45,204,.1)] md:grid-cols-[0.95fr_1.05fr] md:items-center md:p-10">
+        <div className="mx-auto grid max-w-[1120px] gap-9 overflow-hidden rounded-[32px] bg-[radial-gradient(circle_at_92%_18%,rgba(255,255,255,.85),transparent_16rem),linear-gradient(135deg,#f3eaff,#fff9ff)] p-6 shadow-[0_22px_80px_rgba(93,45,204,.1)] md:grid-cols-[1fr_1fr] md:items-center md:p-10">
           <div>
             <span className="inline-flex rounded-full bg-white px-4 py-2 text-xs font-bold text-[#6d44d5]">
               Coming Soon
@@ -447,23 +447,23 @@ export default function PlumletClient() {
             </div>
           </div>
 
-          <div className="relative grid min-h-[420px] place-items-center">
-            <div className="absolute right-0 top-6 hidden w-[230px] sm:block">
+          <div className="relative grid min-h-[380px] place-items-center">
+            <div className="absolute right-5 top-10 hidden w-[250px] md:block">
               <Image
                 src={`${assetsPath}/14_decorative_flowers_vases.webp`}
                 alt="Decorative flowers and vases"
                 width={420}
                 height={520}
-                className="h-auto w-full object-contain"
+                className="h-auto w-full object-contain drop-shadow-[0_20px_45px_rgba(55,27,98,.1)]"
               />
             </div>
-            <div className="relative z-10 rounded-[40px] border-[10px] border-[#171022] bg-[#171022] p-3 shadow-[0_32px_70px_rgba(55,27,98,.22)]">
+            <div className="relative z-10 -ml-12 rounded-[38px] border-[9px] border-[#171022] bg-[#171022] p-3 shadow-[0_28px_62px_rgba(55,27,98,.2)] md:-ml-28">
               <Image
                 src={`${assetsPath}/13_app_mockup_phone_screen.webp`}
                 alt="Plumlet marketplace phone preview"
                 width={310}
                 height={620}
-                className="h-auto w-[220px] rounded-[28px] object-contain sm:w-[270px]"
+                className="h-auto w-[210px] rounded-[27px] object-contain sm:w-[248px]"
               />
             </div>
           </div>
@@ -473,8 +473,10 @@ export default function PlumletClient() {
       <section className="px-5 py-6 sm:px-10 lg:px-14">
         <div className="mx-auto grid max-w-[1120px] gap-px overflow-hidden rounded-[24px] border border-[#eee7fb] bg-[#eee7fb] shadow-[0_16px_55px_rgba(55,27,98,.07)] sm:grid-cols-2 lg:grid-cols-4">
           {pillarItems.map((item) => (
-            <article key={item.title} className="grid min-h-[150px] place-items-center bg-white p-6 text-center">
-              <Image src={item.icon} alt="" width={36} height={36} className="h-9 w-9 object-contain" />
+            <article key={item.title} className="grid min-h-[158px] place-items-center bg-white p-6 text-center transition-transform hover:-translate-y-0.5">
+              <span className="grid h-14 w-14 place-items-center rounded-full bg-[#f2eaff] shadow-[inset_0_0_0_1px_rgba(93,45,204,.06)]">
+                <Image src={item.icon} alt="" width={34} height={34} className="h-8 w-8 object-contain" />
+              </span>
               <h3 className="mt-4 text-sm font-black leading-tight text-[#241246]">{item.title}</h3>
             </article>
           ))}
@@ -482,10 +484,10 @@ export default function PlumletClient() {
       </section>
 
       <section className="px-5 py-12 sm:px-10 lg:px-14">
-        <div className="mx-auto grid max-w-[1120px] gap-7 rounded-[26px] bg-[radial-gradient(circle_at_90%_20%,rgba(255,255,255,.18),transparent_12rem),linear-gradient(135deg,#7a44e4,#4d20ba)] p-6 text-white shadow-[0_24px_70px_rgba(77,32,186,.22)] md:grid-cols-[1fr_0.9fr] md:items-center md:p-9">
+        <div className="mx-auto grid max-w-[1120px] gap-7 rounded-[28px] bg-[radial-gradient(circle_at_90%_20%,rgba(255,255,255,.18),transparent_12rem),linear-gradient(135deg,#7a44e4,#4d20ba)] p-6 text-white shadow-[0_24px_70px_rgba(77,32,186,.22)] md:grid-cols-[1fr_0.9fr] md:items-center md:p-9">
           <div className="flex gap-5">
-            <span className="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-white/14">
-              <Image src={`${assetsPath}/15_cta_newsletter_icon.webp`} alt="" width={38} height={38} />
+            <span className="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-white/18 shadow-[inset_0_0_0_1px_rgba(255,255,255,.18)]">
+              <Image src={`${assetsPath}/15_cta_newsletter_icon.webp`} alt="" width={42} height={42} />
             </span>
             <div>
               <h2 className="text-3xl font-black tracking-[-0.04em]">Be the first to know</h2>

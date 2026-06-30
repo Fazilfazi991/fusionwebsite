@@ -624,20 +624,31 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="mt-12 grid gap-8 lg:grid-cols-[38%_62%] lg:gap-12">
-            <div className="scroll-reveal flex gap-3 overflow-x-auto pb-2 lg:block lg:space-y-0 lg:overflow-visible lg:pb-0">
+          <div className="mt-12 grid gap-8 lg:grid-cols-[44%_56%] lg:items-start lg:gap-10">
+            <div className="scroll-reveal grid gap-0">
               {people.map((person, index) => {
                 const isActive = index === activePersonIndex;
 
                 return (
-                  <button
+                  <div
                     key={person.name}
-                    type="button"
+                    role="button"
+                    tabIndex={0}
                     aria-pressed={isActive}
                     onMouseEnter={() => setActivePersonIndex(index)}
-                    onFocus={() => setActivePersonIndex(index)}
+                    onFocus={(event) => {
+                      if (event.currentTarget === event.target) {
+                        setActivePersonIndex(index);
+                      }
+                    }}
                     onClick={() => setActivePersonIndex(index)}
-                    className={`group relative grid min-w-[270px] grid-cols-[34px_56px_minmax(0,1fr)_24px] items-center gap-4 border-b border-white/10 px-0 py-5 text-left outline-none transition-colors lg:min-w-0 lg:grid-cols-[38px_72px_minmax(0,1fr)_32px] lg:py-7 ${
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        setActivePersonIndex(index);
+                      }
+                    }}
+                    className={`group relative grid min-h-[168px] min-w-0 cursor-pointer grid-cols-[32px_58px_minmax(0,1fr)_26px] items-center gap-4 border-b border-white/10 px-0 py-5 text-left outline-none transition-colors focus-visible:border-[#d6a84f]/70 lg:min-h-[174px] lg:grid-cols-[38px_76px_minmax(0,1fr)_34px] lg:py-6 ${
                       isActive ? "text-white" : "text-white/72 hover:text-white"
                     }`}
                   >
@@ -650,7 +661,7 @@ export default function Home() {
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <span
-                      className={`relative h-14 w-14 overflow-hidden rounded-full border transition-all duration-300 lg:h-[72px] lg:w-[72px] ${
+                      className={`relative h-14 w-14 overflow-hidden rounded-full border transition-all duration-300 lg:h-[76px] lg:w-[76px] ${
                         isActive
                           ? "border-[#d6a84f]/75 shadow-[0_0_28px_rgba(214,168,79,0.2)]"
                           : "border-white/14 grayscale group-hover:border-[#d6a84f]/45 group-hover:grayscale-0"
@@ -661,7 +672,7 @@ export default function Home() {
                         alt={`${person.name} portrait`}
                         fill
                         unoptimized
-                        sizes="(min-width: 1024px) 72px, 56px"
+                        sizes="(min-width: 1024px) 76px, 56px"
                         className="object-cover object-center"
                       />
                     </span>
@@ -676,6 +687,38 @@ export default function Home() {
                       >
                         {person.role}
                       </span>
+                      <span className="mt-3 flex items-center gap-2">
+                        <a
+                          href={person.linkedin}
+                          target="_blank"
+                          rel="noreferrer"
+                          aria-label={`${person.name} LinkedIn profile`}
+                          onClick={(event) => event.stopPropagation()}
+                          onMouseDown={(event) => event.stopPropagation()}
+                          className={`grid h-8 w-8 place-items-center rounded-full border transition-colors ${
+                            isActive
+                              ? "border-[#d6a84f]/55 text-[#d6a84f] hover:bg-[#d6a84f] hover:text-black"
+                              : "border-white/12 text-white/42 hover:border-[#d6a84f]/65 hover:text-[#d6a84f]"
+                          }`}
+                        >
+                          <Linkedin className="h-3.5 w-3.5" strokeWidth={1.65} />
+                        </a>
+                        <a
+                          href={person.website}
+                          target="_blank"
+                          rel="noreferrer"
+                          aria-label={`${person.name} personal website`}
+                          onClick={(event) => event.stopPropagation()}
+                          onMouseDown={(event) => event.stopPropagation()}
+                          className={`grid h-8 w-8 place-items-center rounded-full border transition-colors ${
+                            isActive
+                              ? "border-[#d6a84f]/55 text-[#d6a84f] hover:bg-[#d6a84f] hover:text-black"
+                              : "border-white/12 text-white/42 hover:border-[#d6a84f]/65 hover:text-[#d6a84f]"
+                          }`}
+                        >
+                          <Globe2 className="h-3.5 w-3.5" strokeWidth={1.65} />
+                        </a>
+                      </span>
                       <span
                         className={`mt-4 block h-px transition-all duration-300 ${
                           isActive ? "w-full bg-[#d6a84f]/75" : "w-2/3 bg-white/12 group-hover:w-full group-hover:bg-white/20"
@@ -688,64 +731,44 @@ export default function Home() {
                       }`}
                       strokeWidth={1.5}
                     />
-                  </button>
+                  </div>
                 );
               })}
             </div>
 
             <article
               key={activePerson.name}
-              className="people-preview scroll-reveal relative overflow-hidden rounded-lg border border-[#d6a84f]/22 bg-[radial-gradient(circle_at_82%_28%,rgba(214,168,79,0.11),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.045),rgba(255,255,255,0.018))] p-6 shadow-[0_28px_90px_rgba(0,0,0,0.36)] sm:p-8 lg:min-h-[390px] lg:p-9"
+              className="people-preview scroll-reveal relative overflow-hidden rounded-lg border border-[#d6a84f]/22 bg-[radial-gradient(circle_at_82%_28%,rgba(214,168,79,0.1),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.04),rgba(255,255,255,0.016))] p-6 shadow-[0_24px_74px_rgba(0,0,0,0.34)] sm:p-7 lg:min-h-[360px] lg:p-8"
             >
               <div className="pointer-events-none absolute inset-0 opacity-45 [background-image:linear-gradient(90deg,transparent,rgba(214,168,79,0.09),transparent),radial-gradient(circle_at_90%_50%,rgba(255,255,255,0.055),transparent_22%)]" />
-              <div className="relative grid gap-9 lg:grid-cols-[48%_52%] lg:items-center">
+              <div className="relative grid gap-7 lg:grid-cols-[50%_50%] lg:items-center">
                 <div>
-                  <span className="inline-flex rounded-full border border-[#d6a84f]/35 bg-black/20 px-5 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-[#d6a84f]">
+                  <span className="inline-flex rounded-full border border-[#d6a84f]/35 bg-black/20 px-4 py-2 text-[9px] font-bold uppercase tracking-[0.18em] text-[#d6a84f]">
                     {activePerson.role}
                   </span>
-                  <h3 className="mt-8 font-serif text-4xl font-normal leading-tight text-white sm:text-5xl">
+                  <h3 className="mt-6 font-serif text-4xl font-normal leading-tight text-white sm:text-[44px]">
                     {activePerson.name}
                   </h3>
-                  <span className="mt-6 block h-px w-44 bg-gradient-to-r from-[#d6a84f] via-[#d6a84f]/50 to-transparent shadow-[0_0_16px_rgba(214,168,79,0.36)]" />
-                  <p className="mt-6 max-w-[430px] text-base leading-8 text-white/70">
+                  <span className="mt-5 block h-px w-36 bg-gradient-to-r from-[#d6a84f] via-[#d6a84f]/50 to-transparent shadow-[0_0_16px_rgba(214,168,79,0.32)]" />
+                  <p className="mt-5 max-w-[430px] text-justify text-sm leading-7 text-white/70 sm:text-[15px] sm:leading-8">
                     {activePerson.bio}
                   </p>
-                  <div className="mt-7 flex items-center gap-3">
-                    <a
-                      href={activePerson.website}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={`${activePerson.name} personal website`}
-                      className="grid h-10 w-10 place-items-center rounded-full border border-white/15 text-white/55 transition-colors hover:border-[#d6a84f]/70 hover:text-[#d6a84f]"
-                    >
-                      <Globe2 className="h-4 w-4" strokeWidth={1.55} />
-                    </a>
-                    <a
-                      href={activePerson.linkedin}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={`${activePerson.name} LinkedIn profile`}
-                      className="grid h-10 w-10 place-items-center rounded-full border border-white/15 text-white/55 transition-colors hover:border-[#d6a84f]/70 hover:text-[#d6a84f]"
-                    >
-                      <Linkedin className="h-4 w-4" strokeWidth={1.55} />
-                    </a>
-                  </div>
                 </div>
 
-                <div className="relative mx-auto grid h-[240px] w-[240px] place-items-center sm:h-[300px] sm:w-[300px]">
+                <div className="relative mx-auto grid h-[220px] w-[220px] place-items-center sm:h-[270px] sm:w-[270px]">
                   <span className="absolute inset-0 rounded-full border border-[#d6a84f]/18" />
                   <span className="absolute inset-5 rounded-full border border-[#d6a84f]/24" />
                   <span className="absolute inset-10 rounded-full border border-white/10" />
                   <span className="absolute left-8 top-10 h-2 w-2 rounded-full bg-[#d6a84f] shadow-[0_0_18px_rgba(214,168,79,0.85)]" />
                   <span className="absolute bottom-12 right-10 h-1.5 w-1.5 rounded-full bg-[#d6a84f]/80 shadow-[0_0_14px_rgba(214,168,79,0.65)]" />
-                  <div className="relative h-[164px] w-[164px] overflow-hidden rounded-full border border-[#d6a84f]/65 shadow-[0_0_42px_rgba(214,168,79,0.18)] sm:h-[200px] sm:w-[200px]">
+                  <div className="relative h-[150px] w-[150px] overflow-hidden rounded-full border border-[#d6a84f]/65 shadow-[0_0_38px_rgba(214,168,79,0.16)] sm:h-[184px] sm:w-[184px]">
                     <Image
                       src={activePerson.photo}
                       alt={`${activePerson.name} portrait`}
                       fill
                       unoptimized
                       priority={activePersonIndex === 0}
-                      sizes="(min-width: 640px) 200px, 164px"
+                      sizes="(min-width: 640px) 184px, 150px"
                       className="people-preview-image object-cover object-center"
                     />
                   </div>

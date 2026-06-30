@@ -154,7 +154,7 @@ function FusionHeader() {
 function FusionFooter() {
   return (
     <footer className="border-t border-white/10 bg-black px-5 py-10 text-white sm:px-10 lg:px-14">
-      <div className="mx-auto grid max-w-[1280px] gap-9 md:grid-cols-[1.5fr_1fr_1fr_1.4fr] lg:grid-cols-[1.6fr_1fr_1fr_1fr_1.35fr]">
+      <div className="mx-auto grid max-w-[1280px] gap-9 md:grid-cols-[1.5fr_1fr_1fr_1.4fr] lg:grid-cols-[1.6fr_1fr_1fr_1.45fr]">
         <div>
           <a href="/" aria-label="Fusion Ventures home">
             <Image
@@ -185,18 +185,8 @@ function FusionFooter() {
           {[
             ["Home", "/"],
             ["About", "/about"],
+            ["Web Portfolio", "/web-portfolio"],
             ["Contact", "/#contact"]
-          ].map(([item, href]) => (
-            <a key={item} href={href} className="mb-3 block text-sm text-white/52 transition-colors hover:text-[#d6a84f]">
-              {item}
-            </a>
-          ))}
-        </div>
-
-        <div>
-          <h3 className="mb-4 text-sm font-semibold text-white">Portfolio</h3>
-          {[
-            ["Web Portfolio", "/web-portfolio"]
           ].map(([item, href]) => (
             <a key={item} href={href} className="mb-3 block text-sm text-white/52 transition-colors hover:text-[#d6a84f]">
               {item}

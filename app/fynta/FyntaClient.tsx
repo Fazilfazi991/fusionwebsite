@@ -715,7 +715,7 @@ export default function FyntaClient() {
       </section>
 
       <footer className="border-t border-white/10 bg-black px-5 py-9 text-white sm:px-10 lg:px-14">
-        <div className="mx-auto grid max-w-[1280px] gap-9 md:grid-cols-[1.5fr_1fr_1fr_1fr_1.4fr]">
+        <div className="mx-auto grid max-w-[1280px] gap-9 md:grid-cols-[1.5fr_1fr_1fr_1.4fr]">
           <div>
             <LogoMark />
             <p className="mt-5 max-w-[260px] text-sm leading-6 text-white/50">
@@ -730,21 +730,14 @@ export default function FyntaClient() {
             </div>
           </div>
           <div>
-            <h3 className="mb-4 text-sm font-semibold text-white">Company</h3>
+            <h3 className="mb-4 text-sm font-semibold text-white">Quick Links</h3>
             {[
+              ["Home", "/"],
               ["About Us", "/about"],
-              ["Our Portfolio", "/web-portfolio"],
-              ["Careers", "#"]
+              ["Web Portfolio", "/web-portfolio"],
+              ["Contact", "/#contact"]
             ].map(([item, href]) => (
               <a key={item} href={href} className="mb-3 block text-sm text-white/52 hover:text-[#d6a84f]">
-                {item}
-              </a>
-            ))}
-          </div>
-          <div>
-            <h3 className="mb-4 text-sm font-semibold text-white">Resources</h3>
-            {["Case Studies", "Blog"].map((item) => (
-              <a key={item} href="#" className="mb-3 block text-sm text-white/52 hover:text-[#d6a84f]">
                 {item}
               </a>
             ))}

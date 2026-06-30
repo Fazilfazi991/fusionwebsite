@@ -2,7 +2,7 @@ import { Bell, Menu, Search } from 'lucide-react';
 
 export function Header() {
   return (
-    <header className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
+    <header className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
       <div className="flex items-start gap-3">
         <button
           type="button"
@@ -17,8 +17,8 @@ export function Header() {
         </div>
       </div>
 
-      <div className="flex items-center gap-4">
-        <label className="flex h-12 w-full min-w-0 items-center gap-3 rounded-lg border border-slate-200 bg-white px-4 text-slate-500 shadow-sm md:w-[360px] xl:w-[420px]">
+      <div className="flex min-w-0 items-center gap-3">
+        <label className="flex h-12 w-full min-w-0 items-center gap-3 rounded-lg border border-slate-200 bg-white px-4 text-slate-500 shadow-sm sm:w-[320px] 2xl:w-[380px]">
           <Search className="h-5 w-5 shrink-0 text-slate-500" />
           <input
             className="w-full min-w-0 border-0 bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-500"

@@ -5,11 +5,11 @@ import { navItems } from '../data/dashboardData.js';
 
 export function FusionMark({ compact = false }) {
   return (
-    <div className={`grid shrink-0 place-items-center overflow-hidden ${compact ? 'h-16 w-44' : 'h-20 w-full'}`}>
+    <div className={`grid shrink-0 place-items-center overflow-hidden rounded-lg bg-white px-3 py-2 ${compact ? 'h-[72px] w-[200px]' : 'h-[96px] w-full'}`}>
       <img
         src="/fusion-ventures-logo.webp"
         alt="Fusion Ventures"
-        className="max-h-full max-w-full object-contain"
+        className="block h-full max-h-full w-full max-w-full object-contain"
       />
     </div>
   );
@@ -34,12 +34,12 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="hidden min-h-screen w-72 shrink-0 flex-col bg-zinc-950 p-5 text-white shadow-2xl lg:flex">
+    <aside className="hidden min-h-screen w-[288px] shrink-0 flex-col bg-zinc-950 p-5 text-white shadow-2xl lg:flex">
       <div className="px-1">
         <FusionMark />
       </div>
 
-      <div className="mt-10 px-1 text-2xl font-bold text-white">Fusion OS</div>
+      <div className="mt-8 px-1 text-[24px] font-bold leading-tight text-white">Fusion OS</div>
 
       <nav className="mt-7 space-y-2">
         {navItems.map((item) => {
@@ -54,7 +54,7 @@ export function Sidebar() {
               <a
                 key={item.label}
                 href={item.to}
-                className={`flex h-14 w-full items-center gap-4 rounded-lg px-4 text-left text-base transition ${
+                className={`flex h-[56px] w-full items-center gap-4 rounded-lg px-4 text-left text-[16px] transition ${
                   location.pathname.startsWith('/email')
                     ? 'bg-white/10 text-white shadow-lg shadow-black/20'
                     : 'text-zinc-300 hover:bg-white/10 hover:text-white'
@@ -67,7 +67,7 @@ export function Sidebar() {
             <NavLink
               key={item.label}
               to={item.to}
-              className={`flex h-14 w-full items-center gap-4 rounded-lg px-4 text-left text-base transition ${
+              className={`flex h-[56px] w-full items-center gap-4 rounded-lg px-4 text-left text-[16px] transition ${
                 isCurrent
                   ? 'bg-white/10 text-white shadow-lg shadow-black/20'
                   : 'text-zinc-300 hover:bg-white/10 hover:text-white'

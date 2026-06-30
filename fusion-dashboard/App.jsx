@@ -20,10 +20,10 @@ export default function App() {
         path="/*"
         element={
           <ProtectedRoute>
-            <div className="min-h-screen bg-zinc-50 text-zinc-950">
+            <div className="fusion-dashboard-shell min-h-screen overflow-x-hidden bg-zinc-50 text-zinc-950">
               <div className="flex min-h-screen">
                 <Sidebar />
-                <main className="min-w-0 flex-1 px-3 py-3 sm:px-5 sm:py-5 lg:px-9">
+                <main className="min-w-0 flex-1 overflow-x-hidden px-3 py-3 sm:px-5 sm:py-5 lg:px-7 xl:px-8">
                   <MobileNav />
                   <Routes>
                     <Route path="/" element={<Overview />} />

@@ -12,13 +12,13 @@ export function KpiCard({ icon: Icon, label, value }) {
   };
 
   return (
-    <article className="flex min-h-[126px] items-center gap-5 rounded-lg border border-slate-200 bg-white p-6 shadow-soft">
-      <div className={`grid h-16 w-16 shrink-0 place-items-center rounded-full border ${toneClasses[usefulTone]}`}>
-        <Icon className="h-8 w-8" strokeWidth={2.2} />
+    <article className="flex min-h-[126px] min-w-0 items-center gap-4 rounded-lg border border-slate-200 bg-white p-5 shadow-soft">
+      <div className={`grid h-[58px] w-[58px] shrink-0 place-items-center rounded-full border ${toneClasses[usefulTone]}`}>
+        <Icon className="h-7 w-7" strokeWidth={2.2} />
       </div>
-      <div>
-        <p className="text-base font-medium text-slate-900">{label}</p>
-        <p className={`mt-1 text-3xl font-extrabold leading-none sm:text-4xl ${valueClasses[usefulTone]}`}>{value}</p>
+      <div className="min-w-0">
+        <p className="max-w-[9rem] text-[15px] font-semibold leading-5 text-slate-900">{label}</p>
+        <p className={`mt-2 text-[36px] font-extrabold leading-none ${valueClasses[usefulTone]}`}>{value}</p>
       </div>
     </article>
   );

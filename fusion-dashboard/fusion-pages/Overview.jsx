@@ -11,7 +11,7 @@ export function Overview() {
     <>
       <Header />
 
-      <section className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <section className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-2 2xl:grid-cols-4">
         {kpis.map((kpi) => (
           <KpiCard key={kpi.label} {...kpi} />
         ))}

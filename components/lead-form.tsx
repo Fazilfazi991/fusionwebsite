@@ -3,8 +3,8 @@ import { createLead } from "@/app/email/(dashboard)/leads/actions";
 
 export function LeadForm() {
   return (
-    <form action={createLead} className="panel grid gap-4 p-5 md:grid-cols-2">
-      <div className="md:col-span-2">
+    <form action={createLead} className="panel grid gap-4 p-5">
+      <div>
         <h2 className="text-lg font-semibold">Add Lead</h2>
       </div>
       <label>
@@ -43,11 +43,11 @@ export function LeadForm() {
           ))}
         </select>
       </label>
-      <label className="md:col-span-2">
+      <label>
         <span className="field-label">Notes</span>
         <textarea name="notes" className="mt-1 min-h-24 w-full" />
       </label>
-      <div className="md:col-span-2">
+      <div>
         <button className="btn-primary" type="submit">
           Add lead
         </button>

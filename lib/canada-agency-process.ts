@@ -18,8 +18,8 @@ export type ProcessStep = {
 
 export const processValuePoints = [
   "No upfront lock-in",
-  "Fast concept turnaround",
-  "Built around your brand"
+  "3-5 day concept turnaround",
+  "White-label friendly delivery"
 ];
 
 export const processStages: ProcessStage[] = [

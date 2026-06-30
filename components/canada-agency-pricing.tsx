@@ -27,27 +27,27 @@ import {
 
 const accentStyles = {
   green: {
-    icon: "text-emerald-300",
-    iconBg: "bg-emerald-400/10",
-    border: "border-emerald-300/25",
+    icon: "text-indigo-100",
+    iconBg: "bg-indigo-300/10",
+    border: "border-indigo-200/24",
     glow: "shadow-[0_18px_48px_rgba(0,0,0,0.22)]"
   },
   blue: {
-    icon: "text-sky-300",
-    iconBg: "bg-sky-400/10",
-    border: "border-sky-300/25",
+    icon: "text-indigo-100",
+    iconBg: "bg-indigo-300/10",
+    border: "border-indigo-200/24",
     glow: "shadow-[0_18px_48px_rgba(0,0,0,0.22)]"
   },
   orange: {
-    icon: "text-amber-300",
-    iconBg: "bg-amber-400/10",
-    border: "border-amber-300/25",
+    icon: "text-indigo-100",
+    iconBg: "bg-indigo-300/10",
+    border: "border-indigo-200/24",
     glow: "shadow-[0_18px_48px_rgba(0,0,0,0.22)]"
   },
   red: {
-    icon: "text-rose-300",
-    iconBg: "bg-rose-400/10",
-    border: "border-rose-300/25",
+    icon: "text-indigo-100",
+    iconBg: "bg-indigo-300/10",
+    border: "border-indigo-200/24",
     glow: "shadow-[0_18px_48px_rgba(0,0,0,0.22)]"
   }
 };
@@ -68,10 +68,10 @@ function PackageIcon({ item, large = false }: { item: AgencyPackage; large?: boo
   return (
     <span
       className={`grid shrink-0 place-items-center rounded-lg border ${accent.border} ${accent.iconBg} ${accent.icon} ${
-        large ? "h-14 w-14" : "h-11 w-11"
+        large ? "h-16 w-16" : "h-12 w-12"
       }`}
     >
-      <Icon className={large ? "h-7 w-7" : "h-5 w-5"} strokeWidth={1.65} />
+      <Icon className={large ? "h-8 w-8" : "h-5 w-5"} strokeWidth={1.65} />
     </span>
   );
 }
@@ -109,7 +109,7 @@ export function CanadaAgencyPricing() {
   return (
     <section
       id="canada-agency-pricing"
-      className="relative overflow-hidden bg-[#050505] px-5 py-16 text-white sm:px-10 lg:px-14 lg:py-24"
+      className="relative overflow-hidden bg-[#050505] px-5 pb-12 pt-16 text-white sm:px-10 lg:px-14 lg:pb-14 lg:pt-24"
     >
       <div className="pointer-events-none absolute inset-0 opacity-80 [background-image:radial-gradient(circle_at_12%_18%,rgba(185,154,91,0.055),transparent_28%),radial-gradient(circle_at_84%_20%,rgba(255,255,255,0.045),transparent_24%),radial-gradient(circle_at_50%_100%,rgba(185,154,91,0.035),transparent_36%)]" />
       <div className="pointer-events-none absolute -right-16 bottom-20 hidden h-72 w-72 rotate-12 opacity-[0.035] lg:block">
@@ -123,7 +123,7 @@ export function CanadaAgencyPricing() {
       </div>
 
       <div className="relative mx-auto max-w-[1280px]">
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_430px] lg:items-end">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_460px] lg:items-end">
           <div className="max-w-[820px]">
             <p className="mb-5 text-[11px] font-bold uppercase tracking-[0.28em] text-white/46">
               Canada Agency Pricing
@@ -137,24 +137,24 @@ export function CanadaAgencyPricing() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 rounded-lg border border-white/10 bg-white/[0.035] p-3 shadow-[0_22px_70px_rgba(0,0,0,0.28)]">
+          <div className="grid grid-cols-2 gap-3 rounded-lg border border-white/12 bg-white/[0.04] p-4 shadow-[0_22px_70px_rgba(0,0,0,0.28)]">
             {trustBadges.map((badge, index) => {
               const Icon = trustIcons[index] ?? BadgeCheck;
 
               return (
-                <div key={badge} className="flex items-center gap-3 rounded-md border border-white/8 bg-black/20 p-3">
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/14 text-white/68">
+                <div key={badge} className="flex items-center gap-3 rounded-md border border-white/10 bg-black/22 p-3.5">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-indigo-200/18 text-indigo-100/76">
                     <Icon className="h-4 w-4" strokeWidth={1.6} />
                   </span>
-                  <span className="text-[11px] font-semibold leading-4 text-white/78">{badge}</span>
+                  <span className="text-xs font-semibold leading-4 text-white/80">{badge}</span>
                 </div>
               );
             })}
           </div>
         </div>
 
-        <div className="mt-12 grid gap-6 lg:grid-cols-[45%_55%] lg:gap-8">
-          <div className="grid gap-4" role="listbox" aria-label="Agency packages">
+        <div className="mt-14 grid gap-7 lg:grid-cols-[45%_55%] lg:gap-9">
+          <div className="grid gap-[18px]" role="listbox" aria-label="Agency packages">
             {agencyPackages.map((item) => {
               const isActive = item.id === selectedPackage.id;
               const accent = accentStyles[item.accent];
@@ -166,27 +166,32 @@ export function CanadaAgencyPricing() {
                   role="option"
                   aria-selected={isActive}
                   onClick={() => setSelectedPackageId(item.id)}
-                  className={`group relative grid min-h-[112px] w-full grid-cols-[44px_minmax(0,1fr)_auto_20px] items-center gap-4 rounded-lg border p-4 text-left outline-none transition-all duration-300 hover:-translate-y-1 hover:border-white/24 hover:bg-white/[0.055] hover:shadow-[0_18px_46px_rgba(0,0,0,0.22)] focus-visible:border-white/50 focus-visible:ring-2 focus-visible:ring-white/18 sm:p-5 ${
+                  className={`group relative grid min-h-[126px] w-full grid-cols-[48px_minmax(0,1fr)_auto_22px] items-center gap-5 overflow-hidden rounded-lg border p-5 text-left outline-none transition-all duration-300 hover:-translate-y-1 hover:border-indigo-200/26 hover:bg-white/[0.06] hover:shadow-[0_20px_52px_rgba(0,0,0,0.26)] focus-visible:border-indigo-100/54 focus-visible:ring-2 focus-visible:ring-indigo-200/20 sm:p-6 ${
                     isActive
-                      ? `border-white/34 bg-white/[0.07] shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_22px_60px_rgba(0,0,0,0.24)] ${accent.glow}`
+                      ? `border-indigo-100/48 bg-indigo-200/[0.075] shadow-[0_0_0_1px_rgba(199,210,254,0.12),0_24px_70px_rgba(99,102,241,0.16)] ${accent.glow}`
                       : "border-white/10 bg-white/[0.035]"
                   }`}
                 >
+                  <span
+                    className={`absolute inset-y-5 left-0 w-px transition-opacity ${
+                      isActive ? "bg-indigo-100/70 opacity-100" : "bg-white/20 opacity-0 group-hover:opacity-70"
+                    }`}
+                  />
                   <PackageIcon item={item} />
                   <span className="min-w-0">
                     <span className="flex flex-wrap items-center gap-2">
-                      <span className="block text-sm font-semibold leading-5 text-white">{item.selectorTitle}</span>
+                      <span className="block text-[15px] font-semibold leading-6 text-white">{item.selectorTitle}</span>
                       {item.badge && (
                         <span className="rounded-full border border-white/16 px-2 py-1 text-[9px] font-bold uppercase tracking-[0.14em] text-white/62">
                           {item.badge}
                         </span>
                       )}
                     </span>
-                    <span className="mt-1 block text-xs leading-5 text-white/52">{item.packageName}</span>
+                    <span className="mt-1.5 block text-xs leading-5 text-white/56">{item.packageName}</span>
                   </span>
                   <span className="text-right">
                     <span className="block text-[10px] uppercase tracking-[0.16em] text-white/40">From</span>
-                    <span className="block text-lg font-semibold tracking-[-0.03em] text-white sm:text-xl">
+                    <span className="block text-xl font-semibold tracking-[-0.03em] text-white sm:text-2xl">
                       {item.price.replace(" CAD", "")}
                     </span>
                     <span className="block text-[10px] uppercase tracking-[0.12em] text-white/42">CAD</span>
@@ -204,7 +209,7 @@ export function CanadaAgencyPricing() {
 
           <article
             key={selectedPackage.id}
-            className="agency-package-detail relative overflow-hidden rounded-lg border border-white/14 bg-[radial-gradient(circle_at_80%_12%,rgba(185,154,91,0.055),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.055),rgba(255,255,255,0.018))] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.38)] sm:p-7 lg:p-8"
+            className="agency-package-detail relative overflow-hidden rounded-lg border border-white/16 bg-[radial-gradient(circle_at_80%_12%,rgba(99,102,241,0.08),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-6 shadow-[0_26px_86px_rgba(0,0,0,0.42)] sm:p-8 lg:p-9"
           >
             <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/28 to-transparent" />
             <div className="relative flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
@@ -214,7 +219,7 @@ export function CanadaAgencyPricing() {
                   <h3 className="font-display text-3xl font-normal leading-tight tracking-[-0.04em] text-white sm:text-4xl">
                     {selectedPackage.title}
                   </h3>
-                  <p className="mt-2 text-sm text-white/58">{selectedPackage.subtitle}</p>
+                  <p className="mt-2 text-sm leading-6 text-white/60">{selectedPackage.subtitle}</p>
                 </div>
               </div>
               <span className="inline-flex w-fit rounded-full border border-white/14 bg-white/[0.035] px-3 py-2 text-[10px] font-bold uppercase tracking-[0.16em] text-white/62">
@@ -222,9 +227,9 @@ export function CanadaAgencyPricing() {
               </span>
             </div>
 
-            <div className="relative mt-8 rounded-lg border border-white/10 bg-black/24 p-5">
+            <div className="relative mt-8 rounded-lg border border-white/12 bg-black/26 p-6">
               <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/46">Best For</p>
-              <p className="mt-3 text-sm leading-6 text-white/74">{selectedPackage.bestFor}</p>
+              <p className="mt-3 text-[15px] leading-7 text-white/76">{selectedPackage.bestFor}</p>
               <div className="mt-7 flex flex-col gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <p className="text-5xl font-semibold tracking-[-0.06em] text-white">{selectedPackage.price.replace(" CAD", "")}</p>
@@ -237,10 +242,10 @@ export function CanadaAgencyPricing() {
               </div>
             </div>
 
-            <ul className="mt-7 grid gap-3">
+            <ul className="mt-8 grid gap-3.5">
               {visibleFeatures.map((feature) => (
-                <li key={feature} className="flex gap-3 text-sm leading-6 text-white/72">
-                  <Check className="mt-1 h-4 w-4 shrink-0 text-[#b99a5b]" strokeWidth={1.9} />
+                <li key={feature} className="flex gap-3 text-[15px] leading-7 text-white/74">
+                  <Check className="mt-1.5 h-4 w-4 shrink-0 text-indigo-100/78" strokeWidth={1.9} />
                   <span>{feature}</span>
                 </li>
               ))}
@@ -250,7 +255,7 @@ export function CanadaAgencyPricing() {
             <button
               type="button"
               onClick={() => setIsModalOpen(true)}
-              className="group relative mt-7 inline-flex w-full items-center justify-center gap-3 overflow-hidden rounded-md border border-white/18 bg-white/[0.055] px-6 py-4 text-xs font-bold uppercase tracking-[0.11em] text-white outline-none transition-all hover:-translate-y-0.5 hover:border-white/34 hover:bg-white/[0.09] focus-visible:ring-2 focus-visible:ring-white/20"
+              className="group relative mt-8 inline-flex w-full items-center justify-center gap-3 overflow-hidden rounded-md border border-white/86 bg-white px-6 py-[18px] text-xs font-bold uppercase tracking-[0.11em] text-black outline-none transition-all hover:-translate-y-0.5 hover:bg-indigo-50 focus-visible:ring-2 focus-visible:ring-indigo-200/35"
             >
               <span className="absolute inset-y-0 -left-1/2 w-1/3 skew-x-[-20deg] bg-white/30 opacity-0 transition-all duration-700 group-hover:left-[120%] group-hover:opacity-100" />
               View Full Inclusions
@@ -343,7 +348,7 @@ export function CanadaAgencyPricing() {
               <ul className="grid gap-3 sm:grid-cols-2">
                 {selectedPackage.features.map((feature) => (
                   <li key={feature} className="flex gap-3 rounded-md border border-white/8 bg-white/[0.025] p-3 text-sm leading-6 text-white/72">
-                    <Check className="mt-1 h-4 w-4 shrink-0 text-[#b99a5b]" strokeWidth={1.9} />
+                    <Check className="mt-1 h-4 w-4 shrink-0 text-indigo-100/78" strokeWidth={1.9} />
                     <span>{feature}</span>
                   </li>
                 ))}

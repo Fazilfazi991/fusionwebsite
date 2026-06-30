@@ -133,6 +133,7 @@ const companies: VentureCompany[] = [
     name: "Plumlet",
     category: "E-Commerce",
     description: "A creative marketplace connecting artists, makers, and creators with people who appreciate unique handmade products, art, and craftsmanship.",
+    url: "/plumlet",
     logo: "/ventures/logos/plumlet-logo-trimmed.png"
   },
   {
@@ -554,14 +555,16 @@ export default function Home() {
                 </div>
               );
 
+              const isExternal = company.url?.startsWith("http");
+
               return company.url ? (
                 <a
                   key={company.name}
                   href={company.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  target={isExternal ? "_blank" : undefined}
+                  rel={isExternal ? "noopener noreferrer" : undefined}
                   className="venture-card group h-[280px] min-w-0 cursor-pointer outline-none min-[390px]:h-[330px] md:h-[320px] lg:h-[360px]"
-                  aria-label={`Visit ${company.name} website`}
+                  aria-label={isExternal ? `Visit ${company.name} website` : `Explore ${company.name}`}
                 >
                   {cardContent}
                 </a>

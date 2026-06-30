@@ -78,6 +78,7 @@ const ventures = [
     name: "Plumlet",
     category: "Consumer Brands",
     description: "A creative marketplace connecting artists, makers, and creators with people who appreciate unique handmade products, art, and craftsmanship.",
+    url: "/plumlet",
     logo: "/ventures/logos/plumlet-logo-trimmed.png",
     accent: "#b45cff",
     initials: "P"
@@ -307,12 +308,14 @@ export default function VenturesPage() {
                 </>
               );
 
+              const isExternal = venture.url?.startsWith("http");
+
               return venture.url ? (
                 <a
                   key={venture.name}
                   href={venture.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  target={isExternal ? "_blank" : undefined}
+                  rel={isExternal ? "noopener noreferrer" : undefined}
                   className="group relative rounded-xl border bg-white/[0.035] p-4 outline-none transition-all duration-300 hover:-translate-y-1 focus:-translate-y-1 lg:min-h-[150px] lg:p-5"
                   style={{
                     borderColor: `${venture.accent}55`,

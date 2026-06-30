@@ -10,7 +10,6 @@ import {
   Mail,
   MapPin,
   Menu,
-  MousePointer2,
   Phone,
   X
 } from "lucide-react";
@@ -170,7 +169,7 @@ function FusionFooter() {
             Building, operating, and scaling digital-first ventures with long-term focus.
           </p>
           <div className="mt-5 flex gap-3">
-            {[Linkedin, Instagram, Dribbble, MousePointer2].map((Icon, index) => (
+            {[Linkedin, Instagram, Dribbble].map((Icon, index) => (
               <span
                 key={index}
                 className="grid h-8 w-8 place-items-center rounded-full border border-white/14 text-white/68 transition-colors hover:border-[#d6a84f]/60 hover:text-[#d6a84f]"
@@ -186,8 +185,6 @@ function FusionFooter() {
           {[
             ["Home", "/"],
             ["About", "/about"],
-            ["Ventures", "/ventures"],
-            ["Insights", "/web-portfolio"],
             ["Contact", "/#contact"]
           ].map(([item, href]) => (
             <a key={item} href={href} className="mb-3 block text-sm text-white/52 transition-colors hover:text-[#d6a84f]">
@@ -199,10 +196,7 @@ function FusionFooter() {
         <div>
           <h3 className="mb-4 text-sm font-semibold text-white">Portfolio</h3>
           {[
-            ["Web Portfolio", "/web-portfolio"],
-            ["Our Edge", "/#group"],
-            ["Sectors", "/#sectors"],
-            ["People", "/#people"]
+            ["Web Portfolio", "/web-portfolio"]
           ].map(([item, href]) => (
             <a key={item} href={href} className="mb-3 block text-sm text-white/52 transition-colors hover:text-[#d6a84f]">
               {item}
@@ -212,8 +206,12 @@ function FusionFooter() {
 
         <div>
           <h3 className="mb-4 text-sm font-semibold text-white">Legal</h3>
-          {["Privacy Policy", "Terms of Service", "Cookie Policy"].map((item) => (
-            <a key={item} href="#" className="mb-3 block text-sm text-white/52 transition-colors hover:text-[#d6a84f]">
+          {[
+            ["Privacy Policy", "/privacy-policy"],
+            ["Terms and Conditions", "/terms-and-conditions"],
+            ["Cookie Policy", "/cookie-policy"]
+          ].map(([item, href]) => (
+            <a key={item} href={href} className="mb-3 block text-sm text-white/52 transition-colors hover:text-[#d6a84f]">
               {item}
             </a>
           ))}
@@ -222,18 +220,18 @@ function FusionFooter() {
         <div>
           <h3 className="mb-4 text-sm font-semibold text-white">Let&apos;s Connect</h3>
           <a
-            href="mailto:hello@fusionventuresglobal.com"
+            href="mailto:info@fustionventuresglobal.com"
             className="mb-3 flex items-center gap-3 text-sm text-white/56 transition-colors hover:text-[#d6a84f]"
           >
             <Mail className="h-4 w-4 shrink-0" strokeWidth={1.55} />
-            hello@fusionventuresglobal.com
+            info@fustionventuresglobal.com
           </a>
           <a
-            href="tel:+13024703135"
+            href="tel:+971542763828"
             className="mb-3 flex items-center gap-3 text-sm text-white/56 transition-colors hover:text-[#d6a84f]"
           >
             <Phone className="h-4 w-4 shrink-0" strokeWidth={1.55} />
-            +1 (302) 470-3135
+            +971 54 276 3828
           </a>
           <p className="flex items-center gap-3 text-sm text-white/56">
             <MapPin className="h-4 w-4 shrink-0" strokeWidth={1.55} />

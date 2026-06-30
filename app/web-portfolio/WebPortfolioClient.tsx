@@ -14,7 +14,6 @@ import {
   Mail,
   MapPin,
   Menu,
-  MousePointer2,
   Phone,
   Send,
   ShoppingCart,
@@ -407,7 +406,7 @@ export default function WebPortfolioClient() {
               Building digital experiences that drive brands forward.
             </p>
             <div className="mt-5 flex gap-3">
-              {[Linkedin, Instagram, Dribbble, MousePointer2].map((Icon, index) => (
+              {[Linkedin, Instagram, Dribbble].map((Icon, index) => (
                 <span key={index} className="grid h-8 w-8 place-items-center rounded-full border border-white/14 text-white/72">
                   <Icon className="h-4 w-4" />
                 </span>
@@ -416,15 +415,19 @@ export default function WebPortfolioClient() {
           </div>
           <div>
             <h3 className="mb-4 text-sm font-semibold text-white">Company</h3>
-            {["About Us", "Our Portfolio", "Our Edge", "Careers"].map((item) => (
-              <a key={item} href="#" className="mb-3 block text-sm text-white/52 hover:text-[#d6a84f]">
+            {[
+              ["About Us", "/about"],
+              ["Our Portfolio", "/web-portfolio"],
+              ["Careers", "#"]
+            ].map(([item, href]) => (
+              <a key={item} href={href} className="mb-3 block text-sm text-white/52 hover:text-[#d6a84f]">
                 {item}
               </a>
             ))}
           </div>
           <div>
             <h3 className="mb-4 text-sm font-semibold text-white">Resources</h3>
-            {["Insights", "Case Studies", "Blog"].map((item) => (
+            {["Case Studies", "Blog"].map((item) => (
               <a key={item} href="#" className="mb-3 block text-sm text-white/52 hover:text-[#d6a84f]">
                 {item}
               </a>
@@ -432,8 +435,12 @@ export default function WebPortfolioClient() {
           </div>
           <div>
             <h3 className="mb-4 text-sm font-semibold text-white">Legal</h3>
-            {["Privacy Policy", "Terms of Service", "Cookie Policy"].map((item) => (
-              <a key={item} href="#" className="mb-3 block text-sm text-white/52 hover:text-[#d6a84f]">
+            {[
+              ["Privacy Policy", "/privacy-policy"],
+              ["Terms and Conditions", "/terms-and-conditions"],
+              ["Cookie Policy", "/cookie-policy"]
+            ].map(([item, href]) => (
+              <a key={item} href={href} className="mb-3 block text-sm text-white/52 hover:text-[#d6a84f]">
                 {item}
               </a>
             ))}

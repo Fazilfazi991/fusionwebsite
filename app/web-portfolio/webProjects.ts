@@ -6,9 +6,9 @@ export const webPortfolioStats = [
 ] as const;
 
 export const webPortfolioContact = {
-  email: "hello@fusionventures.io",
-  phone: "+1 (302) 470-3135",
-  location: "Wilmington, Delaware, USA"
+  email: "info@fustionventuresglobal.com",
+  phone: "+971 54 276 3828",
+  location: "UAE-Based Venture Group"
 } as const;
 
 export const webPortfolioCategories = [

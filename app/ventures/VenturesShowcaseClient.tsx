@@ -93,10 +93,10 @@ const ventures: Venture[] = [
     accentSoft: "rgba(217,164,65,0.12)",
     accentBorder: "rgba(217,164,65,0.42)",
     accentGlow: "rgba(217,164,65,0.34)",
-    image: "/ventures/showcase/dearelle-pendant-hero.png",
-    imagePositionDesktop: "76% center",
-    imagePositionTablet: "72% center",
-    imagePositionMobile: "center",
+    image: "/ventures/showcase/dearelle.webp",
+    imagePositionDesktop: "center",
+    imagePositionTablet: "center",
+    imagePositionMobile: "68% center",
     imageScale: "cover",
     overlayStrength: "0.76",
     features: [
@@ -126,10 +126,10 @@ const ventures: Venture[] = [
     accentSoft: "rgba(155,93,229,0.12)",
     accentBorder: "rgba(155,93,229,0.44)",
     accentGlow: "rgba(155,93,229,0.34)",
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1300&q=85",
-    imagePositionDesktop: "62% center",
-    imagePositionTablet: "56% center",
-    imagePositionMobile: "center",
+    image: "/ventures/showcase/occazn.webp",
+    imagePositionDesktop: "center",
+    imagePositionTablet: "center",
+    imagePositionMobile: "68% center",
     imageScale: "cover",
     overlayStrength: "0.72",
     features: [
@@ -160,10 +160,10 @@ const ventures: Venture[] = [
     accentSoft: "rgba(125,90,199,0.12)",
     accentBorder: "rgba(125,90,199,0.44)",
     accentGlow: "rgba(125,90,199,0.34)",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1300&q=85",
-    imagePositionDesktop: "58% center",
+    image: "/ventures/showcase/fynta.webp",
+    imagePositionDesktop: "center",
     imagePositionTablet: "center",
-    imagePositionMobile: "center",
+    imagePositionMobile: "68% center",
     imageScale: "cover",
     overlayStrength: "0.76",
     features: [
@@ -192,10 +192,10 @@ const ventures: Venture[] = [
     accentSoft: "rgba(39,199,201,0.12)",
     accentBorder: "rgba(39,199,201,0.42)",
     accentGlow: "rgba(39,199,201,0.3)",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1300&q=85",
-    imagePositionDesktop: "58% center",
+    image: "/ventures/showcase/tarx.webp",
+    imagePositionDesktop: "center",
     imagePositionTablet: "center",
-    imagePositionMobile: "center",
+    imagePositionMobile: "68% center",
     imageScale: "cover",
     overlayStrength: "0.76",
     features: [
@@ -225,10 +225,10 @@ const ventures: Venture[] = [
     accentSoft: "rgba(59,130,246,0.12)",
     accentBorder: "rgba(59,130,246,0.44)",
     accentGlow: "rgba(59,130,246,0.32)",
-    image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1300&q=85",
-    imagePositionDesktop: "58% center",
+    image: "/ventures/showcase/resumi.webp",
+    imagePositionDesktop: "center",
     imagePositionTablet: "center",
-    imagePositionMobile: "center",
+    imagePositionMobile: "68% center",
     imageScale: "cover",
     overlayStrength: "0.76",
     features: [
@@ -258,10 +258,10 @@ const ventures: Venture[] = [
     accentSoft: "rgba(181,106,230,0.13)",
     accentBorder: "rgba(181,106,230,0.46)",
     accentGlow: "rgba(181,106,230,0.34)",
-    image: "/ventures/plumlet_assets_webp/01_hero_creative_composition.webp",
-    imagePositionDesktop: "70% center",
+    image: "/ventures/showcase/plumlet.webp",
+    imagePositionDesktop: "center",
     imagePositionTablet: "center",
-    imagePositionMobile: "center",
+    imagePositionMobile: "68% center",
     imageScale: "cover",
     overlayStrength: "0.72",
     features: [
@@ -291,10 +291,10 @@ const ventures: Venture[] = [
     accentSoft: "rgba(66,199,185,0.12)",
     accentBorder: "rgba(66,199,185,0.42)",
     accentGlow: "rgba(66,199,185,0.3)",
-    image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1300&q=85",
-    imagePositionDesktop: "center bottom",
-    imagePositionTablet: "center bottom",
-    imagePositionMobile: "center bottom",
+    image: "/ventures/showcase/getaway.webp",
+    imagePositionDesktop: "center",
+    imagePositionTablet: "center",
+    imagePositionMobile: "68% center",
     imageScale: "cover",
     overlayStrength: "0.62",
     features: [
@@ -324,10 +324,10 @@ const ventures: Venture[] = [
     accentSoft: "rgba(245,158,66,0.12)",
     accentBorder: "rgba(245,158,66,0.42)",
     accentGlow: "rgba(245,158,66,0.32)",
-    image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1300&q=85",
-    imagePositionDesktop: "66% center",
+    image: "/ventures/showcase/entry-pazz.webp",
+    imagePositionDesktop: "center",
     imagePositionTablet: "center",
-    imagePositionMobile: "center",
+    imagePositionMobile: "68% center",
     imageScale: "cover",
     overlayStrength: "0.72",
     features: [
@@ -346,21 +346,16 @@ const metaItems = [
   { key: "positioning", label: "Positioning", icon: Target }
 ] as const;
 
-const pathPoints = [
-  { x: 48.7, y: 11 },
-  { x: 43, y: 21.5 },
-  { x: 35.9, y: 32.5 },
-  { x: 35, y: 44 },
-  { x: 45.8, y: 56 },
-  { x: 37.6, y: 67.5 },
-  { x: 41, y: 78.5 },
-  { x: 48.1, y: 86 }
-];
+const carouselSlots = [
+  { offset: -2, x: 48, y: 11, opacity: 0.42 },
+  { offset: -1, x: 41, y: 30, opacity: 0.76 },
+  { offset: 0, x: 35, y: 50, opacity: 1 },
+  { offset: 1, x: 42, y: 70, opacity: 0.76 },
+  { offset: 2, x: 49, y: 89, opacity: 0.42 }
+] as const;
 
-const ecosystemPath =
-  "M55 2 C43 11 38 21 39 31 C40 37 35 40 35 44 C35 49 42 53 43 57 C45 66 35 72 38 79 C41 86 50 87 55 94";
-
-const activePath = "M39 34 C40 39 35 41 35 44 C35 48 40 51 43 54";
+const ecosystemPath = "M54 0 C43 10 39 21 41 31 C43 40 35 44 35 50 C35 57 44 61 43 70 C42 80 43 89 55 100";
+const activePath = "M40 38 C37 43 35 46 35 50 C35 55 40 58 43 62";
 
 function LogoMark() {
   return (
@@ -388,10 +383,18 @@ function VentureLogo({
 }: {
   venture: Venture;
   active?: boolean;
-  size?: "xs" | "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg" | "outer";
 }) {
   const sizeClass =
-    size === "lg" ? "h-[90px] w-[90px]" : size === "md" ? "h-14 w-14" : size === "sm" ? "h-[52px] w-[52px]" : "h-11 w-11";
+    size === "lg"
+      ? "h-[116px] w-[116px]"
+      : size === "md"
+        ? "h-16 w-16"
+        : size === "outer"
+          ? "h-[58px] w-[58px]"
+          : size === "sm"
+            ? "h-[52px] w-[52px]"
+            : "h-11 w-11";
 
   return (
     <span
@@ -522,22 +525,17 @@ function EcosystemNavigator({
   const active = ventures[activeIndex];
   const count = ventures.length;
 
-  const orderedNodes = useMemo(() => {
-    const centerPoint = 3;
-
-    return ventures.map((venture, index) => {
-      const distance = (index - activeIndex + count) % count;
-      const pointIndex = distance === 0 ? centerPoint : distance <= 4 ? centerPoint + distance : distance - 5;
-      return { venture, index, point: pathPoints[pointIndex], isActive: index === activeIndex };
+  const visibleNodes = useMemo(() => {
+    return carouselSlots.map((slot) => {
+      const index = (activeIndex + slot.offset + count) % count;
+      return { ...slot, venture: ventures[index], index, isActive: slot.offset === 0 };
     });
   }, [activeIndex, count]);
 
   return (
     <aside className="relative hidden h-full min-h-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden border-r border-white/10 lg:grid">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_32%_45%,var(--venture-accent-soft),transparent_34%),radial-gradient(circle_at_10%_10%,rgba(255,255,255,0.05),transparent_28%)]" />
-      <div className="relative min-h-0 overflow-hidden px-8 pt-8 xl:px-10">
-        <LogoMark />
-
+      <div className="relative min-h-0 overflow-hidden px-8 xl:px-10">
         <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
           <path d={ecosystemPath} fill="none" stroke="rgba(255,255,255,0.13)" strokeWidth="0.22" />
           <path
@@ -551,19 +549,20 @@ function EcosystemNavigator({
         </svg>
 
         <div className="absolute inset-0">
-          {orderedNodes.map(({ venture, index, point, isActive }) => (
+          {visibleNodes.map(({ venture, index, x, y, opacity, offset, isActive }) => (
             <button
               key={venture.name}
               type="button"
               aria-label={`Select ${venture.name}`}
               aria-pressed={isActive}
               onClick={() => select(index)}
-              className={`group absolute flex -translate-x-1/2 -translate-y-1/2 items-center outline-none transition duration-200 hover:z-20 focus-visible:z-20 focus-visible:ring-2 focus-visible:ring-[var(--venture-accent)] ${
+              className={`group absolute flex -translate-x-1/2 -translate-y-1/2 items-center outline-none transition-[left,top,opacity,transform] duration-500 ease-out hover:z-20 focus-visible:z-20 focus-visible:ring-2 focus-visible:ring-[var(--venture-accent)] ${
                 isActive ? "z-30 rounded-full" : "z-10"
               }`}
               style={{
-                left: `${point.x}%`,
-                top: `${point.y}%`,
+                left: `${x}%`,
+                top: `${y}%`,
+                opacity,
                 "--venture-accent": venture.accent,
                 "--venture-accent-rgb": venture.accentRgb,
                 "--venture-accent-border": venture.accentBorder,
@@ -571,13 +570,13 @@ function EcosystemNavigator({
                 "--node-accent": venture.accent
               } as CSSProperties}
             >
-              <VentureLogo venture={venture} active={isActive} size={isActive ? "lg" : "md"} />
+              <VentureLogo venture={venture} active={isActive} size={isActive ? "lg" : Math.abs(offset) === 1 ? "md" : "outer"} />
 
               {!isActive && (
-                <span className="ml-4 flex min-w-[132px] items-center text-left">
+                <span className="ml-3 flex min-w-[126px] items-center text-left">
                   <span className="transition-transform duration-200 group-hover:translate-x-0.5">
-                    <span className="block text-[14px] font-semibold text-white/78">{venture.name}</span>
-                    <span className="mt-0.5 block max-w-[136px] text-[11px] leading-[1.2] text-white/42">{venture.stripShort}</span>
+                    <span className="block whitespace-nowrap text-[13px] font-semibold text-white/82">{venture.name}</span>
+                    <span className="mt-0.5 block max-w-[126px] whitespace-nowrap text-[10px] leading-[1.2] text-white/48">{venture.stripShort}</span>
                   </span>
                 </span>
               )}
@@ -585,7 +584,7 @@ function EcosystemNavigator({
           ))}
         </div>
 
-        <div className="pointer-events-none absolute left-[calc(35%+69px)] top-[44%] z-40 hidden w-[188px] -translate-y-1/2 rounded-xl border border-[var(--venture-accent-border)] bg-[#11131b]/86 p-4 shadow-[0_0_26px_var(--venture-accent-glow)] backdrop-blur-md xl:block">
+        <div className="pointer-events-none absolute left-[calc(35%+82px)] top-1/2 z-40 hidden w-[220px] -translate-y-1/2 rounded-xl border border-[var(--venture-accent-border)] bg-[#11131b]/88 p-4 shadow-[0_0_26px_var(--venture-accent-glow)] backdrop-blur-md xl:block">
           <div className="flex items-start justify-between gap-3">
             <p className="text-[10px] font-bold uppercase tracking-[0.26em] text-[var(--venture-accent)]">Active Venture</p>
             <ExternalLink className="h-3.5 w-3.5 text-white/65" />

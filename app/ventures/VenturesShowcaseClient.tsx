@@ -50,6 +50,7 @@ type Venture = {
   logoBackground: string;
   logoObjectFit: "contain";
   logoFilter?: string;
+  activeLogoFilter?: string;
   website?: string;
   status?: string;
   accent: string;
@@ -152,6 +153,7 @@ const ventures: Venture[] = [
     logoBackground: "transparent",
     logoObjectFit: "contain",
     logoFilter: "brightness(2.15) contrast(1.12) saturate(1.2)",
+    activeLogoFilter: "brightness(2.65) contrast(1.24) saturate(1.25)",
     website: "https://www.fusionventuresglobal.com/fynta",
     accent: "#7D5AC7",
     accentRgb: "125, 90, 199",
@@ -345,14 +347,14 @@ const metaItems = [
 ] as const;
 
 const pathPoints = [
-  { x: 51.5, y: 8 },
-  { x: 43.8, y: 19 },
-  { x: 35.7, y: 31 },
+  { x: 48.7, y: 11 },
+  { x: 43, y: 21.5 },
+  { x: 35.9, y: 32.5 },
   { x: 35, y: 44 },
-  { x: 46.2, y: 57 },
-  { x: 36.8, y: 69 },
-  { x: 41.7, y: 80 },
-  { x: 53, y: 89 }
+  { x: 45.8, y: 56 },
+  { x: 37.6, y: 67.5 },
+  { x: 41, y: 78.5 },
+  { x: 48.1, y: 86 }
 ];
 
 const ecosystemPath =
@@ -389,7 +391,7 @@ function VentureLogo({
   size?: "xs" | "sm" | "md" | "lg";
 }) {
   const sizeClass =
-    size === "lg" ? "h-[108px] w-[108px]" : size === "md" ? "h-14 w-14" : size === "sm" ? "h-[52px] w-[52px]" : "h-11 w-11";
+    size === "lg" ? "h-[90px] w-[90px]" : size === "md" ? "h-14 w-14" : size === "sm" ? "h-[52px] w-[52px]" : "h-11 w-11";
 
   return (
     <span
@@ -411,7 +413,7 @@ function VentureLogo({
         style={{
           objectFit: venture.logoObjectFit,
           padding: venture.logoPadding,
-          filter: venture.logoFilter,
+          filter: active ? venture.activeLogoFilter ?? venture.logoFilter : venture.logoFilter,
           transform: `scale(${venture.logoScale})`
         }}
       />
@@ -583,7 +585,7 @@ function EcosystemNavigator({
           ))}
         </div>
 
-        <div className="pointer-events-none absolute left-[50%] top-[44%] z-40 hidden w-[210px] -translate-y-1/2 rounded-xl border border-[var(--venture-accent-border)] bg-[#11131b]/86 p-4 shadow-[0_0_26px_var(--venture-accent-glow)] backdrop-blur-md xl:block">
+        <div className="pointer-events-none absolute left-[calc(35%+69px)] top-[44%] z-40 hidden w-[188px] -translate-y-1/2 rounded-xl border border-[var(--venture-accent-border)] bg-[#11131b]/86 p-4 shadow-[0_0_26px_var(--venture-accent-glow)] backdrop-blur-md xl:block">
           <div className="flex items-start justify-between gap-3">
             <p className="text-[10px] font-bold uppercase tracking-[0.26em] text-[var(--venture-accent)]">Active Venture</p>
             <ExternalLink className="h-3.5 w-3.5 text-white/65" />

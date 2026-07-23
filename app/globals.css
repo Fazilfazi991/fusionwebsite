@@ -238,6 +238,16 @@ a {
   }
 }
 
+@keyframes ventureAutoplayProgress {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
 @keyframes navLineSweep {
   0% {
     transform: translateX(-120%);

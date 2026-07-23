@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import type { CSSProperties } from "react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
   BriefcaseBusiness,
@@ -356,6 +356,8 @@ const carouselSlots = [
 
 const ecosystemPath = "M54 0 C43 10 39 21 41 31 C43 40 35 44 35 50 C35 57 44 61 43 70 C42 80 43 89 55 100";
 const activePath = "M40 38 C37 43 35 46 35 50 C35 55 40 58 43 62";
+const AUTO_ROTATION_DELAY = 4000;
+const MANUAL_ROTATION_DELAY = 5000;
 
 function LogoMark() {
   return (
@@ -424,19 +426,86 @@ function VentureLogo({
   );
 }
 
+function RotationProgress({
+  cycle,
+  duration,
+  paused,
+  enabled
+}: {
+  cycle: number;
+  duration: number;
+  paused: boolean;
+  enabled: boolean;
+}) {
+  return (
+    <span aria-hidden="true" className="mt-2 block h-px w-full overflow-hidden bg-white/10">
+      <span
+        key={cycle}
+        data-testid="venture-rotation-progress"
+        className="block h-full w-full origin-left bg-[var(--venture-accent)]"
+        style={{
+          animationName: enabled ? "ventureAutoplayProgress" : "none",
+          animationDuration: `${duration}ms`,
+          animationTimingFunction: "linear",
+          animationFillMode: "forwards",
+          animationPlayState: paused ? "paused" : "running"
+        }}
+      />
+    </span>
+  );
+}
+
 function MobileNodeSelector({
   activeIndex,
   select,
   previous,
-  next
+  next,
+  progressCycle,
+  progressDuration,
+  progressPaused,
+  autoRotationEnabled,
+  onInteractionStart,
+  onInteractionEnd
 }: {
   activeIndex: number;
   select: (index: number) => void;
   previous: () => void;
   next: () => void;
+  progressCycle: number;
+  progressDuration: number;
+  progressPaused: boolean;
+  autoRotationEnabled: boolean;
+  onInteractionStart: () => void;
+  onInteractionEnd: () => void;
 }) {
   const refs = useRef<Array<HTMLButtonElement | null>>([]);
   const scrollerRef = useRef<HTMLDivElement | null>(null);
+  const gestureActiveRef = useRef(false);
+  const scrollEndTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const beginGesture = () => {
+    if (!gestureActiveRef.current) {
+      gestureActiveRef.current = true;
+      onInteractionStart();
+    }
+
+    if (scrollEndTimerRef.current) {
+      clearTimeout(scrollEndTimerRef.current);
+    }
+  };
+
+  const finishGesture = () => {
+    if (scrollEndTimerRef.current) {
+      clearTimeout(scrollEndTimerRef.current);
+    }
+
+    scrollEndTimerRef.current = setTimeout(() => {
+      if (gestureActiveRef.current) {
+        gestureActiveRef.current = false;
+        onInteractionEnd();
+      }
+    }, 220);
+  };
 
   useEffect(() => {
     const scroller = scrollerRef.current;
@@ -448,9 +517,32 @@ function MobileNodeSelector({
     scroller.scrollTo({ left: Math.max(0, targetLeft), behavior: "smooth" });
   }, [activeIndex]);
 
+  useEffect(() => {
+    return () => {
+      if (scrollEndTimerRef.current) {
+        clearTimeout(scrollEndTimerRef.current);
+      }
+    };
+  }, []);
+
   return (
     <div className="mb-4 mt-8 lg:hidden">
-      <div ref={scrollerRef} className="no-scrollbar overflow-x-auto overscroll-x-contain scroll-smooth">
+      <div
+        ref={scrollerRef}
+        className="no-scrollbar overflow-x-auto overscroll-x-contain scroll-smooth"
+        onPointerDown={beginGesture}
+        onPointerUp={finishGesture}
+        onPointerCancel={finishGesture}
+        onWheel={() => {
+          beginGesture();
+          finishGesture();
+        }}
+        onScroll={() => {
+          if (gestureActiveRef.current) {
+            finishGesture();
+          }
+        }}
+      >
         <div className="flex min-w-max gap-3 pr-3">
           {ventures.map((venture, index) => {
             const isActive = index === activeIndex;
@@ -495,8 +587,16 @@ function MobileNodeSelector({
         >
           <ChevronLeft className="h-4 w-4" />
         </button>
-        <span className="whitespace-nowrap text-sm font-medium tracking-[0.2em] text-white">
-          {String(activeIndex + 1).padStart(2, "0")} / {String(ventures.length).padStart(2, "0")}
+        <span className="w-[76px] text-center">
+          <span className="whitespace-nowrap text-sm font-medium tracking-[0.2em] text-white">
+            {String(activeIndex + 1).padStart(2, "0")} / {String(ventures.length).padStart(2, "0")}
+          </span>
+          <RotationProgress
+            cycle={progressCycle}
+            duration={progressDuration}
+            paused={progressPaused}
+            enabled={autoRotationEnabled}
+          />
         </span>
         <button
           type="button"
@@ -515,12 +615,20 @@ function EcosystemNavigator({
   activeIndex,
   select,
   previous,
-  next
+  next,
+  progressCycle,
+  progressDuration,
+  progressPaused,
+  autoRotationEnabled
 }: {
   activeIndex: number;
   select: (index: number) => void;
   previous: () => void;
   next: () => void;
+  progressCycle: number;
+  progressDuration: number;
+  progressPaused: boolean;
+  autoRotationEnabled: boolean;
 }) {
   const active = ventures[activeIndex];
   const count = ventures.length;
@@ -603,8 +711,16 @@ function EcosystemNavigator({
         >
           <ChevronLeft className="h-4 w-4" />
         </button>
-        <span className="whitespace-nowrap text-sm font-medium tracking-[0.22em] text-white">
-          {String(activeIndex + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
+        <span className="w-[82px] text-center">
+          <span className="whitespace-nowrap text-sm font-medium tracking-[0.22em] text-white">
+            {String(activeIndex + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
+          </span>
+          <RotationProgress
+            cycle={progressCycle}
+            duration={progressDuration}
+            paused={progressPaused}
+            enabled={autoRotationEnabled}
+          />
         </span>
         <button
           type="button"
@@ -722,11 +838,66 @@ function VentureDetail({ active }: { active: Venture }) {
 
 export default function VenturesShowcaseClient() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isFocusWithin, setIsFocusWithin] = useState(false);
+  const [isSelectorInteracting, setIsSelectorInteracting] = useState(false);
+  const [isPageVisible, setIsPageVisible] = useState(true);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [rotationDelay, setRotationDelay] = useState(AUTO_ROTATION_DELAY);
+  const [rotationCycle, setRotationCycle] = useState(0);
+  const rotationTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const rotationGenerationRef = useRef(0);
   const active = ventures[activeIndex];
   const count = ventures.length;
-  const select = (index: number) => setActiveIndex((index + count) % count);
-  const previous = () => select(activeIndex - 1);
-  const next = () => select(activeIndex + 1);
+  const isRotationPaused = isHovered || isFocusWithin || isSelectorInteracting || !isPageVisible || prefersReducedMotion;
+
+  const restartRotation = useCallback((delay = AUTO_ROTATION_DELAY) => {
+    rotationGenerationRef.current += 1;
+
+    if (rotationTimerRef.current) {
+      clearTimeout(rotationTimerRef.current);
+      rotationTimerRef.current = null;
+    }
+
+    setRotationDelay(delay);
+    setRotationCycle((cycle) => cycle + 1);
+  }, []);
+
+  const pauseRotation = useCallback(() => {
+    rotationGenerationRef.current += 1;
+
+    if (rotationTimerRef.current) {
+      clearTimeout(rotationTimerRef.current);
+      rotationTimerRef.current = null;
+    }
+  }, []);
+
+  const resumeRotation = useCallback(() => {
+    rotationGenerationRef.current += 1;
+    setRotationCycle((cycle) => cycle + 1);
+  }, []);
+
+  const advance = useCallback(() => {
+    setActiveIndex((index) => (index + 1) % count);
+  }, [count]);
+
+  const select = useCallback(
+    (index: number) => {
+      setActiveIndex((index + count) % count);
+      restartRotation(MANUAL_ROTATION_DELAY);
+    },
+    [count, restartRotation]
+  );
+
+  const previous = useCallback(() => {
+    setActiveIndex((index) => (index - 1 + count) % count);
+    restartRotation(MANUAL_ROTATION_DELAY);
+  }, [count, restartRotation]);
+
+  const next = useCallback(() => {
+    advance();
+    restartRotation(MANUAL_ROTATION_DELAY);
+  }, [advance, restartRotation]);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -741,7 +912,73 @@ export default function VenturesShowcaseClient() {
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  });
+  }, [next, previous]);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updatePreference = () => {
+      setPrefersReducedMotion(mediaQuery.matches);
+
+      if (mediaQuery.matches) {
+        pauseRotation();
+      } else {
+        resumeRotation();
+      }
+    };
+
+    updatePreference();
+    mediaQuery.addEventListener("change", updatePreference);
+    return () => mediaQuery.removeEventListener("change", updatePreference);
+  }, [pauseRotation, resumeRotation]);
+
+  useEffect(() => {
+    const updateVisibility = () => {
+      const visible = document.visibilityState === "visible";
+      setIsPageVisible(visible);
+
+      if (visible) {
+        resumeRotation();
+      } else {
+        pauseRotation();
+      }
+    };
+
+    updateVisibility();
+    document.addEventListener("visibilitychange", updateVisibility);
+    return () => document.removeEventListener("visibilitychange", updateVisibility);
+  }, [pauseRotation, resumeRotation]);
+
+  useEffect(() => {
+    if (rotationTimerRef.current) {
+      clearTimeout(rotationTimerRef.current);
+      rotationTimerRef.current = null;
+    }
+
+    if (isRotationPaused) {
+      return;
+    }
+
+    const generation = rotationGenerationRef.current;
+    const timer = setTimeout(() => {
+      if (generation !== rotationGenerationRef.current) {
+        return;
+      }
+
+      rotationGenerationRef.current += 1;
+      advance();
+      setRotationDelay(AUTO_ROTATION_DELAY);
+      setRotationCycle((cycle) => cycle + 1);
+    }, rotationDelay);
+    rotationTimerRef.current = timer;
+
+    return () => {
+      clearTimeout(timer);
+
+      if (rotationTimerRef.current === timer) {
+        rotationTimerRef.current = null;
+      }
+    };
+  }, [advance, isRotationPaused, rotationCycle, rotationDelay]);
 
   const accentStyle = {
     "--venture-accent": active.accent,
@@ -807,11 +1044,61 @@ export default function VenturesShowcaseClient() {
       <section className="relative z-10 px-5 pb-7 sm:px-8 lg:px-10">
         <div className="pointer-events-none absolute inset-x-0 top-10 h-[720px] bg-[radial-gradient(circle_at_48%_42%,var(--venture-accent-soft),transparent_52%)]" />
         <div className="relative mx-auto max-w-[1380px]">
-          <MobileNodeSelector activeIndex={activeIndex} select={select} previous={previous} next={next} />
+          <div
+            data-testid="ventures-showcase"
+            data-active-index={activeIndex}
+            data-auto-rotation-paused={isRotationPaused}
+            onMouseEnter={() => {
+              setIsHovered(true);
+              pauseRotation();
+            }}
+            onMouseLeave={() => {
+              setIsHovered(false);
+              resumeRotation();
+            }}
+            onFocusCapture={() => {
+              setIsFocusWithin(true);
+              pauseRotation();
+            }}
+            onBlurCapture={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+                setIsFocusWithin(false);
+                resumeRotation();
+              }
+            }}
+          >
+            <MobileNodeSelector
+              activeIndex={activeIndex}
+              select={select}
+              previous={previous}
+              next={next}
+              progressCycle={rotationCycle}
+              progressDuration={rotationDelay}
+              progressPaused={isRotationPaused}
+              autoRotationEnabled={!prefersReducedMotion}
+              onInteractionStart={() => {
+                setIsSelectorInteracting(true);
+                pauseRotation();
+              }}
+              onInteractionEnd={() => {
+                setIsSelectorInteracting(false);
+                restartRotation(MANUAL_ROTATION_DELAY);
+              }}
+            />
 
             <div className="grid overflow-hidden rounded-[24px] border border-white/16 bg-[#080b11] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_24px_80px_rgba(0,0,0,0.42)] transition-colors duration-500 lg:h-[650px] lg:grid-cols-[47%_53%] xl:h-[660px] xl:grid-cols-[48%_52%]">
-            <EcosystemNavigator activeIndex={activeIndex} select={select} previous={previous} next={next} />
-            <VentureDetail active={active} />
+              <EcosystemNavigator
+                activeIndex={activeIndex}
+                select={select}
+                previous={previous}
+                next={next}
+                progressCycle={rotationCycle}
+                progressDuration={rotationDelay}
+                progressPaused={isRotationPaused}
+                autoRotationEnabled={!prefersReducedMotion}
+              />
+              <VentureDetail active={active} />
+            </div>
           </div>
 
           <section className="relative mt-6 overflow-hidden rounded-[22px] border border-white/14 bg-[radial-gradient(circle_at_76%_44%,rgba(214,168,79,0.13),transparent_30%),linear-gradient(135deg,rgba(255,255,255,0.04),rgba(255,255,255,0.015))] px-6 py-6 text-center shadow-[0_18px_60px_rgba(0,0,0,0.32)] sm:px-10 lg:py-6">

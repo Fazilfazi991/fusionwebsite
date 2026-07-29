@@ -29,7 +29,7 @@ const sections = [
   },
   {
     title: "Contact",
-    text: "For questions about these Terms and Conditions, contact Fusion Ventures at info@fustionventuresglobal.com."
+    text: "For questions about these Terms and Conditions, contact Fusion Ventures at info@fusionventuresglobal.com."
   }
 ];
 

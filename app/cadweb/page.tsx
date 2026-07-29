@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { ArrowRight, Dribbble, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
-import { CanadaAgencyPricing } from "@/components/canada-agency-pricing";
+import { CanadaAgencyBenefitsCta, CanadaAgencyPricing } from "@/components/canada-agency-pricing";
 import { CanadaAgencyProcess } from "@/components/canada-agency-process";
 
 export default function CadWebPage() {
@@ -31,6 +31,7 @@ export default function CadWebPage() {
 
       <CanadaAgencyPricing />
       <CanadaAgencyProcess />
+      <CanadaAgencyBenefitsCta />
 
       <footer id="contact" className="border-t border-white/10 bg-black px-5 py-10 sm:px-10 lg:px-14">
         <div className="mx-auto grid max-w-[1280px] gap-9 md:grid-cols-[1.5fr_1fr_1fr_1.4fr] lg:grid-cols-[1.6fr_1fr_1fr_1.45fr]">
@@ -89,11 +90,11 @@ export default function CadWebPage() {
           <div>
             <h3 className="mb-4 text-sm font-semibold text-white">Let&apos;s Connect</h3>
             <a
-              href="mailto:info@fustionventuresglobal.com"
+              href="mailto:info@fusionventuresglobal.com"
               className="mb-3 flex items-center gap-3 text-sm text-white/56 transition-colors hover:text-white"
             >
               <Mail className="h-4 w-4 shrink-0" strokeWidth={1.55} />
-              info@fustionventuresglobal.com
+              info@fusionventuresglobal.com
             </a>
             <a
               href="tel:+971542763828"

@@ -29,7 +29,7 @@ const sections = [
   },
   {
     title: "Contact",
-    text: "For cookie-related questions, contact Fusion Ventures at info@fustionventuresglobal.com."
+    text: "For cookie-related questions, contact Fusion Ventures at info@fusionventuresglobal.com."
   }
 ];
 

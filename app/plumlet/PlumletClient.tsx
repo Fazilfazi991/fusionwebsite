@@ -210,11 +210,11 @@ function FusionFooter() {
         <div>
           <h3 className="mb-4 text-sm font-semibold text-white">Let&apos;s Connect</h3>
           <a
-            href="mailto:info@fustionventuresglobal.com"
+            href="mailto:info@fusionventuresglobal.com"
             className="mb-3 flex items-center gap-3 text-sm text-white/56 transition-colors hover:text-[#d6a84f]"
           >
             <Mail className="h-4 w-4 shrink-0" strokeWidth={1.55} />
-            info@fustionventuresglobal.com
+            info@fusionventuresglobal.com
           </a>
           <a
             href="tel:+971542763828"

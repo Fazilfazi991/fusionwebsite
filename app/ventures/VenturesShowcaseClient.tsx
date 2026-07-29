@@ -13,9 +13,9 @@ import {
   Gem,
   Gift,
   Globe2,
-  Handshake,
   Laptop,
-  Mail,
+  Linkedin,
+  Instagram,
   Menu,
   MousePointer2,
   PenTool,
@@ -48,6 +48,8 @@ type Venture = {
   logoScale: number;
   logoPadding: number;
   logoBackground: string;
+  logoBrightness?: number;
+  logoContrast?: number;
   logoObjectFit: "contain";
   logoFilter?: string;
   activeLogoFilter?: string;
@@ -85,7 +87,9 @@ const ventures: Venture[] = [
     logo: "/ventures/logos/dearelle-logo-trimmed.png",
     logoScale: 1.14,
     logoPadding: 7,
-    logoBackground: "transparent",
+    logoBackground: "rgba(255,255,255,0.94)",
+    logoBrightness: 1.2,
+    logoContrast: 1.08,
     logoObjectFit: "contain",
     website: "https://dearelle.in",
     accent: "#D9A441",
@@ -117,7 +121,9 @@ const ventures: Venture[] = [
     logo: "/ventures/logos/occazn-logo-clean.png",
     logoScale: 1.18,
     logoPadding: 7,
-    logoBackground: "transparent",
+    logoBackground: "rgba(255,255,255,0.94)",
+    logoBrightness: 1.18,
+    logoContrast: 1.12,
     logoObjectFit: "contain",
     logoFilter: "brightness(1.18) contrast(1.12)",
     website: "https://www.occazn.com",
@@ -150,10 +156,12 @@ const ventures: Venture[] = [
     logo: "/ventures/logos/fynta_logo_transparent_cropped.png",
     logoScale: 1.2,
     logoPadding: 6,
-    logoBackground: "transparent",
+    logoBackground: "rgba(255,255,255,0.94)",
+    logoBrightness: 1.75,
+    logoContrast: 1.16,
     logoObjectFit: "contain",
-    logoFilter: "brightness(2.15) contrast(1.12) saturate(1.2)",
-    activeLogoFilter: "brightness(2.65) contrast(1.24) saturate(1.25)",
+    logoFilter: "saturate(1.2)",
+    activeLogoFilter: "brightness(1.18) contrast(1.08) saturate(1.25)",
     website: "https://www.fusionventuresglobal.com/fynta",
     accent: "#7D5AC7",
     accentRgb: "125, 90, 199",
@@ -184,7 +192,9 @@ const ventures: Venture[] = [
     logo: "/ventures/logos/tarx-solutions-logo-trimmed.png",
     logoScale: 1.13,
     logoPadding: 6,
-    logoBackground: "transparent",
+    logoBackground: "rgba(255,255,255,0.94)",
+    logoBrightness: 1.12,
+    logoContrast: 1.06,
     logoObjectFit: "contain",
     website: "https://tarx.in",
     accent: "#27C7C9",
@@ -216,7 +226,9 @@ const ventures: Venture[] = [
     logo: "/ventures/logos/resumi_logo_transparent_cropped.png",
     logoScale: 1.18,
     logoPadding: 6,
-    logoBackground: "transparent",
+    logoBackground: "rgba(255,255,255,0.94)",
+    logoBrightness: 1.16,
+    logoContrast: 1.08,
     logoObjectFit: "contain",
     logoFilter: "brightness(1.16)",
     website: "https://resumi.live",
@@ -249,7 +261,9 @@ const ventures: Venture[] = [
     logo: "/ventures/logos/plumlet-logo-trimmed.png",
     logoScale: 1.16,
     logoPadding: 7,
-    logoBackground: "transparent",
+    logoBackground: "rgba(255,255,255,0.94)",
+    logoBrightness: 1.2,
+    logoContrast: 1.12,
     logoObjectFit: "contain",
     logoFilter: "brightness(1.12)",
     website: "/plumlet",
@@ -282,7 +296,9 @@ const ventures: Venture[] = [
     logo: "/ventures/logos/getaway-logo-transparent.png",
     logoScale: 1.04,
     logoPadding: 8,
-    logoBackground: "rgba(255,255,255,0.025)",
+    logoBackground: "rgba(255,255,255,0.94)",
+    logoBrightness: 1.08,
+    logoContrast: 1.08,
     logoObjectFit: "contain",
     logoFilter: "brightness(1.08) contrast(1.08)",
     status: "Coming Soon",
@@ -315,7 +331,9 @@ const ventures: Venture[] = [
     logo: "/ventures/logos/entry-pazz-logo-trimmed.png",
     logoScale: 1.2,
     logoPadding: 6,
-    logoBackground: "transparent",
+    logoBackground: "rgba(255,255,255,0.94)",
+    logoBrightness: 1.22,
+    logoContrast: 1.12,
     logoObjectFit: "contain",
     logoFilter: "brightness(1.22) contrast(1.12)",
     status: "Coming Soon",
@@ -356,8 +374,7 @@ const carouselSlots = [
 
 const ecosystemPath = "M54 0 C43 10 39 21 41 31 C43 40 35 44 35 50 C35 57 44 61 43 70 C42 80 43 89 55 100";
 const activePath = "M40 38 C37 43 35 46 35 50 C35 55 40 58 43 62";
-const AUTO_ROTATION_DELAY = 4000;
-const MANUAL_ROTATION_DELAY = 5000;
+const ROTATION_DELAY = 2000;
 
 function LogoMark() {
   return (
@@ -418,7 +435,13 @@ function VentureLogo({
         style={{
           objectFit: venture.logoObjectFit,
           padding: venture.logoPadding,
-          filter: active ? venture.activeLogoFilter ?? venture.logoFilter : venture.logoFilter,
+          filter: [
+            `brightness(${venture.logoBrightness ?? 1})`,
+            `contrast(${venture.logoContrast ?? 1})`,
+            active ? venture.activeLogoFilter ?? venture.logoFilter : venture.logoFilter
+          ]
+            .filter(Boolean)
+            .join(" "),
           transform: `scale(${venture.logoScale})`
         }}
       />
@@ -463,9 +486,7 @@ function MobileNodeSelector({
   progressCycle,
   progressDuration,
   progressPaused,
-  autoRotationEnabled,
-  onInteractionStart,
-  onInteractionEnd
+  autoRotationEnabled
 }: {
   activeIndex: number;
   select: (index: number) => void;
@@ -475,37 +496,9 @@ function MobileNodeSelector({
   progressDuration: number;
   progressPaused: boolean;
   autoRotationEnabled: boolean;
-  onInteractionStart: () => void;
-  onInteractionEnd: () => void;
 }) {
   const refs = useRef<Array<HTMLButtonElement | null>>([]);
   const scrollerRef = useRef<HTMLDivElement | null>(null);
-  const gestureActiveRef = useRef(false);
-  const scrollEndTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const beginGesture = () => {
-    if (!gestureActiveRef.current) {
-      gestureActiveRef.current = true;
-      onInteractionStart();
-    }
-
-    if (scrollEndTimerRef.current) {
-      clearTimeout(scrollEndTimerRef.current);
-    }
-  };
-
-  const finishGesture = () => {
-    if (scrollEndTimerRef.current) {
-      clearTimeout(scrollEndTimerRef.current);
-    }
-
-    scrollEndTimerRef.current = setTimeout(() => {
-      if (gestureActiveRef.current) {
-        gestureActiveRef.current = false;
-        onInteractionEnd();
-      }
-    }, 220);
-  };
 
   useEffect(() => {
     const scroller = scrollerRef.current;
@@ -517,31 +510,11 @@ function MobileNodeSelector({
     scroller.scrollTo({ left: Math.max(0, targetLeft), behavior: "smooth" });
   }, [activeIndex]);
 
-  useEffect(() => {
-    return () => {
-      if (scrollEndTimerRef.current) {
-        clearTimeout(scrollEndTimerRef.current);
-      }
-    };
-  }, []);
-
   return (
     <div className="mb-4 mt-8 lg:hidden">
       <div
         ref={scrollerRef}
         className="no-scrollbar overflow-x-auto overscroll-x-contain scroll-smooth"
-        onPointerDown={beginGesture}
-        onPointerUp={finishGesture}
-        onPointerCancel={finishGesture}
-        onWheel={() => {
-          beginGesture();
-          finishGesture();
-        }}
-        onScroll={() => {
-          if (gestureActiveRef.current) {
-            finishGesture();
-          }
-        }}
       >
         <div className="flex min-w-max gap-3 pr-3">
           {ventures.map((venture, index) => {
@@ -840,63 +813,61 @@ export default function VenturesShowcaseClient() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [isFocusWithin, setIsFocusWithin] = useState(false);
-  const [isSelectorInteracting, setIsSelectorInteracting] = useState(false);
   const [isPageVisible, setIsPageVisible] = useState(true);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const [rotationDelay, setRotationDelay] = useState(AUTO_ROTATION_DELAY);
   const [rotationCycle, setRotationCycle] = useState(0);
   const rotationTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const rotationGenerationRef = useRef(0);
   const active = ventures[activeIndex];
   const count = ventures.length;
-  const isRotationPaused = isHovered || isFocusWithin || isSelectorInteracting || !isPageVisible || prefersReducedMotion;
+  const rotationDelay = ROTATION_DELAY;
+  const isRotationPaused = isHovered || isFocusWithin || !isPageVisible || prefersReducedMotion;
 
-  const restartRotation = useCallback((delay = AUTO_ROTATION_DELAY) => {
-    rotationGenerationRef.current += 1;
-
+  const clearRotationTimer = useCallback(() => {
     if (rotationTimerRef.current) {
       clearTimeout(rotationTimerRef.current);
       rotationTimerRef.current = null;
     }
-
-    setRotationDelay(delay);
-    setRotationCycle((cycle) => cycle + 1);
-  }, []);
-
-  const pauseRotation = useCallback(() => {
-    rotationGenerationRef.current += 1;
-
-    if (rotationTimerRef.current) {
-      clearTimeout(rotationTimerRef.current);
-      rotationTimerRef.current = null;
-    }
-  }, []);
-
-  const resumeRotation = useCallback(() => {
-    rotationGenerationRef.current += 1;
-    setRotationCycle((cycle) => cycle + 1);
   }, []);
 
   const advance = useCallback(() => {
     setActiveIndex((index) => (index + 1) % count);
   }, [count]);
 
+  const restartRotation = useCallback(() => {
+    clearRotationTimer();
+    setRotationCycle((cycle) => cycle + 1);
+  }, [clearRotationTimer]);
+
+  const scheduleNext = useCallback(() => {
+    clearRotationTimer();
+
+    if (isRotationPaused) {
+      return;
+    }
+
+    rotationTimerRef.current = setTimeout(() => {
+      rotationTimerRef.current = null;
+      advance();
+      setRotationCycle((cycle) => cycle + 1);
+    }, rotationDelay);
+  }, [advance, clearRotationTimer, isRotationPaused, rotationDelay]);
+
   const select = useCallback(
     (index: number) => {
       setActiveIndex((index + count) % count);
-      restartRotation(MANUAL_ROTATION_DELAY);
+      restartRotation();
     },
     [count, restartRotation]
   );
 
   const previous = useCallback(() => {
     setActiveIndex((index) => (index - 1 + count) % count);
-    restartRotation(MANUAL_ROTATION_DELAY);
+    restartRotation();
   }, [count, restartRotation]);
 
   const next = useCallback(() => {
     advance();
-    restartRotation(MANUAL_ROTATION_DELAY);
+    restartRotation();
   }, [advance, restartRotation]);
 
   useEffect(() => {
@@ -918,67 +889,28 @@ export default function VenturesShowcaseClient() {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const updatePreference = () => {
       setPrefersReducedMotion(mediaQuery.matches);
-
-      if (mediaQuery.matches) {
-        pauseRotation();
-      } else {
-        resumeRotation();
-      }
     };
 
     updatePreference();
     mediaQuery.addEventListener("change", updatePreference);
     return () => mediaQuery.removeEventListener("change", updatePreference);
-  }, [pauseRotation, resumeRotation]);
+  }, []);
 
   useEffect(() => {
     const updateVisibility = () => {
       const visible = document.visibilityState === "visible";
       setIsPageVisible(visible);
-
-      if (visible) {
-        resumeRotation();
-      } else {
-        pauseRotation();
-      }
     };
 
     updateVisibility();
     document.addEventListener("visibilitychange", updateVisibility);
     return () => document.removeEventListener("visibilitychange", updateVisibility);
-  }, [pauseRotation, resumeRotation]);
+  }, []);
 
   useEffect(() => {
-    if (rotationTimerRef.current) {
-      clearTimeout(rotationTimerRef.current);
-      rotationTimerRef.current = null;
-    }
-
-    if (isRotationPaused) {
-      return;
-    }
-
-    const generation = rotationGenerationRef.current;
-    const timer = setTimeout(() => {
-      if (generation !== rotationGenerationRef.current) {
-        return;
-      }
-
-      rotationGenerationRef.current += 1;
-      advance();
-      setRotationDelay(AUTO_ROTATION_DELAY);
-      setRotationCycle((cycle) => cycle + 1);
-    }, rotationDelay);
-    rotationTimerRef.current = timer;
-
-    return () => {
-      clearTimeout(timer);
-
-      if (rotationTimerRef.current === timer) {
-        rotationTimerRef.current = null;
-      }
-    };
-  }, [advance, isRotationPaused, rotationCycle, rotationDelay]);
+    scheduleNext();
+    return clearRotationTimer;
+  }, [clearRotationTimer, rotationCycle, scheduleNext]);
 
   const accentStyle = {
     "--venture-accent": active.accent,
@@ -1050,20 +982,16 @@ export default function VenturesShowcaseClient() {
             data-auto-rotation-paused={isRotationPaused}
             onMouseEnter={() => {
               setIsHovered(true);
-              pauseRotation();
             }}
             onMouseLeave={() => {
               setIsHovered(false);
-              resumeRotation();
             }}
             onFocusCapture={() => {
               setIsFocusWithin(true);
-              pauseRotation();
             }}
             onBlurCapture={(event) => {
               if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
                 setIsFocusWithin(false);
-                resumeRotation();
               }
             }}
           >
@@ -1076,14 +1004,6 @@ export default function VenturesShowcaseClient() {
               progressDuration={rotationDelay}
               progressPaused={isRotationPaused}
               autoRotationEnabled={!prefersReducedMotion}
-              onInteractionStart={() => {
-                setIsSelectorInteracting(true);
-                pauseRotation();
-              }}
-              onInteractionEnd={() => {
-                setIsSelectorInteracting(false);
-                restartRotation(MANUAL_ROTATION_DELAY);
-              }}
             />
 
             <div className="grid overflow-hidden rounded-[24px] border border-white/16 bg-[#080b11] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_24px_80px_rgba(0,0,0,0.42)] transition-colors duration-500 lg:h-[650px] lg:grid-cols-[47%_53%] xl:h-[660px] xl:grid-cols-[48%_52%]">
@@ -1118,7 +1038,7 @@ export default function VenturesShowcaseClient() {
               </p>
               <div className="mt-4 flex flex-col justify-center gap-4 sm:flex-row">
                 <a
-                  href="mailto:info@fustionventuresglobal.com"
+                  href="mailto:info@fusionventuresglobal.com"
                   className="group inline-flex items-center justify-center gap-3 rounded-md bg-[#d6a84f] px-9 py-4 text-sm font-semibold text-black transition-colors hover:bg-[#f0ca6b]"
                 >
                   Let&apos;s Connect
@@ -1148,10 +1068,20 @@ export default function VenturesShowcaseClient() {
             ))}
           </nav>
           <div className="flex gap-3 text-white/72">
-            {[UsersRound, BriefcaseBusiness, Mail, Handshake].map((Icon, index) => (
-              <span key={index} className="grid h-9 w-9 place-items-center rounded-full border border-white/10 bg-white/[0.04]">
+            {[
+              { label: "Fusion Ventures on LinkedIn", href: "https://www.linkedin.com/company/fusion-ventures-global/", icon: Linkedin },
+              { label: "Fusion Ventures on Instagram", href: "https://www.instagram.com/fusionventuresglobal/", icon: Instagram }
+            ].map(({ label, href, icon: Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="grid h-9 w-9 place-items-center rounded-full border border-white/10 bg-white/[0.04] transition hover:border-[#d6a84f]/70 hover:text-[#d6a84f]"
+              >
                 <Icon className="h-4 w-4" />
-              </span>
+              </a>
             ))}
           </div>
         </div>

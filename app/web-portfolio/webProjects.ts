@@ -6,7 +6,7 @@ export const webPortfolioStats = [
 ] as const;
 
 export const webPortfolioContact = {
-  email: "info@fustionventuresglobal.com",
+  email: "info@fusionventuresglobal.com",
   phone: "+971 54 276 3828",
   location: "UAE-Based Venture Group"
 } as const;

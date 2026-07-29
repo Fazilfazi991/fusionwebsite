@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { SiteFooter } from "@/components/site-footer";
 import {
   ArrowRight,
   Globe2,
@@ -159,6 +160,7 @@ export default function AboutPage() {
       <section className="px-5 py-24 sm:px-10 lg:px-14 lg:py-32"><div className="mx-auto max-w-[1280px]"><div className="text-center"><Eyebrow>Leadership</Eyebrow><h2 className="mt-5 text-4xl font-medium tracking-[-0.04em] sm:text-5xl">The people building Fusion Ventures.</h2></div><div className="mt-12 grid gap-7 md:grid-cols-3">{leaders.map((leader) => <article key={leader.name} className="border-t border-white/14 pt-6"><Image src={leader.photo} alt={`${leader.name} portrait`} width={640} height={720} unoptimized className="aspect-[4/4.6] w-full object-cover grayscale transition duration-500 hover:grayscale-0" /><h3 className="mt-6 text-2xl font-medium">{leader.name}</h3><p className="mt-2 text-[10px] font-bold uppercase leading-5 tracking-[0.1em] text-[#b99a5b]">{leader.role}</p><p className="mt-4 text-sm leading-6 text-white/56">{leader.expertise}</p><div className="mt-5 flex gap-2"><a href={leader.website} target="_blank" rel="noreferrer" aria-label={`${leader.name} personal website`} className="grid h-9 w-9 place-items-center border border-white/14 text-white/58 transition hover:border-[#b99a5b] hover:text-[#d8c38b]"><Globe2 className="h-4 w-4" /></a><a href={leader.linkedin} target="_blank" rel="noreferrer" aria-label={`${leader.name} LinkedIn profile`} className="grid h-9 w-9 place-items-center border border-white/14 text-white/58 transition hover:border-[#b99a5b] hover:text-[#d8c38b]"><Linkedin className="h-4 w-4" /></a></div></article>)}</div></div></section>
 
       <section className="border-t border-white/10 bg-[#0a0b09] px-5 py-24 text-center sm:px-10 lg:px-14 lg:py-32"><div className="mx-auto max-w-[900px]"><Eyebrow>Let&apos;s Build What&apos;s Next</Eyebrow><h2 className="mt-5 text-4xl font-medium leading-[1.02] tracking-[-0.045em] sm:text-5xl lg:text-6xl">Have an idea, a business challenge, or a system that needs to work better?</h2><p className="mx-auto mt-7 max-w-[700px] text-base leading-8 text-white/60">Whether you are developing a new venture, modernizing operations, or creating a custom digital product, we would be glad to explore what can be built together.</p><div className="mt-10 flex flex-wrap justify-center gap-4"><a href="/#contact" className="inline-flex items-center gap-3 bg-[#b99a5b] px-8 py-4 text-xs font-bold uppercase tracking-[0.1em] text-black transition hover:bg-[#d8c38b]">Start a Conversation <ArrowRight className="h-4 w-4" /></a><a href="/ventures" className="inline-flex items-center gap-3 border border-white/25 px-8 py-4 text-xs font-bold uppercase tracking-[0.1em] text-white transition hover:border-[#b99a5b] hover:text-[#d8c38b]">Explore Our Ventures <ArrowRight className="h-4 w-4" /></a></div></div></section>
+      <SiteFooter />
     </main>
   );
 }

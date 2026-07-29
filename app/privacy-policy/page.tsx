@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { SiteFooter } from "@/components/site-footer";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | Fusion Ventures",
@@ -67,6 +68,7 @@ export default function PrivacyPolicyPage() {
           </div>
         </div>
       </section>
+      <SiteFooter />
     </main>
   );
 }

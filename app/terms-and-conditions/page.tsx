@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { SiteFooter } from "@/components/site-footer";
 
 export const metadata: Metadata = {
   title: "Terms and Conditions | Fusion Ventures",
@@ -67,6 +68,7 @@ export default function TermsAndConditionsPage() {
           </div>
         </div>
       </section>
+      <SiteFooter />
     </main>
   );
 }

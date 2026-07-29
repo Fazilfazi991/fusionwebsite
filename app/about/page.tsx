@@ -75,8 +75,6 @@ const leaders = [
   }
 ];
 
-const crmModules = ["Leads", "Clients", "Employees", "Attendance", "Tasks", "Finance", "Documents", "Reports", "Notifications", "Permissions"];
-
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#b99a5b]">{children}</p>;
 }
@@ -151,12 +149,6 @@ export default function AboutPage() {
       <section className="px-5 py-24 sm:px-10 lg:px-14 lg:py-32">
         <div className="mx-auto max-w-[1280px]"><Eyebrow>What We Build</Eyebrow><h2 className="mt-5 max-w-[660px] text-4xl font-medium tracking-[-0.04em] sm:text-5xl">Digital products shaped around real business needs.</h2>
           <div className="mt-12 border-t border-white/12">{services.map((service, index) => <details key={service.title} className="group border-b border-white/12 py-5 open:bg-white/[0.025] sm:px-5"><summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-xl font-medium outline-none marker:content-none focus-visible:text-[#d8c38b] sm:text-2xl"><span><span className="mr-5 text-xs font-bold tracking-[0.12em] text-[#b99a5b]">0{index + 1}</span>{service.title}</span><span className="text-[#d8c38b] transition-transform group-open:rotate-45">+</span></summary><p className="max-w-2xl pt-5 text-sm leading-7 text-white/60 sm:pl-9 sm:text-base">{service.text}</p></details>)}</div>
-        </div>
-      </section>
-
-      <section className="border-y border-white/10 bg-[#0a0b09] px-5 py-24 sm:px-10 lg:px-14 lg:py-32">
-        <div className="mx-auto grid max-w-[1280px] gap-16 lg:grid-cols-[44%_56%] lg:items-center"><div><Eyebrow>Custom CRM Development</Eyebrow><h2 className="mt-5 text-4xl font-medium leading-[1.02] tracking-[-0.045em] sm:text-5xl">Your business should shape the system—not the other way around.</h2><p className="mt-7 text-base leading-8 text-white/62">Every organization operates differently. We start by understanding how you manage customers, leads, employees, documents, finances, communication, approvals, and daily operations—then build a secure, scalable platform around that exact workflow.</p><p className="mt-8 text-sm font-bold uppercase tracking-[0.13em] text-[#d8c38b]">Built for your workflow. Designed to evolve with your business.</p></div>
-          <div className="relative mx-auto grid aspect-square w-full max-w-[500px] place-items-center rounded-full border border-white/12"><div className="grid h-28 w-28 place-items-center rounded-full border border-[#b99a5b]/70 bg-[#11110d] text-center text-xs font-bold uppercase tracking-[0.14em] text-[#e2cf9f]">Custom<br />CRM</div>{crmModules.map((module, index) => { const angle = (index / crmModules.length) * Math.PI * 2 - Math.PI / 2; const left = 50 + Math.cos(angle) * 41; const top = 50 + Math.sin(angle) * 41; return <span key={module} className="absolute -translate-x-1/2 -translate-y-1/2 border border-white/14 bg-[#0a0b09] px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-[0.09em] text-white/65 sm:px-3" style={{ left: `${left}%`, top: `${top}%` }}>{module}</span>; })}</div>
         </div>
       </section>
 

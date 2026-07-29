@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import {
   ArrowRight,
   BarChart3,
@@ -56,10 +57,39 @@ function ProductPreview({ type = "website", activeModule = "Dashboard" }: { type
 export default function FyntaClient() {
   const [activeModule, setActiveModule] = useState("Dashboard");
   const [activeProcess, setActiveProcess] = useState(0);
-  return <main className="min-h-screen overflow-hidden bg-[#070808] text-white">
+  const pageRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const sections = Array.from(pageRef.current?.querySelectorAll<HTMLElement>(":scope > section") ?? []);
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    if (reducedMotion.matches) {
+      sections.forEach((section) => section.classList.add("is-visible"));
+      return;
+    }
+
+    sections.forEach((section, index) => {
+      section.classList.add("scroll-reveal");
+      section.style.transitionDelay = `${Math.min(index % 3, 2) * 70}ms`;
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      }),
+      { threshold: 0.12, rootMargin: "0px 0px -48px" }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  return <main ref={pageRef} className="min-h-screen overflow-hidden bg-[#070808] text-white">
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[#070808]/92 backdrop-blur-xl"><div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between px-5 sm:px-10 lg:px-14"><FyntaMark /><nav className="hidden items-center gap-6 lg:flex">{navItems.slice(0,5).map(([label, href]) => <a key={label} href={href} className="text-[10px] font-bold uppercase tracking-[.12em] text-white/62 transition hover:text-[#e8c777]">{label}</a>)}</nav><a href="#contact" className="hidden bg-[#d6a84f] px-5 py-3 text-[10px] font-bold uppercase tracking-[.12em] text-black transition hover:bg-[#e8c777] sm:inline-flex">Discuss Your Project</a><Menu className="h-5 w-5 text-[#d6a84f] sm:hidden" /></div></header>
 
-    <section className="relative border-b border-white/10 px-5 pb-20 pt-16 sm:px-10 lg:px-14 lg:pb-28 lg:pt-24"><div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-[radial-gradient(circle_at_72%_38%,rgba(214,168,79,.16),transparent_25%),radial-gradient(circle_at_30%_0%,rgba(255,255,255,.05),transparent_30%)]" /><div className="relative mx-auto grid max-w-[1280px] gap-12 lg:grid-cols-[46%_54%] lg:items-center"><div><Eyebrow>Digital Solutions by Fusion Ventures</Eyebrow><h1 className="mt-6 max-w-[650px] text-5xl font-medium leading-[.96] tracking-[-.06em] sm:text-6xl lg:text-7xl">We build digital systems that move businesses forward.</h1><p className="mt-7 max-w-[590px] text-base leading-8 text-white/64 sm:text-lg">Websites, mobile apps, custom CRM platforms, and digital marketing—planned, designed, and developed by one integrated team.</p><div className="mt-9 flex flex-wrap gap-4"><a href="#contact" className="inline-flex items-center gap-3 bg-[#d6a84f] px-6 py-4 text-xs font-bold uppercase tracking-[.1em] text-black transition hover:bg-[#e8c777]">Discuss Your Project <ArrowRight className="h-4 w-4" /></a><a href="#services" className="inline-flex items-center gap-3 border border-white/20 px-6 py-4 text-xs font-bold uppercase tracking-[.1em] text-white/78 transition hover:border-[#d6a84f] hover:text-[#e8c777]">Explore Our Services <ArrowRight className="h-4 w-4" /></a></div></div><div className="relative mx-auto w-full max-w-[620px]"><ProductPreview /><div className="absolute -bottom-7 -left-5 hidden w-40 rounded-lg border border-white/14 bg-[#11151d] p-3 shadow-xl sm:block"><p className="text-[8px] text-white/45">Mobile product</p><div className="mt-2 h-20 rounded bg-[#d6a84f]/18" /></div><div className="absolute -right-3 top-8 hidden w-36 rounded-lg border border-white/14 bg-[#11151d] p-3 shadow-xl md:block"><p className="text-[8px] text-white/45">Connected systems</p><div className="mt-2 flex gap-1">{[1,2,3].map(i=><span key={i} className="h-7 flex-1 rounded bg-white/[.08]" />)}</div></div></div></div></section>
+    <section className="relative border-b border-white/10 px-5 pb-20 pt-16 sm:px-10 lg:px-14 lg:pb-28 lg:pt-24"><div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-[radial-gradient(circle_at_72%_38%,rgba(214,168,79,.16),transparent_25%),radial-gradient(circle_at_30%_0%,rgba(255,255,255,.05),transparent_30%)]" /><div className="relative mx-auto grid max-w-[1280px] gap-12 lg:grid-cols-[46%_54%] lg:items-center"><div><Eyebrow>Digital Solutions by Fusion Ventures</Eyebrow><h1 className="mt-6 max-w-[650px] text-5xl font-medium leading-[.96] tracking-[-.06em] sm:text-6xl lg:text-7xl">We build digital systems that move businesses forward.</h1><p className="mt-7 max-w-[590px] text-base leading-8 text-white/64 sm:text-lg">Websites, mobile apps, custom CRM platforms, and digital marketing—planned, designed, and developed by one integrated team.</p><div className="mt-9 flex flex-wrap gap-4"><a href="#contact" className="inline-flex items-center gap-3 bg-[#d6a84f] px-6 py-4 text-xs font-bold uppercase tracking-[.1em] text-black transition hover:bg-[#e8c777]">Discuss Your Project <ArrowRight className="h-4 w-4" /></a><a href="#services" className="inline-flex items-center gap-3 border border-white/20 px-6 py-4 text-xs font-bold uppercase tracking-[.1em] text-white/78 transition hover:border-[#d6a84f] hover:text-[#e8c777]">Explore Our Services <ArrowRight className="h-4 w-4" /></a></div></div><div className="relative mx-auto w-full max-w-[760px] overflow-hidden rounded-xl border border-white/12 shadow-[0_28px_80px_rgba(0,0,0,.55)]"><Image src="/fynta/fynta-hero-ecosystem.png" alt="Connected website, mobile app, CRM, and analytics interfaces" width={1600} height={1000} priority className="h-auto w-full" /></div></div></section>
 
     <section className="border-b border-white/10 px-5 py-5 sm:px-10 lg:px-14"><div className="mx-auto flex max-w-[1280px] flex-wrap justify-between gap-x-8 gap-y-4 text-[10px] font-bold uppercase tracking-[.16em] text-white/48">{["Strategy", "UI/UX Design", "Development", "Automation", "Marketing", "Ongoing Support"].map(item => <span key={item} className="flex items-center gap-3"><span className="h-1.5 w-1.5 rounded-full bg-[#d6a84f]" />{item}</span>)}</div></section>
 

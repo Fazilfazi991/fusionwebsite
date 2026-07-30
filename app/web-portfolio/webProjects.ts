@@ -18,8 +18,7 @@ export const webPortfolioCategories = [
   "Education",
   "Hospitality",
   "Printing",
-  "Lighting",
-  "Event",
+  "Healthcare",
   "Other"
 ] as const;
 
@@ -153,11 +152,11 @@ const webProjectSeed: WebProjectSeed[] = [
   {
     title: "Occazn",
     url: "https://occazn.com",
-    category: "Event",
-    industry: "Event",
+    category: "Other",
+    industry: "Events & Experiences",
     description: "An event platform designed for memorable occasions and easy discovery.",
     image: "/images/web-portfolio/occazn.webp",
-    tags: ["Event"],
+    tags: ["Other"],
     preview: {
       headline: "Make Every Occasion Memorable.",
       kicker: "Events, experiences and celebrations.",
@@ -170,11 +169,11 @@ const webProjectSeed: WebProjectSeed[] = [
   {
     title: "Dentiva",
     url: "https://dentiva.ae",
-    category: "Other",
+    category: "Healthcare",
     industry: "Dental Care",
     description: "A polished dental care website focused on trust, care, and appointments.",
     image: "/images/web-portfolio/dentiva.webp",
-    tags: ["Other"],
+    tags: ["Healthcare"],
     preview: {
       headline: "Confident Smiles Start Here.",
       kicker: "Modern dental care.",
@@ -187,11 +186,11 @@ const webProjectSeed: WebProjectSeed[] = [
   {
     title: "Hydrelle Skincare",
     url: "https://www.hydrelleskincare.com/",
-    category: "Other",
+    category: "Ecommerce",
     industry: "Beauty",
     description: "A refined skincare storefront with a soft wellness feel.",
     image: "/images/web-portfolio/hydrelle-skincare.webp",
-    tags: ["Other"],
+    tags: ["Ecommerce"],
     preview: {
       headline: "Skincare That Feels Like You",
       kicker: "Hydrating routines, clean glow.",
@@ -238,11 +237,11 @@ const webProjectSeed: WebProjectSeed[] = [
   {
     title: "Miracle Designs Boutique",
     url: "https://miracledesignsboutique.com/",
-    category: "Other",
+    category: "Ecommerce",
     industry: "Boutique Ecommerce",
     description: "A warm fashion ecommerce site for boutique collections.",
     image: "/images/web-portfolio/miracle-designs-boutique.webp",
-    tags: ["Other", "Ecommerce"],
+    tags: ["Ecommerce"],
     preview: {
       headline: "Elegance That Defines You",
       kicker: "Boutique fashion collections.",
@@ -289,11 +288,11 @@ const webProjectSeed: WebProjectSeed[] = [
   {
     title: "Lumora",
     url: "https://lumora-rho-jet.vercel.app/",
-    category: "Lighting",
-    industry: "Lighting",
+    category: "Ecommerce",
+    industry: "Lighting & Ecommerce",
     description: "A luxury lighting ecommerce preview with rich product mood.",
     image: "/images/web-portfolio/lumora.webp",
-    tags: ["Lighting", "Ecommerce"],
+    tags: ["Ecommerce"],
     preview: {
       headline: "Luxury Refined. Light Perfected.",
       kicker: "Signature lighting pieces.",
@@ -408,11 +407,11 @@ const webProjectSeed: WebProjectSeed[] = [
   {
     title: "Worn Soul",
     url: "https://worn-soul.vercel.app/",
-    category: "Other",
+    category: "Ecommerce",
     industry: "Fashion Ecommerce",
     description: "A fashion ecommerce concept with editorial product energy.",
     image: "/images/web-portfolio/worn-soul.webp",
-    tags: ["Other", "Ecommerce"],
+    tags: ["Ecommerce"],
     preview: {
       headline: "Streetwear With a Story.",
       kicker: "Curated drops and essentials.",

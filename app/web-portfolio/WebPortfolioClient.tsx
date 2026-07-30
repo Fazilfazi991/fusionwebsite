@@ -33,6 +33,7 @@ const navItems = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
   { label: "Ventures", href: "/ventures" },
+  { label: "Digital Solutions", href: "/fynta" },
   { label: "Web Portfolio", href: "/web-portfolio" },
   { label: "Contact", href: "/#contact" }
 ];
@@ -456,6 +457,7 @@ export default function WebPortfolioClient() {
               ["Home", "/"],
               ["About Us", "/about"],
               ["Web Portfolio", "/web-portfolio"],
+              ["Digital Solutions", "/fynta"],
               ["Contact", "/#contact"]
             ].map(([item, href]) => (
               <a key={item} href={href} className="mb-3 block text-sm text-white/52 hover:text-[#d6a84f]">

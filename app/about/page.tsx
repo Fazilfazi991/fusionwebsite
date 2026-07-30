@@ -18,6 +18,7 @@ const navItems = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
   { label: "Ventures", href: "/ventures" },
+  { label: "Digital Solutions", href: "/fynta" },
   { label: "Web Portfolio", href: "/web-portfolio" },
   { label: "Contact", href: "/#contact" }
 ];

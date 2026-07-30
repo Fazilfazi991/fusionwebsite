@@ -15,15 +15,12 @@ export const webPortfolioCategories = [
   "All Projects",
   "Corporate",
   "Ecommerce",
-  "Healthcare",
   "Education",
-  "Fashion",
   "Hospitality",
-  "Wellness",
   "Printing",
   "Lighting",
-  "Clinic",
-  "Event"
+  "Event",
+  "Other"
 ] as const;
 
 export type WebPortfolioCategory = (typeof webPortfolioCategories)[number];
@@ -173,11 +170,11 @@ const webProjectSeed: WebProjectSeed[] = [
   {
     title: "Dentiva",
     url: "https://dentiva.ae",
-    category: "Clinic",
-    industry: "Clinic",
-    description: "A polished dental clinic website focused on trust, care, and appointments.",
+    category: "Other",
+    industry: "Dental Care",
+    description: "A polished dental care website focused on trust, care, and appointments.",
     image: "/images/web-portfolio/dentiva.webp",
-    tags: ["Clinic", "Healthcare"],
+    tags: ["Other"],
     preview: {
       headline: "Confident Smiles Start Here.",
       kicker: "Modern dental care.",
@@ -190,11 +187,11 @@ const webProjectSeed: WebProjectSeed[] = [
   {
     title: "Hydrelle Skincare",
     url: "https://www.hydrelleskincare.com/",
-    category: "Wellness",
+    category: "Other",
     industry: "Beauty",
     description: "A refined skincare storefront with a soft wellness feel.",
     image: "/images/web-portfolio/hydrelle-skincare.webp",
-    tags: ["Beauty", "Wellness"],
+    tags: ["Other"],
     preview: {
       headline: "Skincare That Feels Like You",
       kicker: "Hydrating routines, clean glow.",
@@ -224,11 +221,11 @@ const webProjectSeed: WebProjectSeed[] = [
   {
     title: "BWMC",
     url: "https://bwmc.ae",
-    category: "Healthcare",
-    industry: "Healthcare / Corporate",
-    description: "A healthcare presence designed around credibility and care.",
+    category: "Corporate",
+    industry: "Financial Management & Business Setup",
+    description: "A corporate website for financial management and business-setup services.",
     image: "/images/web-portfolio/bwmc.webp",
-    tags: ["Healthcare", "Corporate"],
+    tags: ["Corporate"],
     preview: {
       headline: "Compassionate Care. Advanced Medicine.",
       kicker: "Trusted medical services.",
@@ -241,11 +238,11 @@ const webProjectSeed: WebProjectSeed[] = [
   {
     title: "Miracle Designs Boutique",
     url: "https://miracledesignsboutique.com/",
-    category: "Fashion",
-    industry: "Fashion",
+    category: "Other",
+    industry: "Boutique Ecommerce",
     description: "A warm fashion ecommerce site for boutique collections.",
     image: "/images/web-portfolio/miracle-designs-boutique.webp",
-    tags: ["Fashion", "Ecommerce"],
+    tags: ["Other", "Ecommerce"],
     preview: {
       headline: "Elegance That Defines You",
       kicker: "Boutique fashion collections.",
@@ -326,11 +323,11 @@ const webProjectSeed: WebProjectSeed[] = [
   {
     title: "Desert GP",
     url: "https://desertgp.com",
-    category: "Healthcare",
-    industry: "Healthcare / Medical",
-    description: "A medical site designed to communicate care and access.",
+    category: "Hospitality",
+    industry: "Commercial Kitchen Fit-Outs",
+    description: "A hospitality website for commercial kitchen design and fit-out services.",
     image: "/images/web-portfolio/desert-gp.webp",
-    tags: ["Healthcare", "Medical"],
+    tags: ["Hospitality"],
     preview: {
       headline: "Care Built Around Your Day.",
       kicker: "Primary medical support.",
@@ -360,11 +357,11 @@ const webProjectSeed: WebProjectSeed[] = [
   {
     title: "N Universal Yoga",
     url: "https://nuniversalyoga.ae",
-    category: "Wellness",
+    category: "Other",
     industry: "Wellness",
     description: "A calm wellness website for yoga programs and practice.",
     image: "/images/web-portfolio/n-universal-yoga.webp",
-    tags: ["Wellness"],
+    tags: ["Other"],
     preview: {
       headline: "Balance Your Body. Elevate Your Mind.",
       kicker: "Yoga and wellness practice.",
@@ -411,11 +408,11 @@ const webProjectSeed: WebProjectSeed[] = [
   {
     title: "Worn Soul",
     url: "https://worn-soul.vercel.app/",
-    category: "Fashion",
-    industry: "Fashion / Ecommerce",
+    category: "Other",
+    industry: "Fashion Ecommerce",
     description: "A fashion ecommerce concept with editorial product energy.",
     image: "/images/web-portfolio/worn-soul.webp",
-    tags: ["Fashion", "Ecommerce"],
+    tags: ["Other", "Ecommerce"],
     preview: {
       headline: "Streetwear With a Story.",
       kicker: "Curated drops and essentials.",

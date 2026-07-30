@@ -48,7 +48,14 @@ export const webPortfolioMobileOrder = [
   "N Universal Yoga",
   "TAJ",
   "Aqsa Print",
-  "Worn Soul"
+  "Worn Soul",
+  "Langlo",
+  "Protein Market",
+  "Little Dubai UAE",
+  "Ponkudam Gold & Diamonds",
+  "Stepvision International",
+  "Mechton International",
+  "Zain Opticals"
 ] as const;
 
 export type WebProject = {
@@ -415,6 +422,125 @@ const webProjectSeed: WebProjectSeed[] = [
       cta: "Shop Drop",
       palette: "from-[#111111] via-[#b5a78a] to-[#f6efe1]",
       accent: "#cab27b",
+      subject: "fashion"
+    }
+  },
+  {
+    title: "Langlo",
+    url: "https://langlo.in/",
+    category: "Education",
+    industry: "Education",
+    description: "An education platform with a clear, learner-focused digital experience.",
+    image: "/images/web-portfolio/langlo.webp",
+    tags: ["Education"],
+    preview: {
+      headline: "Learn With Confidence.",
+      kicker: "Education designed for progress.",
+      cta: "Explore Programs",
+      palette: "from-[#e9f4ff] via-[#b7dcff] to-[#f8fbff]",
+      accent: "#357cc2",
+      subject: "education"
+    }
+  },
+  {
+    title: "Protein Market",
+    url: "https://protienmarket.vercel.app/",
+    category: "Ecommerce",
+    industry: "Nutrition & Ecommerce",
+    description: "A focused ecommerce experience for nutrition and fitness products.",
+    image: "/images/web-portfolio/protein-market.webp",
+    tags: ["Ecommerce", "Nutrition"],
+    preview: {
+      headline: "Fuel Your Everyday Performance.",
+      kicker: "Nutrition made easy to shop.",
+      cta: "Shop Now",
+      palette: "from-[#101010] via-[#454545] to-[#0a0a0a]",
+      accent: "#d6a84f",
+      subject: "saas"
+    }
+  },
+  {
+    title: "Little Dubai UAE",
+    url: "https://amizol.vercel.app/",
+    category: "Ecommerce",
+    industry: "Footwear & Ecommerce",
+    description: "A bold ecommerce destination for shoes and footwear collections.",
+    image: "/images/web-portfolio/little-dubai-uae.webp",
+    tags: ["Ecommerce", "Footwear"],
+    preview: {
+      headline: "Find Your Perfect Pair.",
+      kicker: "Footwear for every step.",
+      cta: "Shop Collection",
+      palette: "from-[#1b1010] via-[#76504b] to-[#f3e7e2]",
+      accent: "#d6a84f",
+      subject: "fashion"
+    }
+  },
+  {
+    title: "Ponkudam Gold & Diamonds",
+    url: "https://www.ponkudam.org/",
+    category: "Ecommerce",
+    industry: "Jewelry & Ecommerce",
+    description: "A refined online experience for gold and diamond jewelry.",
+    image: "/images/web-portfolio/ponkudam-gold-diamonds.webp",
+    tags: ["Ecommerce", "Jewelry"],
+    preview: {
+      headline: "Jewelry Made to Be Cherished.",
+      kicker: "Gold and diamonds, thoughtfully presented.",
+      cta: "Explore Collection",
+      palette: "from-[#1c1305] via-[#806022] to-[#f4ead0]",
+      accent: "#d6a84f",
+      subject: "beauty"
+    }
+  },
+  {
+    title: "Stepvision International",
+    url: "https://stepvisioninternational.com",
+    category: "Corporate",
+    industry: "International Trading",
+    description: "An international trading website designed for clear global business positioning.",
+    image: "/images/web-portfolio/stepvision-international.webp",
+    tags: ["Corporate", "Trading"],
+    preview: {
+      headline: "Connecting Markets. Delivering Value.",
+      kicker: "International trade with reach.",
+      cta: "Learn More",
+      palette: "from-[#07111d] via-[#10233a] to-[#070707]",
+      accent: "#d6a84f",
+      subject: "business"
+    }
+  },
+  {
+    title: "Mechton International",
+    url: "https://www.mechtoninternational.com/",
+    category: "Corporate",
+    industry: "Heavy Equipment",
+    description: "A premium heavy-equipment website with a strong industrial presentation.",
+    image: "/images/web-portfolio/mechton-international.webp",
+    tags: ["Corporate", "Heavy Equipment"],
+    preview: {
+      headline: "Equipment That Keeps Work Moving.",
+      kicker: "Premium machinery for demanding work.",
+      cta: "Explore Equipment",
+      palette: "from-[#16130e] via-[#524431] to-[#0d0b08]",
+      accent: "#d6a84f",
+      subject: "truck"
+    }
+  },
+  {
+    title: "Zain Opticals",
+    url: "https://optics-tan.vercel.app/",
+    category: "Ecommerce",
+    industry: "Eyewear & Vision Care",
+    description: "A premium eyewear storefront built around product discovery and vision care.",
+    image: "/images/web-portfolio/zain-opticals.webp",
+    tags: ["Ecommerce", "Eyewear"],
+    preview: {
+      headline: "A Clearer View of Style.",
+      kicker: "Premium eyewear and vision care.",
+      cta: "Explore Frames",
+      palette: "from-[#eaf6f8] via-[#9fd0d7] to-[#315d63]",
+      accent: "#3d8d97",
       subject: "fashion"
     }
   }

@@ -31,7 +31,14 @@ const projects = [
   ["n-universal-yoga", "https://nuniversalyoga.ae"],
   ["taj", "https://taj-xi.vercel.app/"],
   ["aqsa-print", "https://aqsaprint.com"],
-  ["worn-soul", "https://worn-soul.vercel.app/"]
+  ["worn-soul", "https://worn-soul.vercel.app/"],
+  ["langlo", "https://langlo.in/"],
+  ["protein-market", "https://protienmarket.vercel.app/"],
+  ["little-dubai-uae", "https://amizol.vercel.app/"],
+  ["ponkudam-gold-diamonds", "https://www.ponkudam.org/"],
+  ["stepvision-international", "https://stepvisioninternational.com"],
+  ["mechton-international", "https://www.mechtoninternational.com/"],
+  ["zain-opticals", "https://optics-tan.vercel.app/"]
 ];
 
 const rootDir = path.resolve(__dirname, "..");

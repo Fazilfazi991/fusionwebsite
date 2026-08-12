@@ -16,12 +16,17 @@ function maskEmail(email: string) {
   return `${local.slice(0, 1)}${"•".repeat(Math.min(Math.max(local.length - 1, 3), 6))}@${domain}`;
 }
 
-function safeErrorMessage(error: unknown, fallback: string) {
+function isRateLimitError(error: unknown) {
   const message = error instanceof Error ? error.message.toLowerCase() : "";
-  if (message.includes("rate") || message.includes("too many")) return "Please wait a moment before requesting another code.";
+  return message.includes("rate") || message.includes("too many");
+}
+
+function otpVerificationErrorMessage(error: unknown) {
+  const message = error instanceof Error ? error.message.toLowerCase() : "";
+  if (isRateLimitError(error)) return "Please wait a moment before requesting another code.";
   if (message.includes("expired")) return "This code has expired. Request a new code and try again.";
   if (message.includes("token") || message.includes("otp")) return "That code is not valid. Check the code and try again.";
-  return fallback;
+  return "We couldn't verify that code. Request a new code and try again.";
 }
 
 export function KaamDeleteAccountClient() {
@@ -57,7 +62,7 @@ export function KaamDeleteAccountClient() {
       setStep("otp");
       setCooldown(resendDelaySeconds);
     } catch (error) {
-      setMessage(safeErrorMessage(error, "We couldn't verify this KAAM account. Check the email and try again."));
+      setMessage(isRateLimitError(error) ? "Please wait a moment before requesting another code." : "We couldn't verify this KAAM account. Check the email and try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -81,7 +86,7 @@ export function KaamDeleteAccountClient() {
       if (userError || !data.user) throw new Error("No authenticated user");
       setStep("confirm");
     } catch (error) {
-      setMessage(safeErrorMessage(error, "We couldn't verify that code. Request a new code and try again."));
+      setMessage(otpVerificationErrorMessage(error));
     } finally {
       setIsSubmitting(false);
     }
@@ -102,7 +107,7 @@ export function KaamDeleteAccountClient() {
       setStep("success");
     } catch (error) {
       setStep("confirm");
-      setMessage(safeErrorMessage(error, "We couldn't delete your account. Please try again or contact info@fusionventuresglobal.com."));
+      setMessage("We couldn't delete your account. Please try again or contact info@fusionventuresglobal.com.");
     } finally {
       setIsSubmitting(false);
     }

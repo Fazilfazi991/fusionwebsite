@@ -95,7 +95,7 @@ const sections = [
   {
     title: "13. Children and Age",
     content: [
-      "KAAM is intended for job seekers and Employers. KAAM does not currently publish a minimum-age policy. A minimum intended age and target-audience decision is required before final Google Play target-audience declarations are made."
+      "KAAM is intended for users aged 18 years or older and is not intended for individuals under 18."
     ]
   },
   {

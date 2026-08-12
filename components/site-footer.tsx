@@ -33,7 +33,7 @@ export function SiteFooter() {
         </div>
         <div>
           <h3 className="mb-4 text-sm font-semibold text-white">Legal</h3>
-          {[{ label: "Privacy Policy", href: "/privacy-policy" }, { label: "Terms and Conditions", href: "/terms-and-conditions" }, { label: "Cookie Policy", href: "/cookie-policy" }, { label: "KAAM Account Deletion", href: "/kaam/delete-account" }].map((link) => <a key={link.label} href={link.href} className="mb-3 block text-sm text-white/52 transition-colors hover:text-white">{link.label}</a>)}
+          {[{ label: "Privacy Policy", href: "/privacy-policy" }, { label: "Terms and Conditions", href: "/terms-and-conditions" }, { label: "Cookie Policy", href: "/cookie-policy" }, { label: "KAAM Privacy Policy", href: "/kaam/privacy-policy" }, { label: "KAAM Account Deletion", href: "/kaam/delete-account" }].map((link) => <a key={link.label} href={link.href} className="mb-3 block text-sm text-white/52 transition-colors hover:text-white">{link.label}</a>)}
         </div>
         <div>
           <h3 className="mb-4 text-sm font-semibold text-white">Let&apos;s Connect</h3>

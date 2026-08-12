@@ -6,7 +6,6 @@ import {
   ArrowRight,
   BriefcaseBusiness,
   Compass,
-  Dribbble,
   Globe2,
   Handshake,
   Instagram,
@@ -28,6 +27,7 @@ const navItems = [
   { label: "Home", href: "#home" },
   { label: "About Us", href: "/about" },
   { label: "Ventures", href: "/ventures" },
+  { label: "Digital Solutions", href: "/fynta" },
   { label: "Web Portfolio", href: "/web-portfolio" },
   { label: "Contact", href: "#contact" }
 ];
@@ -810,7 +810,7 @@ export default function Home() {
             growth.
           </p>
           <a
-            href="mailto:info@fustionventuresglobal.com"
+            href="mailto:info@fusionventuresglobal.com"
             className="mt-10 inline-flex border border-[#d6a84f]/80 bg-transparent px-10 py-4 text-[12px] font-bold uppercase tracking-[0.1em] text-[#e0ba68] transition-colors hover:bg-[#d6a84f] hover:text-black"
           >
             Start A Conversation
@@ -834,13 +834,20 @@ export default function Home() {
               Building, operating, and scaling digital-first ventures with long-term focus.
             </p>
             <div className="mt-5 flex gap-3">
-              {[Linkedin, Instagram, Dribbble].map((Icon, index) => (
-                <span
-                  key={index}
+              {[
+                { label: "Fusion Ventures on LinkedIn", href: "https://www.linkedin.com/company/fusion-ventures-global/", icon: Linkedin },
+                { label: "Fusion Ventures on Instagram", href: "https://www.instagram.com/fusionventuresglobal/", icon: Instagram }
+              ].map(({ label, href, icon: Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
                   className="grid h-8 w-8 place-items-center rounded-full border border-white/14 text-white/68 transition-colors hover:border-[#d6a84f]/60 hover:text-[#d6a84f]"
                 >
                   <Icon className="h-4 w-4" strokeWidth={1.55} />
-                </span>
+                </a>
               ))}
             </div>
           </div>
@@ -875,11 +882,11 @@ export default function Home() {
           <div>
             <h3 className="mb-4 text-sm font-semibold text-white">Let&apos;s Connect</h3>
             <a
-              href="mailto:info@fustionventuresglobal.com"
+              href="mailto:info@fusionventuresglobal.com"
               className="mb-3 flex items-center gap-3 text-sm text-white/56 transition-colors hover:text-[#d6a84f]"
             >
               <Mail className="h-4 w-4 shrink-0" strokeWidth={1.55} />
-              info@fustionventuresglobal.com
+              info@fusionventuresglobal.com
             </a>
             <a
               href="tel:+971542763828"

@@ -1,801 +1,128 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
   BarChart3,
   BriefcaseBusiness,
-  Diamond,
-  Dribbble,
+  Check,
+  ChevronDown,
+  Code2,
+  Database,
+  ExternalLink,
   Globe2,
-  Instagram,
+  LayoutDashboard,
   Linkedin,
-  Mail,
-  MapPin,
   Menu,
   MessageCircle,
-  Phone,
-  Play,
+  MonitorSmartphone,
   Search,
-  Send,
-  ShieldCheck,
-  Sparkles,
-  Target,
-  TrendingUp,
-  X
+  Settings2,
+  Smartphone,
+  UsersRound
 } from "lucide-react";
-import { webPortfolioContact } from "../web-portfolio/webProjects";
+import { SiteFooter } from "@/components/site-footer";
 
-const filters = ["All", "Website", "SEO", "Ad / Video", "Social", "Product", "Campaign", "Branding"];
+const navItems = [
+  ["Services", "#services"],
+  ["CRM", "#crm"],
+  ["Process", "#process"],
+  ["Work", "#work"],
+  ["About", "#about"],
+  ["Contact", "#contact"]
+] as const;
 
-const featuredStories = [
-  {
-    title: "Verde Organics",
-    type: "360 Campaign",
-    text: "A full-funnel launch campaign built for awareness, engagement and conversion.",
-    image: "/images/web-portfolio/cards/hydrelle-skincare.webp",
-    tags: ["All", "Campaign", "Branding", "Social"]
-  },
-  {
-    title: "Ignite Fitness",
-    type: "Performance Campaign",
-    text: "Scaling memberships through data-driven ads and creative storytelling.",
-    image: "/images/web-portfolio/cards/n-universal-yoga.webp",
-    tags: ["All", "Campaign", "Ad / Video", "Social"]
-  },
-  {
-    title: "Nomad Watches",
-    type: "Product Launch",
-    text: "Global launch strategy with influencer and paid media.",
-    image: "/images/web-portfolio/cards/lumora.webp",
-    tags: ["All", "Product", "Campaign", "Branding"]
-  }
+const globalNavItems = [
+  ["Home", "/"],
+  ["About Us", "/about"],
+  ["Ventures", "/ventures"],
+  ["Web Portfolio", "/web-portfolio"],
+  ["Contact", "/#contact"]
+] as const;
+
+const serviceCards = [
+  { title: "Web Development", icon: Globe2, text: "High-performance websites designed to communicate clearly, convert visitors, and support growth.", items: ["Corporate websites", "E-commerce websites", "Landing pages", "Website redesign", "Web portals", "Performance optimisation"], tone: "from-[#e8c777]/30" },
+  { title: "Apps & Web Platforms", icon: Smartphone, text: "Mobile and web applications built around real customer and operational needs.", items: ["Android applications", "iOS applications", "Web applications", "Customer portals", "Marketplace platforms", "MVP development"], tone: "from-[#9ab7e8]/30" },
+  { title: "Custom CRM & Business Systems", icon: Database, text: "Custom platforms that organise teams, customers, workflows, documents, finance, and daily operations.", items: ["Lead management", "Employee management", "Tasks and approvals", "Documents and records", "Finance and invoicing", "Reports and dashboards"], tone: "from-[#b8a6e8]/30" },
+  { title: "Marketing & Growth", icon: BarChart3, text: "Integrated marketing systems designed to improve visibility, generate leads, and support measurable growth.", items: ["Digital strategy", "SEO", "Social media marketing", "Paid advertising", "Content and creative", "Analytics and reporting"], tone: "from-[#7fcab7]/30" }
 ];
 
-const websiteProjects = [
-  {
-    title: "Aurora Living",
-    subtitle: "Website redesign / e-commerce experience",
-    image: "/images/web-portfolio/cards/harven-llc.webp"
-  },
-  {
-    title: "Bare Skincare",
-    subtitle: "Beauty e-commerce website",
-    image: "/images/web-portfolio/cards/hydrelle-skincare.webp"
-  },
-  {
-    title: "Atlas Coffee",
-    subtitle: "Brand website / product storytelling",
-    image: "/images/web-portfolio/cards/aqsa-print.webp"
-  }
-];
+const crmModules = ["Dashboard", "Leads", "Customers", "Employees", "Attendance", "Tasks", "Documents", "Finance", "Reports"];
+const processSteps = [["Discover", "Understand the business, users, challenges, and desired outcomes."], ["Plan", "Define scope, workflows, technology, and project structure."], ["Design", "Create the user journey, interface, and visual direction."], ["Develop", "Build, integrate, test, and optimise the solution."], ["Launch & Grow", "Deploy, support, measure, and improve over time."]];
+const faqs = [["What type of projects does Fynta handle?", "Fynta works on websites, mobile applications, web platforms, custom CRM systems, business automation, and digital marketing projects."], ["Can you build a completely custom CRM?", "Yes. We can plan and build a CRM around your teams, workflows, permissions, documents, customers, and reporting requirements."], ["Do you work with startups?", "Yes. We help startups plan, design, and develop MVPs as well as improve and scale existing digital products."], ["Can Fynta handle both development and marketing?", "Yes. Our integrated team can support strategy, branding, design, development, launch, and digital growth."], ["Do you provide support after launch?", "Yes. Maintenance, improvements, technical support, and marketing can be provided based on project requirements."], ["Can you improve an existing website or application?", "Yes. We can audit, redesign, rebuild, or extend an existing digital product."]];
 
-const videos = [
-  ["Verde Organics", "Brand Film", "/images/web-portfolio/cards/hydrelle-skincare.webp"],
-  ["Ignite Fitness", "Ad Campaign", "/images/web-portfolio/cards/n-universal-yoga.webp"],
-  ["Nomad Watches", "Product Launch Film", "/images/web-portfolio/cards/lumora.webp"],
-  ["Atlas Coffee", "Social Ad Series", "/images/web-portfolio/cards/boat-seafood.webp"]
-];
+function Eyebrow({ children }: { children: React.ReactNode }) { return <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d6a84f]">{children}</p>; }
 
-const products = [
-  ["Bare Skincare", "Product information page", "/images/web-portfolio/cards/hydrelle-skincare.webp"],
-  ["Verde Organics", "Product campaign", "/images/web-portfolio/cards/pet-basket-store.webp"],
-  ["Nomad Watches", "Product detail story", "/images/web-portfolio/cards/lumora.webp"],
-  ["Atlas Coffee", "Packaging storytelling", "/images/web-portfolio/cards/aqsa-print.webp"]
-];
+function FusionMark() { return <a href="/" aria-label="Fusion Ventures home"><Image src="/fusion-ventures-logo.webp" alt="Fusion Ventures" width={640} height={176} priority className="h-8 w-auto sm:h-9 lg:h-8" /></a>; }
 
-const impact = [
-  ["120+", "Brands Partnered", BriefcaseBusiness],
-  ["250+", "Campaigns Launched", Target],
-  ["$85M+", "Revenue Generated", TrendingUp],
-  ["4.9X", "Avg. ROAS", BarChart3],
-  ["98%", "Client Retention Rate", ShieldCheck]
-];
-
-const services = [
-  ["Strategy", "Research, positioning and growth plans that set the foundation.", Sparkles],
-  ["Creative", "Branding, content and design that capture attention and inspire action.", Diamond],
-  ["Performance", "Paid media and CRO programs built to maximize ROI.", TrendingUp],
-  ["SEO", "Technical SEO, content and link strategies that drive sustainable traffic.", Search],
-  ["Social", "Social strategy, content and community management that builds loyalty.", Globe2],
-  ["Analytics", "Tracking, reporting and insights that inform smarter decisions.", BarChart3]
-];
-
-const brandLogos = ["Aurora Living", "Ignite Fitness", "Nomad", "bare.", "Verde Organics", "atlas coffee"];
-
-const testimonials = [
-  [
-    "Fynta transformed our digital presence and helped us scale faster than we imagined. True strategic partners.",
-    "Lisa M., CEO, Verde Organics"
-  ],
-  [
-    "The creativity, the execution, the results - they overdeliver every single time.",
-    "Dan R., Founder, Ignite Fitness"
-  ],
-  [
-    "Our online sales grew 4X in 90 days. Fynta knows how to drive real ROI.",
-    "Mark S., COO, Nomad Watches"
-  ]
-];
-
-const heroServices = [
-  {
-    title: "Strategy",
-    description: "Research-led planning that defines the direction.",
-    Icon: Sparkles
-  },
-  {
-    title: "Creative",
-    description: "Visual systems, content, and experiences that capture attention.",
-    Icon: Diamond
-  },
-  {
-    title: "Paid Media",
-    description: "Campaigns built to reach, convert, and scale.",
-    Icon: Send
-  },
-  {
-    title: "SEO",
-    description: "Search visibility that compounds over time.",
-    Icon: Search
-  },
-  {
-    title: "Social",
-    description: "Content and community that build brand momentum.",
-    Icon: MessageCircle
-  },
-  {
-    title: "Analytics",
-    description: "Clear tracking, reporting, and insights for smarter growth.",
-    Icon: BarChart3
-  }
-];
-
-function LogoMark() {
-  return (
-    <a href="/" className="flex items-center leading-none" aria-label="Fusion Ventures home">
-      <Image
-        src="/fusion-ventures-logo.webp"
-        alt="Fusion Ventures"
-        width={640}
-        height={176}
-        priority
-        className="h-9 w-auto shrink-0 sm:h-10"
-      />
-    </a>
-  );
-}
-
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="text-[11px] font-bold uppercase tracking-[0.26em] text-[#9c7738]">
-      {children}
-    </p>
-  );
-}
-
-function EditorialSidebar({
-  title,
-  text,
-  cta
-}: {
-  title: string;
-  text: string;
-  cta: string;
-}) {
-  return (
-    <aside className="border-b border-[#1a1712]/12 pb-6 lg:border-b-0 lg:pb-0">
-      <h2 className="whitespace-pre-line font-serif text-3xl font-normal uppercase leading-[0.98] tracking-[-0.035em] text-[#15120e] sm:text-4xl">
-        {title}
-      </h2>
-      <p className="mt-5 max-w-[290px] text-[15px] leading-7 text-black/62">{text}</p>
-      <a
-        href="#contact"
-        className="group mt-7 inline-flex items-center gap-3 border-b border-[#b99047] pb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#15120e]"
-      >
-        {cta}
-        <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
-      </a>
-    </aside>
-  );
-}
-
-function ImageCard({
-  title,
-  type,
-  text,
-  image,
-  large = false
-}: {
-  title: string;
-  type: string;
-  text: string;
-  image: string;
-  large?: boolean;
-}) {
-  return (
-    <article className={`group relative overflow-hidden border border-[#1a1712]/12 bg-[#f5efe4] transition-colors duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-[#b99047]/70 ${large ? "min-h-[390px]" : "min-h-[300px]"}`}>
-      <Image
-        src={image}
-        alt={title}
-        fill
-        unoptimized
-        sizes="(min-width: 1024px) 30vw, 90vw"
-        className="object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.035]"
-      />
-      <div className="absolute inset-x-0 bottom-0 h-[64%] bg-[linear-gradient(180deg,transparent,rgba(7,6,5,0.76))]" />
-      <div className="absolute inset-x-5 bottom-5 bg-[#f6f0e7]/94 p-5 backdrop-blur-md">
-        <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-[#a9823f]">{type}</p>
-        <h3 className="mt-2 font-serif text-2xl leading-none text-[#15120e] transition-transform duration-500 group-hover:-translate-y-0.5">{title}</h3>
-        <p className="mt-3 text-[13px] leading-6 text-black/64">{text}</p>
-        <span className="mt-4 inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#15120e]">
-          View Case <ArrowRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-x-1" />
-        </span>
-      </div>
-      <span className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-[#b99047] transition-transform duration-500 group-hover:scale-x-100" />
-    </article>
-  );
+function ProductPreview({ type = "website", activeModule = "Dashboard" }: { type?: string; activeModule?: string }) {
+  if (type === "crm") return <div className="overflow-hidden rounded-xl border border-white/12 bg-[#0d1017] shadow-2xl"><div className="flex h-9 items-center gap-2 border-b border-white/10 px-3 text-[8px] text-white/42"><span className="h-2 w-2 rounded-full bg-[#d6a84f]" /><span>fyn.ta / {activeModule.toLowerCase()}</span></div><div className="grid min-h-[245px] grid-cols-[68px_1fr]"><aside className="border-r border-white/10 p-3"><LayoutDashboard className="h-4 w-4 text-[#d6a84f]" /><UsersRound className="mt-5 h-4 w-4 text-white/40" /><Settings2 className="mt-5 h-4 w-4 text-white/40" /></aside><div className="p-4"><div className="flex items-center justify-between"><p className="text-sm font-semibold">{activeModule}</p><span className="h-6 w-14 rounded bg-[#d6a84f]/15" /></div><div className="mt-4 grid grid-cols-3 gap-2">{["New", "Active", "Follow-up"].map((label, i) => <div key={label} className="rounded border border-white/8 bg-white/[0.035] p-2"><p className="text-[7px] text-white/40">{label}</p><p className="mt-1 text-sm">{["24", "61", "12"][i]}</p></div>)}</div><div className="mt-4 space-y-2">{["Al Noor Trading", "Mosaic Studio", "Northline LLC"].map((name, i) => <div key={name} className="flex items-center justify-between rounded bg-white/[0.035] px-2 py-2 text-[8px]"><span>{name}</span><span className="text-[#d6a84f]">{i === 0 ? "In review" : "Updated"}</span></div>)}</div></div></div></div>;
+  if (type === "marketing") return <div className="rounded-xl border border-white/12 bg-[#0d1017] p-4 shadow-2xl"><div className="flex items-center justify-between"><p className="text-[10px] font-bold uppercase tracking-[0.16em] text-white/52">Campaign overview</p><span className="rounded bg-[#d6a84f]/15 px-2 py-1 text-[8px] text-[#e8c777]">Live</span></div><div className="mt-5 grid grid-cols-[1fr_94px] gap-4"><div><p className="text-2xl font-medium">Growth signals</p><svg viewBox="0 0 210 90" className="mt-4 h-24 w-full"><polyline points="4,80 34,68 60,73 87,43 118,56 150,28 178,37 206,10" fill="none" stroke="#d6a84f" strokeWidth="2.4" /><path d="M4 80H206" stroke="rgba(255,255,255,.12)" /></svg></div><div className="space-y-2">{["SEO", "Social", "Ads"].map((label, i) => <div key={label} className="rounded border border-white/10 bg-white/[0.035] p-2 text-[8px]"><p className="text-white/45">{label}</p><p className="mt-1 text-sm">{["38", "27", "16"][i]}</p></div>)}</div></div></div>;
+  if (type === "apps") return <div className="flex min-h-[278px] items-end justify-center gap-6 rounded-xl border border-white/12 bg-[#0d1017] p-5 shadow-2xl"><div className="h-[220px] w-[108px] rounded-[18px] border-[5px] border-[#252a36] bg-[#f2eee6] p-3 text-[#15120e]"><div className="h-1.5 w-10 rounded bg-black/15" /><p className="mt-5 text-[10px] font-bold">Welcome back</p><div className="mt-4 h-16 rounded-md bg-[#d6a84f]/60" /><div className="mt-3 grid grid-cols-2 gap-2"><span className="h-8 rounded bg-black/8" /><span className="h-8 rounded bg-black/8" /></div></div><div className="hidden w-[220px] rounded border border-white/10 bg-white/[0.04] p-3 sm:block"><p className="text-[8px] text-white/48">Customer portal</p><div className="mt-3 grid grid-cols-3 gap-2">{[1,2,3].map(i => <span key={i} className="h-12 rounded bg-white/[0.07]" />)}</div><div className="mt-3 h-20 rounded bg-[#d6a84f]/12" /></div></div>;
+  return <div className="rounded-xl border border-white/12 bg-[#0d1017] p-3 shadow-2xl"><div className="flex h-6 items-center gap-1.5 border-b border-white/10 px-1"><span className="h-1.5 w-1.5 rounded-full bg-[#d6a84f]" /><span className="h-1.5 w-1.5 rounded-full bg-white/24" /></div><div className="mt-3 grid min-h-[230px] grid-cols-[42%_58%]"><div className="p-3"><p className="text-[8px] uppercase tracking-[.2em] text-[#d6a84f]">Digital clarity</p><h4 className="mt-4 text-xl font-medium">Built for the next move.</h4><span className="mt-7 block h-7 w-20 bg-[#d6a84f]" /></div><div className="bg-[linear-gradient(135deg,rgba(214,168,79,.36),rgba(255,255,255,.05))] p-3"><div className="h-full rounded border border-white/20 bg-black/15" /></div></div></div>;
 }
 
 export default function FyntaClient() {
-  const [activeFilter, setActiveFilter] = useState("All");
-  const [websiteIndex, setWebsiteIndex] = useState(0);
-  const [productIndex, setProductIndex] = useState(0);
-  const [activeVideo, setActiveVideo] = useState<string | null>(null);
-  const [heroMotion, setHeroMotion] = useState({ x: 0, y: 0 });
-  const [activeHeroService, setActiveHeroService] = useState(0);
-  const [hoveredHeroService, setHoveredHeroService] = useState<number | null>(null);
-  const [isFilterChanging, setIsFilterChanging] = useState(false);
-  const canAnimateHeroRef = useRef(false);
-  const heroFrameRef = useRef<number | null>(null);
-  const filterTimerRef = useRef<number | null>(null);
-
-  const filteredStories = useMemo(
-    () => featuredStories.filter((story) => story.tags.includes(activeFilter)),
-    [activeFilter]
-  );
+  const [activeModule, setActiveModule] = useState("Dashboard");
+  const [activeProcess, setActiveProcess] = useState(0);
+  const pageRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    const sections = Array.from(pageRef.current?.querySelectorAll<HTMLElement>(":scope > section") ?? []);
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const precisePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
 
-    const updateHeroAnimationAvailability = () => {
-      canAnimateHeroRef.current = precisePointer.matches && !reducedMotion.matches;
-    };
+    if (reducedMotion.matches) {
+      sections.forEach((section) => section.classList.add("is-visible"));
+      return;
+    }
 
-    updateHeroAnimationAvailability();
-    reducedMotion.addEventListener("change", updateHeroAnimationAvailability);
-    precisePointer.addEventListener("change", updateHeroAnimationAvailability);
+    sections.forEach((section, index) => {
+      section.classList.add("scroll-reveal");
+      section.style.transitionDelay = `${Math.min(index % 3, 2) * 70}ms`;
+    });
 
-    return () => {
-      reducedMotion.removeEventListener("change", updateHeroAnimationAvailability);
-      precisePointer.removeEventListener("change", updateHeroAnimationAvailability);
-      if (heroFrameRef.current) {
-        cancelAnimationFrame(heroFrameRef.current);
-      }
-      if (filterTimerRef.current) {
-        window.clearTimeout(filterTimerRef.current);
-      }
-    };
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      }),
+      { threshold: 0.12, rootMargin: "0px 0px -48px" }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
   }, []);
 
-  const handleHeroPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (!canAnimateHeroRef.current) return;
+  return <main ref={pageRef} className="min-h-screen overflow-hidden bg-[#070808] text-white">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#05080d]/88 backdrop-blur-xl"><div className="mx-auto flex h-[70px] max-w-[1380px] items-center justify-between px-5 sm:px-8 lg:h-[64px]"><FusionMark /><nav className="hidden items-center gap-7 lg:flex">{globalNavItems.map(([label, href]) => <a key={label} href={href} className="text-[11px] font-bold uppercase tracking-[0.08em] text-white/70 transition-colors hover:text-white">{label}</a>)}</nav><a href="/#contact" className="hidden h-11 items-center gap-3 rounded-md border border-[#d6a84f]/70 px-5 text-[12px] font-semibold text-[#f0c66c] transition-colors hover:bg-[#d6a84f] hover:text-black sm:inline-flex">Partner With Us <ExternalLink className="h-3.5 w-3.5" /></a><button type="button" className="grid h-11 w-11 place-items-center rounded-md border border-[#d6a84f]/45 text-[#d6a84f] lg:hidden" aria-label="Open navigation menu"><Menu className="h-6 w-6" /></button></div></header>
 
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = (event.clientX - rect.left) / rect.width - 0.5;
-    const y = (event.clientY - rect.top) / rect.height - 0.5;
+    <section className="relative border-b border-white/10 px-5 pb-20 pt-16 sm:px-10 lg:px-14 lg:pb-28 lg:pt-24"><div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-[radial-gradient(circle_at_72%_38%,rgba(214,168,79,.16),transparent_25%),radial-gradient(circle_at_30%_0%,rgba(255,255,255,.05),transparent_30%)]" /><div className="relative mx-auto grid max-w-[1280px] gap-12 lg:grid-cols-[46%_54%] lg:items-center"><div><Eyebrow>Digital Solutions by Fusion Ventures</Eyebrow><h1 className="mt-6 max-w-[650px] text-5xl font-medium leading-[.96] tracking-[-.06em] sm:text-6xl lg:text-7xl">We build digital systems that move businesses forward.</h1><p className="mt-7 max-w-[590px] text-base leading-8 text-white/64 sm:text-lg">Web development, mobile apps, custom CRM platforms, and digital marketing - planned, designed, and developed by one integrated team.</p><div className="mt-9 flex flex-wrap gap-4"><a href="#contact" className="inline-flex items-center gap-3 bg-[#d6a84f] px-6 py-4 text-xs font-bold uppercase tracking-[.1em] text-black transition hover:bg-[#e8c777]">Discuss Your Project <ArrowRight className="h-4 w-4" /></a><a href="#services" className="inline-flex items-center gap-3 border border-white/20 px-6 py-4 text-xs font-bold uppercase tracking-[.1em] text-white/78 transition hover:border-[#d6a84f] hover:text-[#e8c777]">Explore Our Services <ArrowRight className="h-4 w-4" /></a></div></div><div className="relative mx-auto w-full max-w-[760px] overflow-hidden rounded-xl border border-white/12 shadow-[0_28px_80px_rgba(0,0,0,.55)]"><Image src="/fynta/fynta-hero-ecosystem.png" alt="Connected website, mobile app, CRM, and analytics interfaces" width={1600} height={1000} priority className="h-auto w-full" /></div></div></section>
 
-    if (heroFrameRef.current) {
-      cancelAnimationFrame(heroFrameRef.current);
-    }
+    <section className="border-b border-white/10 px-5 py-5 sm:px-10 lg:px-14"><div className="mx-auto flex max-w-[1280px] flex-wrap justify-between gap-x-8 gap-y-4 text-[10px] font-bold uppercase tracking-[.16em] text-white/48">{["Strategy", "UI/UX Design", "Development", "Automation", "Marketing", "Ongoing Support"].map(item => <span key={item} className="flex items-center gap-3"><span className="h-1.5 w-1.5 rounded-full bg-[#d6a84f]" />{item}</span>)}</div></section>
 
-    heroFrameRef.current = requestAnimationFrame(() => {
-      setHeroMotion({ x, y });
-    });
-  };
+    <section id="services" className="px-5 py-20 sm:px-10 lg:px-14 lg:py-28"><div className="mx-auto max-w-[1280px]"><Eyebrow>What We Do</Eyebrow><h2 className="mt-5 max-w-[780px] text-4xl font-medium tracking-[-.05em] sm:text-5xl">Everything your business needs to build, operate, and grow digitally.</h2><div className="mt-12 grid gap-5 lg:grid-cols-2">{serviceCards.map((card, index) => { const Icon = card.icon; return <article key={card.title} className="group relative overflow-hidden border border-white/12 bg-[#0d0f13] p-6 transition duration-500 hover:-translate-y-1 hover:border-[#d6a84f]/55 sm:p-8"><div className={`pointer-events-none absolute inset-x-0 top-0 h-36 bg-gradient-to-b ${card.tone} to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100`} /><div className="relative grid gap-7 sm:grid-cols-[1fr_45%] sm:items-start"><div><Icon className="h-7 w-7 text-[#d6a84f]" strokeWidth={1.5} /><p className="mt-7 text-[10px] font-bold tracking-[.16em] text-white/38">0{index + 1}</p><h3 className="mt-2 text-3xl font-medium tracking-[-.04em]">{card.title}</h3><p className="mt-4 max-w-md text-sm leading-7 text-white/60">{card.text}</p><ul className="mt-6 grid grid-cols-2 gap-x-3 gap-y-2 text-[10px] leading-4 text-white/52">{card.items.map(item => <li key={item} className="flex gap-2"><Check className="h-3.5 w-3.5 shrink-0 text-[#d6a84f]" />{item}</li>)}</ul></div><ProductPreview type={index === 0 ? "website" : index === 1 ? "apps" : index === 2 ? "crm" : "marketing"} /></div></article>; })}</div></div></section>
 
-  const resetHeroMotion = () => {
-    setHeroMotion({ x: 0, y: 0 });
-    setHoveredHeroService(null);
-  };
+    <section className="border-y border-white/10 bg-[#0c0d0f] px-5 py-20 sm:px-10 lg:px-14 lg:py-28"><div className="mx-auto grid max-w-[1280px] gap-14 lg:grid-cols-[0.78fr_1.22fr] lg:items-start"><div className="lg:sticky lg:top-28"><Eyebrow>Built Around Your Business</Eyebrow><h2 className="mt-5 text-4xl font-medium leading-[1.02] tracking-[-.05em] sm:text-5xl">Designed around the work your team actually does.</h2><p className="mt-6 max-w-md text-base leading-8 text-white/60">We start with the pressure points holding the business back, then shape the right digital system around them.</p><a href="#contact" className="mt-8 inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[.12em] text-[#e8c777] transition hover:text-white">Discuss your challenge <ArrowRight className="h-4 w-4" /></a></div><div className="border-t border-white/12">{[["Leads are scattered", "A custom CRM brings enquiries, follow-ups, assignments, and reporting into one connected system."], ["Your website no longer represents the business", "Focused web development clarifies your offer and makes the right next step easier."], ["Customers need an easier way to order or book", "A focused mobile or web product creates a smoother customer journey."], ["Teams repeat manual tasks every day", "Connected workflows and automation reduce operational friction."], ["Different tools are not connected", "Business systems and APIs make information flow where it needs to."], ["Marketing lacks clear direction", "A joined-up growth plan connects content, search, paid media, and measurement."]].map(([problem, solution], index) => <article key={problem} className="grid gap-5 border-b border-white/12 py-7 sm:grid-cols-[48px_minmax(0,1fr)_minmax(0,0.9fr)] sm:gap-7"><span className="text-[11px] font-bold tracking-[.16em] text-[#d6a84f]">0{index + 1}</span><div><p className="text-[10px] font-bold uppercase tracking-[.14em] text-white/38">Where work gets stuck</p><h3 className="mt-3 text-xl font-medium leading-snug text-white">{problem}</h3></div><div><p className="text-[10px] font-bold uppercase tracking-[.14em] text-[#d6a84f]">How Fynta responds</p><p className="mt-3 text-sm leading-7 text-white/58">{solution}</p></div></article>)}</div></div></section>
 
-  const selectFilter = (filter: string) => {
-    if (filter === activeFilter) return;
+    <section id="crm" className="px-5 py-20 sm:px-10 lg:px-14 lg:py-28"><div className="mx-auto grid max-w-[1280px] gap-12 lg:grid-cols-[38%_62%] lg:items-center"><div><Eyebrow>Custom CRM Development</Eyebrow><h2 className="mt-5 text-4xl font-medium leading-[1.02] tracking-[-.05em] sm:text-5xl">Your business should not have to adapt to generic software.</h2><p className="mt-6 text-base leading-8 text-white/62">We build custom CRM and operations platforms around the way your organisation works - from leads and employees to customers, documents, finance, approvals, and reporting.</p><a href="#contact" className="mt-8 inline-flex items-center gap-3 rounded-md border border-[#d6a84f]/60 bg-[#d6a84f]/10 px-5 py-3 text-xs font-bold uppercase tracking-[.12em] text-[#e8c777] transition hover:bg-[#d6a84f] hover:text-black">Discuss a Custom CRM <ArrowRight className="h-4 w-4" /></a></div><div className="overflow-hidden border border-white/12 bg-[#10131a] p-4 sm:p-6"><div className="no-scrollbar flex gap-2 overflow-x-auto border-b border-white/10 pb-4">{crmModules.map(module => <button key={module} type="button" onClick={() => setActiveModule(module)} className={`shrink-0 border px-3 py-2 text-[10px] font-bold uppercase tracking-[.1em] transition ${activeModule === module ? "border-[#d6a84f] bg-[#d6a84f] text-black" : "border-white/12 text-white/52 hover:border-white/35"}`}>{module}</button>)}</div><div className="mt-5"><ProductPreview type="crm" activeModule={activeModule} /></div></div></div></section>
 
-    setIsFilterChanging(true);
-    setActiveFilter(filter);
+    <section id="process" className="border-y border-white/10 bg-[#0c0d0f] px-5 py-20 sm:px-10 lg:px-14 lg:py-28"><div className="mx-auto grid max-w-[1280px] gap-12 lg:grid-cols-[36%_64%]"><div><Eyebrow>Our Process</Eyebrow><h2 className="mt-5 text-4xl font-medium tracking-[-.05em] sm:text-5xl">From the first idea to launch and growth.</h2><p className="mt-5 text-sm leading-7 text-white/58">A clear working rhythm keeps every decision connected to the business outcome.</p></div><div className="grid gap-px bg-white/10 sm:grid-cols-5">{processSteps.map(([title, text], i) => <button type="button" key={title} onClick={() => setActiveProcess(i)} className={`min-h-[220px] p-5 text-left transition ${activeProcess === i ? "bg-[#d6a84f] text-black" : "bg-[#0c0d0f] text-white hover:bg-white/[.04]"}`}><span className={`text-[10px] font-bold tracking-[.16em] ${activeProcess === i ? "text-black/55" : "text-[#d6a84f]"}`}>0{i + 1}</span><h3 className="mt-9 text-xl font-medium">{title}</h3><p className={`mt-4 text-xs leading-6 ${activeProcess === i ? "text-black/70" : "text-white/52"}`}>{text}</p></button>)}</div></div></section>
 
-    if (filterTimerRef.current) {
-      window.clearTimeout(filterTimerRef.current);
-    }
+    <section className="px-5 py-20 sm:px-10 lg:px-14 lg:py-28"><div className="mx-auto grid max-w-[1280px] gap-12 lg:grid-cols-[38%_62%]"><div><Eyebrow>Why Fynta</Eyebrow><h2 className="mt-5 text-4xl font-medium tracking-[-.05em] sm:text-5xl">One team for strategy, design, technology, and growth.</h2></div><div className="grid gap-px bg-white/10 sm:grid-cols-2">{[["One integrated team", "Design, development, CRM, automation, and marketing are planned together."], ["Built around your workflow", "We do not force every business into the same template or software structure."], ["Strategy before execution", "Projects begin with understanding the business, users, and objectives."], ["Designed to scale", "Solutions are planned to support new users, teams, services, and locations."], ["Support beyond launch", "We can maintain, improve, and market the solution after it goes live."]].map(([title, text]) => <article key={title} className="bg-[#070808] p-6"><h3 className="text-lg font-medium">{title}</h3><p className="mt-3 text-sm leading-7 text-white/55">{text}</p></article>)}</div></div></section>
 
-    filterTimerRef.current = window.setTimeout(() => {
-      setIsFilterChanging(false);
-    }, 280);
-  };
+    <section className="border-y border-white/10 bg-[#0c0d0f] px-5 py-20 sm:px-10 lg:px-14 lg:py-28"><div className="mx-auto max-w-[1280px]"><Eyebrow>Solutions for Growth</Eyebrow><h2 className="mt-5 text-4xl font-medium tracking-[-.05em] sm:text-5xl">Solutions for different stages of business growth.</h2><div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{[["Startups launching an MVP", "Shape the first focused version of a digital product."], ["Growing businesses replacing spreadsheets", "Move leads, customers, teams, and reports into one connected system."], ["Companies requiring custom CRM systems", "Build operations software around established workflows."], ["Retail and e-commerce businesses", "Create clearer journeys from discovery to order management."], ["Professional service businesses", "Make enquiries, delivery, and client communication easier to manage."], ["Companies modernising old systems", "Improve existing technology without losing business context."]].map(([title, text], i) => <article key={title} className="border border-white/12 p-6"><span className="text-[10px] font-bold tracking-[.16em] text-[#d6a84f]">0{i+1}</span><h3 className="mt-6 text-xl font-medium">{title}</h3><p className="mt-4 text-sm leading-7 text-white/55">{text}</p></article>)}</div></div></section>
 
-  const currentHeroService = hoveredHeroService ?? activeHeroService;
+    <section id="work" className="px-5 py-20 sm:px-10 lg:px-14 lg:py-28"><div className="mx-auto max-w-[1280px]"><Eyebrow>Selected Work</Eyebrow><h2 className="mt-5 text-4xl font-medium tracking-[-.05em] sm:text-5xl">Digital products and systems we have helped build.</h2><div className="mt-12 grid gap-5 lg:grid-cols-4">{[["BSmile CRM", "Custom CRM / Internal Operations", "Employee, patient, document, and finance management platform.", "crm"], ["KAAM", "Mobile App / Web Platform", "Candidate and employer job-matching platform for the UAE.", "apps"], ["Aweer Market", "Mobile Application / Commerce", "B2B ordering with catalogue, wallet, and order management.", "apps"], ["Resumi", "Web Application / SaaS", "Online resume-building tools with ATS-focused templates.", "website"]].map(([title, category, text, type]) => <article key={title} className="border border-white/12 bg-[#0d0f13] p-4"><ProductPreview type={type} /><p className="mt-5 text-[9px] font-bold uppercase tracking-[.15em] text-[#d6a84f]">{category}</p><h3 className="mt-3 text-xl font-medium">{title}</h3><p className="mt-3 text-sm leading-6 text-white/55">{text}</p></article>)}</div></div></section>
 
-  const visibleWebsiteProjects = [
-    websiteProjects[websiteIndex],
-    websiteProjects[(websiteIndex + 1) % websiteProjects.length],
-    websiteProjects[(websiteIndex + 2) % websiteProjects.length]
-  ];
+    <section className="border-y border-white/10 bg-[#0c0d0f] px-5 py-16 sm:px-10 lg:px-14"><div className="mx-auto grid max-w-[1280px] gap-10 lg:grid-cols-[30%_70%]"><div><Eyebrow>Technology</Eyebrow><h2 className="mt-5 text-3xl font-medium tracking-[-.05em] sm:text-4xl">Modern technology selected for the project - not for the trend.</h2></div><div className="grid gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-4">{[["Web", "Next.js · React · WordPress"], ["Mobile", "Flutter · Android · iOS"], ["Backend & data", "Supabase · APIs · authentication"], ["Infrastructure & growth", "Vercel · Cloudflare · Google · Meta · SEO tools"]].map(([label, stack]) => <div key={label} className="bg-[#0c0d0f] p-5"><p className="text-[10px] font-bold uppercase tracking-[.14em] text-[#d6a84f]">{label}</p><p className="mt-4 text-sm leading-6 text-white/60">{stack}</p></div>)}</div></div></section>
 
-  const visibleProducts = [
-    products[productIndex],
-    products[(productIndex + 1) % products.length],
-    products[(productIndex + 2) % products.length],
-    products[(productIndex + 3) % products.length]
-  ];
+    <section id="about" className="relative overflow-hidden border-y border-white/10 bg-[#0a0b0d] px-5 py-20 sm:px-10 lg:px-14 lg:py-24"><div className="pointer-events-none absolute right-[-10%] top-1/2 h-80 w-80 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(214,168,79,.18),transparent_66%)]" /><div className="relative mx-auto grid max-w-[1280px] gap-12 lg:grid-cols-[1fr_0.8fr] lg:items-center"><div><Eyebrow>One Connected Ecosystem</Eyebrow><h2 className="mt-5 max-w-2xl text-4xl font-medium leading-[1.02] tracking-[-.05em] sm:text-5xl">Fynta has the focus of a specialist team with the backing of Fusion Ventures.</h2><p className="mt-6 max-w-2xl text-base leading-8 text-white/60">Strategy, design, development, automation, and growth work together here - not as separate services competing for attention.</p><a href="/about" className="mt-8 inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[.12em] text-[#e8c777] transition hover:text-white">Discover Fusion Ventures <ArrowRight className="h-4 w-4" /></a></div><div className="border-y border-white/12 py-10 lg:border-l lg:border-y-0 lg:py-5 lg:pl-14"><div className="text-center lg:text-left"><p className="text-5xl font-semibold tracking-[-.07em] text-white">fyn<span className="text-[#d6a84f]">ta</span></p><div className="mx-auto my-7 h-px w-16 bg-[#d6a84f] lg:mx-0" /><p className="text-[11px] font-bold uppercase tracking-[.25em] text-white/52">A Fusion Ventures Company</p><p className="mt-5 max-w-sm text-sm leading-7 text-white/55">A shared ecosystem means stronger strategy, deeper capability, and more connected delivery for every project.</p></div></div></div></section>
 
-  return (
-    <main className="min-h-screen overflow-hidden bg-[#f3eee5] text-[#15120e]">
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-[rgba(5,5,5,0.94)] backdrop-blur-xl">
-        <div className="mx-auto flex h-[78px] max-w-[1440px] items-center justify-between px-5 sm:px-10 lg:px-14">
-          <LogoMark />
-          <nav className="hidden items-center gap-10 lg:flex">
-            {[
-              ["Work", "#featured"],
-              ["Services", "#services"],
-              ["About", "/about"],
-              ["Journal", "#"],
-              ["Contact", "#contact"]
-            ].map(([label, href]) => (
-              <a
-                key={label}
-                href={href}
-                className="group relative text-[12px] font-bold uppercase tracking-[0.16em] text-white/76 transition-colors hover:text-white"
-              >
-                {label}
-                <span className="absolute -bottom-2 left-0 h-px w-full origin-left scale-x-0 bg-[#c49a45] transition-transform duration-300 group-hover:scale-x-100" />
-              </a>
-            ))}
-          </nav>
-          <button
-            className="group inline-flex items-center gap-3 text-[12px] font-bold uppercase tracking-[0.16em] text-white/82 transition-colors hover:text-white"
-            aria-label="Open navigation menu"
-          >
-            Menu
-            <span className="flex h-5 w-8 flex-col justify-center gap-1.5">
-              <span className="h-px w-full bg-[#c49a45] transition-transform group-hover:translate-x-1" />
-              <span className="h-px w-full bg-[#c49a45] transition-transform group-hover:translate-x-0.5" />
-            </span>
-          </button>
-        </div>
-      </header>
+    <section className="border-t border-white/10 px-5 py-20 sm:px-10 lg:px-14 lg:py-28"><div className="mx-auto max-w-[920px]"><Eyebrow>FAQ</Eyebrow><h2 className="mt-5 text-4xl font-medium tracking-[-.05em] sm:text-5xl">Clear answers before we begin.</h2><div className="mt-10 border-t border-white/12">{faqs.map(([question, answer]) => <details key={question} className="group border-b border-white/12 py-5"><summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-base font-medium outline-none marker:content-none focus-visible:text-[#e8c777]">{question}<ChevronDown className="h-5 w-5 shrink-0 text-[#d6a84f] transition group-open:rotate-180" /></summary><p className="max-w-3xl pt-4 text-sm leading-7 text-white/58">{answer}</p></details>)}</div></div></section>
 
-      <section
-        className="relative isolate overflow-hidden bg-[#050505] px-5 py-16 text-[#f5f1ea] sm:px-10 lg:min-h-[820px] lg:px-14 lg:py-20"
-        onPointerMove={handleHeroPointerMove}
-        onPointerLeave={resetHeroMotion}
-      >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_45%,rgba(196,154,69,0.14),transparent_34%),linear-gradient(115deg,#050505,#0a0907_54%,#040403)]" />
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.24] [background-image:radial-gradient(circle,rgba(212,168,79,0.34)_1px,transparent_1.5px)] [background-size:42px_42px]"
-          style={{ transform: `translate3d(${heroMotion.x * -10}px, ${heroMotion.y * -10}px, 0)` }}
-        />
-        <div
-          className="pointer-events-none absolute h-[360px] w-[360px] rounded-full bg-[radial-gradient(circle,rgba(196,154,69,0.18),transparent_62%)] opacity-70 blur-2xl"
-          style={{
-            left: `calc(50% + ${heroMotion.x * 44}px)`,
-            top: `calc(38% + ${heroMotion.y * 44}px)`,
-            transform: "translate3d(-50%, -50%, 0)"
-          }}
-        />
-        <div className="relative mx-auto grid max-w-[1440px] gap-16 lg:grid-cols-[45%_55%] lg:items-center">
-          <div className="fynta-hero-copy relative z-20">
-            <p className="font-serif text-[56px] leading-none text-[#c49a45] sm:text-[62px]">02</p>
-            <span className="mt-4 block h-px w-14 bg-[#c49a45]/70" />
-            <p className="mt-8 text-[13px] font-bold uppercase tracking-[0.28em] text-[#c49a45]">Fynta Portfolio</p>
-            <h1 className="mt-8 font-serif text-[48px] font-normal leading-[0.96] tracking-[-0.035em] text-[#f5f1ea] sm:text-6xl lg:text-[60px] xl:text-[64px]">
-              <span className="fynta-hero-line block">Bold ideas.</span>
-              <span className="fynta-hero-line block whitespace-nowrap">Smart strategy.</span>
-              <em className="fynta-hero-line fynta-gold-shimmer block font-serif italic text-[#c49a45] md:whitespace-nowrap">Measurable impact.</em>
-            </h1>
-            <p className="mt-10 max-w-[560px] text-[17px] leading-9 text-[#d8d0c4]">
-              A curated portfolio of digital campaigns, content, websites and experiences Fynta has crafted to help ambitious brands break through and grow.
-            </p>
-            <a href="#featured" className="group mt-10 inline-flex items-center gap-6 text-[13px] font-bold uppercase tracking-[0.22em] text-white">
-              <span className="relative pb-2">
-                Explore Fynta Work
-                <span className="absolute bottom-0 left-0 h-px w-full origin-left bg-[#c49a45] transition-transform duration-500 group-hover:scale-x-125" />
-              </span>
-              <span className="grid h-12 w-12 place-items-center rounded-full bg-[#c49a45] text-[#050505] transition-[transform,box-shadow] duration-500 group-hover:translate-x-1.5 group-hover:shadow-[0_0_32px_rgba(196,154,69,0.35)]">
-                <ArrowRight className="h-4 w-4" />
-              </span>
-            </a>
-            <p className="mt-16 font-serif text-3xl italic text-[#c49a45] lg:mt-20">Strategy meets creativity</p>
-          </div>
-
-          <div className="relative z-10 mt-10 min-h-[620px] lg:mt-0 lg:min-h-[700px]">
-            <div
-              className="fynta-orbit-system absolute left-[54%] top-[48%] h-[430px] w-[430px] -translate-x-1/2 -translate-y-1/2 sm:h-[560px] sm:w-[560px] lg:h-[680px] lg:w-[680px]"
-              style={{ transform: `translate3d(calc(-50% + ${heroMotion.x * 28}px), calc(-50% + ${heroMotion.y * 28}px), 0) rotateX(${heroMotion.y * -5}deg) rotateY(${heroMotion.x * 5}deg)` }}
-            >
-              <span className="fynta-orbit-ring fynta-orbit-ring-a" />
-              <span className="fynta-orbit-ring fynta-orbit-ring-b" />
-              <span className="fynta-orbit-ring fynta-orbit-ring-c" />
-              <span className="fynta-orbit-particle fynta-orbit-particle-a" />
-              <span className="fynta-orbit-particle fynta-orbit-particle-b" />
-              <span className="fynta-orbit-particle fynta-orbit-particle-c" />
-              <span className="fynta-orbit-spark fynta-orbit-spark-a" />
-              <span className="fynta-orbit-spark fynta-orbit-spark-b" />
-              <span className="fynta-orbit-spark fynta-orbit-spark-c" />
-            </div>
-
-            <div className="absolute inset-0 z-20 flex items-start justify-center pt-8 lg:items-center lg:pt-0">
-              <div className="w-full max-w-[430px] py-6 pr-6 sm:pr-8 lg:border-r lg:border-[#c49a45]/28">
-                <div className="space-y-5">
-                  {heroServices.map(({ title, description, Icon }, index) => {
-                    const isActive = currentHeroService === index;
-
-                    return (
-                      <button
-                        key={title}
-                        type="button"
-                        onMouseEnter={() => setHoveredHeroService(index)}
-                        onFocus={() => setHoveredHeroService(index)}
-                        onClick={() => setActiveHeroService(index)}
-                        className={`group relative flex w-full items-start gap-6 rounded-sm px-3 py-2 text-left transition-colors duration-300 ${
-                          isActive ? "text-[#f4d083]" : "text-white/80 hover:text-[#f4d083]"
-                        }`}
-                      >
-                        <Icon className={`mt-0.5 h-7 w-7 shrink-0 text-[#c49a45] transition-[transform,filter] duration-500 ${isActive ? "scale-110 drop-shadow-[0_0_12px_rgba(196,154,69,0.45)]" : "group-hover:scale-105"}`} strokeWidth={1.45} />
-                        <span>
-                          <span className="block text-[14px] font-bold uppercase tracking-[0.22em]">{title}</span>
-                          <span className={`mt-2 block max-w-[270px] text-[12px] leading-5 text-[#d8d0c4]/76 transition-all duration-300 ${isActive ? "translate-y-0 opacity-100" : "-translate-y-1 opacity-0"}`}>
-                            {description}
-                          </span>
-                          <span className={`mt-2 inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#c49a45] transition-all duration-300 ${isActive ? "translate-y-0 opacity-100" : "-translate-y-1 opacity-0"}`}>
-                            Explore {title} Work <ArrowRight className="h-3 w-3" />
-                          </span>
-                        </span>
-                        <span className={`absolute right-[-34px] top-6 hidden h-px bg-[#c49a45] transition-all duration-500 lg:block ${isActive ? "w-28 opacity-100" : "w-0 opacity-0"}`} />
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="sticky top-[78px] z-40 border-b border-[#1a1712]/12 bg-[#f3eee5]/95 px-5 py-4 backdrop-blur-xl sm:px-10 lg:px-14">
-        <div className="mx-auto flex max-w-[1440px] items-center gap-3 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <span className="shrink-0 text-[10px] font-bold uppercase tracking-[0.16em] text-black/58">Filter Work</span>
-          {filters.map((filter) => (
-            <button
-              key={filter}
-              type="button"
-              onClick={() => selectFilter(filter)}
-              className={`group relative shrink-0 rounded-full border px-5 py-2.5 text-[10px] font-bold uppercase tracking-[0.16em] transition-colors duration-300 ${
-                activeFilter === filter ? "border-[#b99047] bg-[#15120e] text-[#f5efe4]" : "border-[#15120e]/14 text-black/58 hover:border-[#b99047]/70 hover:text-[#15120e]"
-              }`}
-            >
-              {filter}
-              <span className={`absolute -bottom-1 left-5 right-5 h-px origin-center bg-[#b99047] transition-transform duration-300 ${activeFilter === filter ? "scale-x-100" : "scale-x-0 group-hover:scale-x-75"}`} />
-            </button>
-          ))}
-          <span className="ml-auto hidden shrink-0 items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-black/52 lg:flex">
-            Search Projects <Search className="h-4 w-4" />
-          </span>
-        </div>
-      </section>
-
-      <section id="featured" className="border-b border-[#1a1712]/12 px-5 py-14 sm:px-10 lg:px-14 lg:py-16">
-        <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[23%_77%]">
-          <EditorialSidebar title={"Featured\nBrand Stories"} text="Integrated campaigns built to inspire, connect and convert." cta="View All Case Studies" />
-          <div className={`grid gap-5 transition-[opacity,transform] duration-300 ease-out lg:grid-cols-3 ${isFilterChanging ? "translate-y-2 opacity-55" : "translate-y-0 opacity-100"}`}>
-            {(filteredStories.length ? filteredStories : featuredStories).map((story) => (
-              <ImageCard key={story.title} title={story.title} type={story.type} text={story.text} image={story.image} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-[#1a1712]/12 px-5 py-14 sm:px-10 lg:px-14 lg:py-16">
-        <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[23%_77%]">
-          <EditorialSidebar title={"Website\nProjects"} text="Conversion-focused websites designed for performance and beautiful experiences." cta="View All Websites" />
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setWebsiteIndex((index) => (index === 0 ? websiteProjects.length - 1 : index - 1))}
-              className="absolute -left-4 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-[#15120e]/16 bg-[#f3eee5] text-[#b99047] shadow-xl"
-              aria-label="Previous website projects"
-            >
-              <ArrowRight className="h-4 w-4 rotate-180" />
-            </button>
-            <div className="grid gap-5 md:grid-cols-3">
-              {visibleWebsiteProjects.map((item) => (
-                <ImageCard key={item.title} title={item.title} type={item.subtitle} text="Website experience shaped for storytelling, conversion, and brand trust." image={item.image} large />
-              ))}
-            </div>
-            <button
-              type="button"
-              onClick={() => setWebsiteIndex((index) => (index + 1) % websiteProjects.length)}
-              className="absolute -right-4 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-[#15120e]/16 bg-[#f3eee5] text-[#b99047] shadow-xl"
-              aria-label="Next website projects"
-            >
-              <ArrowRight className="h-4 w-4" />
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-[#1a1712]/12 px-5 py-14 sm:px-10 lg:px-14 lg:py-16">
-        <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[23%_77%]">
-          <EditorialSidebar title={"Search Engine\nOptimization"} text="Organic growth that compounds. Rank higher. Get found. Grow." cta="View SEO Cases" />
-          <div className="grid overflow-hidden border border-[#1a1712]/12 bg-[#f8f3eb] lg:grid-cols-[30%_45%_25%]">
-            <div className="relative min-h-[250px]">
-              <Image src="/images/web-portfolio/cards/ecom-sigma.webp" alt="Search performance screenshot" fill unoptimized className="object-cover object-top" />
-            </div>
-            <div className="grid gap-px bg-[#1a1712]/12 p-px sm:grid-cols-3">
-              {[
-                ["215%", "Increase in organic traffic"],
-                ["187%", "Growth in keyword rankings"],
-                ["4.6X", "Return on SEO investment"]
-              ].map(([value, label]) => (
-                <div key={label} className="bg-[#f8f3eb] p-6">
-                  <p className="font-serif text-4xl text-[#15120e]">{value}</p>
-                  <p className="mt-3 text-[10px] font-bold uppercase leading-4 tracking-[0.12em] text-black/52">{label}</p>
-                </div>
-              ))}
-            </div>
-            <div className="relative bg-[#f8f3eb] p-6">
-              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#a9823f]">Organic Traffic Growth</p>
-              <svg viewBox="0 0 260 130" className="mt-6 h-32 w-full" aria-hidden="true">
-                <polyline points="10,112 48,95 82,88 116,68 150,72 184,44 220,34 252,18" fill="none" stroke="#b99047" strokeWidth="3" />
-                <line x1="10" y1="112" x2="252" y2="112" stroke="rgba(0,0,0,.16)" />
-              </svg>
-              <p className="font-serif text-5xl text-[#15120e]">#1</p>
-              <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-black/52">Ranked keywords for 35+ terms</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-[#1a1712]/12 px-5 py-14 sm:px-10 lg:px-14 lg:py-16">
-        <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[23%_77%]">
-          <EditorialSidebar title={"Ad + Video\nCampaigns"} text="Scroll-stopping creative that drives real results." cta="View All Campaigns" />
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {videos.map(([title, label, image]) => (
-              <button key={title} type="button" onClick={() => setActiveVideo(title)} className="group relative min-h-[240px] overflow-hidden border border-[#1a1712]/12 text-left transition-colors duration-500 hover:border-[#b99047]/70">
-                <Image src={image} alt={`${title} video thumbnail`} fill unoptimized className="object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105" />
-                <div className="absolute inset-0 bg-black/0 transition-colors duration-500 group-hover:bg-black/14" />
-                <div className="absolute inset-x-0 bottom-0 h-[60%] bg-[linear-gradient(180deg,transparent,rgba(7,6,5,0.72))]" />
-                <span className="absolute left-1/2 top-1/2 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 scale-[0.85] place-items-center rounded-full border border-white/70 bg-black/28 text-white backdrop-blur-sm transition-transform duration-500 group-hover:scale-100">
-                  <Play className="h-5 w-5 fill-current" />
-                </span>
-                <div className="absolute inset-x-4 bottom-4 text-white">
-                  <h3 className="font-serif text-2xl">{title}</h3>
-                  <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.16em] text-white/72">{label}</p>
-                  <p className="mt-3 inline-flex translate-y-1 items-center gap-2 border-b border-[#c59a4a] pb-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#e5c16b] opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-                    Watch Reel <ArrowRight className="h-3 w-3" />
-                  </p>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-[#1a1712]/12 px-5 py-14 sm:px-10 lg:px-14 lg:py-16">
-        <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[23%_77%]">
-          <EditorialSidebar title={"Product\nShowcase"} text="Beautifully presented. Perfectly positioned." cta="View All Products" />
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setProductIndex((index) => (index === 0 ? products.length - 1 : index - 1))}
-              className="absolute -left-4 top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-[#15120e]/16 bg-[#f3eee5] text-[#b99047]"
-              aria-label="Previous products"
-            >
-              <ArrowRight className="h-4 w-4 rotate-180" />
-            </button>
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {visibleProducts.map(([title, label, image]) => (
-                <ImageCard key={title} title={title} type={label} text="A refined product story built to inform, persuade, and convert." image={image} />
-              ))}
-            </div>
-            <button
-              type="button"
-              onClick={() => setProductIndex((index) => (index + 1) % products.length)}
-              className="absolute -right-4 top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-[#15120e]/16 bg-[#f3eee5] text-[#b99047]"
-              aria-label="Next products"
-            >
-              <ArrowRight className="h-4 w-4" />
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[radial-gradient(circle_at_82%_24%,rgba(185,144,71,0.22),transparent_28%),linear-gradient(135deg,#15120e,#030303)] px-5 py-14 text-white sm:px-10 lg:px-14 lg:py-16">
-        <div className="mx-auto grid max-w-[1440px] gap-8 lg:grid-cols-[23%_77%] lg:items-center">
-          <div>
-            <h2 className="font-serif text-3xl uppercase leading-none">Our Impact<br />By The Numbers</h2>
-            <p className="mt-4 max-w-[260px] text-sm leading-6 text-white/62">Real results for real brands. Across channels. Every time.</p>
-          </div>
-          <div className="grid gap-px bg-white/14 sm:grid-cols-2 lg:grid-cols-5">
-            {impact.map(([value, label, Icon]) => (
-              <div key={label as string} className="bg-black/36 p-6 text-center">
-                <Icon className="mx-auto h-7 w-7 text-[#c59a4a]" strokeWidth={1.4} />
-                <p className="mt-4 font-serif text-4xl text-white">{value as string}</p>
-                <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.14em] text-white/58">{label as string}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-[#1a1712]/10 bg-[#f5efe4] px-5 py-20 sm:px-10 lg:px-14 lg:py-28">
-        <div className="mx-auto grid max-w-[1320px] gap-14 lg:grid-cols-[minmax(300px,30%)_minmax(0,1fr)] lg:items-center lg:gap-20 xl:gap-24">
-          <aside className="max-w-[430px]">
-            <p className="text-[13px] font-bold uppercase tracking-[0.24em] text-[#b99047]">Fusion Ventures</p>
-            <h2 className="mt-7 whitespace-pre-line font-serif text-[52px] font-normal uppercase leading-[0.95] tracking-[-0.035em] text-[#15120e] sm:text-6xl lg:text-[70px]">
-              WHAT WE{"\n"}DELIVER
-            </h2>
-            <div className="relative my-9 h-[2px] max-w-[300px] bg-[#b99047]/70">
-              <span className="absolute left-1/2 top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rotate-45 border border-[#b99047] bg-[#f5efe4]" />
-            </div>
-            <p className="max-w-[340px] text-[18px] leading-9 text-black/72">
-              End-to-end digital solutions that build brands and drive growth.
-            </p>
-            <a
-              href="#contact"
-              className="group mt-12 inline-flex items-center gap-5 border-b border-[#b99047] pb-2 text-[12px] font-bold uppercase tracking-[0.2em] text-[#15120e]"
-            >
-              Explore Services
-              <ArrowRight className="h-4 w-4 text-[#b99047] transition-transform duration-500 group-hover:translate-x-1.5" />
-            </a>
-          </aside>
-          <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-            {services.map(([title, text, Icon]) => (
-              <article
-                key={title as string}
-                className="group relative min-h-[245px] overflow-hidden rounded-[6px] bg-[#fbf6ee] p-9 shadow-[0_18px_55px_rgba(54,39,19,0.07)] transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-[0_24px_70px_rgba(54,39,19,0.12)] sm:p-10"
-              >
-                <span className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-[#b99047] transition-transform duration-500 group-hover:scale-x-100" />
-                <Icon className="h-10 w-10 text-[#b99047] transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:rotate-3" strokeWidth={1.45} />
-                <h3 className="mt-8 text-[13px] font-bold uppercase tracking-[0.22em] text-[#15120e]">{title as string}</h3>
-                <span className="mt-5 block h-px w-12 bg-[#b99047]/58 transition-all duration-500 group-hover:w-20" />
-                <p className="mt-5 max-w-[280px] text-[16px] leading-7 text-black/62">{text as string}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-[#1a1712]/12 px-5 py-12 sm:px-10 lg:px-14 lg:py-14">
-        <div className="mx-auto grid max-w-[1440px] gap-8 lg:grid-cols-[18%_82%] lg:items-center">
-          <EditorialSidebar title={"Brands We've\nGrown"} text="Proud to partner with visionary brands." cta="View All Clients" />
-          <div className="grid grid-cols-2 gap-8 text-center font-serif text-2xl text-[#15120e] sm:grid-cols-3 lg:grid-cols-6">
-            {brandLogos.map((brand) => (
-              <span key={brand} className="opacity-78">{brand}</span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-[#1a1712]/12 px-5 py-14 sm:px-10 lg:px-14 lg:py-16">
-        <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[18%_82%]">
-          <EditorialSidebar title={"Kind Words\nFrom Partners"} text="Trusted by founders and marketing leaders." cta="View All Testimonials" />
-          <div className="grid gap-px bg-[#1a1712]/12 lg:grid-cols-3">
-            {testimonials.map(([quote, person]) => (
-              <blockquote key={person} className="bg-[#f3eee5] p-8">
-                <p className="font-serif text-4xl text-[#b99047]">&ldquo;</p>
-                <p className="text-[15px] leading-7 text-black/70">{quote}</p>
-                <footer className="mt-6 text-[10px] font-bold uppercase tracking-[0.12em] text-black/54">- {person}</footer>
-              </blockquote>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[radial-gradient(circle_at_80%_34%,rgba(185,144,71,0.24),transparent_26%),linear-gradient(135deg,#111,#020202)] px-5 py-14 text-white sm:px-10 lg:px-14 lg:py-16" id="contact">
-        <div className="mx-auto grid max-w-[1440px] gap-8 lg:grid-cols-[16%_42%_42%] lg:items-center">
-          <div className="grid h-28 w-28 place-items-center rounded-full border border-[#b99047]/55 font-serif text-4xl text-[#c59a4a]">F</div>
-          <div>
-            <h2 className="font-serif text-5xl leading-[0.95]">
-              Great stories start
-              <br />
-              with a <em className="text-[#c59a4a]">conversation.</em>
-            </h2>
-            <p className="mt-4 text-sm text-white/62">Let&apos;s create something extraordinary together.</p>
-          </div>
-          <div className="border-l border-white/12 pl-0 lg:pl-10">
-            <p className="max-w-[420px] text-sm leading-7 text-white/68">Have a project in mind or just want to say hello? We&apos;d love to hear from you.</p>
-            <a href={`mailto:${webPortfolioContact.email}`} className="mt-6 inline-flex items-center gap-4 bg-[#c59a4a] px-8 py-4 text-[11px] font-bold uppercase tracking-[0.16em] text-black">
-              Start A Project <ArrowRight className="h-4 w-4" />
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <footer className="border-t border-white/10 bg-black px-5 py-9 text-white sm:px-10 lg:px-14">
-        <div className="mx-auto grid max-w-[1280px] gap-9 md:grid-cols-[1.5fr_1fr_1fr_1.4fr]">
-          <div>
-            <LogoMark />
-            <p className="mt-5 max-w-[260px] text-sm leading-6 text-white/50">
-              Building digital experiences that drive brands forward.
-            </p>
-            <div className="mt-5 flex gap-3">
-              {[Linkedin, Instagram, Dribbble].map((Icon, index) => (
-                <span key={index} className="grid h-8 w-8 place-items-center rounded-full border border-white/14 text-white/72">
-                  <Icon className="h-4 w-4" />
-                </span>
-              ))}
-            </div>
-          </div>
-          <div>
-            <h3 className="mb-4 text-sm font-semibold text-white">Quick Links</h3>
-            {[
-              ["Home", "/"],
-              ["About Us", "/about"],
-              ["Web Portfolio", "/web-portfolio"],
-              ["Contact", "/#contact"]
-            ].map(([item, href]) => (
-              <a key={item} href={href} className="mb-3 block text-sm text-white/52 hover:text-[#d6a84f]">
-                {item}
-              </a>
-            ))}
-          </div>
-          <div>
-            <h3 className="mb-4 text-sm font-semibold text-white">Legal</h3>
-            {[
-              ["Privacy Policy", "/privacy-policy"],
-              ["Terms and Conditions", "/terms-and-conditions"],
-              ["Cookie Policy", "/cookie-policy"]
-            ].map(([item, href]) => (
-              <a key={item} href={href} className="mb-3 block text-sm text-white/52 hover:text-[#d6a84f]">
-                {item}
-              </a>
-            ))}
-          </div>
-          <div>
-            <h3 className="mb-4 text-sm font-semibold text-white">Let&apos;s Connect</h3>
-            <a href={`mailto:${webPortfolioContact.email}`} className="mb-3 flex items-center gap-3 text-sm text-white/56 hover:text-[#d6a84f]">
-              <Mail className="h-4 w-4" />
-              {webPortfolioContact.email}
-            </a>
-            <a href={`tel:${webPortfolioContact.phone.replace(/[^+\d]/g, "")}`} className="mb-3 flex items-center gap-3 text-sm text-white/56 hover:text-[#d6a84f]">
-              <Phone className="h-4 w-4" />
-              {webPortfolioContact.phone}
-            </a>
-            <p className="flex items-center gap-3 text-sm text-white/56">
-              <MapPin className="h-4 w-4" />
-              {webPortfolioContact.location}
-            </p>
-          </div>
-        </div>
-        <div className="mx-auto mt-8 max-w-[1280px] border-t border-white/10 pt-5 text-center text-xs text-white/38">
-          &copy; 2024 Fusion Ventures. All rights reserved.
-        </div>
-      </footer>
-
-      {activeVideo && (
-        <div className="fixed inset-0 z-[100] grid place-items-center bg-black/80 p-5 backdrop-blur-md" role="dialog" aria-modal="true">
-          <div className="w-full max-w-[820px] border border-[#c59a4a]/34 bg-[#090807] p-5 text-white shadow-2xl">
-            <div className="mb-4 flex items-center justify-between gap-4">
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#c59a4a]">Campaign Preview</p>
-                <h3 className="mt-2 font-serif text-3xl">{activeVideo}</h3>
-              </div>
-              <button type="button" onClick={() => setActiveVideo(null)} className="grid h-11 w-11 place-items-center rounded-full border border-white/18 text-white" aria-label="Close video preview">
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-            <div className="grid aspect-video place-items-center bg-[linear-gradient(135deg,#1b1712,#020202)]">
-              <div className="text-center">
-                <Play className="mx-auto h-16 w-16 text-[#c59a4a]" strokeWidth={1.2} />
-                <p className="mt-5 text-sm leading-6 text-white/62">Video link placeholder. Add a YouTube, Vimeo, or hosted reel URL to play the full campaign here.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </main>
-  );
+    <section id="contact" className="border-y border-white/10 bg-[radial-gradient(circle_at_76%_28%,rgba(214,168,79,.16),transparent_26%),#0c0d0f] px-5 py-20 sm:px-10 lg:px-14 lg:py-24"><div className="mx-auto max-w-[1080px]"><Eyebrow>Let&apos;s Build</Eyebrow><div className="mt-5 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end"><div><h2 className="max-w-3xl text-4xl font-medium leading-[1.02] tracking-[-.05em] sm:text-5xl">Have a website, app, CRM, or growth challenge?</h2><p className="mt-5 max-w-2xl text-base leading-8 text-white/62">Tell us what you are trying to build - or what is currently not working. We&apos;ll help you identify the right next step.</p></div><div className="flex flex-wrap gap-3 lg:justify-end"><a href="mailto:info@fusionventuresglobal.com" className="inline-flex h-12 items-center gap-3 bg-[#d6a84f] px-5 text-xs font-bold uppercase tracking-[.1em] text-black transition hover:bg-[#e8c777]">Discuss Your Project <ArrowRight className="h-4 w-4" /></a><a href="https://wa.me/971542763828" target="_blank" rel="noopener noreferrer" className="inline-flex h-12 items-center gap-3 border border-white/22 px-5 text-xs font-bold uppercase tracking-[.1em] text-white/80 transition hover:border-[#d6a84f] hover:text-[#e8c777]"><MessageCircle className="h-4 w-4" />WhatsApp Our Team</a></div></div></div></section>
+    <SiteFooter />
+  </main>;
 }

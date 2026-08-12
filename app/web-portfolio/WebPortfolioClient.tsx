@@ -6,7 +6,6 @@ import {
   ArrowRight,
   Building2,
   Diamond,
-  Dribbble,
   ExternalLink,
   Globe2,
   Instagram,
@@ -34,6 +33,7 @@ const navItems = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
   { label: "Ventures", href: "/ventures" },
+  { label: "Digital Solutions", href: "/fynta" },
   { label: "Web Portfolio", href: "/web-portfolio" },
   { label: "Contact", href: "/#contact" }
 ];
@@ -248,6 +248,7 @@ function ProjectPreview({ project, onClose }: { project: WebProject; onClose: ()
 export default function WebPortfolioClient() {
   const [activeCategory, setActiveCategory] = useState<WebPortfolioCategory>("All Projects");
   const [selectedProject, setSelectedProject] = useState<WebProject | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const filteredProjects = useMemo(
     () =>
       activeCategory === "All Projects"
@@ -287,12 +288,39 @@ export default function WebPortfolioClient() {
             Partner With Us
           </a>
           <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen((isOpen) => !isOpen)}
             className="grid h-11 w-11 place-items-center rounded-md border border-[#d6a84f]/45 text-[#d6a84f] lg:hidden"
             aria-label="Open navigation menu"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="portfolio-mobile-navigation"
           >
             <Menu className="h-6 w-6" />
           </button>
         </div>
+        {isMobileMenuOpen && (
+          <nav id="portfolio-mobile-navigation" className="border-t border-white/10 bg-black px-5 py-4 lg:hidden" aria-label="Mobile navigation">
+            <div className="mx-auto flex max-w-[1280px] flex-col">
+              {navItems.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="border-b border-white/10 py-3 text-sm font-medium text-white/75 transition-colors hover:text-[#d6a84f]"
+                >
+                  {item.label}
+                </a>
+              ))}
+              <a
+                href="/#contact"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="mt-4 inline-flex items-center justify-center bg-[#b99a5b] px-5 py-3 text-xs font-bold uppercase tracking-[0.08em] text-black"
+              >
+                Partner With Us
+              </a>
+            </div>
+          </nav>
+        )}
         <div className="mobile-nav-motion lg:hidden" />
       </header>
 
@@ -406,10 +434,20 @@ export default function WebPortfolioClient() {
               Building digital experiences that drive brands forward.
             </p>
             <div className="mt-5 flex gap-3">
-              {[Linkedin, Instagram, Dribbble].map((Icon, index) => (
-                <span key={index} className="grid h-8 w-8 place-items-center rounded-full border border-white/14 text-white/72">
+              {[
+                { label: "Fusion Ventures on LinkedIn", href: "https://www.linkedin.com/company/fusion-ventures-global/", icon: Linkedin },
+                { label: "Fusion Ventures on Instagram", href: "https://www.instagram.com/fusionventuresglobal/", icon: Instagram }
+              ].map(({ label, href, icon: Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="grid h-10 w-10 place-items-center rounded-full border border-white/14 text-white/72 transition-colors hover:border-[#d6a84f] hover:text-[#d6a84f]"
+                >
                   <Icon className="h-4 w-4" />
-                </span>
+                </a>
               ))}
             </div>
           </div>
@@ -419,6 +457,7 @@ export default function WebPortfolioClient() {
               ["Home", "/"],
               ["About Us", "/about"],
               ["Web Portfolio", "/web-portfolio"],
+              ["Digital Solutions", "/fynta"],
               ["Contact", "/#contact"]
             ].map(([item, href]) => (
               <a key={item} href={href} className="mb-3 block text-sm text-white/52 hover:text-[#d6a84f]">

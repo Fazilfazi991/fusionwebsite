@@ -6,7 +6,7 @@ export const webPortfolioStats = [
 ] as const;
 
 export const webPortfolioContact = {
-  email: "info@fustionventuresglobal.com",
+  email: "info@fusionventuresglobal.com",
   phone: "+971 54 276 3828",
   location: "UAE-Based Venture Group"
 } as const;
@@ -15,15 +15,11 @@ export const webPortfolioCategories = [
   "All Projects",
   "Corporate",
   "Ecommerce",
-  "Healthcare",
   "Education",
-  "Fashion",
   "Hospitality",
-  "Wellness",
   "Printing",
-  "Lighting",
-  "Clinic",
-  "Event"
+  "Healthcare",
+  "Other"
 ] as const;
 
 export type WebPortfolioCategory = (typeof webPortfolioCategories)[number];
@@ -48,7 +44,14 @@ export const webPortfolioMobileOrder = [
   "N Universal Yoga",
   "TAJ",
   "Aqsa Print",
-  "Worn Soul"
+  "Worn Soul",
+  "Langlo",
+  "Protein Market",
+  "Little Dubai UAE",
+  "Ponkudam Gold & Diamonds",
+  "Stepvision International",
+  "Mechton International",
+  "Zain Opticals"
 ] as const;
 
 export type WebProject = {
@@ -149,11 +152,11 @@ const webProjectSeed: WebProjectSeed[] = [
   {
     title: "Occazn",
     url: "https://occazn.com",
-    category: "Event",
-    industry: "Event",
+    category: "Other",
+    industry: "Events & Experiences",
     description: "An event platform designed for memorable occasions and easy discovery.",
     image: "/images/web-portfolio/occazn.webp",
-    tags: ["Event"],
+    tags: ["Other"],
     preview: {
       headline: "Make Every Occasion Memorable.",
       kicker: "Events, experiences and celebrations.",
@@ -166,11 +169,11 @@ const webProjectSeed: WebProjectSeed[] = [
   {
     title: "Dentiva",
     url: "https://dentiva.ae",
-    category: "Clinic",
-    industry: "Clinic",
-    description: "A polished dental clinic website focused on trust, care, and appointments.",
+    category: "Healthcare",
+    industry: "Dental Care",
+    description: "A polished dental care website focused on trust, care, and appointments.",
     image: "/images/web-portfolio/dentiva.webp",
-    tags: ["Clinic", "Healthcare"],
+    tags: ["Healthcare"],
     preview: {
       headline: "Confident Smiles Start Here.",
       kicker: "Modern dental care.",
@@ -183,11 +186,11 @@ const webProjectSeed: WebProjectSeed[] = [
   {
     title: "Hydrelle Skincare",
     url: "https://www.hydrelleskincare.com/",
-    category: "Wellness",
+    category: "Ecommerce",
     industry: "Beauty",
     description: "A refined skincare storefront with a soft wellness feel.",
     image: "/images/web-portfolio/hydrelle-skincare.webp",
-    tags: ["Beauty", "Wellness"],
+    tags: ["Ecommerce"],
     preview: {
       headline: "Skincare That Feels Like You",
       kicker: "Hydrating routines, clean glow.",
@@ -217,11 +220,11 @@ const webProjectSeed: WebProjectSeed[] = [
   {
     title: "BWMC",
     url: "https://bwmc.ae",
-    category: "Healthcare",
-    industry: "Healthcare / Corporate",
-    description: "A healthcare presence designed around credibility and care.",
+    category: "Corporate",
+    industry: "Financial Management & Business Setup",
+    description: "A corporate website for financial management and business-setup services.",
     image: "/images/web-portfolio/bwmc.webp",
-    tags: ["Healthcare", "Corporate"],
+    tags: ["Corporate"],
     preview: {
       headline: "Compassionate Care. Advanced Medicine.",
       kicker: "Trusted medical services.",
@@ -234,11 +237,11 @@ const webProjectSeed: WebProjectSeed[] = [
   {
     title: "Miracle Designs Boutique",
     url: "https://miracledesignsboutique.com/",
-    category: "Fashion",
-    industry: "Fashion",
+    category: "Ecommerce",
+    industry: "Boutique Ecommerce",
     description: "A warm fashion ecommerce site for boutique collections.",
     image: "/images/web-portfolio/miracle-designs-boutique.webp",
-    tags: ["Fashion", "Ecommerce"],
+    tags: ["Ecommerce"],
     preview: {
       headline: "Elegance That Defines You",
       kicker: "Boutique fashion collections.",
@@ -285,11 +288,11 @@ const webProjectSeed: WebProjectSeed[] = [
   {
     title: "Lumora",
     url: "https://lumora-rho-jet.vercel.app/",
-    category: "Lighting",
-    industry: "Lighting",
+    category: "Ecommerce",
+    industry: "Lighting & Ecommerce",
     description: "A luxury lighting ecommerce preview with rich product mood.",
     image: "/images/web-portfolio/lumora.webp",
-    tags: ["Lighting", "Ecommerce"],
+    tags: ["Ecommerce"],
     preview: {
       headline: "Luxury Refined. Light Perfected.",
       kicker: "Signature lighting pieces.",
@@ -319,11 +322,11 @@ const webProjectSeed: WebProjectSeed[] = [
   {
     title: "Desert GP",
     url: "https://desertgp.com",
-    category: "Healthcare",
-    industry: "Healthcare / Medical",
-    description: "A medical site designed to communicate care and access.",
+    category: "Hospitality",
+    industry: "Commercial Kitchen Fit-Outs",
+    description: "A hospitality website for commercial kitchen design and fit-out services.",
     image: "/images/web-portfolio/desert-gp.webp",
-    tags: ["Healthcare", "Medical"],
+    tags: ["Hospitality"],
     preview: {
       headline: "Care Built Around Your Day.",
       kicker: "Primary medical support.",
@@ -353,11 +356,11 @@ const webProjectSeed: WebProjectSeed[] = [
   {
     title: "N Universal Yoga",
     url: "https://nuniversalyoga.ae",
-    category: "Wellness",
+    category: "Other",
     industry: "Wellness",
     description: "A calm wellness website for yoga programs and practice.",
     image: "/images/web-portfolio/n-universal-yoga.webp",
-    tags: ["Wellness"],
+    tags: ["Other"],
     preview: {
       headline: "Balance Your Body. Elevate Your Mind.",
       kicker: "Yoga and wellness practice.",
@@ -404,17 +407,136 @@ const webProjectSeed: WebProjectSeed[] = [
   {
     title: "Worn Soul",
     url: "https://worn-soul.vercel.app/",
-    category: "Fashion",
-    industry: "Fashion / Ecommerce",
+    category: "Ecommerce",
+    industry: "Fashion Ecommerce",
     description: "A fashion ecommerce concept with editorial product energy.",
     image: "/images/web-portfolio/worn-soul.webp",
-    tags: ["Fashion", "Ecommerce"],
+    tags: ["Ecommerce"],
     preview: {
       headline: "Streetwear With a Story.",
       kicker: "Curated drops and essentials.",
       cta: "Shop Drop",
       palette: "from-[#111111] via-[#b5a78a] to-[#f6efe1]",
       accent: "#cab27b",
+      subject: "fashion"
+    }
+  },
+  {
+    title: "Langlo",
+    url: "https://langlo.in/",
+    category: "Education",
+    industry: "Education",
+    description: "An education platform with a clear, learner-focused digital experience.",
+    image: "/images/web-portfolio/langlo.webp",
+    tags: ["Education"],
+    preview: {
+      headline: "Learn With Confidence.",
+      kicker: "Education designed for progress.",
+      cta: "Explore Programs",
+      palette: "from-[#e9f4ff] via-[#b7dcff] to-[#f8fbff]",
+      accent: "#357cc2",
+      subject: "education"
+    }
+  },
+  {
+    title: "Protein Market",
+    url: "https://protienmarket.vercel.app/",
+    category: "Ecommerce",
+    industry: "Nutrition & Ecommerce",
+    description: "A focused ecommerce experience for nutrition and fitness products.",
+    image: "/images/web-portfolio/protein-market.webp",
+    tags: ["Ecommerce", "Nutrition"],
+    preview: {
+      headline: "Fuel Your Everyday Performance.",
+      kicker: "Nutrition made easy to shop.",
+      cta: "Shop Now",
+      palette: "from-[#101010] via-[#454545] to-[#0a0a0a]",
+      accent: "#d6a84f",
+      subject: "saas"
+    }
+  },
+  {
+    title: "Little Dubai UAE",
+    url: "https://amizol.vercel.app/",
+    category: "Ecommerce",
+    industry: "Footwear & Ecommerce",
+    description: "A bold ecommerce destination for shoes and footwear collections.",
+    image: "/images/web-portfolio/little-dubai-uae.webp",
+    tags: ["Ecommerce", "Footwear"],
+    preview: {
+      headline: "Find Your Perfect Pair.",
+      kicker: "Footwear for every step.",
+      cta: "Shop Collection",
+      palette: "from-[#1b1010] via-[#76504b] to-[#f3e7e2]",
+      accent: "#d6a84f",
+      subject: "fashion"
+    }
+  },
+  {
+    title: "Ponkudam Gold & Diamonds",
+    url: "https://www.ponkudam.org/",
+    category: "Ecommerce",
+    industry: "Jewelry & Ecommerce",
+    description: "A refined online experience for gold and diamond jewelry.",
+    image: "/images/web-portfolio/ponkudam-gold-diamonds.webp",
+    tags: ["Ecommerce", "Jewelry"],
+    preview: {
+      headline: "Jewelry Made to Be Cherished.",
+      kicker: "Gold and diamonds, thoughtfully presented.",
+      cta: "Explore Collection",
+      palette: "from-[#1c1305] via-[#806022] to-[#f4ead0]",
+      accent: "#d6a84f",
+      subject: "beauty"
+    }
+  },
+  {
+    title: "Stepvision International",
+    url: "https://stepvisioninternational.com",
+    category: "Corporate",
+    industry: "International Trading",
+    description: "An international trading website designed for clear global business positioning.",
+    image: "/images/web-portfolio/stepvision-international.webp",
+    tags: ["Corporate", "Trading"],
+    preview: {
+      headline: "Connecting Markets. Delivering Value.",
+      kicker: "International trade with reach.",
+      cta: "Learn More",
+      palette: "from-[#07111d] via-[#10233a] to-[#070707]",
+      accent: "#d6a84f",
+      subject: "business"
+    }
+  },
+  {
+    title: "Mechton International",
+    url: "https://www.mechtoninternational.com/",
+    category: "Corporate",
+    industry: "Heavy Equipment",
+    description: "A premium heavy-equipment website with a strong industrial presentation.",
+    image: "/images/web-portfolio/mechton-international.webp",
+    tags: ["Corporate", "Heavy Equipment"],
+    preview: {
+      headline: "Equipment That Keeps Work Moving.",
+      kicker: "Premium machinery for demanding work.",
+      cta: "Explore Equipment",
+      palette: "from-[#16130e] via-[#524431] to-[#0d0b08]",
+      accent: "#d6a84f",
+      subject: "truck"
+    }
+  },
+  {
+    title: "Zain Opticals",
+    url: "https://optics-tan.vercel.app/",
+    category: "Ecommerce",
+    industry: "Eyewear & Vision Care",
+    description: "A premium eyewear storefront built around product discovery and vision care.",
+    image: "/images/web-portfolio/zain-opticals.webp",
+    tags: ["Ecommerce", "Eyewear"],
+    preview: {
+      headline: "A Clearer View of Style.",
+      kicker: "Premium eyewear and vision care.",
+      cta: "Explore Frames",
+      palette: "from-[#eaf6f8] via-[#9fd0d7] to-[#315d63]",
+      accent: "#3d8d97",
       subject: "fashion"
     }
   }

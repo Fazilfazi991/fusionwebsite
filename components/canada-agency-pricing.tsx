@@ -281,38 +281,6 @@ export function CanadaAgencyPricing() {
           </div>
         </div>
 
-        <div className="mt-6 overflow-hidden rounded-lg border border-white/12 bg-[#020302] shadow-[0_26px_80px_rgba(0,0,0,0.42)]">
-          <div className="grid gap-0 lg:grid-cols-[1fr_320px]">
-            <div className="p-5 sm:p-7 lg:p-8">
-              <h3 className="text-xl font-semibold tracking-[-0.02em] text-white">Why Canadian Agencies Choose Us</h3>
-              <div className="mt-6 grid gap-4 md:grid-cols-3">
-                {agencyBenefits.map((benefit) => (
-                  <div key={benefit.title} className="border-t border-white/12 pt-4">
-                    <Sparkles className="mb-3 h-5 w-5 text-white/54" strokeWidth={1.6} />
-                    <p className="text-sm font-semibold text-white">{benefit.title}</p>
-                    <p className="mt-2 text-xs leading-5 text-white/50">{benefit.text}</p>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-6 max-w-[850px] text-xs leading-6 text-white/42">
-                All prices are in CAD. Final pricing may vary based on project complexity,
-                integrations, content volume, and timeline.
-              </p>
-            </div>
-            <div className="border-t border-white/12 p-5 sm:p-7 lg:border-l lg:border-t-0 lg:p-8">
-              <p className="max-w-[240px] text-xl font-semibold leading-7 tracking-[-0.03em] text-white">
-                Need a custom agency partnership plan?
-              </p>
-              <a
-                href="#contact"
-                className="mt-6 inline-flex w-full items-center justify-center gap-3 rounded-md border border-white/18 px-5 py-4 text-xs font-bold uppercase tracking-[0.11em] text-white/78 transition-colors hover:border-white/34 hover:bg-white/[0.06] hover:text-white"
-              >
-                Discuss Partnership
-                <ArrowRight className="h-4 w-4" strokeWidth={1.8} />
-              </a>
-            </div>
-          </div>
-        </div>
       </div>
 
       {isModalOpen && (
@@ -357,6 +325,45 @@ export function CanadaAgencyPricing() {
           </div>
         </div>
       )}
+    </section>
+  );
+}
+
+export function CanadaAgencyBenefitsCta() {
+  return (
+    <section className="bg-[#050505] px-5 pb-16 pt-6 text-white sm:px-10 lg:px-14 lg:pb-24 lg:pt-8">
+      <div className="mx-auto max-w-[1280px] overflow-hidden rounded-lg border border-white/12 bg-[#020302] shadow-[0_26px_80px_rgba(0,0,0,0.42)]">
+        <div className="grid gap-0 lg:grid-cols-[1fr_320px]">
+          <div className="p-5 sm:p-7 lg:p-8">
+            <h3 className="text-xl font-semibold tracking-[-0.02em] text-white">Why Canadian Agencies Choose Us</h3>
+            <div className="mt-6 grid gap-4 md:grid-cols-3">
+              {agencyBenefits.map((benefit) => (
+                <div key={benefit.title} className="border-t border-white/12 pt-4">
+                  <Sparkles className="mb-3 h-5 w-5 text-white/54" strokeWidth={1.6} />
+                  <p className="text-sm font-semibold text-white">{benefit.title}</p>
+                  <p className="mt-2 text-xs leading-5 text-white/50">{benefit.text}</p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-6 max-w-[850px] text-xs leading-6 text-white/42">
+              All prices are in CAD. Final pricing may vary based on project complexity,
+              integrations, content volume, and timeline.
+            </p>
+          </div>
+          <div className="border-t border-white/12 p-5 sm:p-7 lg:border-l lg:border-t-0 lg:p-8">
+            <p className="max-w-[240px] text-xl font-semibold leading-7 tracking-[-0.03em] text-white">
+              Need a custom agency partnership plan?
+            </p>
+            <a
+              href="#contact"
+              className="mt-6 inline-flex w-full items-center justify-center gap-3 rounded-md border border-white/18 px-5 py-4 text-xs font-bold uppercase tracking-[0.11em] text-white/78 transition-colors hover:border-white/34 hover:bg-white/[0.06] hover:text-white"
+            >
+              Discuss Partnership
+              <ArrowRight className="h-4 w-4" strokeWidth={1.8} />
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

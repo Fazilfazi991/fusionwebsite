@@ -71,6 +71,41 @@ a {
   animation: navLineSweep 2.8s ease-in-out infinite;
 }
 
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.venture-visual {
+  background-position:
+    center,
+    center,
+    var(--venture-image-position-mobile, center);
+  background-size: cover, cover, var(--venture-image-scale, cover);
+}
+
+@media (min-width: 768px) {
+  .venture-visual {
+    background-position:
+      center,
+      center,
+      var(--venture-image-position-tablet, center);
+  }
+}
+
+@media (min-width: 1024px) {
+  .venture-visual {
+    background-position:
+      center,
+      center,
+      var(--venture-image-position-desktop, center);
+  }
+}
+
 .venture-card {
   perspective: 1200px;
 }
@@ -188,6 +223,28 @@ a {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes ventureFade {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes ventureAutoplayProgress {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
   }
 }
 

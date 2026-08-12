@@ -1,10 +1,12 @@
 import Image from "next/image";
 import { ArrowRight, Globe2, Linkedin } from "lucide-react";
+import { SiteFooter } from "@/components/site-footer";
 
 const navItems = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
   { label: "Ventures", href: "/ventures" },
+  { label: "Digital Solutions", href: "/fynta" },
   { label: "Web Portfolio", href: "/web-portfolio" },
   { label: "Contact", href: "/#contact" }
 ];
@@ -240,6 +242,7 @@ export default function GroupsPage() {
           </form>
         </div>
       </section>
+      <SiteFooter />
     </main>
   );
 }

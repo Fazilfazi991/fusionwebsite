@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { SiteFooter } from "@/components/site-footer";
 
 export const metadata: Metadata = {
   title: "Cookie Policy | Fusion Ventures",
@@ -29,7 +30,7 @@ const sections = [
   },
   {
     title: "Contact",
-    text: "For cookie-related questions, contact Fusion Ventures at info@fustionventuresglobal.com."
+    text: "For cookie-related questions, contact Fusion Ventures at info@fusionventuresglobal.com."
   }
 ];
 
@@ -67,6 +68,7 @@ export default function CookiePolicyPage() {
           </div>
         </div>
       </section>
+      <SiteFooter />
     </main>
   );
 }

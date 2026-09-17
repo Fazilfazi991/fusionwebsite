@@ -76,18 +76,52 @@ export const softwareProjects: SoftwareProject[] = [
     title: "Universal Pergola",
     type: "Business Operations & Content Platform",
     description:
-      "A unified digital platform combining lead capture, quotation workflows, content operations, SEO management and business administration.",
+      "A unified business platform connecting lead management, quotation workflows, content operations, SEO intelligence and digital automation.",
     positioning:
-      "Designed to connect the public website with the operational systems behind content, enquiries, quotations and ongoing digital growth.",
+      "Designed to connect customer acquisition with the operational systems behind content, quotations, SEO and digital growth.",
     features: [
-      "Lead Enquiries",
-      "Quote Requests",
-      "Content Management",
-      "SEO Operations",
-      "Media Management",
-      "Automation Workflows"
+      "Lead & Enquiry Management",
+      "Quote Request Workflows",
+      "Content Operations",
+      "SEO Intelligence",
+      "Automation Queues",
+      "Media & Project Management"
     ],
-    status: "Platform demo coming soon",
+    status: "Live interactive demo",
+    demoUrl: "https://pergola-public-demo.vercel.app/admin",
+    liveDemoLabel: "Launch Live Demo",
+    screenshots: [
+      {
+        id: "platform-dashboard",
+        label: "Platform Dashboard",
+        src: "/images/business-software/pergola/platform-dashboard.webp",
+        alt: "Universal Pergola business operations dashboard showing enquiries, content, SEO and automation signals"
+      },
+      {
+        id: "enquiries",
+        label: "Enquiries",
+        src: "/images/business-software/pergola/enquiries.webp",
+        alt: "Universal Pergola enquiries workspace showing synthetic lead records, project details and follow-up actions"
+      },
+      {
+        id: "quote-requests",
+        label: "Quote Requests",
+        src: "/images/business-software/pergola/quote-requests.webp",
+        alt: "Universal Pergola quote requests workspace showing synthetic quotation workflow records"
+      },
+      {
+        id: "content-operations",
+        label: "Content Operations",
+        src: "/images/business-software/pergola/content-operations.webp",
+        alt: "Universal Pergola content operations workspace showing synthetic content records and editorial status"
+      },
+      {
+        id: "seo-intelligence",
+        label: "SEO Intelligence",
+        src: "/images/business-software/pergola/seo-intelligence.webp",
+        alt: "Universal Pergola SEO intelligence workspace showing synthetic keyword and content opportunity data"
+      }
+    ],
     accent: "gold"
   }
 ];

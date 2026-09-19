@@ -735,6 +735,7 @@ export default function FyntaClient() {
               ["Home", "/"],
               ["About Us", "/about"],
               ["Web Portfolio", "/web-portfolio"],
+              ["Business Software", "/business-software"],
               ["Contact", "/#contact"]
             ].map(([item, href]) => (
               <a key={item} href={href} className="mb-3 block text-sm text-white/52 hover:text-[#d6a84f]">

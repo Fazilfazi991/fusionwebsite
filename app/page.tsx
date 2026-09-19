@@ -29,6 +29,7 @@ const navItems = [
   { label: "About Us", href: "/about" },
   { label: "Ventures", href: "/ventures" },
   { label: "Web Portfolio", href: "/web-portfolio" },
+  { label: "Business Software", href: "/business-software" },
   { label: "Contact", href: "#contact" }
 ];
 
@@ -851,6 +852,7 @@ export default function Home() {
               ["Home", "#home"],
               ["About", "/about"],
               ["Web Portfolio", "/web-portfolio"],
+              ["Business Software", "/business-software"],
               ["Contact", "#contact"]
             ].map(([item, href]) => (
               <a key={item} href={href} className="mb-3 block text-sm text-white/52 transition-colors hover:text-[#d6a84f]">

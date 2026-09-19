@@ -25,6 +25,7 @@ const navItems = [
   { label: "About Us", href: "/about" },
   { label: "Ventures", href: "/ventures" },
   { label: "Web Portfolio", href: "/web-portfolio" },
+  { label: "Business Software", href: "/business-software" },
   { label: "Contact", href: "/#contact" }
 ];
 

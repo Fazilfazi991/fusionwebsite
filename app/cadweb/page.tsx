@@ -65,6 +65,7 @@ export default function CadWebPage() {
               ["Home", "/"],
               ["About", "/about"],
               ["Web Portfolio", "/web-portfolio"],
+              ["Business Software", "/business-software"],
               ["Ventures", "/ventures"]
             ].map(([item, href]) => (
               <a key={item} href={href} className="mb-3 block text-sm text-white/52 transition-colors hover:text-white">

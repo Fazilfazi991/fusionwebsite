@@ -123,6 +123,35 @@ export const softwareProjects: SoftwareProject[] = [
       }
     ],
     accent: "gold"
+  },
+  {
+    slug: "auto-parts-crm",
+    title: "Auto Parts CRM",
+    type: "Automotive Parts Sales CRM",
+    description:
+      "A focused CRM for automotive spare-parts teams, connecting customer enquiries, parts pricing, quotations and follow-ups in one sales workspace.",
+    positioning:
+      "Built around the complete spare-parts sales journey, from lead capture and vehicle-specific enquiries through supplier pricing, quotation revisions and customer follow-up.",
+    features: [
+      "Lead & Customer Management",
+      "Vehicle & VIN Enquiries",
+      "Parts Pricing Desk",
+      "Quotation Management",
+      "Sales Follow-ups",
+      "Pipeline Tracking"
+    ],
+    status: "Live interactive demo",
+    demoUrl: "/crmportfolio/autopartscrm",
+    liveDemoLabel: "Launch Live Demo",
+    screenshots: [
+      {
+        id: "sales-dashboard",
+        label: "Sales Dashboard",
+        src: "/images/business-software/autoparts-crm/dashboard.webp",
+        alt: "Auto Parts CRM sales dashboard showing synthetic leads, inquiries, quotations, follow-ups and pipeline activity"
+      }
+    ],
+    accent: "blue"
   }
 ];
 

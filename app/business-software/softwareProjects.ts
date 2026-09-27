@@ -19,6 +19,35 @@ export type SoftwareProject = {
 
 export const softwareProjects: SoftwareProject[] = [
   {
+    slug: "equipflow",
+    title: "EquipFlow",
+    type: "Equipment Rental Operations Platform",
+    description:
+      "A rental operations workspace that follows equipment from availability and booking through dispatch, return inspection, maintenance and payment closure.",
+    positioning:
+      "Designed around the real movement of rental equipment. Check fleet availability, allocate a physical asset, track a live rental and carry return damage through service and final payment.",
+    features: [
+      "Fleet & Availability",
+      "Bookings & Allocation",
+      "Dispatch & Returns",
+      "Inspections & Maintenance",
+      "Rental Payments",
+      "Cross-module Operations"
+    ],
+    status: "Interactive sales demo",
+    demoUrl: "/equipflow/index.html",
+    liveDemoLabel: "Launch EquipFlow Demo",
+    screenshots: [
+      {
+        id: "operations-dashboard",
+        label: "Operations Dashboard",
+        src: "/images/business-software/equipflow/operations-dashboard.svg",
+        alt: "EquipFlow rental operations dashboard with fleet utilisation, equipment status and today's dispatch queue"
+      }
+    ],
+    accent: "gold"
+  },
+  {
     slug: "besmile",
     title: "Besmile",
     type: "Healthcare Operations Platform",

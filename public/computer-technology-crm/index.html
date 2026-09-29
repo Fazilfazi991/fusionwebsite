@@ -1,0 +1,869 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101e2c">
+  <title>Computer Technology CRM · Field Sales & IT Operations</title>
+  <style>
+    :root {
+      --navy: #142535;
+      --navy-2: #1b3042;
+      --navy-3: #29465a;
+      --ink: #172b3b;
+      --muted: #738393;
+      --quiet: #97a4ae;
+      --line: #e7ecef;
+      --line-2: #dce4e9;
+      --canvas: #f4f7f8;
+      --paper: #fff;
+      --sea: #168b91;
+      --sea-dark: #08737b;
+      --sea-pale: #e9f6f5;
+      --blue: #4375c5;
+      --blue-pale: #edf3fc;
+      --green: #25885f;
+      --green-pale: #eaf5ef;
+      --amber: #aa7424;
+      --amber-pale: #fbf3e5;
+      --red: #c35b55;
+      --red-pale: #fbefed;
+      --violet: #7760ad;
+      --violet-pale: #f1eef9;
+      --shadow: 0 1px 2px rgba(20,37,53,.035), 0 8px 24px rgba(20,37,53,.035);
+      --r-sm: 9px;
+      --r-md: 13px;
+      --r-lg: 18px;
+      --unit: 4px;
+    }
+    * { box-sizing: border-box; }
+    html { color-scheme: light; scroll-behavior: smooth; }
+    body { margin: 0; min-height: 100vh; color: var(--ink); background: var(--canvas); font: 14px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+    button, input, select, textarea { font: inherit; }
+    button { -webkit-tap-highlight-color: transparent; }
+    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid rgba(22,139,145,.32); outline-offset: 2px; }
+    button:active { transform: scale(.985); }
+    .app { min-height: 100vh; }
+    .sidebar { position: fixed; z-index: 20; inset: 0 auto 0 0; display: flex; flex-direction: column; width: 254px; padding: 20px 14px 16px; color: #dce7ed; background: var(--navy); }
+    .brand { display: flex; gap: 11px; align-items: center; padding: 4px 9px 22px; border-bottom: 1px solid rgba(255,255,255,.09); }
+    .brand-mark { display:grid; place-items:center; width:36px;height:36px;border-radius:11px; color:#e8fbfa; background:#1a777b; box-shadow:inset 0 0 0 1px rgba(255,255,255,.12); }
+    .brand-mark svg { width:20px;height:20px; }
+    .brand-name { font-size:13px; font-weight:700; letter-spacing:-.025em; color:#f6fafb; line-height:1.25; }
+    .brand-sub { margin-top:3px; color:#8fa5b3; font-size:10px; letter-spacing:.025em; }
+    .workspace { margin: 17px 3px 13px; padding: 11px 10px; display:flex; align-items:center; gap:9px; border:1px solid rgba(255,255,255,.09); border-radius:10px; background:rgba(255,255,255,.035); }
+    .workspace-mark { display:grid;place-items:center;width:27px;height:27px;border-radius:8px;background:#29485b;color:#a9d8d4;font-size:10px;font-weight:700; }
+    .workspace strong { display:block;font-size:11px;color:#ecf3f6;font-weight:600; }
+    .workspace span { display:block;color:#8299a8;font-size:10px;margin-top:2px; }
+    .nav-label { margin: 12px 9px 7px; color:#748b9a; font-size:9px; text-transform:uppercase; font-weight:700; letter-spacing:.15em; }
+    .nav { display:flex; flex-direction:column; gap:2px; }
+    .nav-btn { display:flex; align-items:center; gap:11px; width:100%; min-height:38px; padding:0 10px; border:0; border-radius:8px; color:#aebdc7; background:transparent; text-align:left; cursor:pointer; font-size:12px; font-weight:500; transition:background .16s,color .16s; }
+    .nav-btn:hover { color:#fff; background:rgba(255,255,255,.06); }
+    .nav-btn.active { color:#f4ffff; background:#244353; box-shadow:inset 2px 0 #45b0ac; }
+    .nav-btn svg { flex:none;width:16px;height:16px;color:#8097a5; }
+    .nav-btn.active svg { color:#8ad1cc; }
+    .nav-count { margin-left:auto; min-width:21px; padding:1px 6px; border-radius:20px; text-align:center; color:#f0c782; background:rgba(214,164,84,.13); font-size:10px; font-variant-numeric:tabular-nums; }
+    .sidebar-bottom { margin-top:auto; }
+    .future-note { padding:12px; border:1px solid rgba(255,255,255,.08); border-radius:11px; background:rgba(255,255,255,.035); }
+    .future-note .mini-label { color:#8caaa9; }
+    .future-note p { margin:6px 0 0; color:#9eafb9; font-size:10px; line-height:1.55; }
+    .user-row { display:flex;align-items:center;gap:9px;margin-top:13px;padding:12px 5px 0;border-top:1px solid rgba(255,255,255,.08); }
+    .avatar { display:grid;place-items:center;flex:none;width:30px;height:30px;border-radius:50%;color:#226d70;background:#d9eeeb;font-size:10px;font-weight:700; }
+    .user-row strong { display:block;color:#eef4f6;font-size:11px;font-weight:600; }
+    .user-row span { display:block;color:#8197a5;font-size:10px; }
+    .main { min-height:100vh; margin-left:254px; }
+    .topbar { position:sticky;z-index:10;top:0;display:flex;align-items:center;justify-content:space-between;min-height:64px;padding:0 34px;border-bottom:1px solid #e9eef0;background:rgba(255,255,255,.92);backdrop-filter:blur(12px); }
+    .crumb { display:flex;align-items:center;gap:8px;color:#8a98a3;font-size:11px; }
+    .crumb b { color:#334b5c;font-weight:600; }
+    .top-actions { display:flex;align-items:center;gap:10px; }
+    .searchbox { display:flex;align-items:center;gap:8px;width:228px;height:34px;padding:0 10px;border:1px solid #e6ecef;border-radius:8px;background:#f9fbfb;color:#8b99a4; }
+    .searchbox svg { width:15px;height:15px; }
+    .searchbox input { min-width:0; width:100%; padding:0;border:0;outline:0;background:transparent;color:var(--ink);font-size:11px; }
+    .searchbox input::placeholder { color:#9aa7af; }
+    .icon-button { display:grid;place-items:center;position:relative;width:34px;height:34px;border:1px solid #e6ecef;border-radius:8px;background:#fff;color:#6d7c89;cursor:pointer; }
+    .icon-button:hover { color:var(--sea-dark);background:#f6fbfb; }
+    .icon-button svg { width:16px;height:16px; }
+    .notification-dot { position:absolute;top:7px;right:7px;width:6px;height:6px;border:1.5px solid #fff;border-radius:50%;background:#d26c60; }
+    .content { max-width:1540px;margin:0 auto;padding:27px 34px 46px; }
+    .page-heading { display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:23px; }
+    .eyebrow { margin:0 0 5px;color:#64818e;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase; }
+    h1 { margin:0;color:#172c3b;font-size:25px;line-height:1.2;letter-spacing:-.045em;font-weight:650;text-wrap:balance; }
+    .page-sub { margin:7px 0 0;color:#71818d;font-size:12px; }
+    .heading-actions { display:flex;gap:8px;align-items:center; }
+    .btn { display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:35px;padding:0 12px;border:1px solid #dfe7eb;border-radius:8px;color:#425968;background:#fff;cursor:pointer;font-size:11px;font-weight:600;white-space:nowrap;transition:background .15s,border-color .15s,color .15s,box-shadow .15s; }
+    .btn:hover { border-color:#c4d2d9;background:#f8fbfb; }
+    .btn svg { width:14px;height:14px; }
+    .btn-primary { border-color:var(--sea);color:#fff;background:var(--sea);box-shadow:0 2px 4px rgba(22,139,145,.14); }
+    .btn-primary:hover { border-color:var(--sea-dark);color:#fff;background:var(--sea-dark); }
+    .btn-dark { border-color:var(--navy);color:#fff;background:var(--navy); }
+    .btn-dark:hover { color:#fff;background:#223b4d; }
+    .btn-quiet { border-color:transparent;background:transparent;color:#617684; }
+    .btn-quiet:hover { background:#f0f5f6; }
+    .btn-small { min-height:29px;padding:0 9px;font-size:10px; }
+    .btn:disabled { opacity:.48;cursor:not-allowed; }
+    .card { border:1px solid rgba(221,230,234,.88);border-radius:var(--r-md);background:var(--paper);box-shadow:var(--shadow); }
+    .card-pad { padding:17px 18px; }
+    .section-head { display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 13px; }
+    .section-head h2,.section-head h3 { margin:0;color:#203646;font-size:13px;font-weight:650;letter-spacing:-.018em; }
+    .section-head p { margin:3px 0 0;color:#82909a;font-size:10px; }
+    .text-link { display:inline-flex;align-items:center;gap:5px;padding:4px;border:0;color:var(--sea-dark);background:transparent;cursor:pointer;font-size:10px;font-weight:600; }
+    .text-link:hover { color:#075d62; }
+    .text-link svg { width:13px;height:13px; }
+    .mini-label { color:#82919b;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase; }
+    .muted { color:var(--muted); }
+    .mono { font-variant-numeric:tabular-nums; }
+    .kpi-grid { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px; }
+    .kpi { position:relative;min-height:102px;padding:15px 16px;overflow:hidden; }
+    .kpi:after { content:"";position:absolute;right:-17px;top:-20px;width:68px;height:68px;border-radius:50%;background:var(--tint,#edf7f6);opacity:.8; }
+    .kpi-top { position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;color:#748490;font-size:10px;font-weight:600; }
+    .kpi-top svg { width:16px;height:16px;color:var(--accent,var(--sea)); }
+    .kpi-value { position:relative;z-index:1;margin-top:8px;color:#1c3242;font-size:22px;font-weight:680;letter-spacing:-.045em;line-height:1;font-variant-numeric:tabular-nums; }
+    .kpi-foot { position:relative;z-index:1;display:flex;align-items:center;gap:5px;margin-top:8px;color:#8996a0;font-size:9px; }
+    .delta { color:#368464;font-weight:650; }
+    .dashboard-top { display:grid;grid-template-columns:minmax(0,1.6fr) minmax(250px,.85fr);gap:13px;margin-top:14px; }
+    .field-activity { display:grid;grid-template-columns:1.05fr .95fr;gap:17px;align-items:center; }
+    .activity-total { display:flex;gap:12px;align-items:center;padding:13px;border-radius:10px;background:#f2f8f8; }
+    .ring { display:grid;place-items:center;position:relative;width:58px;height:58px;border-radius:50%;background:conic-gradient(var(--sea) 0 87.5%,#d9e8e7 87.5% 100%); }
+    .ring:before { content:"";position:absolute;width:45px;height:45px;border-radius:50%;background:#f2f8f8; }
+    .ring strong { position:relative;color:#1e5960;font-size:12px;font-weight:700; }
+    .activity-total strong { display:block;color:#254352;font-size:12px; }
+    .activity-total span { display:block;margin-top:3px;color:#81919a;font-size:10px; }
+    .activity-list { display:flex;flex-direction:column;gap:11px; }
+    .activity-person { display:grid;grid-template-columns:27px minmax(0,1fr) auto;gap:8px;align-items:center; }
+    .activity-person .avatar { width:26px;height:26px;font-size:9px; }
+    .activity-person strong { display:block;color:#344b5a;font-size:10px;font-weight:600; }
+    .activity-person small { display:block;color:#94a0a8;font-size:9px; }
+    .visit-count { color:#687b88;font-size:10px;font-variant-numeric:tabular-nums; }
+    .progress { height:5px;margin-top:5px;overflow:hidden;border-radius:9px;background:#edf1f2; }
+    .progress span { display:block;height:100%;border-radius:9px;background:var(--sea); }
+    .urgent-list { display:flex;flex-direction:column;gap:0; }
+    .urgent-row { display:grid;grid-template-columns:27px 1fr auto;gap:9px;align-items:center;padding:8px 0;border-bottom:1px solid #f0f3f4; }
+    .urgent-row:last-child { border:0;padding-bottom:0; }
+    .urgent-icon { display:grid;place-items:center;width:26px;height:26px;border-radius:8px;color:var(--warn,#a87729);background:var(--warn-bg,#fbf4e7); }
+    .urgent-icon svg { width:14px;height:14px; }
+    .urgent-row strong { display:block;color:#3a4f5c;font-size:10px;font-weight:600; }
+    .urgent-row small { display:block;margin-top:2px;color:#8b99a2;font-size:9px; }
+    .urgent-num { color:#4a5e6b;font-size:14px;font-weight:700;font-variant-numeric:tabular-nums; }
+    .dashboard-mid { display:grid;grid-template-columns:minmax(0,1.3fr) minmax(280px,.9fr);gap:13px;margin-top:13px; }
+    .pipeline { display:grid;grid-template-columns:repeat(6,1fr);gap:10px; }
+    .stage { min-width:0;padding:10px 9px;border-radius:9px;background:#f7f9fa; }
+    .stage-label { display:flex;align-items:center;gap:6px;color:#788994;font-size:9px;font-weight:600;white-space:nowrap; }
+    .stage-dot { width:6px;height:6px;border-radius:50%;background:var(--dot,var(--blue)); }
+    .stage strong { display:block;margin-top:9px;color:#243949;font-size:15px;font-weight:680;font-variant-numeric:tabular-nums; }
+    .stage small { display:block;margin-top:2px;color:#82909a;font-size:9px;white-space:nowrap; }
+    .service-chart { display:grid;grid-template-columns:1fr 1fr;gap:8px 16px; }
+    .bar-row { display:grid;grid-template-columns:82px 1fr 27px;gap:8px;align-items:center;color:#60727e;font-size:9px; }
+    .bar-track { height:7px;overflow:hidden;border-radius:6px;background:#eef2f3; }
+    .bar-track span { display:block;height:100%;border-radius:6px;background:var(--bar,var(--sea)); }
+    .bar-value { text-align:right;color:#536976;font-size:9px;font-weight:650;font-variant-numeric:tabular-nums; }
+    .dashboard-bottom { display:grid;grid-template-columns:minmax(0,1.45fr) minmax(240px,.65fr);gap:13px;margin-top:13px; }
+    .activity-summary { display:grid;grid-template-columns:repeat(3,1fr);gap:9px; }
+    .summary-stat { padding:11px 10px;border-radius:9px;background:#f7f9fa; }
+    .summary-stat strong { display:block;color:#243a49;font-size:17px;line-height:1.1;font-weight:680;font-variant-numeric:tabular-nums; }
+    .summary-stat span { display:block;margin-top:5px;color:#82909a;font-size:9px; }
+    .summary-highlight { grid-column:span 3;display:flex;align-items:center;justify-content:space-between;padding:11px 12px;border-radius:9px;background:#edf7f5; }
+    .summary-highlight span { color:#5d7d7d;font-size:10px; }
+    .summary-highlight strong { color:#1d6e66;font-size:15px;font-weight:700; }
+    .table-wrap { width:100%;overflow:auto; }
+    table { width:100%;border-collapse:collapse;white-space:nowrap; }
+    th { padding:9px 11px;color:#8997a1;background:#f8fafb;text-align:left;font-size:9px;font-weight:700;letter-spacing:.055em;text-transform:uppercase; }
+    td { padding:11px;color:#556875;border-top:1px solid #edf1f2;font-size:10px; }
+    tbody tr { transition:background .12s; }
+    tbody tr:hover { background:#f8fbfb; }
+    .click-row { cursor:pointer; }
+    .company-name { color:#294252;font-size:10px;font-weight:650; }
+    .cell-sub { display:block;margin-top:2px;color:#98a3aa;font-size:9px; }
+    .tag { display:inline-flex;align-items:center;gap:5px;padding:4px 7px;border-radius:20px;color:var(--tag-color,#53717e);background:var(--tag-bg,#f0f4f5);font-size:9px;font-weight:600; }
+    .tag:before { content:"";width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.7; }
+    .tag.green { --tag-color:#25815d;--tag-bg:#eaf5ef; }
+    .tag.blue { --tag-color:#4375b4;--tag-bg:#edf3fc; }
+    .tag.amber { --tag-color:#a87525;--tag-bg:#fbf3e5; }
+    .tag.red { --tag-color:#b5524c;--tag-bg:#fbefed; }
+    .tag.purple { --tag-color:#725ca7;--tag-bg:#f1eef9; }
+    .tag.teal { --tag-color:#1b777c;--tag-bg:#e9f6f5; }
+    .tag.gray { --tag-color:#6e7f8a;--tag-bg:#f0f3f4; }
+    .grid-2 { display:grid;grid-template-columns:1fr 1fr;gap:13px; }
+    .grid-3 { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px; }
+    .toolbar { display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px 14px;border-bottom:1px solid #edf1f2; }
+    .control { height:32px;min-width:128px;padding:0 9px;border:1px solid #e2e9ec;border-radius:7px;color:#576c79;background:#fff;font-size:10px; }
+    .control.search-control { min-width:200px;flex:1; }
+    .tabs { display:flex;gap:4px;align-items:center;padding:4px;border-radius:9px;background:#f1f5f6; }
+    .tab { min-height:29px;padding:0 11px;border:0;border-radius:7px;color:#71818c;background:transparent;cursor:pointer;font-size:10px;font-weight:600; }
+    .tab:hover { color:#385666; }
+    .tab.active { color:#29565d;background:#fff;box-shadow:0 1px 3px rgba(21,50,62,.1); }
+    .field-card { position:relative;padding:16px;cursor:pointer;transition:transform .16s,box-shadow .16s,border-color .16s; }
+    .field-card:hover { transform:translateY(-2px);border-color:#cad9dd;box-shadow:0 8px 24px rgba(25,57,69,.075); }
+    .route-head { display:flex;align-items:flex-start;justify-content:space-between;gap:10px; }
+    .route-index { display:grid;place-items:center;flex:none;width:27px;height:27px;border-radius:8px;color:#197b7d;background:#e8f4f2;font-size:10px;font-weight:700; }
+    .field-card h3 { margin:0;color:#263c4b;font-size:13px;letter-spacing:-.02em;font-weight:650; }
+    .field-card .business-type { margin-top:3px;color:#87949c;font-size:10px; }
+    .field-meta { display:grid;grid-template-columns:1fr 1fr;gap:9px 12px;margin:14px 0 12px;padding:12px 0;border-top:1px solid #edf1f2;border-bottom:1px solid #edf1f2; }
+    .field-meta span { display:block;color:#8e9ba3;font-size:9px; }
+    .field-meta strong { display:block;margin-top:3px;color:#536875;font-size:10px;font-weight:600; }
+    .service-pills { display:flex;gap:5px;flex-wrap:wrap; }
+    .service-pill { padding:4px 7px;border-radius:5px;color:#477077;background:#eff7f6;font-size:9px;font-weight:550; }
+    .field-bottom { display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:14px; }
+    .field-bottom .btn { min-height:30px; }
+    .card-actions { display:flex;align-items:center;gap:5px; }
+    .subtle-icon { display:grid;place-items:center;width:29px;height:29px;border:1px solid #e7edef;border-radius:7px;color:#71828d;background:#fff;cursor:pointer; }
+    .subtle-icon:hover { color:var(--sea-dark);background:#f2f9f8; }
+    .subtle-icon svg { width:13px;height:13px; }
+    .field-grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px; }
+    .territory { display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;padding:15px 18px;margin-bottom:13px; }
+    .territory h3 { margin:0;color:#2d4555;font-size:12px;font-weight:650; }
+    .territory p { margin:4px 0 0;color:#84939c;font-size:10px; }
+    .area-pills { display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end; }
+    .area-pill { padding:6px 9px;border:1px solid #e5ecee;border-radius:7px;color:#6d818c;background:#fff;font-size:9px; }
+    .area-pill.active { border-color:#b7dcda;color:#1b7477;background:#eff8f7;font-weight:650; }
+    .pipeline-board { display:grid;grid-template-columns:repeat(6,minmax(175px,1fr));gap:10px;overflow:auto;padding-bottom:9px; }
+    .kanban-col { min-height:400px;padding:10px;border-radius:11px;background:#eef3f4; }
+    .kanban-head { display:flex;align-items:center;justify-content:space-between;gap:8px;padding:3px 3px 10px; }
+    .kanban-head strong { color:#425b69;font-size:10px;font-weight:650; }
+    .kanban-head span { display:grid;place-items:center;width:21px;height:21px;border-radius:6px;color:#6c7f8b;background:#fff;font-size:9px;font-weight:650; }
+    .opp-card { margin-top:8px;padding:12px;border:1px solid #e2e9ec;border-radius:9px;background:#fff;box-shadow:0 1px 2px rgba(18,41,54,.035);cursor:pointer;transition:transform .14s,box-shadow .14s; }
+    .opp-card:hover { transform:translateY(-2px);box-shadow:0 7px 17px rgba(18,41,54,.09); }
+    .opp-card h4 { margin:0;color:#324a59;font-size:10px;font-weight:650; }
+    .opp-service { margin-top:3px;color:#82919a;font-size:9px; }
+    .opp-value { display:block;margin-top:11px;color:#1e6267;font-size:14px;font-weight:700;font-variant-numeric:tabular-nums; }
+    .opp-foot { display:flex;align-items:center;justify-content:space-between;gap:7px;margin-top:11px;padding-top:9px;border-top:1px solid #eff2f3;color:#82919a;font-size:9px; }
+    .opp-owner { display:flex;align-items:center;gap:5px; }
+    .opp-owner .avatar { width:19px;height:19px;font-size:7px; }
+    .alert-banner { display:flex;align-items:center;gap:10px;padding:11px 13px;margin-bottom:13px;border:1px solid #f0dfbd;border-radius:10px;color:#846128;background:#fff9ed;font-size:10px; }
+    .alert-banner svg { width:15px;height:15px;flex:none; }
+    .alert-banner strong { color:#6c4c18; }
+    .alert-banner .btn { margin-left:auto; }
+    .filter-row { display:flex;align-items:center;gap:7px;flex-wrap:wrap; }
+    .followup-list { display:flex;flex-direction:column; }
+    .followup { display:grid;grid-template-columns:90px minmax(180px,1.35fr) minmax(110px,.75fr) minmax(150px,1.1fr) auto;gap:12px;align-items:center;padding:14px 16px;border-bottom:1px solid #eef2f3; }
+    .followup:last-child { border:0; }
+    .due-date { color:#a64f4a;font-size:10px;font-weight:700; }
+    .due-date.today { color:#aa7424; }
+    .followup strong { display:block;color:#344c5a;font-size:10px;font-weight:650; }
+    .followup small { display:block;margin-top:3px;color:#8997a0;font-size:9px; }
+    .followup .action-note { color:#647783;font-size:9px; }
+    .survey-row,.project-row,.ticket-row { display:grid;grid-template-columns:minmax(190px,1.2fr) minmax(125px,.8fr) minmax(120px,.7fr) minmax(155px,1fr) 100px auto;gap:12px;align-items:center;padding:13px 16px;border-bottom:1px solid #edf1f2; }
+    .survey-row:last-child,.project-row:last-child,.ticket-row:last-child { border:0; }
+    .record-title strong { display:block;color:#314958;font-size:10px;font-weight:650; }
+    .record-title small { display:block;margin-top:3px;color:#8d9aa2;font-size:9px; }
+    .record-cell { color:#647783;font-size:9px; }
+    .progress-cell { display:flex;align-items:center;gap:7px; }
+    .progress-cell .progress { flex:1;margin:0; }
+    .progress-cell span { color:#758792;font-size:9px;font-variant-numeric:tabular-nums; }
+    .company-hero { display:grid;grid-template-columns:1fr auto;gap:15px;padding:19px 20px;margin-bottom:13px; }
+    .company-title { display:flex;align-items:center;gap:12px; }
+    .company-logo { display:grid;place-items:center;width:44px;height:44px;border-radius:13px;color:#207b7c;background:#e7f3f1;font-size:13px;font-weight:750; }
+    .company-title h2 { margin:0;color:#203747;font-size:18px;letter-spacing:-.04em;font-weight:680; }
+    .company-title p { margin:4px 0 0;color:#85939c;font-size:10px; }
+    .company-hero-actions { display:flex;gap:7px;align-items:center; }
+    .company-stats { display:grid;grid-template-columns:repeat(5,1fr);grid-column:1/-1;padding-top:14px;border-top:1px solid #edf1f2; }
+    .company-stat { padding:0 13px;border-left:1px solid #edf1f2; }
+    .company-stat:first-child { padding-left:0;border:0; }
+    .company-stat span { display:block;color:#85939c;font-size:9px; }
+    .company-stat strong { display:block;margin-top:4px;color:#304b5a;font-size:13px;font-weight:680;font-variant-numeric:tabular-nums; }
+    .profile-tabs { margin-bottom:13px; }
+    .detail-grid { display:grid;grid-template-columns:minmax(0,1.15fr) minmax(260px,.85fr);gap:13px; }
+    .key-value { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px 20px; }
+    .key-value span { display:block;color:#8b99a1;font-size:9px; }
+    .key-value strong { display:block;margin-top:4px;color:#536975;font-size:10px;font-weight:600; }
+    .check-services { display:flex;gap:7px;flex-wrap:wrap;margin-top:8px; }
+    .cross-sell { margin-top:15px;padding:13px;border-radius:10px;background:#f3f8f7; }
+    .cross-sell-head { display:flex;align-items:center;justify-content:space-between;gap:8px; }
+    .cross-sell-head strong { color:#30555b;font-size:10px; }
+    .cross-list { display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px; }
+    .cross-item { display:flex;align-items:center;justify-content:space-between;gap:6px;padding:7px 8px;border:1px solid #e1edeb;border-radius:7px;color:#58737a;background:#fff;font-size:9px; }
+    .cross-item button { width:20px;height:20px;border:0;border-radius:6px;color:#28777a;background:#eaf5f4;cursor:pointer; }
+    .timeline { display:flex;flex-direction:column;gap:0; }
+    .timeline-item { display:grid;grid-template-columns:58px 15px 1fr;gap:8px;min-height:51px; }
+    .timeline-date { padding-top:1px;color:#8b99a2;font-size:9px; }
+    .timeline-mark { position:relative;display:flex;justify-content:center; }
+    .timeline-mark:before { content:"";position:absolute;top:6px;bottom:-1px;width:1px;background:#e2ebec; }
+    .timeline-item:last-child .timeline-mark:before { display:none; }
+    .timeline-mark i { z-index:1;width:7px;height:7px;margin-top:4px;border:2px solid #fff;border-radius:50%;background:#54a5a0;box-shadow:0 0 0 1px #a7ceca; }
+    .timeline-copy strong { display:block;color:#4d6572;font-size:9px;font-weight:650; }
+    .timeline-copy span { display:block;margin-top:2px;color:#8b99a2;font-size:9px; }
+    .metric-row { display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:13px; }
+    .metric-tile { padding:13px 15px; }
+    .metric-tile span { display:block;color:#87949c;font-size:9px; }
+    .metric-tile strong { display:block;margin-top:6px;color:#294050;font-size:19px;letter-spacing:-.04em;font-weight:680;font-variant-numeric:tabular-nums; }
+    .team-card { padding:16px; }
+    .team-top { display:flex;align-items:center;gap:9px;padding-bottom:13px;border-bottom:1px solid #edf1f2; }
+    .team-top .avatar { width:34px;height:34px; }
+    .team-top strong { display:block;color:#304857;font-size:11px;font-weight:650; }
+    .team-top span { display:block;color:#8a98a1;font-size:9px; }
+    .team-stats { display:grid;grid-template-columns:repeat(3,1fr);gap:11px 7px;margin-top:12px; }
+    .team-stats span { display:block;color:#87949c;font-size:8px; }
+    .team-stats strong { display:block;margin-top:3px;color:#405967;font-size:11px;font-weight:650;font-variant-numeric:tabular-nums; }
+    .team-sales { display:flex;align-items:center;justify-content:space-between;margin-top:13px;padding-top:11px;border-top:1px solid #edf1f2; }
+    .team-sales span { color:#748590;font-size:9px; }
+    .team-sales strong { color:#1f696c;font-size:13px;font-weight:700; }
+    .reports-layout { display:grid;grid-template-columns:1fr 1fr;gap:13px; }
+    .report-bars { display:flex;flex-direction:column;gap:12px; }
+    .report-bar { display:grid;grid-template-columns:110px minmax(0,1fr) 38px;gap:10px;align-items:center;color:#617582;font-size:10px; }
+    .report-bar .bar-track { height:9px; }
+    .report-bar strong { color:#445c69;text-align:right;font-size:10px; }
+    .loss-list { display:flex;flex-direction:column;gap:8px; }
+    .loss-line { display:grid;grid-template-columns:100px 1fr 28px;gap:9px;align-items:center;color:#667a85;font-size:9px; }
+    .loss-line strong { color:#516774;text-align:right;font-size:9px; }
+    .empty-state { padding:38px 16px;text-align:center;color:#84939d;font-size:11px; }
+    .empty-state strong { display:block;margin-bottom:4px;color:#536b78;font-size:12px; }
+    .mobile-menu { display:none; }
+    .modal-backdrop { position:fixed;z-index:50;inset:0;display:grid;place-items:center;padding:20px;background:rgba(14,28,40,.48);backdrop-filter:blur(3px); }
+    .modal { width:min(590px,100%);max-height:min(88vh,850px);overflow:auto;border:1px solid rgba(255,255,255,.5);border-radius:16px;background:#fff;box-shadow:0 24px 80px rgba(9,29,42,.28);animation:modal-in .18s cubic-bezier(.23,1,.32,1) both; }
+    .modal.wide { width:min(760px,100%); }
+    @keyframes modal-in { from {opacity:0;transform:translateY(8px) scale(.985)} to {opacity:1;transform:translateY(0) scale(1)} }
+    .modal-head { position:sticky;top:0;z-index:1;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:18px 20px 14px;border-bottom:1px solid #edf1f2;background:rgba(255,255,255,.96); }
+    .modal-head h2 { margin:0;color:#203747;font-size:16px;font-weight:680;letter-spacing:-.03em; }
+    .modal-head p { margin:4px 0 0;color:#82909a;font-size:10px; }
+    .modal-close { display:grid;place-items:center;flex:none;width:30px;height:30px;border:0;border-radius:8px;color:#71838f;background:#f2f5f6;cursor:pointer; }
+    .modal-close:hover { color:#304957;background:#e8eef0; }
+    .modal-close svg { width:15px;height:15px; }
+    .modal-body { padding:17px 20px 20px; }
+    .modal-foot { position:sticky;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 20px;border-top:1px solid #edf1f2;background:#fff; }
+    .form-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
+    .form-field { min-width:0; }
+    .form-field.full { grid-column:1/-1; }
+    .form-field label { display:block;margin-bottom:5px;color:#5f737f;font-size:9px;font-weight:650; }
+    .form-field input,.form-field select,.form-field textarea { width:100%;min-height:35px;padding:8px 9px;border:1px solid #dfe7ea;border-radius:7px;color:#405764;background:#fbfcfc;font-size:10px; }
+    .form-field textarea { min-height:72px;resize:vertical; }
+    .form-field input::placeholder,.form-field textarea::placeholder { color:#a3afb6; }
+    .form-note { padding:10px 11px;border-radius:8px;color:#617b80;background:#f0f7f6;font-size:9px; }
+    .quote-lines { display:flex;flex-direction:column;gap:7px; }
+    .quote-line { display:flex;justify-content:space-between;gap:10px;padding:9px 10px;border:1px solid #edf1f2;border-radius:7px;color:#657985;font-size:10px; }
+    .quote-total { display:flex;flex-direction:column;gap:7px;margin-top:12px;padding-top:11px;border-top:1px solid #e9eef0; }
+    .quote-total div { display:flex;justify-content:space-between;color:#72838e;font-size:10px; }
+    .quote-total strong { color:#244151;font-size:13px; }
+    .toast-region { position:fixed;z-index:100;right:22px;bottom:20px;display:flex;flex-direction:column;gap:8px;pointer-events:none; }
+    .toast { display:flex;align-items:center;gap:9px;min-width:220px;max-width:360px;padding:11px 13px;border:1px solid #dce9e7;border-radius:10px;color:#355861;background:#fff;box-shadow:0 8px 30px rgba(17,44,54,.13);font-size:10px;animation:modal-in .18s ease-out both; }
+    .toast svg { width:15px;height:15px;color:#26876d;flex:none; }
+    .hidden { display:none!important; }
+    @media (max-width:1200px) {
+      .content { padding-right:23px;padding-left:23px; }
+      .topbar { padding:0 23px; }
+      .field-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .pipeline-board { grid-template-columns:repeat(6,minmax(160px,1fr)); }
+      .dashboard-top,.dashboard-mid,.dashboard-bottom { grid-template-columns:1fr; }
+    }
+    @media (max-width:900px) {
+      .sidebar { width:220px; }
+      .main { margin-left:220px; }
+      .kpi-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .field-activity { grid-template-columns:1fr; }
+      .reports-layout { grid-template-columns:1fr; }
+      .followup { grid-template-columns:75px minmax(150px,1fr) minmax(100px,.7fr) auto; }
+      .followup .action-note { display:none; }
+    }
+    @media (max-width:680px) {
+      .sidebar { width:min(286px,84vw);transform:translateX(-100%);transition:transform .22s cubic-bezier(.23,1,.32,1);box-shadow:16px 0 40px rgba(7,25,36,.15); }
+      .sidebar.open { transform:translateX(0); }
+      .main { margin-left:0; }
+      .topbar { min-height:58px;padding:0 14px; }
+      .mobile-menu { display:grid; }
+      .crumb { margin-right:auto;margin-left:10px; }
+      .top-actions { gap:6px; }
+      .searchbox { width:34px;padding:0;justify-content:center;border-color:transparent;background:transparent; }
+      .searchbox input { display:none; }
+      .searchbox.is-open { position:absolute;left:58px;right:98px;width:auto;padding:0 9px;justify-content:flex-start;border-color:#e2e9ec;background:#fff; }
+      .searchbox.is-open input { display:block; }
+      .content { padding:21px 14px 34px; }
+      .page-heading { align-items:flex-start;flex-direction:column;margin-bottom:17px; }
+      .heading-actions { width:100%; }
+      h1 { font-size:23px; }
+      .kpi-grid { gap:8px; }
+      .kpi { min-height:94px;padding:12px; }
+      .kpi-value { font-size:20px; }
+      .dashboard-top,.dashboard-mid,.dashboard-bottom,.grid-2,.grid-3,.detail-grid { grid-template-columns:1fr; }
+      .card-pad { padding:14px; }
+      .pipeline { grid-template-columns:repeat(3,1fr); }
+      .service-chart { grid-template-columns:1fr; }
+      .dashboard-mid { gap:9px; }
+      .field-grid { grid-template-columns:1fr; }
+      .territory { grid-template-columns:1fr; }
+      .area-pills { justify-content:flex-start; }
+      .toolbar { align-items:stretch; }
+      .control,.control.search-control { min-width:calc(50% - 5px);flex:1; }
+      .table-wrap { margin:0 -1px; }
+      .followup { grid-template-columns:62px minmax(120px,1fr) auto;gap:8px;padding:12px 10px; }
+      .followup .followup-owner { display:none; }
+      .survey-row,.project-row,.ticket-row { grid-template-columns:minmax(135px,1.2fr) minmax(100px,.8fr) auto;gap:8px;padding:12px 11px; }
+      .survey-row > .record-cell:nth-child(3),.project-row > .record-cell:nth-child(3),.ticket-row > .record-cell:nth-child(3) { display:none; }
+      .survey-row > .progress-cell,.project-row > .progress-cell { grid-column:2; }
+      .survey-row > .row-action,.project-row > .row-action,.ticket-row > .row-action { grid-column:3;grid-row:1; }
+      .company-hero { grid-template-columns:1fr; }
+      .company-hero-actions { grid-row:2; }
+      .company-stats { grid-template-columns:repeat(3,1fr);gap:12px 0; }
+      .company-stat:nth-child(4) { padding-left:0;border:0; }
+      .company-stat { padding:0 9px; }
+      .company-stat strong { font-size:12px; }
+      .company-title h2 { font-size:16px; }
+      .metric-row { grid-template-columns:repeat(2,1fr); }
+      .activity-summary { grid-template-columns:repeat(2,1fr); }
+      .summary-highlight { grid-column:span 2; }
+      .form-grid { grid-template-columns:1fr; }
+      .form-field.full { grid-column:1; }
+      .modal-backdrop { padding:10px; }
+      .modal { max-height:94vh;border-radius:13px; }
+      .modal-head,.modal-body,.modal-foot { padding-left:15px;padding-right:15px; }
+      .heading-actions .btn { flex:1; }
+    }
+    /* Compact native sizing: denser spacing and controls, without transform or zoom. */
+    body { font-size:13px; overflow-x:hidden; }
+    .sidebar { width:218px; padding:16px 12px 12px; }
+    .brand { gap:9px; padding:3px 8px 16px; }
+    .brand-mark { width:33px;height:33px;border-radius:10px; }
+    .brand-name { font-size:12px; }
+    .brand-sub { font-size:9px; }
+    .workspace { margin:13px 2px 9px; padding:9px; }
+    .workspace-mark { width:25px;height:25px; }
+    .nav-label { margin:9px 8px 5px; }
+    .nav-btn { min-height:34px;gap:9px;padding:0 9px;font-size:11px; }
+    .nav-btn svg { width:15px;height:15px; }
+    .sidebar-bottom .user-row { margin-top:10px;padding-top:9px; }
+    .future-note { padding:10px; }
+    .future-note p { font-size:9px; }
+    .main { min-width:0;margin-left:218px; }
+    .topbar { min-height:60px;padding:0 24px; }
+    .searchbox { width:210px;height:32px; }
+    .icon-button { width:32px;height:32px; }
+    .content { min-width:0;padding:20px 24px 32px; }
+    .page-heading { gap:14px;margin-bottom:17px; }
+    h1 { font-size:23px; }
+    .page-sub { margin-top:5px;font-size:11px; }
+    .btn { min-height:32px;padding:0 10px;font-size:10px; }
+    .btn-small { min-height:27px;padding:0 8px;font-size:9px; }
+    .card-pad { padding:14px 15px; }
+    .section-head { margin-bottom:10px; }
+    .section-head h2,.section-head h3 { font-size:12px; }
+    .kpi-grid { gap:10px; }
+    .kpi { min-height:88px;padding:12px 13px; }
+    .kpi-top { font-size:9px; }
+    .kpi-top svg { width:14px;height:14px; }
+    .kpi-value { margin-top:7px;font-size:21px; }
+    .kpi-foot { margin-top:6px;font-size:8.5px; }
+    .dashboard-top,.dashboard-mid,.dashboard-bottom { gap:10px;margin-top:10px; }
+    .activity-total { gap:10px;padding:10px; }
+    .ring { width:52px;height:52px; }
+    .ring:before { width:40px;height:40px; }
+    .activity-list { gap:8px; }
+    .urgent-row { padding:6px 0; }
+    .pipeline { gap:7px; }
+    .stage { padding:8px 7px; }
+    .stage strong { margin-top:7px;font-size:14px; }
+    .service-chart { gap:7px 12px; }
+    .summary-stat { padding:9px; }
+    .table-wrap { min-width:0;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain; }
+    th { padding:7px 9px;font-size:8px; }
+    td { padding:9px;font-size:10px; }
+    .toolbar { gap:7px;padding:10px 12px; }
+    .control { height:30px;padding:0 8px;font-size:9px; }
+    .field-grid { gap:10px; }
+    .field-card { padding:13px; }
+    .field-meta { gap:7px 10px;margin:11px 0 10px;padding:10px 0; }
+    .field-bottom { margin-top:11px; }
+    .territory { gap:14px;padding:12px 15px;margin-bottom:10px; }
+    .pipeline-board { gap:8px; }
+    .kanban-col { min-height:360px;padding:8px; }
+    .opp-card { margin-top:7px;padding:10px; }
+    .followup { gap:9px;padding:10px 12px; }
+    .survey-row,.project-row,.ticket-row { gap:9px;padding:10px 12px; }
+    .company-hero { gap:12px;padding:16px 17px;margin-bottom:10px; }
+    .company-logo { width:40px;height:40px; }
+    .company-title h2 { font-size:16px; }
+    .company-stats { padding-top:11px; }
+    .profile-tabs { margin-bottom:10px; }
+    .metric-row { gap:8px;margin-bottom:10px; }
+    .metric-tile { padding:10px 12px; }
+    .metric-tile strong { margin-top:5px;font-size:17px; }
+    .team-card { padding:13px; }
+    .team-stats { gap:8px 6px;margin-top:10px; }
+    .reports-layout { gap:10px; }
+    .modal-backdrop { padding:16px; }
+    .modal { max-height:90vh;border-radius:14px; }
+    .modal.wide { width:min(820px,100%); }
+    .modal-head { padding:15px 17px 12px; }
+    .modal-body { padding:14px 17px 16px; }
+    .modal-foot { flex-wrap:wrap;padding:10px 17px; }
+    .modal-foot > span { display:flex;gap:6px;flex-wrap:wrap; }
+
+    @media (min-width:1440px) {
+      .content { padding:22px 28px 34px; }
+      .topbar { padding:0 28px; }
+    }
+    @media (min-width:1200px) and (max-width:1439px) {
+      .sidebar { width:210px; }
+      .main { margin-left:210px; }
+      .content { padding:18px 20px 28px; }
+      .topbar { padding:0 20px; }
+      .kpi-grid { gap:9px; }
+      .kpi { min-height:84px;padding:11px 12px; }
+      .dashboard-top,.dashboard-mid,.dashboard-bottom { gap:9px; }
+    }
+    @media (min-width:900px) and (max-width:1199px) {
+      .sidebar { width:198px;padding:14px 10px 10px; }
+      .main { margin-left:198px; }
+      .topbar { padding:0 18px; }
+      .content { padding:17px 18px 26px; }
+      .kpi-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+      .dashboard-top,.dashboard-mid,.dashboard-bottom { grid-template-columns:minmax(0,1fr); }
+      .field-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .dashboard-top .card,.dashboard-mid .card,.dashboard-bottom .card { min-width:0; }
+      .service-chart { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .pipeline-board { grid-template-columns:repeat(6,minmax(165px,1fr));overflow-x:auto; }
+      .reports-layout { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    }
+    @media (max-width:899px) {
+      .sidebar { width:min(280px,84vw);padding:16px 12px 12px;transform:translateX(-100%);transition:transform .22s cubic-bezier(.23,1,.32,1);box-shadow:16px 0 40px rgba(7,25,36,.15); }
+      .sidebar.open { transform:translateX(0); }
+      .main { margin-left:0; }
+      .mobile-menu { display:grid; }
+      .topbar { min-height:56px;padding:0 14px; }
+      .crumb { margin-right:auto;margin-left:9px; }
+      .top-actions { gap:6px; }
+      .searchbox { width:32px;padding:0;justify-content:center;border-color:transparent;background:transparent; }
+      .searchbox input { display:none; }
+      .searchbox.is-open { position:absolute;left:55px;right:94px;width:auto;padding:0 9px;justify-content:flex-start;border-color:#e2e9ec;background:#fff; }
+      .searchbox.is-open input { display:block; }
+      .content { padding:18px 18px 28px; }
+      .page-heading { align-items:flex-start;flex-direction:column;margin-bottom:14px; }
+      .heading-actions { width:100%;flex-wrap:wrap; }
+      .heading-actions .btn { min-height:32px; }
+      .kpi-grid { grid-template-columns:repeat(2,minmax(0,1fr));gap:8px; }
+      .kpi { min-height:82px;padding:11px 12px; }
+      .dashboard-top,.dashboard-mid,.dashboard-bottom,.grid-2,.grid-3,.detail-grid,.reports-layout { grid-template-columns:minmax(0,1fr); }
+      .field-activity { grid-template-columns:1fr; }
+      .pipeline { grid-template-columns:repeat(3,minmax(0,1fr)); }
+      .field-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .territory { grid-template-columns:minmax(0,1fr); }
+      .area-pills { justify-content:flex-start; }
+      .followup { grid-template-columns:68px minmax(0,1fr) auto;gap:8px;padding:10px; }
+      .followup .followup-owner,.followup .action-note { display:none; }
+      .survey-row,.project-row,.ticket-row { grid-template-columns:minmax(130px,1.2fr) minmax(95px,.8fr) auto;gap:8px;padding:10px; }
+      .survey-row > .record-cell:nth-child(3),.project-row > .record-cell:nth-child(3),.ticket-row > .record-cell:nth-child(3) { display:none; }
+      .survey-row > .progress-cell,.project-row > .progress-cell { grid-column:2; }
+      .survey-row > .row-action,.project-row > .row-action,.ticket-row > .row-action { grid-column:3;grid-row:1; }
+      .company-stats { grid-template-columns:repeat(3,minmax(0,1fr));row-gap:10px; }
+      .company-stat:nth-child(4) { padding-left:0;border-left:0; }
+      .pipeline-board { grid-template-columns:repeat(6,minmax(170px,1fr));overflow-x:auto; }
+      .modal-backdrop { padding:12px; }
+      .modal { width:min(650px,100%);max-height:90vh; }
+      .modal.wide { width:min(760px,100%); }
+    }
+    @media (max-width:599px) {
+      .topbar { min-height:54px;padding:0 12px; }
+      .content { padding:15px 13px 24px; }
+      h1 { font-size:21px; }
+      .eyebrow { font-size:9px; }
+      .page-sub { max-width:45ch; }
+      .heading-actions { gap:6px; }
+      .heading-actions .btn { flex:1 1 auto; }
+      .kpi-grid { grid-template-columns:repeat(2,minmax(0,1fr));gap:7px; }
+      .kpi { min-height:78px;padding:10px; }
+      .kpi-value { font-size:19px; }
+      .card-pad { padding:12px; }
+      .dashboard-top,.dashboard-mid,.dashboard-bottom { gap:8px;margin-top:8px; }
+      .pipeline { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .pipeline[style] { grid-template-columns:repeat(7,minmax(104px,1fr))!important;overflow-x:auto; }
+      .field-grid { grid-template-columns:minmax(0,1fr); }
+      .toolbar { align-items:stretch; }
+      .control,.control.search-control { min-width:calc(50% - 5px);flex:1 1 calc(50% - 5px); }
+      .tabs { max-width:100%;overflow-x:auto; }
+      .tab { flex:none; }
+      .activity-summary { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .summary-highlight { grid-column:span 2; }
+      .followup { grid-template-columns:58px minmax(0,1fr); }
+      .followup > div:last-child { grid-column:2; }
+      .followup .followup-owner { display:none; }
+      .survey-row,.project-row,.ticket-row { grid-template-columns:minmax(0,1fr) auto;gap:7px;padding:10px 9px; }
+      .survey-row > .record-cell:nth-child(2),.project-row > .record-cell:nth-child(2),.ticket-row > .record-cell:nth-child(2) { display:none; }
+      .survey-row > .progress-cell,.project-row > .progress-cell { grid-column:1; }
+      .survey-row > .row-action,.project-row > .row-action,.ticket-row > .row-action { grid-column:2;grid-row:1; }
+      .company-hero { grid-template-columns:minmax(0,1fr);padding:13px; }
+      .company-hero-actions { grid-row:auto;flex-wrap:wrap; }
+      .company-stats { grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 0; }
+      .company-stat,.company-stat:nth-child(4) { padding:0 8px;border-left:1px solid #edf1f2; }
+      .company-stat:nth-child(odd) { padding-left:0;border-left:0; }
+      .metric-row { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .service-chart { grid-template-columns:minmax(0,1fr); }
+      .modal-backdrop { padding:12px; }
+      .modal,.modal.wide { width:calc(100vw - 24px);max-height:90vh;border-radius:12px; }
+      .modal-head { padding:13px 14px 10px; }
+      .modal-body { padding:12px 14px; }
+      .modal-foot { align-items:stretch;padding:9px 14px; }
+      .modal-foot > span { margin-left:auto;justify-content:flex-end; }
+      .form-grid { grid-template-columns:minmax(0,1fr); }
+      .form-field.full { grid-column:1; }
+    }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important; } }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 17.5 12 4l8 13.5H4Z"/><path d="M8.2 17.5 12 11l3.8 6.5M12 4v7"/></svg></div>
+        <div><div class="brand-name">Computer Technology</div><div class="brand-sub">Field Sales &amp; IT Operations</div></div>
+      </div>
+      <div class="workspace"><div class="workspace-mark">CT</div><div><strong>Jeddah Operations</strong><span>Sales workspace</span></div></div>
+      <div class="nav-label">Workspace</div>
+      <nav class="nav" id="mainNav">
+        <button class="nav-btn active" data-page="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg>Dashboard</button>
+        <button class="nav-btn" data-page="field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10M9 20v-6h6v6"/><path d="M18 3v4"/></svg>Today's Field Plan<span class="nav-count">16</span></button>
+        <button class="nav-btn" data-page="prospects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5M8 10h5M10.5 7.5v5"/></svg>Prospects</button>
+        <button class="nav-btn" data-page="companies"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 21V5l8-3v19M12 8h8v13M2 21h20"/><path d="M7 7h2M7 11h2M7 15h2M15 12h2M15 16h2"/></svg>Companies</button>
+        <button class="nav-btn" data-page="opportunities"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 19V5m0 14h17"/><path d="m7 15 4-4 3 2 6-7"/><path d="M16 6h4v4"/></svg>Opportunities<span class="nav-count">34</span></button>
+        <button class="nav-btn" data-page="followups"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>Follow-ups<span class="nav-count">7</span></button>
+        <button class="nav-btn" data-page="surveys"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h5M8 16h4M17 11v5"/></svg>Site Surveys</button>
+        <button class="nav-btn" data-page="quotations"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 12h7M9 16h7"/></svg>Quotations<span class="nav-count">12</span></button>
+        <button class="nav-btn" data-page="projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z"/><path d="m3 7.5 9 4.5 9-4.5M12 12v9M8 5l9 4.5"/></svg>Projects</button>
+        <button class="nav-btn" data-page="tickets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14.5 6.5 17 4l3 3-2.5 2.5M13 8l3 3-7.5 7.5a2.1 2.1 0 0 1-3-3Z"/><path d="m5 5 2 2M4 10l2 1M10 4l1 2"/></svg>Service Tickets</button>
+        <button class="nav-btn" data-page="amc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 20 6v5c0 5-3.4 8-8 10-4.6-2-8-5-8-10V6z"/><path d="M8 12h8M12 8v8"/></svg>AMC Contracts<span class="nav-count">3</span></button>
+        <div class="nav-label" style="margin-top:16px">Management</div>
+        <button class="nav-btn" data-page="team"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20v-1.5A5.5 5.5 0 0 1 8 13h2a5.5 5.5 0 0 1 5.5 5.5V20zM16 4.8a3.5 3.5 0 0 1 0 6.5M17 14h1a4 4 0 0 1 4 4v2h-5"/></svg>Sales Team</button>
+        <button class="nav-btn" data-page="reports"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V10M10 20V4M16 20v-7M22 20V7"/><path d="M2 20h21"/></svg>Reports</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="future-note"><div class="mini-label">Future automation</div><p>WhatsApp reminders and visit summaries can connect when your team is ready.</p></div>
+        <div class="user-row"><div class="avatar">MA</div><div><strong>Mohammed A.</strong><span>Sales Manager</span></div><button class="icon-button" style="margin-left:auto;border-color:transparent;background:transparent;color:#8ba0ad" aria-label="Profile menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg></button></div>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <button class="icon-button mobile-menu" id="menuToggle" aria-label="Open navigation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+        <div class="crumb"><span>Computer Technology</span><span>›</span><b id="crumbPage">Dashboard</b></div>
+        <div class="top-actions">
+          <label class="searchbox" id="globalSearch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg><input id="globalSearchInput" type="search" placeholder="Search companies, contacts…" aria-label="Search companies and contacts"></label>
+          <button class="icon-button" id="alertButton" aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><i class="notification-dot"></i></button>
+          <button class="avatar" style="border:0;cursor:pointer" aria-label="Mohammed A. profile">MA</button>
+        </div>
+      </header>
+      <div class="content" id="content" aria-live="polite"></div>
+    </main>
+  </div>
+  <div id="modalRoot"></div>
+  <div id="toastRegion" class="toast-region" aria-live="polite"></div>
+  <script>
+  (() => {
+    const money = n => `SAR ${Number(n).toLocaleString("en-US")}`;
+    const icon = (name, size=15) => {
+      const p = {plus:'<path d="M12 5v14M5 12h14"/>',arrow:'<path d="M5 12h14m-6-6 6 6-6 6"/>',chevron:'<path d="m9 18 6-6-6-6"/>',phone:'<path d="M5 4h3l2 5-2 1.5a14 14 0 0 0 5.5 5.5L15 14l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 3 6.2 2 2 0 0 1 5 4Z"/>',pin:'<path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/>',calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>',check:'<path d="m5 12 4 4L19 6"/>',survey:'<path d="M4 4h16v16H4zM8 8h8M8 12h5M8 16h4"/>',file:'<path d="M6 3h9l4 4v14H6zM14 3v5h5M9 12h7M9 16h7"/>',building:'<path d="M4 21V5l8-3v19M12 8h8v13M2 21h20"/><path d="M7 7h2M7 11h2M7 15h2M15 12h2M15 16h2"/>',refresh:'<path d="M20 11a8 8 0 0 0-14-5L4 8"/><path d="M4 4v4h4M4 13a8 8 0 0 0 14 5l2-2"/><path d="M20 20v-4h-4"/>',alert:'<path d="M10.3 3.9 2.8 17a2 2 0 0 0 1.7 3h15a2 2 0 0 0 1.7-3l-7.5-13a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4m0 3h.01"/>',dots:'<circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/>',close:'<path d="m18 6-12 12M6 6l12 12"/>',spark:'<path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3ZM19 16l.9 2.1L22 19l-2.1.9L19 22l-.9-2.1L16 19l2.1-.9L19 16Z"/>',download:'<path d="M12 3v12m-5-5 5 5 5-5M4 19v2h16v-2"/>',filter:'<path d="M4 6h16M7 12h10m-7 6h4"/>',list:'<path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/>',link:'<path d="M10 13a5 5 0 0 0 7.1 0l2-2a5 5 0 0 0-7.1-7.1l-1.1 1.1M14 11a5 5 0 0 0-7.1 0l-2 2A5 5 0 0 0 12 20.1l1.1-1.1"/>',wrench:'<path d="M14.5 6.5 17 4l3 3-2.5 2.5M13 8l3 3-7.5 7.5a2.1 2.1 0 0 1-3-3Z"/>',box:'<path d="m3 7 9-4 9 4v10l-9 4-9-4zM3 7l9 4 9-4M12 11v10"/>',trend:'<path d="m4 16 5-5 4 3 7-8M15 6h5v5"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'};
+      return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p[name]||p.file}</svg>`;
+    };
+    const seed = {
+      prospects:[
+        {id:'C001',company:'ABC Trading LLC',industry:'Trading',area:'Al Rawdah',contact:'Mohammed Ali',phone:'+966 55 241 8830',service:'CCTV',assigned:'Ahmed',status:'Interested',last:'28 Sep',next:'2 Oct',source:'Field Visit',business:'Trading Company',used:['CCTV','Network'],potential:['Annual IT AMC','ERP','Printer Maintenance','Website / Email']},
+        {id:'C002',company:'Falcon Restaurant',industry:'Restaurant',area:'Al Salamah',contact:'Faisal Nasser',phone:'+966 54 190 4821',service:'Network AMC',assigned:'Ali',status:'Visited',last:'29 Sep',next:'1 Oct',source:'Field Visit',business:'Restaurant',used:['Network'],potential:['Network AMC','CCTV','Printer Maintenance']},
+        {id:'C003',company:'Al Noor Clinic',industry:'Healthcare',area:'Al Zahra',contact:'Dr. Sami Rahman',phone:'+966 56 700 3214',service:'Printer Maintenance',assigned:'Omar',status:'Follow-up',last:'27 Sep',next:'3 Oct',source:'Referral',business:'Medical Clinic',used:['Printer Maintenance'],potential:['IT AMC','Network Upgrade','CCTV']},
+        {id:'C004',company:'Jeddah Star Contracting',industry:'Construction',area:'Industrial Area',contact:'Khalid Omar',phone:'+966 55 623 1440',service:'Network',assigned:'Ahmed',status:'Visit Planned',last:'—',next:'Today',source:'Business Directory',business:'Contractor',used:[],potential:['Network Setup','CCTV','IT AMC']},
+        {id:'C005',company:'Al Noor Villa',industry:'Residential',area:'Al Hamra',contact:'Abdullah Noor',phone:'+966 50 912 8400',service:'Villa Automation',assigned:'Omar',status:'Interested',last:'29 Sep',next:'Tomorrow',source:'Referral',business:'Private Villa',used:[],potential:['Smart Home','CCTV','Wi-Fi']},
+        {id:'C006',company:'Modern Gulf Trading',industry:'Trading',area:'Al Rawdah',contact:'Nabil Saleh',phone:'+966 55 304 6629',service:'Hardware Supply',assigned:'Ali',status:'Assigned',last:'—',next:'4 Oct',source:'Field Visit',business:'Trading Company',used:[],potential:['Hardware','ERP','IT AMC']},
+        {id:'C007',company:'Red Sea Logistics',industry:'Logistics',area:'Industrial Area',contact:'Yasir Ahmed',phone:'+966 56 201 9730',service:'CCTV',assigned:'Ahmed',status:'Not Contacted',last:'—',next:'Visit planned',source:'Marketing Research',business:'Logistics',used:[],potential:['CCTV','Network','IT AMC']},
+        {id:'C008',company:'Al Safa Medical Centre',industry:'Healthcare',area:'Al Safa',contact:'Maha Ibrahim',phone:'+966 54 591 0377',service:'IT AMC',assigned:'Omar',status:'Interested',last:'25 Sep',next:'2 Oct',source:'Website',business:'Medical Centre',used:['Hardware'],potential:['IT AMC','Printer Maintenance','Network']},
+        {id:'C009',company:'Blue Gate Restaurant',industry:'Restaurant',area:'Al Hamra',contact:'Waleed Sami',phone:'+966 55 306 5210',service:'CCTV',assigned:'Ali',status:'Not Interested',last:'22 Sep',next:'—',source:'Field Visit',business:'Restaurant',used:[],potential:[]},
+        {id:'C010',company:'Future Line Trading',industry:'Trading',area:'Al Salamah',contact:'Hani Farooq',phone:'+966 50 911 3728',service:'ERP',assigned:'Ahmed',status:'Visited',last:'30 Sep',next:'6 Oct',source:'Field Visit',business:'Trading Company',used:[],potential:['ERP','Inventory Software','IT AMC']},
+        {id:'C011',company:'Al Waha Warehouse',industry:'Logistics',area:'Industrial Area',contact:'Tariq Jaber',phone:'+966 56 033 7402',service:'Network',assigned:'Ali',status:'Assigned',last:'—',next:'5 Oct',source:'Business Directory',business:'Warehouse',used:[],potential:['Network','CCTV','Hardware']},
+        {id:'C012',company:'Golden Palm Contracting',industry:'Construction',area:'Al Zahra',contact:'Majed Khalid',phone:'+966 55 620 1933',service:'CCTV',assigned:'Omar',status:'Converted',last:'18 Sep',next:'—',source:'Referral',business:'Contractor',used:['Network'],potential:['CCTV','IT AMC']}
+      ],
+      visits:[
+        {company:'ABC Trading LLC',area:'Al Rawdah',contact:'Mohammed Ali',business:'Trading Company',services:['CCTV','Network','AMC'],assigned:'Ahmed',priority:'High',time:'09:00',outcome:'Site Survey Required',done:false},
+        {company:'Falcon Restaurant',area:'Al Salamah',contact:'Faisal Nasser',business:'Restaurant',services:['Network AMC','CCTV'],assigned:'Ali',priority:'High',time:'09:30',outcome:'Quotation Requested',done:true},
+        {company:'Al Noor Clinic',area:'Al Zahra',contact:'Dr. Sami Rahman',business:'Medical Clinic',services:['Printer Maintenance','IT AMC'],assigned:'Omar',priority:'Normal',time:'10:15',outcome:'Follow-up',done:true},
+        {company:'Jeddah Star Contracting',area:'Industrial Area',contact:'Khalid Omar',business:'Contractor',services:['Network','CCTV'],assigned:'Ahmed',priority:'Normal',time:'11:00',outcome:'Planned',done:false},
+        {company:'Modern Gulf Trading',area:'Al Rawdah',contact:'Nabil Saleh',business:'Trading Company',services:['Hardware','ERP'],assigned:'Ali',priority:'Normal',time:'11:30',outcome:'Quotation Requested',done:true},
+        {company:'Al Noor Villa',area:'Al Hamra',contact:'Abdullah Noor',business:'Private Villa',services:['Villa Automation','CCTV'],assigned:'Omar',priority:'High',time:'12:30',outcome:'Survey Tomorrow',done:true},
+        {company:'Red Sea Logistics',area:'Industrial Area',contact:'Yasir Ahmed',business:'Logistics',services:['CCTV','Network'],assigned:'Ahmed',priority:'Normal',time:'13:15',outcome:'Interested',done:true},
+        {company:'Blue Gate Restaurant',area:'Al Hamra',contact:'Waleed Sami',business:'Restaurant',services:['Network AMC'],assigned:'Ali',priority:'Normal',time:'14:00',outcome:'Follow-up',done:true},
+        {company:'Al Safa Medical Centre',area:'Al Safa',contact:'Maha Ibrahim',business:'Medical Centre',services:['IT AMC','Network'],assigned:'Omar',priority:'High',time:'14:30',outcome:'Quotation Requested',done:true},
+        {company:'Future Line Trading',area:'Al Salamah',contact:'Hani Farooq',business:'Trading Company',services:['ERP','IT AMC'],assigned:'Ahmed',priority:'Normal',time:'08:30',outcome:'Interested',done:true},
+        {company:'Al Waha Warehouse',area:'Industrial Area',contact:'Tariq Jaber',business:'Warehouse',services:['Network','CCTV'],assigned:'Ahmed',priority:'Normal',time:'12:00',outcome:'Site Survey Required',done:true},
+        {company:'Golden Palm Contracting',area:'Al Zahra',contact:'Majed Khalid',business:'Contractor',services:['CCTV','Network'],assigned:'Ahmed',priority:'Normal',time:'15:00',outcome:'Quotation Requested',done:true},
+        {company:'Oceanic Supplies',area:'Al Rawdah',contact:'Sami Noor',business:'Hardware Supplier',services:['Hardware','Network'],assigned:'Ali',priority:'Normal',time:'10:45',outcome:'Interested',done:true},
+        {company:'Harbor Point Clinic',area:'Al Safa',contact:'Lina Saeed',business:'Medical Clinic',services:['Printer Maintenance','IT AMC'],assigned:'Ali',priority:'Normal',time:'13:00',outcome:'Follow-up',done:true},
+        {company:'West Gate Offices',area:'Al Hamra',contact:'Fahad Yasin',business:'Business Offices',services:['Network','CCTV'],assigned:'Omar',priority:'Normal',time:'09:45',outcome:'Interested',done:true},
+        {company:'Palm Shore Restaurant',area:'Al Zahra',contact:'Amir Bashir',business:'Restaurant',services:['Network AMC','CCTV'],assigned:'Omar',priority:'Normal',time:'11:45',outcome:'Quotation Requested',done:true}
+      ],
+      opportunities:[
+        {id:'OP-2041',company:'ABC Trading LLC',name:'CCTV Upgrade',service:'CCTV',value:8500,owner:'Ahmed',stage:'New Lead',follow:'2 Oct',prob:55,note:'8 camera upgrade; site survey required.',survey:'SV-087',quote:'QT-1042'},
+        {id:'OP-2042',company:'Al Noor Villa',name:'Smart Home Automation',service:'Villa Automation',value:32000,owner:'Omar',stage:'Survey Required',follow:'Tomorrow',prob:60,note:'Whole villa scope; lighting, AC and curtains.',survey:'SV-091'},
+        {id:'OP-2043',company:'Falcon Restaurant',name:'Annual IT AMC',service:'IT AMC',value:14400,owner:'Ali',stage:'Quotation',follow:'1 Oct',prob:65,note:'Annual network maintenance and support.',quote:'QT-1039'},
+        {id:'OP-2044',company:'Al Noor Clinic',name:'Printer Service Plan',service:'Printer Maintenance',value:7200,owner:'Omar',stage:'Follow-up',follow:'3 Oct',prob:45,note:'Monthly printer maintenance plan.'},
+        {id:'OP-2045',company:'Modern Gulf Trading',name:'Inventory & ERP Setup',service:'ERP',value:26500,owner:'Ali',stage:'Negotiation',follow:'4 Oct',prob:75,note:'Inventory, purchase and accounting modules.'},
+        {id:'OP-2046',company:'Golden Palm Contracting',name:'Network Refresh',service:'Network',value:12800,owner:'Omar',stage:'Won',follow:'—',prob:100,note:'Office switch and Wi-Fi refresh.'},
+        {id:'OP-2047',company:'Al Safa Medical Centre',name:'IT AMC Renewal',service:'IT AMC',value:18000,owner:'Ahmed',stage:'Follow-up',follow:'2 Oct',prob:60,note:'Renewal proposal for 12 months.'},
+        {id:'OP-2048',company:'Jeddah Star Contracting',name:'CCTV & Network',service:'CCTV',value:21900,owner:'Ahmed',stage:'New Lead',follow:'5 Oct',prob:35,note:'Warehouse site walk required.'}
+      ],
+      followups:[
+        {id:'FU-091',company:'ABC Trading LLC',opp:'CCTV Upgrade',owner:'Ahmed',due:'Yesterday',kind:'overdue',note:'Customer requested revised price.',contact:'Mohammed Ali'},
+        {id:'FU-088',company:'Modern Gulf Trading',opp:'Inventory & ERP Setup',owner:'Ali',due:'Yesterday',kind:'overdue',note:'Confirm finance team availability for demo.',contact:'Nabil Saleh'},
+        {id:'FU-086',company:'Falcon Restaurant',opp:'Annual IT AMC',owner:'Ali',due:'Today',kind:'today',note:'Check feedback on annual support quotation.',contact:'Faisal Nasser'},
+        {id:'FU-084',company:'Al Safa Medical Centre',opp:'IT AMC Renewal',owner:'Ahmed',due:'Today',kind:'today',note:'Share revised scope with clinic manager.',contact:'Maha Ibrahim'},
+        {id:'FU-080',company:'Al Noor Villa',opp:'Smart Home Automation',owner:'Omar',due:'Tomorrow',kind:'upcoming',note:'Confirm survey access and room list.',contact:'Abdullah Noor'},
+        {id:'FU-078',company:'Al Noor Clinic',opp:'Printer Service Plan',owner:'Omar',due:'3 Oct',kind:'upcoming',note:'Ask for current printer count.',contact:'Dr. Sami Rahman'},
+        {id:'FU-076',company:'Future Line Trading',opp:'ERP discovery',owner:'Ahmed',due:'6 Oct',kind:'upcoming',note:'Arrange inventory walkthrough.',contact:'Hani Farooq'},
+        {id:'FU-073',company:'Red Sea Logistics',opp:'CCTV & Network',owner:'Ahmed',due:'Yesterday',kind:'overdue',note:'Confirm warehouse survey date.',contact:'Yasir Ahmed'},
+        {id:'FU-071',company:'Jeddah Star Contracting',opp:'CCTV & Network',owner:'Ahmed',due:'Yesterday',kind:'overdue',note:'Ask for site access contact.',contact:'Khalid Omar'},
+        {id:'FU-068',company:'Al Noor Clinic',opp:'Printer Service Plan',owner:'Omar',due:'Yesterday',kind:'overdue',note:'Confirm number of devices in reception.',contact:'Dr. Sami Rahman'},
+        {id:'FU-066',company:'Al Waha Warehouse',opp:'Network Survey',owner:'Ali',due:'Yesterday',kind:'overdue',note:'Check access hours for warehouse visit.',contact:'Tariq Jaber'},
+        {id:'FU-064',company:'Golden Palm Contracting',opp:'Network Refresh',owner:'Omar',due:'Yesterday',kind:'overdue',note:'Share maintenance renewal scope.',contact:'Majed Khalid'}
+      ],
+      surveys:[
+        {id:'SV-087',company:'ABC Trading LLC',type:'CCTV Survey',owner:'Ahmed',date:'30 Sep',status:'In progress',progress:72},
+        {id:'SV-091',company:'Al Noor Villa',type:'Villa Automation',owner:'Omar',date:'1 Oct',status:'Scheduled',progress:0},
+        {id:'SV-082',company:'Jeddah Star Contracting',type:'Network Survey',owner:'Ahmed',date:'27 Sep',status:'Report pending',progress:85}
+      ],
+      quotes:[
+        {id:'QT-1042',company:'ABC Trading LLC',service:'CCTV Upgrade',amount:8500,owner:'Ahmed',sent:'28 Sep',status:'Follow-up',age:'2 days',next:'1 Oct',items:['8 CCTV cameras','NVR','4TB hard disk','Cabling & installation','Remote viewing setup'],rev:1},
+        {id:'QT-1039',company:'Falcon Restaurant',service:'Annual IT AMC',amount:14400,owner:'Ali',sent:'25 Sep',status:'Sent',age:'5 days',next:'1 Oct',items:['Network monitoring','Preventive maintenance','On-site support','Response within 4 hours'],rev:1},
+        {id:'QT-1034',company:'Al Noor Villa',service:'Smart Home Automation',amount:32000,owner:'Omar',sent:'—',status:'Draft',age:'—',next:'After survey',items:['Smart lighting','Smart curtains','AC control','Alexa voice control'],rev:1},
+        {id:'QT-1028',company:'Modern Gulf Trading',service:'Inventory & ERP Setup',amount:26500,owner:'Ali',sent:'23 Sep',status:'Revised',age:'7 days',next:'4 Oct',items:['Inventory module','Accounting module','User setup & training'],rev:2},
+        {id:'QT-1019',company:'Golden Palm Contracting',service:'Network Refresh',amount:12800,owner:'Omar',sent:'18 Sep',status:'Approved',age:'12 days',next:'Won',items:['Managed switches','Wi-Fi access points','Configuration'],rev:2}
+      ],
+      projects:[
+        {id:'PR-302',company:'Al Noor Villa',name:'Al Noor Villa Automation',value:32000,manager:'Technician Team A',stage:'Installation',progress:65,start:'12 Sep 2026',due:'8 Oct 2026',status:'In progress'},
+        {id:'PR-298',company:'Golden Palm Contracting',name:'Golden Palm Network Refresh',value:12800,manager:'Technician Team B',stage:'Testing',progress:88,start:'18 Sep 2026',due:'4 Oct 2026',status:'In progress'},
+        {id:'PR-296',company:'Modern Gulf Trading',name:'Modern Gulf Inventory Setup',value:26500,manager:'Technician Team A',stage:'Material',progress:34,start:'25 Sep 2026',due:'20 Oct 2026',status:'In progress'}
+      ],
+      tickets:[
+        {id:'TK-201',company:'Falcon Restaurant',issue:'Printer not printing',device:'HP LaserJet M404',tech:'Technician A',priority:'Medium',status:'Assigned',date:'30 Sep'},
+        {id:'TK-202',company:'ABC Trading LLC',issue:'Camera offline',device:'CCTV · Cam 04',tech:'Technician B',priority:'High',status:'In Progress',date:'30 Sep'},
+        {id:'TK-203',company:'Al Safa Medical Centre',issue:'Wi-Fi access point intermittent',device:'Network · AP 2F',tech:'Technician C',priority:'Medium',status:'Waiting for Parts',date:'29 Sep'},
+        {id:'TK-204',company:'Golden Palm Contracting',issue:'Desktop running slowly',device:'Dell OptiPlex 7090',tech:'Technician A',priority:'Low',status:'New',date:'30 Sep'}
+      ],
+      amc:[
+        {company:'ABC Trading LLC',service:'Annual IT Maintenance',value:15000,start:'Jan 2026',expiry:'Dec 2026',status:'Active',renewal:'90 days'},
+        {company:'Falcon Restaurant',service:'Network AMC',value:14400,start:'Nov 2025',expiry:'Oct 2026',status:'Expiring Soon',renewal:'30 days'},
+        {company:'Al Safa Medical Centre',service:'IT Support AMC',value:18000,start:'Oct 2025',expiry:'Oct 2026',status:'Expiring Soon',renewal:'21 days'},
+        {company:'Golden Palm Contracting',service:'CCTV Maintenance',value:9600,start:'Feb 2026',expiry:'Feb 2027',status:'Active',renewal:'140 days'}
+      ]
+    };
+    const state = {page:'dashboard',fieldTab:'Team Visits',followTab:'Overdue',prospectSearch:'',filters:{area:'All areas',industry:'All industries',service:'All services',staff:'All staff',status:'All statuses'},company:'ABC Trading LLC',companyTab:'Overview',oppId:'OP-2041',modal:null,companySearch:'',toastTimer:null};
+    let data = structuredClone(seed);
+    const content = document.getElementById('content');
+    const modalRoot = document.getElementById('modalRoot');
+    const toastRegion = document.getElementById('toastRegion');
+    const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const initials = n => n.split(/\s+/).map(x=>x[0]).slice(0,2).join('').toUpperCase();
+    const statusClass = s => ({Won:'green',Completed:'green',Approved:'green',Active:'green',Interested:'teal',Visited:'blue',Assigned:'blue','Visit Planned':'purple','Survey Required':'purple','Report pending':'amber',Scheduled:'purple',Quotation:'blue',Sent:'blue','In progress':'blue','In Progress':'blue','Follow-up':'amber',Revised:'purple','Expiring Soon':'amber','Waiting for Parts':'amber',Overdue:'red','Not Interested':'gray',Lost:'red',Draft:'gray',New:'gray',Negotiation:'purple',Rejected:'red'}[s]||'gray');
+    function tag(text, cls){ return `<span class="tag ${cls||statusClass(text)}">${esc(text)}</span>`; }
+    function heading(eyebrow,title,sub,actions=''){ return `<div class="page-heading"><div><p class="eyebrow">${esc(eyebrow)}</p><h1>${esc(title)}</h1>${sub?`<p class="page-sub">${sub}</p>`:''}</div><div class="heading-actions">${actions}</div></div>`; }
+    function cardHead(title,sub='',action=''){ return `<div class="section-head"><div><h2>${title}</h2>${sub?`<p>${sub}</p>`:''}</div>${action}</div>`; }
+    function btn(label,action,kind='',ic=''){ return `<button class="btn ${kind}" data-action="${action}">${ic?icon(ic,14):''}${label}</button>`; }
+    function statusPill(s){ return tag(s,statusClass(s)); }
+    function companyRecord(name){ return data.prospects.find(p=>p.company===name)||{company:name,industry:'Business',area:'Jeddah',contact:'Customer contact',phone:'+966 55 000 0000',assigned:'Ahmed',status:'Active',source:'Field Visit',used:[],potential:['IT AMC','Network','CCTV']}; }
+    function navTo(page){ state.page=page; document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===page)); document.getElementById('crumbPage').textContent=({dashboard:'Dashboard',field:"Today's Field Plan",prospects:'Prospects',companies:'Companies',opportunities:'Opportunities',followups:'Follow-ups',surveys:'Site Surveys',quotations:'Quotations',projects:'Projects',tickets:'Service Tickets',amc:'AMC Contracts',team:'Sales Team',reports:'Reports'})[page]||page; document.getElementById('sidebar').classList.remove('open'); render(); window.scrollTo({top:0,behavior:'smooth'}); }
+    function render(){ const pages={dashboard:dashboardPage,field:fieldPage,prospects:prospectsPage,companies:companiesPage,companyDetail:companyPage,opportunities:opportunitiesPage,followups:followupsPage,surveys:surveysPage,quotations:quotesPage,projects:projectsPage,tickets:ticketsPage,amc:amcPage,team:teamPage,reports:reportsPage}; content.innerHTML=(pages[state.page]||dashboardPage)(); }
+    function dashboardPage(){
+      const act=[['Ahmed',6,4],['Ali',5,5],['Omar',5,5]];
+      const urgent=[['Follow-ups overdue','ABC Trading · revised CCTV quote',7,'alert','#c15e57','#fbefed'],['Quotations waiting >5 days','Falcon Restaurant · Annual IT AMC',4,'file','#ad7725','#fbf3e5'],['Site surveys awaiting report','Jeddah Star · Network survey',2,'survey','#7962ae','#f1eef9'],['AMC expiring within 30 days','Falcon Restaurant · 21 days',3,'refresh','#ad7725','#fbf3e5']];
+      const stages=[['New Lead',11,'SAR 86.2k','#4d8ab7'],['Site Survey',6,'SAR 74.5k','#7864ae'],['Quotation',8,'SAR 69.8k','#3d8790'],['Follow-up',5,'SAR 32.4k','#bf914b'],['Negotiation',3,'SAR 23.6k','#8371bb'],['Won',4,'SAR 94.2k','#398765']];
+      const services=[['CCTV',32,100],['IT AMC',26,81],['Network',21,66],['Villa Automation',16,50],['ERP',13,41],['Hardware',10,31],['Other',7,22]];
+      return `${heading('Wednesday · 30 September 2026','Good morning, Mohammed','Your Jeddah team has 16 company visits on the plan today.',btn('Plan a visit','add-prospect','btn-primary','plus'))}
+      <div class="kpi-grid">
+        ${kpi('New Prospects','48','12 added this week','building','#168b91','#e9f6f5')}${kpi('Visits Today','16','14 completed so far','pin','#4375c5','#edf3fc')}${kpi('Follow-ups Due','23','16 due today','clock','#aa7424','#fbf3e5')}${kpi('Overdue Follow-ups','7','Needs attention','alert','#c35b55','#fbefed')}
+        ${kpi('Open Opportunities','34','Across 6 sales stages','trend','#7760ad','#f1eef9')}${kpi('Pipeline Value',money(286500),'Weighted sales pipeline','file','#168b91','#e9f6f5')}${kpi('Quotations Pending','12','4 waiting over 5 days','file','#aa7424','#fbf3e5')}${kpi('Sales This Month',money(94250),'↑ 18% from August','trend','#25885f','#eaf5ef')}
+      </div>
+      <div class="dashboard-top">
+        <section class="card card-pad">${cardHead("Today's field activity",'Live visit progress by assigned salesperson',`<button class="text-link" data-nav="field">View field plan ${icon('arrow',13)}</button>`)}<div class="field-activity"><div class="activity-total"><div class="ring"><strong>14/16</strong></div><div><strong>Visits completed</strong><span>87% of today's plan</span><div class="progress" style="width:145px"><span style="width:87%"></span></div></div></div><div class="activity-list">${act.map(([n,p,d])=>`<div class="activity-person"><div class="avatar">${initials(n)}</div><div><strong>${n}</strong><small>${d} completed · ${p} planned</small><div class="progress"><span style="width:${Math.round(d/p*100)}%"></span></div></div><span class="visit-count">${d}/${p}</span></div>`).join('')}</div></div></section>
+        <section class="card card-pad">${cardHead('Urgent actions','Items that need a next step today',`<button class="text-link" data-nav="followups">View all ${icon('arrow',13)}</button>`)}<div class="urgent-list">${urgent.map(([a,b,n,ic,c,bg])=>`<div class="urgent-row"><span class="urgent-icon" style="--warn:${c};--warn-bg:${bg}">${icon(ic,14)}</span><div><strong>${a}</strong><small>${b}</small></div><span class="urgent-num">${n}</span></div>`).join('')}</div></section>
+      </div>
+      <div class="dashboard-mid">
+        <section class="card card-pad">${cardHead('Sales pipeline','Open value and opportunity count at each stage',`<button class="text-link" data-nav="opportunities">Open pipeline ${icon('arrow',13)}</button>`)}<div class="pipeline">${stages.map(([s,n,v,c])=>`<div class="stage"><div class="stage-label"><i class="stage-dot" style="--dot:${c}"></i>${s}</div><strong>${n}</strong><small>${v}</small></div>`).join('')}</div></section>
+        <section class="card card-pad">${cardHead('Opportunities by service','Open opportunities · 125 total')}<div class="service-chart">${services.map(([n,v,w],i)=>`<div class="bar-row"><span>${n}</span><div class="bar-track"><span style="width:${w}%;--bar:${i===0?'#168b91':'#7bb5b2'}"></span></div><span class="bar-value">${v}</span></div>`).join('')}</div></section>
+      </div>
+      <div class="dashboard-bottom">
+        <section class="card">${cardHead('Recent field visits','Latest company outcomes and what happens next',`<button class="text-link" data-nav="field">All visits ${icon('arrow',13)}</button>`)}<div class="table-wrap"><table><thead><tr><th>Company</th><th>Area</th><th>Staff</th><th>Interest</th><th>Outcome</th><th>Next action</th></tr></thead><tbody>${[['ABC Trading LLC','Al Rawdah','Ahmed','CCTV','Site Survey Required','2 Oct'],['Falcon Restaurant','Al Salamah','Ali','Network AMC','Quotation Requested','1 Oct'],['Al Noor Clinic','Al Zahra','Omar','Printer Maintenance','Follow-up','3 Oct'],['Al Noor Villa','Al Hamra','Omar','Villa Automation','Survey Scheduled','Tomorrow']].map(r=>`<tr class="click-row" data-company="${esc(r[0])}"><td class="company-name">${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${tag(r[4],r[4].includes('Survey')?'purple':r[4].includes('Quote')?'blue':'amber')}</td><td>${r[5]}</td></tr>`).join('')}</tbody></table></div></section>
+        <section class="card card-pad">${cardHead("Today's team activity",'Field work recorded in CRM')}<div class="activity-summary"><div class="summary-stat"><strong>11</strong><span>Follow-ups completed</span></div><div class="summary-stat"><strong>4</strong><span>New opportunities</span></div><div class="summary-stat"><strong>3</strong><span>Quotations sent</span></div><div class="summary-stat"><strong>1</strong><span>Deal won</span></div><div class="summary-highlight"><span>Won today</span><strong>${money(8500)}</strong></div></div></section>
+      </div>`;
+    }
+    function kpi(name,value,foot,ic,color,tint){ return `<div class="card kpi" style="--accent:${color};--tint:${tint}"><div class="kpi-top"><span>${name}</span>${icon(ic,16)}</div><div class="kpi-value">${value}</div><div class="kpi-foot">${foot.includes('↑')?`<span class="delta">↑ 18%</span><span>from August</span>`:foot}</div></div>`; }
+    function fieldPage(){
+      const visits=data.visits.filter(v=>state.fieldTab==='Completed'?v.done:state.fieldTab==='My Visits'?v.assigned==='Ahmed'&&!v.done:!v.done);
+      const tabs=['My Visits','Team Visits','Completed'];
+      return `${heading('Field operations',"Today's Field Plan",'Companies assigned to the sales team for visits and follow-ups.',`<button class="btn" data-action="area-plan">${icon('pin')}Area coverage</button>${btn('Add to plan','add-prospect','btn-primary','plus')}`)}
+      <section class="card territory"><div><h3>Jeddah territory coverage <span class="tag teal" style="margin-left:6px">6 areas active</span></h3><p>Planned route stops are grouped by area. Assign prospects before the team heads out.</p></div><div class="area-pills">${['Al Rawdah','Al Salamah','Al Zahra','Al Hamra','Industrial Area','Al Safa'].map((a,i)=>`<span class="area-pill ${i===0?'active':''}">${a} <b>${[8,5,4,6,9,3][i]}</b></span>`).join('')}</div></section>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px"><div class="tabs">${tabs.map(t=>`<button class="tab ${state.fieldTab===t?'active':''}" data-field-tab="${t}">${t}${t==='Completed'?' · 14':''}</button>`).join('')}</div><span class="muted" style="font-size:10px">Wednesday, 30 September · ${visits.length} stops</span></div>
+      <div class="field-grid">${visits.map((v,i)=>fieldCard(v,i)).join('')||`<div class="card empty-state">No visits in this view.</div>`}</div>
+      <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:13px" class="grid-2"><section class="card card-pad">${cardHead('Route coverage','Visited and still planned today')}<div class="report-bars">${[['Al Rawdah',4,8],['Al Salamah',3,5],['Al Zahra',2,4],['Industrial Area',3,6]].map(([a,d,t])=>`<div class="report-bar"><span>${a}</span><div class="bar-track"><span style="width:${Math.round(d/t*100)}%"></span></div><strong>${d}/${t}</strong></div>`).join('')}</div></section><section class="card card-pad">${cardHead('Visit outcome summary','Team visits recorded today')}<div class="service-chart">${[['Interested',5],['Site survey',3],['Quote requested',4],['Follow-up later',2]].map(([a,n],i)=>`<div class="bar-row"><span>${a}</span><div class="bar-track"><span style="width:${[84,52,68,32][i]}%;--bar:${i===0?'#168b91':'#83bcb7'}"></span></div><span class="bar-value">${n}</span></div>`).join('')}</div></section></div>`;
+    }
+    function fieldCard(v,i){ return `<article class="card field-card" data-company="${esc(v.company)}"><div class="route-head"><div style="display:flex;gap:9px;min-width:0"><span class="route-index">${String(i+1).padStart(2,'0')}</span><div><h3>${esc(v.company)}</h3><div class="business-type">${esc(v.business)} · ${esc(v.time)}</div></div></div>${v.priority==='High'?tag('High priority','red'):tag(v.done?'Completed':'Planned',v.done?'green':'blue')}</div><div class="field-meta"><div><span>Area</span><strong>${icon('pin',11)} ${esc(v.area)}</strong></div><div><span>Contact</span><strong>${esc(v.contact)}</strong></div><div><span>Assigned</span><strong>${esc(v.assigned)}</strong></div><div><span>Last outcome</span><strong>${esc(v.outcome)}</strong></div></div><div class="service-pills">${v.services.map(s=>`<span class="service-pill">${esc(s)}</span>`).join('')}</div><div class="field-bottom">${v.done?`<span style="display:flex;align-items:center;gap:5px;color:#27815d;font-size:10px;font-weight:600">${icon('check',13)} Visit completed</span>`:`<button class="btn btn-primary btn-small" data-action="start-visit" data-company="${esc(v.company)}">Start Visit</button>`}<div class="card-actions"><button class="subtle-icon" title="Call ${esc(v.contact)}" data-action="call" data-company="${esc(v.company)}">${icon('phone',13)}</button><button class="subtle-icon" title="Directions" data-action="directions" data-company="${esc(v.company)}">${icon('pin',13)}</button><button class="btn btn-small" data-action="open-company" data-company="${esc(v.company)}">View company ${icon('arrow',12)}</button></div></div></article>`; }
+    function prospectsPage(){
+      const arr=data.prospects.filter(p=>{const q=state.prospectSearch.toLowerCase();return(!q||[p.company,p.phone,p.contact].join(' ').toLowerCase().includes(q))&&(state.filters.area==='All areas'||p.area===state.filters.area)&&(state.filters.industry==='All industries'||p.industry===state.filters.industry)&&(state.filters.service==='All services'||p.service===state.filters.service)&&(state.filters.staff==='All staff'||p.assigned===state.filters.staff)&&(state.filters.status==='All statuses'||p.status===state.filters.status)});
+      const opts=(values,cur)=>values.map(v=>`<option ${cur===v?'selected':''}>${v}</option>`).join('');
+      return `${heading('Company discovery','Prospects','A structured record for every company your team finds in the field.',`${btn('Import Prospects','import-prospects','','download')}${btn('Add Prospect','add-prospect','btn-primary','plus')}`)}<div class="card"><div class="toolbar"><input class="control search-control" type="search" data-prospect-search placeholder="Search company, mobile, contact…" value="${esc(state.prospectSearch)}"><select class="control" data-filter="area">${opts(['All areas','Al Rawdah','Al Salamah','Al Zahra','Al Hamra','Industrial Area','Al Safa'],state.filters.area)}</select><select class="control" data-filter="industry">${opts(['All industries','Trading','Restaurant','Healthcare','Construction','Logistics','Residential'],state.filters.industry)}</select><select class="control" data-filter="service">${opts(['All services','CCTV','IT AMC','Network','Network AMC','Villa Automation','ERP','Hardware Supply','Printer Maintenance'],state.filters.service)}</select><select class="control" data-filter="staff">${opts(['All staff','Ahmed','Ali','Omar'],state.filters.staff)}</select><select class="control" data-filter="status">${opts(['All statuses','Not Contacted','Assigned','Visit Planned','Visited','Interested','Follow-up','Converted','Not Interested'],state.filters.status)}</select></div><div class="table-wrap"><table><thead><tr><th>Company</th><th>Industry / Area</th><th>Primary contact</th><th>Potential service</th><th>Assigned</th><th>Status</th><th>Last visit</th><th>Next action</th></tr></thead><tbody>${arr.map(p=>`<tr class="click-row" data-company="${esc(p.company)}"><td class="company-name">${esc(p.company)}<span class="cell-sub">${esc(p.source)}</span></td><td>${esc(p.industry)}<span class="cell-sub">${esc(p.area)}</span></td><td>${esc(p.contact)}<span class="cell-sub">${esc(p.phone)}</span></td><td>${esc(p.service)}</td><td>${esc(p.assigned)}</td><td>${statusPill(p.status)}</td><td>${esc(p.last)}</td><td>${esc(p.next)}</td></tr>`).join('')||`<tr><td colspan="8"><div class="empty-state"><strong>No companies match those filters</strong>Try clearing a filter or search term.</div></td></tr>`}</tbody></table></div><div style="display:flex;justify-content:space-between;padding:11px 14px;color:#8997a0;font-size:9px"><span>Showing ${arr.length} of ${data.prospects.length} prospects</span><span>Page 1 of 4</span></div></div>`;
+    }
+    function companiesPage(){ const arr=data.prospects; return `${heading('Customer records','Companies','One company record connects visits, multiple opportunities, projects and service history.',btn('Add Company','add-prospect','btn-primary','plus'))}<div class="card"><div class="toolbar"><input class="control search-control" type="search" data-company-search placeholder="Search company, contact or phone…" value="${esc(state.companySearch)}"><select class="control"><option>All company types</option><option>Prospect</option><option>Customer</option></select><select class="control"><option>All areas</option><option>Al Rawdah</option><option>Al Salamah</option></select><span class="muted" style="margin-left:auto;font-size:10px">${arr.length} companies</span></div><div class="table-wrap"><table><thead><tr><th>Company</th><th>Industry</th><th>Area</th><th>Primary contact</th><th>Services used</th><th>Open opportunities</th><th>Owner</th><th>Next action</th></tr></thead><tbody>${arr.filter(p=>!state.companySearch||`${p.company} ${p.contact} ${p.phone}`.toLowerCase().includes(state.companySearch.toLowerCase())).map(p=>`<tr class="click-row" data-company="${esc(p.company)}"><td class="company-name">${esc(p.company)}<span class="cell-sub">${p.status==='Converted'?'Customer':'Prospect'}</span></td><td>${esc(p.industry)}</td><td>${esc(p.area)}</td><td>${esc(p.contact)}<span class="cell-sub">${esc(p.phone)}</span></td><td>${p.used.length?p.used.map(s=>`<span class="service-pill">${esc(s)}</span>`).join(' '):'<span class="muted">—</span>'}</td><td>${data.opportunities.filter(o=>o.company===p.company&&o.stage!=='Won').length}</td><td>${esc(p.assigned)}</td><td>${esc(p.next)}</td></tr>`).join('')}</tbody></table></div></div>`; }
+    function companyPage(){ const p=companyRecord(state.company);const opps=data.opportunities.filter(o=>o.company===p.company);const q=data.quotes.filter(o=>o.company===p.company);const activeTab=state.companyTab;return `${`<div style="display:flex;align-items:center;gap:8px;margin:0 0 13px"><button class="text-link" data-nav="companies">${icon('chevron',13)} Companies</button><span class="muted">/</span><span style="color:#71828e;font-size:10px">${esc(p.company)}</span></div>`}<section class="card company-hero"><div class="company-title"><div class="company-logo">${initials(p.company.replace(' LLC',''))}</div><div><h2>${esc(p.company)}</h2><p>${esc(p.industry)} · ${esc(p.area)}, Jeddah · ${statusPill(p.status==='Interested'?'Active Opportunity':p.status)}</p></div></div><div class="company-hero-actions">${btn('Call','call','','phone')}${btn('Record visit','start-visit','btn-primary','plus')}</div><div class="company-stats"><div class="company-stat"><span>Opportunities</span><strong>${opps.length}</strong></div><div class="company-stat"><span>Potential value</span><strong>${money(opps.reduce((a,o)=>a+o.value,0))}</strong></div><div class="company-stat"><span>Visits logged</span><strong>${data.visits.filter(v=>v.company===p.company).length}</strong></div><div class="company-stat"><span>Quotations</span><strong>${q.length}</strong></div><div class="company-stat"><span>Next follow-up</span><strong>${esc(p.next)}</strong></div></div></section><div class="tabs profile-tabs">${['Overview','Timeline','Opportunities','Visits','Quotations','Projects','Service Tickets','AMC'].map(t=>`<button class="tab ${activeTab===t?'active':''}" data-company-tab="${t}">${t}</button>`).join('')}</div>${activeTab==='Overview'?companyOverview(p,opps):activeTab==='Timeline'?timelinePage():activeTab==='Opportunities'?companyOpportunityList(opps):activeTab==='Visits'?companyVisits():activeTab==='Quotations'?companyQuotes(q):activeTab==='Projects'?companyProjects():activeTab==='Service Tickets'?companyTickets():companyAmc(p)}`; }
+    function companyOverview(p,opps){ const used=p.used.length?p.used:['CCTV','Network']; const potential=p.potential.length?p.potential:['Annual IT AMC','ERP','Printer Maintenance','Website / Email']; return `<div class="detail-grid"><section class="card card-pad">${cardHead('Company overview','People, service needs and ownership')}<div class="key-value"><div><span>Primary contact</span><strong>${esc(p.contact)}</strong></div><div><span>Phone / WhatsApp</span><strong>${esc(p.phone)}</strong></div><div><span>Industry</span><strong>${esc(p.industry)}</strong></div><div><span>Area</span><strong>${esc(p.area)}, Jeddah</strong></div><div><span>Assigned staff</span><strong>${esc(p.assigned)}</strong></div><div><span>Lead source</span><strong>${esc(p.source)}</strong></div></div><div style="margin-top:18px"><div class="mini-label">Services currently used</div><div class="check-services">${used.map(s=>`<span class="tag green">${esc(s)}</span>`).join('')}</div></div><div class="cross-sell"><div class="cross-sell-head"><strong>Potential additional services</strong><span class="mini-label">Cross-sell</span></div><div class="cross-list">${potential.map(s=>`<div class="cross-item">${esc(s)}<button aria-label="Create ${esc(s)} opportunity" title="Create opportunity" data-action="cross-sell" data-service="${esc(s)}">+</button></div>`).join('')}</div></div></section><section class="card card-pad">${cardHead('What happens next?','Keep every customer conversation connected')}<div class="timeline">${[['30 Sep','Follow-up due','Revised CCTV quote · Ahmed'],['28 Sep','Quotation sent','QT-1042 · CCTV Upgrade'],['26 Sep','Site survey scheduled','8 cameras · 4TB storage'],['25 Sep','First field visit','Interested in CCTV and AMC'],['24 Sep','Company added','Source: field visit']].map((r,i)=>`<div class="timeline-item"><div class="timeline-date">${r[0]}</div><div class="timeline-mark"><i></i></div><div class="timeline-copy"><strong>${r[1]}</strong><span>${r[2]}</span></div></div>`).join('')}</div><div style="margin-top:7px"><button class="text-link" data-company-tab="Timeline">Full timeline ${icon('arrow',12)}</button></div></section></div><section class="card card-pad" style="margin-top:13px">${cardHead('Open opportunities',`${opps.length||3} service conversations tied to this company`,btn('Add opportunity','new-opportunity','btn-primary btn-small','plus'))}<div class="grid-3">${(opps.length?opps:seed.opportunities.slice(0,3)).slice(0,3).map(o=>miniOpp(o)).join('')}</div></section>`; }
+    function miniOpp(o){return `<article class="card" style="padding:12px;box-shadow:none;cursor:pointer" data-opp="${o.id}"><div style="display:flex;justify-content:space-between;gap:5px">${tag(o.stage)}<button class="subtle-icon" style="width:24px;height:24px" data-opp="${o.id}" aria-label="Open opportunity">${icon('arrow',11)}</button></div><strong style="display:block;margin-top:10px;color:#354d5c;font-size:11px">${esc(o.name)}</strong><span class="muted" style="font-size:9px">${esc(o.service)}</span><div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px"><b style="color:#1d676b;font-size:13px">${money(o.value)}${o.service==='IT AMC'?'<small>/yr</small>':''}</b><span style="color:#83919a;font-size:9px">${esc(o.owner)}</span></div></article>`;}
+    function timelinePage(){return `<section class="card card-pad">${cardHead('Company activity timeline','Every field interaction and commercial update in one place')}<div class="timeline">${[['30 Sep','Next follow-up scheduled','Ahmed · Customer asked for a revised CCTV price'],['28 Sep','Quotation QT-1042 sent','8 CCTV cameras, NVR, 4TB storage · SAR 8,500'],['26 Sep','Site survey scheduled','Ahmed · Camera placement and cable route review'],['25 Sep','Visit completed','Met Mohammed Ali · Interested in CCTV and Annual IT Maintenance'],['24 Sep','Company added','Lead source: Field visit · Added by Ahmed']].map(r=>`<div class="timeline-item" style="min-height:66px;grid-template-columns:70px 16px 1fr"><div class="timeline-date">${r[0]}</div><div class="timeline-mark"><i></i></div><div class="timeline-copy"><strong>${r[1]}</strong><span>${r[2]}</span></div></div>`).join('')}</div></section>`;}
+    function companyOpportunityList(opps){return `<section class="card card-pad">${cardHead('Company opportunities','Separate service needs can move through their own sales stages',btn('Create Opportunity','new-opportunity','btn-primary btn-small','plus'))}<div class="grid-3">${opps.map(miniOpp).join('')||`<div class="empty-state">No opportunities yet</div>`}</div></section>`;}
+    function companyVisits(){return `<section class="card">${cardHead('Field visits','Visit history and next steps')}<div class="table-wrap"><table><thead><tr><th>Date</th><th>Staff</th><th>Contact met</th><th>Interest</th><th>Outcome</th><th>Notes</th></tr></thead><tbody><tr><td>30 Sep</td><td>Ahmed</td><td>Mohammed Ali</td><td>CCTV + Annual IT Maintenance</td><td>${tag('Site survey required','purple')}</td><td>Revised pricing requested</td></tr><tr><td>25 Sep</td><td>Ahmed</td><td>Mohammed Ali</td><td>CCTV, Network, AMC</td><td>${tag('Interested','teal')}</td><td>Asked for camera count and storage options</td></tr></tbody></table></div></section>`;}
+    function companyQuotes(q){return `<section class="card">${cardHead('Company quotations','Price proposals and follow-up dates')}<div class="table-wrap"><table><thead><tr><th>Quote No.</th><th>Service</th><th>Amount</th><th>Sent</th><th>Status</th><th>Next follow-up</th></tr></thead><tbody>${q.map(x=>`<tr class="click-row" data-quote="${x.id}"><td class="company-name">${x.id}</td><td>${x.service}</td><td>${money(x.amount)}</td><td>${x.sent}</td><td>${statusPill(x.status)}</td><td>${x.next}</td></tr>`).join('')||'<tr><td colspan="6">No quotations yet.</td></tr>'}</tbody></table></div></section>`;}
+    function companyProjects(){return `<section class="card">${cardHead('Projects and installations','Delivery status after a deal is won')}<div class="table-wrap"><table><thead><tr><th>Project</th><th>Team</th><th>Stage</th><th>Progress</th><th>Expected completion</th></tr></thead><tbody>${data.projects.filter(x=>x.company===state.company).map(x=>`<tr><td class="company-name">${x.name}</td><td>${x.manager}</td><td>${x.stage}</td><td>${x.progress}%</td><td>${x.due}</td></tr>`).join('')||'<tr><td colspan="5">No projects yet. Won opportunities can convert to a project.</td></tr>'}</tbody></table></div></section>`;}
+    function companyTickets(){return `<section class="card">${cardHead('Service tickets','Maintenance requests from this customer')}<div class="table-wrap"><table><thead><tr><th>Ticket</th><th>Issue</th><th>Assigned technician</th><th>Priority</th><th>Status</th></tr></thead><tbody>${data.tickets.filter(x=>x.company===state.company).map(x=>`<tr><td>${x.id}</td><td>${x.issue}</td><td>${x.tech}</td><td>${x.priority}</td><td>${statusPill(x.status)}</td></tr>`).join('')||'<tr><td colspan="5">No open tickets for this company.</td></tr>'}</tbody></table></div></section>`;}
+    function companyAmc(p){return `<section class="card">${cardHead('AMC contracts','Recurring service and renewal reminders',btn('Create Renewal Opportunity','renewal','btn-primary btn-small','refresh'))}<div class="table-wrap"><table><thead><tr><th>Service</th><th>Contract value</th><th>Expiry</th><th>Status</th><th>Renewal</th></tr></thead><tbody>${data.amc.filter(x=>x.company===p.company).map(x=>`<tr><td>${x.service}</td><td>${money(x.value)}</td><td>${x.expiry}</td><td>${statusPill(x.status)}</td><td>${x.renewal}</td></tr>`).join('')||'<tr><td colspan="5">No AMC contracts. Create a renewal opportunity when a contract is active.</td></tr>'}</tbody></table></div></section>`;}
+    function opportunitiesPage(){const stages=['New Lead','Survey Required','Quotation','Follow-up','Negotiation','Won'];return `${heading('Sales pipeline','Opportunities','Each company can carry several service opportunities with their own next action.',btn('New opportunity','new-opportunity','btn-primary','plus'))}<div class="pipeline-board">${stages.map(s=>{const os=data.opportunities.filter(o=>o.stage===s);return `<section class="kanban-col"><div class="kanban-head"><strong>${s}</strong><span>${os.length}</span></div>${os.map(o=>`<article class="opp-card" data-opp="${o.id}"><div style="display:flex;justify-content:space-between;gap:4px"><h4>${esc(o.company)}</h4>${o.prob===100?tag('Won','green'):''}</div><div class="opp-service">${esc(o.name)} · ${esc(o.service)}</div><strong class="opp-value">${money(o.value)}${o.service==='IT AMC'?'<small>/year</small>':''}</strong><div class="opp-foot"><span class="opp-owner"><i class="avatar">${initials(o.owner)}</i>${esc(o.owner)}</span><span>${s==='Survey Required'?'Survey: ': 'Follow-up: '}${esc(o.follow)}</span></div></article>`).join('')||`<div style="padding:20px 8px;color:#9aa6ad;text-align:center;font-size:9px">No opportunities</div>`}</section>`}).join('')}</div><div class="form-note" style="margin-top:13px">Opportunity stages show where each service conversation stands. A company can have a CCTV project in quotation and an AMC renewal in follow-up at the same time.</div>`;}
+    function followupsPage(){const tabs=['Overdue','Today','Upcoming','Completed'];const list=data.followups.filter(f=>state.followTab==='Completed'?f.kind==='completed':state.followTab==='Upcoming'?f.kind==='upcoming':state.followTab.toLowerCase()===f.kind);return `${heading('Stay on the conversation','Follow-ups','Call, WhatsApp, visit or email with the next commitment visible.',btn('Add follow-up','new-followup','btn-primary','plus'))}<div class="alert-banner">${icon('alert',15)}<span><strong>${data.followups.filter(f=>f.kind==='overdue').length} overdue follow-ups</strong> need a recorded outcome. Keep every customer commitment attached to its opportunity.</span>${btn('Review overdue','followups-overdue','btn-small')}</div><div class="card"><div class="toolbar"><div class="tabs">${tabs.map(t=>`<button class="tab ${state.followTab===t?'active':''}" data-follow-tab="${t}">${t}${t==='Overdue'?` · ${data.followups.filter(f=>f.kind==='overdue').length}`:''}</button>`).join('')}</div><select class="control"><option>All sales staff</option><option>Ahmed</option><option>Ali</option><option>Omar</option></select><span class="muted" style="margin-left:auto;font-size:10px">${list.length} items</span></div><div class="followup-list">${list.map(f=>`<article class="followup"><div class="due-date ${f.kind==='today'?'today':''}">${f.kind==='overdue'?'OVERDUE':f.kind==='today'?'DUE TODAY':f.kind==='completed'?'COMPLETED':'UPCOMING'}<small style="display:block;margin-top:3px;color:#8d9aa2;font-size:9px;text-transform:none;font-weight:500">${esc(f.due)}</small></div><div><strong class="click-row" data-company="${esc(f.company)}">${esc(f.company)} · ${esc(f.opp)}</strong><small>${esc(f.contact)}</small></div><div class="followup-owner"><strong>${esc(f.owner)}</strong><small>Last contact · 28 Sep</small></div><div class="action-note">“${esc(f.note)}”</div><div>${f.kind==='completed'?tag('Completed','green'):`<button class="btn btn-small ${f.kind==='overdue'?'btn-primary':''}" data-action="complete-followup" data-follow="${f.id}">${f.kind==='overdue'?'Complete':'Log update'}</button>`}</div></article>`).join('')||`<div class="empty-state"><strong>Nothing here right now</strong>Completed and upcoming follow-ups will appear in this list.</div>`}</div></div>`;}
+    function surveysPage(){const rows=data.surveys;return `${heading('Requirements before pricing','Site Surveys','Capture the site details, quantities and customer expectations before a quote is prepared.',btn('New site survey','new-survey','btn-primary','plus'))}<div class="grid-3" style="margin-bottom:13px">${[['CCTV Survey','Camera count · NVR · storage · cabling'],['Network Survey','Points · switches · access points · rack'],['Villa Automation','Rooms · devices · priorities · budget']].map((x,i)=>`<button class="card card-pad" style="text-align:left;cursor:pointer;border-top:3px solid ${['#168b91','#4375c5','#7760ad'][i]}" data-action="new-survey" data-template="${['CCTV Survey','Network Survey','Villa Automation'][i]}"><div style="display:flex;justify-content:space-between"><strong style="color:#35505f;font-size:11px">${x[0]}</strong>${icon('arrow',13)}</div><span style="display:block;margin-top:6px;color:#8997a0;font-size:9px">${x[1]}</span></button>`).join('')}</div><section class="card">${cardHead('Active surveys','Two need a report or visit before the quotation can proceed')}<div>${rows.map(s=>`<article class="survey-row"><div class="record-title"><strong>${esc(s.company)}</strong><small>${esc(s.type)} · ${s.id}</small></div><div class="record-cell">${esc(s.owner)}<small class="cell-sub">Assigned staff</small></div><div class="record-cell">${esc(s.date)}<small class="cell-sub">Survey date</small></div><div class="progress-cell"><div class="progress"><span style="width:${s.progress}%;background:${s.progress>=80?'#3b986f':'#168b91'}"></span></div><span>${s.progress}%</span></div><div>${statusPill(s.status)}</div><div class="row-action"><button class="btn btn-small" data-action="open-survey" data-survey="${s.id}">Open ${icon('arrow',12)}</button></div></article>`).join('')}</div></section><section class="card card-pad" style="margin-top:13px">${cardHead('Survey workflow','A short field checklist keeps technical requirements attached to the sales opportunity')}<div class="pipeline" style="grid-template-columns:repeat(4,1fr)">${[['Visit booked','Confirm customer access'],['Capture scope','Counts, layout, priorities'],['Review report','Sales and technical check'],['Create quotation','Quote from survey scope']].map((x,i)=>`<div class="stage"><div class="stage-label"><i class="stage-dot" style="--dot:${i<2?'#168b91':'#a8b9be'}"></i>${x[0]}</div><small style="white-space:normal;margin-top:7px">${x[1]}</small></div>`).join('')}</div></section>`;}
+    function quotesPage(){return `${heading('Commercial proposals','Quotations','See which prices are sent, how long they have waited and when the customer expects a reply.',btn('Create quotation','create-quote','btn-primary','plus'))}<div class="metric-row">${[['Pending follow-up','12'],['Waiting over 5 days','4'],['Approved this month','6'],['Sent this month',money(126800)]].map(x=>`<div class="card metric-tile"><span>${x[0]}</span><strong>${x[1]}</strong></div>`).join('')}</div><div class="card"><div class="toolbar"><input class="control search-control" placeholder="Search quote, company or service…" data-quote-search><select class="control"><option>All statuses</option><option>Follow-up</option><option>Sent</option><option>Approved</option></select><select class="control"><option>All sales staff</option><option>Ahmed</option><option>Ali</option><option>Omar</option></select><button class="btn btn-small" data-action="export-quotes">${icon('download',13)} Export</button></div><div class="table-wrap"><table><thead><tr><th>Quote No.</th><th>Company / service</th><th>Amount</th><th>Salesperson</th><th>Sent date</th><th>Status</th><th>Age</th><th>Next follow-up</th></tr></thead><tbody>${data.quotes.map(q=>`<tr class="click-row" data-quote="${q.id}"><td class="company-name">${q.id}<span class="cell-sub">Revision ${q.rev}</span></td><td>${esc(q.company)}<span class="cell-sub">${esc(q.service)}</span></td><td style="font-weight:650;color:#345160">${money(q.amount)}</td><td>${esc(q.owner)}</td><td>${esc(q.sent)}</td><td>${statusPill(q.status)}</td><td>${esc(q.age)}</td><td>${esc(q.next)}</td></tr>`).join('')}</tbody></table></div></div>`;}
+    function projectsPage(){return `${heading('After the sale','Projects & installations','Give sales and management clear delivery status after an opportunity is won.',btn('Convert opportunity','choose-convert','btn-primary','plus'))}<div class="metric-row">${[['Active projects','8'],['In installation','3'],['Waiting for material','2'],['Delayed','2']].map(x=>`<div class="card metric-tile"><span>${x[0]}</span><strong>${x[1]}</strong></div>`).join('')}</div><div class="card">${cardHead('Project tracker','Installation stages from site survey to customer handover')}<div>${data.projects.map(p=>`<article class="project-row"><div class="record-title"><strong>${esc(p.name)}</strong><small>${esc(p.id)} · <button class="text-link" data-company="${esc(p.company)}">${esc(p.company)}</button></small></div><div class="record-cell">${money(p.value)}<small class="cell-sub">Project value</small></div><div class="record-cell">${esc(p.manager)}<small class="cell-sub">Assigned team</small></div><div class="progress-cell"><div class="progress"><span style="width:${p.progress}%"></span></div><span>${p.progress}%</span></div><div>${tag(p.stage,p.stage==='Material'?'amber':'purple')}</div><div class="row-action"><button class="btn btn-small" data-action="open-project" data-project="${p.id}">View</button></div></article>`).join('')}</div></div><section class="card card-pad" style="margin-top:13px">${cardHead('Delivery stages','Keep the customer handoff visible')}<div class="pipeline" style="grid-template-columns:repeat(7,1fr)">${['Site Survey','Design','Material','Installation','Configuration','Testing','Handover'].map((s,i)=>`<div class="stage"><div class="stage-label"><i class="stage-dot" style="--dot:${i<3?'#7760ad':'#bdc9ce'}"></i>${s}</div><small style="white-space:normal">${i===2?'Waiting for delivery':'Project milestone'}</small></div>`).join('')}</div></section>`;}
+    function ticketsPage(){return `${heading('Customer support','Service Tickets','Open maintenance issues assigned to the technicians supporting your customers.',btn('Create ticket','new-ticket','btn-primary','plus'))}<div class="metric-row">${[['Open tickets','12'],['Assigned','8'],['Waiting for parts','3'],['Completed today','7']].map(x=>`<div class="card metric-tile"><span>${x[0]}</span><strong>${x[1]}</strong></div>`).join('')}</div><div class="card">${cardHead('Service desk','New → Assigned → Technician visit → In progress → Completed')}<div>${data.tickets.map(t=>`<article class="ticket-row"><div class="record-title"><strong>${esc(t.id)} · ${esc(t.company)}</strong><small>${esc(t.issue)}</small></div><div class="record-cell">${esc(t.device)}<small class="cell-sub">Device / service</small></div><div class="record-cell">${esc(t.tech)}<small class="cell-sub">Technician</small></div><div class="record-cell">${tag(t.priority,t.priority==='High'?'red':t.priority==='Medium'?'amber':'gray')}</div><div>${statusPill(t.status)}</div><div class="row-action"><button class="btn btn-small" data-action="cycle-ticket" data-ticket="${t.id}">Update status</button></div></article>`).join('')}</div></div>`;}
+    function amcPage(){return `${heading('Recurring service revenue','AMC Contracts','Track active annual maintenance agreements and create renewal opportunities in time.',btn('Create AMC','new-amc','btn-primary','plus'))}<div class="alert-banner">${icon('alert',15)}<span><strong>3 AMC contracts expire within 30 days.</strong> Assign a renewal follow-up before the service period ends.</span><button class="btn btn-small" data-action="amc-expiring">View expiring</button></div><div class="metric-row">${[['Active contracts','28'],['Renewals due in 30 days','3'],['Renewal value',money(42200)],['Renewed this quarter','11']].map(x=>`<div class="card metric-tile"><span>${x[0]}</span><strong>${x[1]}</strong></div>`).join('')}</div><div class="card">${cardHead('Contract renewals','Current term, service value and next renewal action')}<div class="table-wrap"><table><thead><tr><th>Customer</th><th>Service</th><th>Contract value</th><th>Start</th><th>Expiry</th><th>Status</th><th>Renewal</th><th>Next step</th></tr></thead><tbody>${data.amc.map(a=>`<tr><td class="company-name click-row" data-company="${esc(a.company)}">${esc(a.company)}</td><td>${esc(a.service)}</td><td>${money(a.value)}</td><td>${esc(a.start)}</td><td>${esc(a.expiry)}</td><td>${statusPill(a.status)}</td><td>${tag(a.renewal,a.status==='Expiring Soon'?'amber':'blue')}</td><td><button class="btn btn-small" data-action="renewal" data-company="${esc(a.company)}">Create opportunity</button></td></tr>`).join('')}</tbody></table></div></div>`;}
+    function teamPage(){const team=[{n:'Ahmed',assigned:42,visited:31,interested:15,quotes:9,won:4,sales:42500,conversion:'12.9%',overdue:2},{n:'Ali',assigned:37,visited:28,interested:12,quotes:8,won:3,sales:31000,conversion:'10.7%',overdue:3},{n:'Omar',assigned:45,visited:36,interested:18,quotes:11,won:5,sales:58200,conversion:'13.9%',overdue:2}];return `${heading('Field performance','Sales Team','Measure the field activity that creates opportunities, quotations and won revenue.',`<button class="btn" data-action="team-period">This month⌄</button>`)}<div class="grid-3">${team.map(t=>`<article class="card team-card"><div class="team-top"><div class="avatar">${initials(t.n)}</div><div><strong>${t.n}</strong><span>Field Sales · Jeddah</span></div>${tag('Active','green')}</div><div class="team-stats"><div><span>Companies assigned</span><strong>${t.assigned}</strong></div><div><span>Visited</span><strong>${t.visited}</strong></div><div><span>Interested</span><strong>${t.interested}</strong></div><div><span>Quotations</span><strong>${t.quotes}</strong></div><div><span>Won</span><strong>${t.won}</strong></div><div><span>Conversion</span><strong>${t.conversion}</strong></div></div><div class="team-sales"><span>Sales generated</span><strong>${money(t.sales)}</strong></div><div style="display:flex;justify-content:space-between;margin-top:10px;color:#86949d;font-size:9px"><span>${t.overdue} overdue follow-ups</span><button class="text-link" data-action="staff-detail" data-staff="${t.n}">View activity ${icon('arrow',11)}</button></div></article>`).join('')}</div><section class="card card-pad" style="margin-top:13px">${cardHead('Team activity comparison','Visits create opportunities; follow-through creates sales. This month to date.')}<div class="reports-layout"><div class="report-bars">${[['Visits',72],['Opportunities',46],['Quotes sent',37],['Deals won',23]].map((x,i)=>`<div class="report-bar"><span>${x[0]}</span><div class="bar-track"><span style="width:${x[1]}%;--bar:${['#168b91','#599da0','#719eac','#3c916e'][i]}"></span></div><strong>${[95,45,28,12][i]}</strong></div>`).join('')}</div><div class="report-bars">${team.map((t,i)=>`<div class="report-bar"><span>${t.n} · sales</span><div class="bar-track"><span style="width:${[73,53,100][i]}%;--bar:${i===1?'#76aaa8':'#168b91'}"></span></div><strong>${(t.sales/1000).toFixed(1)}k</strong></div>`).join('')}</div></div></section>`;}
+    function reportsPage(){return `${heading('Management insight','Reports','See which sources, services and Jeddah areas turn field activity into sales.',`<button class="btn" data-action="report-period">${icon('calendar',13)} Sep 2026⌄</button>${btn('Export report','export-report','','download')}`)}<div class="reports-layout"><section class="card card-pad">${cardHead('Lead source','48 new prospects added this month')}<div class="report-bars">${[['Field Visit',78],['WhatsApp',44],['Referral',58],['Website',29],['Existing Customer',36],['Meta Ads',18]].map((x,i)=>`<div class="report-bar"><span>${x[0]}</span><div class="bar-track"><span style="width:${x[1]}%;--bar:${i===0?'#168b91':'#79b8b3'}"></span></div><strong>${[24,8,7,4,3,2][i]}</strong></div>`).join('')}</div></section><section class="card card-pad">${cardHead('Sales by service','Won value · this month')}<div class="report-bars">${[['CCTV',68],['IT AMC',42],['Networking',50],['Villa Automation',84],['ERP',35],['Hardware',26]].map((x,i)=>`<div class="report-bar"><span>${x[0]}</span><div class="bar-track"><span style="width:${x[1]}%;--bar:${i===3?'#7760ad':'#78aaa9'}"></span></div><strong>${['31k','18k','23k','42k','16k','11k'][i]}</strong></div>`).join('')}</div></section><section class="card card-pad">${cardHead('Area performance','Prospects through won business')}<div class="table-wrap"><table><thead><tr><th>Jeddah area</th><th>Prospects</th><th>Visited</th><th>Interested</th><th>Won</th><th>Sales value</th></tr></thead><tbody>${[['Al Rawdah',38,29,14,5,42500],['Al Salamah',27,21,10,3,28600],['Al Zahra',22,16,8,2,19200],['Al Hamra',31,23,12,4,35400],['Industrial Area',44,34,17,6,51200]].map(x=>`<tr><td class="company-name">${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td>${x[4]}</td><td>${money(x[5])}</td></tr>`).join('')}</tbody></table></div></section><section class="card card-pad">${cardHead('Lost reasons','12 opportunities closed without a sale')}<div class="loss-list">${[['Price',5],['No Requirement',2],['Existing Supplier',2],['No Response',1],['Postponed',1],['Competitor',1]].map((x,i)=>`<div class="loss-line"><span>${x[0]}</span><div class="bar-track"><span style="width:${x[1]*18}%;--bar:${i===0?'#c5786d':'#d2aaa2'}"></span></div><strong>${x[1]}</strong></div>`).join('')}</div></section></div><div class="form-note" style="margin-top:13px">Area coverage is based on company records and logged visits. No GPS tracking or automatic prospect scraping is included.</div>`;}
+    function showToast(msg){toastRegion.innerHTML=`<div class="toast">${icon('check',15)}<span>${esc(msg)}</span></div>`;clearTimeout(state.toastTimer);state.toastTimer=setTimeout(()=>toastRegion.innerHTML='',3200);}
+    function openModal(title,subtitle,body,actions='',wide=false){modalRoot.innerHTML=`<div class="modal-backdrop" data-close-modal><section class="modal ${wide?'wide':''}" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-head"><div><h2 id="modalTitle">${title}</h2><p>${subtitle||''}</p></div><button class="modal-close" data-close-modal aria-label="Close dialog">${icon('close',15)}</button></div>${body}<div class="modal-foot">${actions||'<span></span><button class="btn" data-close-modal>Close</button>'}</div></section></div>`;modalRoot.querySelector('.modal')?.focus();document.body.style.overflow='hidden';const f=modalRoot.querySelector('input,select,textarea,button');if(f)setTimeout(()=>f.focus(),20);}
+    function closeModal(){modalRoot.innerHTML='';document.body.style.overflow='';}
+    function field(label,control,full=false){return `<div class="form-field ${full?'full':''}"><label>${label}</label>${control}</div>`;}
+    function select(name,options,value=''){return `<select name="${name}">${options.map(o=>`<option ${o===value?'selected':''}>${o}</option>`).join('')}</select>`;}
+    function startVisit(company){const p=companyRecord(company);openModal('Record field visit',`Log the conversation at ${esc(company)} and decide the next action.`, `<div class="modal-body"><div class="form-grid">${field('Company',`<input name="company" value="${esc(company)}" readonly>`)}${field('Contact person met',`<input name="contact" value="${esc(p.contact)}">`)}${field('Services discussed',`<input name="services" value="CCTV, Annual IT Maintenance" placeholder="CCTV, Network, AMC">`)}${field('Interest level',select('interest',['High','Medium','Low'],'High'))}${field('Outcome',select('outcome',['Interested','Site Survey Required','Quotation Requested','Follow-up Later','Not Interested','Could Not Meet'],'Site Survey Required'))}${field('Next action',select('nextAction',['Schedule site survey','Prepare quotation','Call customer','Visit again','Close as not interested'],'Schedule site survey'))}${field('Next follow-up date',`<input name="followDate" type="date" value="2026-10-02">`)}${field('Visit notes',`<textarea name="notes" placeholder="What did the customer ask for?">Customer requested CCTV options and an annual maintenance proposal.</textarea>`,true)}</div></div>`, `<button class="btn" data-close-modal>Cancel</button><button class="btn btn-primary" data-submit="complete-visit">${icon('check',14)} Complete Visit</button>`);}
+    function addProspect(){openModal('Add a company prospect','Capture the company, a real contact and the next field action.',`<div class="modal-body"><div class="form-grid">${field('Company name','<input name="company" placeholder="e.g. Jeddah Star Contracting" required>')}${field('Industry',select('industry',['Trading','Restaurant','Healthcare','Construction','Logistics','Residential','Other']))}${field('Area',select('area',['Al Rawdah','Al Salamah','Al Zahra','Al Hamra','Industrial Area','Al Safa']))}${field('Primary contact','<input name="contact" placeholder="Contact person">')}${field('Mobile / WhatsApp','<input name="phone" placeholder="+966 5X XXX XXXX">')}${field('Potential service',select('service',['CCTV','IT AMC','Network','Network AMC','Villa Automation','ERP','Hardware Supply','Printer Maintenance']))}${field('Assigned staff',select('assigned',['Ahmed','Ali','Omar']))}${field('Next action',select('next',['Plan first visit','Call contact','Send introduction']))}${field('Notes','<textarea name="notes" placeholder="Business context or service requirement"></textarea>',true)}</div></div>`,`<button class="btn" data-close-modal>Cancel</button><button class="btn btn-primary" data-submit="save-prospect">${icon('plus',14)} Save prospect</button>`);}
+    function importProspects(){openModal('Import prospects','Bring known company records into the field plan.',`<div class="modal-body"><p style="margin:0 0 14px;color:#667b86;font-size:11px">Prepare a structured list, then review and assign it before your team visits.</p><div class="grid-2">${[['Excel / CSV','Upload a reviewed company list'],['Existing customer list','Identify additional service needs'],['Business directory','Enter selected companies manually'],['Marketing research','Add qualified area prospects']].map(x=>`<div class="card" style="padding:12px;box-shadow:none"><strong style="color:#395361;font-size:10px">${x[0]}</strong><p style="margin:4px 0 0;color:#88969f;font-size:9px">${x[1]}</p></div>`).join('')}</div><p class="form-note" style="margin-top:13px">Prospects are entered from information you already have. This demo does not scrape directories automatically.</p></div>`,'<button class="btn" data-close-modal>Close</button><button class="btn btn-primary" data-submit="import-demo">Choose a sample list</button>');}
+    function openOpportunity(id){const o=data.opportunities.find(x=>x.id===id)||data.opportunities[0];state.oppId=o.id;openModal(esc(o.name),`${esc(o.company)} · ${esc(o.id)} · ${esc(o.service)}`,`<div class="modal-body"><div class="form-grid">${field('Company',`<input value="${esc(o.company)}" readonly>`)}${field('Opportunity name',`<input name="name" value="${esc(o.name)}">`)}${field('Service',select('service',['CCTV','IT AMC','Network','Villa Automation','ERP','Hardware','Printer Maintenance'],o.service))}${field('Estimated value',`<input name="value" type="number" value="${o.value}">`)}${field('Assigned sales staff',select('owner',['Ahmed','Ali','Omar'],o.owner))}${field('Stage',select('stage',['New Lead','Survey Required','Quotation','Follow-up','Negotiation','Won'],o.stage))}${field('Confidence',select('prob',['25%','35%','45%','55%','65%','75%','90%','100%'],`${o.prob}%`))}${field('Next follow-up',`<input name="follow" value="${esc(o.follow)}">`)}${field('Next action',select('nextAction',['Call customer','Schedule site survey','Prepare quotation','Follow up quotation','Revise proposal','Convert to project'],o.stage==='Won'?'Convert to project':'Follow up quotation'))}${field('Notes',`<textarea name="notes">${esc(o.note)}</textarea>`,true)}${field('Related survey',`<input value="${esc(o.survey||'Not linked')}" readonly>`)}${field('Related quotation',`<input value="${esc(o.quote||'Not created')}" readonly>`)}</div></div>`,`<button class="btn" data-close-modal>Close</button><span style="display:flex;gap:7px">${o.stage!=='Won'?`<button class="btn" data-action="create-quote-for-opp" data-opp="${o.id}">${icon('file',13)} Create quotation</button><button class="btn btn-primary" data-submit="save-opportunity">Save changes</button>`:`<button class="btn btn-primary" data-action="convert-project" data-opp="${o.id}">Convert to project ${icon('arrow',13)}</button>`}</span>`);}
+    function surveyModal(template='CCTV Survey',survey=null){const s=survey||{company:template==='Villa Automation'?'Al Noor Villa':'ABC Trading LLC'};let details=template==='CCTV Survey'?`${field('Indoor cameras','<input name="indoor" type="number" value="2">')}${field('Outdoor cameras','<input name="outdoor" type="number" value="6">')}${field('NVR / DVR','<input name="nvr" value="8-channel NVR">')}${field('Storage requirement','<input name="storage" value="4TB">')}${field('Cabling required',select('cabling',['Yes','No'],'Yes'))}${field('Monitor required',select('monitor',['Yes','No'],'No'))}${field('Remote viewing',select('remote',['Required','Not required'],'Required'))}${field('Customer request','<input name="request" value="Phone viewing for owner">')}`:template==='Network Survey'?`${field('Number of computers','<input name="computers" type="number" value="18">')}${field('Network points','<input name="points" type="number" value="24">')}${field('Switches','<input name="switches" value="2 × 24 port">')}${field('Wi-Fi access points','<input name="aps" type="number" value="4">')}${field('Server / firewall','<input name="server" value="Existing server">')}${field('Cabling and rack','<input name="rack" value="New rack required">')}${field('Current network issues','<textarea name="issues">Wi-Fi coverage in rear offices</textarea>',true)}`:`${field('Villa size','<input name="size" value="420 sqm">')}${field('Floors / rooms','<input name="rooms" value="3 floors · 8 rooms">')}${field('Estimated budget','<input name="budget" value="SAR 30,000–35,000">')}${field('Customer priorities','<input name="priority" value="Lighting, curtains, AC">')}${field('Checklist',`<div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;color:#617581;font-size:9px">${['Smart Lighting','Smart Curtains','Alexa / Voice Control','Smart AC','CCTV','Door Access','Smart Switches','Intercom','Wi-Fi','Home Theatre'].map(x=>`<label style="font-size:9px;font-weight:500"><input type="checkbox" ${['Smart Lighting','Smart Curtains','Alexa / Voice Control','Smart AC','Wi-Fi'].includes(x)?'checked':''}> ${x}</label>`).join('')}</div>`,true)}${field('Site notes','<textarea>Owner prioritises scene controls in living areas.</textarea>',true)}`;openModal(`Site survey · ${esc(template)}`,`${esc(s.company)} · Add measurements and requirements before pricing.`, `<div class="modal-body"><div class="form-grid">${field('Company',`<input value="${esc(s.company)}" name="company">`)}${field('Survey date','<input type="date" value="2026-09-30">')}${details}${field('Installation notes','<textarea name="notes">Cabling required. Customer requests remote viewing.</textarea>',true)}<div class="form-note form-field full">Photos can be attached in a connected implementation. Record key counts and customer expectations here for the demo.</div></div></div>`,`<button class="btn" data-close-modal>Close</button><span style="display:flex;gap:7px"><button class="btn" data-submit="save-survey">Save Survey</button><button class="btn btn-primary" data-action="create-quote">Create Quotation ${icon('arrow',13)}</button></span>`,true);}
+    function completeFollowup(id){const f=data.followups.find(x=>x.id===id);if(!f)return;openModal('Complete follow-up',`${esc(f.company)} · ${esc(f.opp)} · Assigned to ${esc(f.owner)}`,`<div class="modal-body"><div class="form-grid">${field('Contacted by',select('channel',['Phone','WhatsApp','Visit','Email'],'Phone'))}${field('Outcome',select('outcome',['No Answer','Call Later','Interested','Quotation Requested','Negotiating','Won','Lost'],'Interested'))}${field('Notes',`<textarea name="notes">${esc(f.note)}</textarea>`,true)}${field('Next follow-up',`<input name="next" type="date" value="2026-10-02">`)}${field('Assign to',select('owner',['Ahmed','Ali','Omar'],f.owner))}</div></div>`,`<button class="btn" data-close-modal>Cancel</button><button class="btn btn-primary" data-submit="save-followup">${icon('check',14)} Save follow-up</button>`);state.activeFollow=id;}
+    function quoteDetail(id){const q=data.quotes.find(x=>x.id===id)||data.quotes[0];openModal(`Quotation ${esc(q.id)}`,`${esc(q.company)} · ${esc(q.service)} · Revision ${q.rev}`,`<div class="modal-body"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:13px"><div><div class="mini-label">Customer proposal</div><strong style="display:block;margin-top:4px;color:#2b4656;font-size:12px">${esc(q.company)}</strong></div>${statusPill(q.status)}</div><div class="quote-lines">${q.items.map((i,n)=>`<div class="quote-line"><span>${n+1}. ${esc(i)}</span><strong>${money([2400,1800,1050,2250,1000][n]||650)}</strong></div>`).join('')}</div><div class="quote-total"><div><span>Subtotal</span><strong>${money(Math.round(q.amount/1.15))}</strong></div><div><span>VAT 15%</span><strong>${money(q.amount-Math.round(q.amount/1.15))}</strong></div><div><span>Total</span><strong>${money(q.amount)}</strong></div></div><div class="form-note" style="margin-top:14px">Sent ${esc(q.sent)} · Quotation age: ${esc(q.age)} · Next follow-up: ${esc(q.next)}</div><div style="margin-top:14px"><div class="mini-label">Revision history</div><div style="display:flex;gap:8px;margin-top:7px">${Array.from({length:q.rev},(_,i)=>`<span class="tag ${i===q.rev-1?'teal':'gray'}">Revision ${i+1}${i===q.rev-1?' · Current':''}</span>`).join('')}</div></div></div>`,`<button class="btn" data-close-modal>Close</button><span style="display:flex;gap:7px"><button class="btn" data-action="revise-quote" data-quote="${q.id}">Create Revision</button><button class="btn btn-primary" data-action="quote-to-opportunity" data-quote="${q.id}">Open opportunity ${icon('arrow',13)}</button></span>`,true);}
+    function newQuote(oppId){let o=data.opportunities.find(x=>x.id===oppId)||data.opportunities.find(x=>x.id===state.oppId)||data.opportunities[0];openModal('Create quotation',`${esc(o.company)} · ${esc(o.name)} · Prepare a price proposal.`, `<div class="modal-body"><div class="form-grid">${field('Company',`<input value="${esc(o.company)}" readonly>`)}${field('Opportunity',`<input value="${esc(o.name)}" readonly>`)}${field('Service',`<input name="service" value="${esc(o.service)}">`)}${field('Quotation amount (SAR)',`<input type="number" name="amount" value="${o.value}">`)}${field('Salesperson',select('owner',['Ahmed','Ali','Omar'],o.owner))}${field('Status',select('status',['Draft','Sent','Follow-up'],'Draft'))}${field('Items',`<textarea name="items">8 CCTV cameras\nNVR\n4TB hard disk\nCabling and installation\nConfiguration and remote viewing</textarea>`,true)}<div class="form-note form-field full">VAT is included in this demo total. A PDF can be attached in a connected implementation.</div></div></div>`,`<button class="btn" data-close-modal>Cancel</button><button class="btn btn-primary" data-submit="save-quote">Create quotation ${icon('arrow',13)}</button>`);state.quoteOppId=o.id;}
+    function convertProject(id){const o=data.opportunities.find(x=>x.id===id)||data.opportunities.find(x=>x.id===state.oppId);if(!o)return;openModal('Convert opportunity to project',`${esc(o.company)} · ${esc(o.name)} will be marked won and handed to delivery.`, `<div class="modal-body"><div class="form-grid">${field('Project name',`<input name="projectName" value="${esc(o.company.replace(' LLC',''))} ${esc(o.service)} Installation">`)}${field('Project value',`<input type="number" name="projectValue" value="${o.value}">`)}${field('Assigned team',select('team',['Technician Team A','Technician Team B','Technician Team C']))}${field('Current stage',select('stage',['Site Survey','Design','Material','Installation','Configuration','Testing','Handover'],'Material'))}${field('Start date','<input type="date" value="2026-09-30">')}${field('Expected completion','<input type="date" value="2026-10-20">')}<div class="form-note full">The opportunity is marked Won and delivery progress becomes visible under Projects and the company profile.</div></div></div>`,`<button class="btn" data-close-modal>Cancel</button><button class="btn btn-primary" data-submit="convert-project">${icon('check',14)} Mark Won &amp; Create Project</button>`);state.convertOppId=o.id;}
+    function newFollowup(){openModal('Schedule a follow-up','Create a dated next action connected to a company opportunity.',`<div class="modal-body"><div class="form-grid">${field('Company',select('company',data.prospects.map(p=>p.company),'ABC Trading LLC'))}${field('Opportunity',select('opp',data.opportunities.map(o=>o.name),'CCTV Upgrade'))}${field('Assigned staff',select('owner',['Ahmed','Ali','Omar'],'Ahmed'))}${field('Due date','<input name="due" type="date" value="2026-10-02">')}${field('Reminder type',select('channel',['Phone','WhatsApp','Visit','Email']))}${field('Next action','<input name="action" value="Call customer about quotation">')}${field('Note','<textarea name="notes" placeholder="Context for the next conversation"></textarea>',true)}</div></div>`,`<button class="btn" data-close-modal>Cancel</button><button class="btn btn-primary" data-submit="save-new-followup">Schedule follow-up</button>`);}
+    function projectDetail(id){const p=data.projects.find(x=>x.id===id)||data.projects[0];openModal(esc(p.name),`${esc(p.id)} · ${esc(p.company)} · ${money(p.value)}`,`<div class="modal-body"><div class="key-value"><div><span>Assigned team</span><strong>${esc(p.manager)}</strong></div><div><span>Current stage</span><strong>${esc(p.stage)}</strong></div><div><span>Start date</span><strong>${esc(p.start)}</strong></div><div><span>Expected completion</span><strong>${esc(p.due)}</strong></div></div><div style="margin-top:20px"><div class="mini-label">Delivery progress · ${p.progress}%</div><div class="progress" style="height:8px;margin-top:8px"><span style="width:${p.progress}%"></span></div></div><div class="check-services" style="margin-top:17px">${['Site Survey','Design','Material','Installation','Configuration','Testing','Handover'].map((x,i)=>tag(x,i<3?'green':i===3?'purple':'gray')).join('')}</div><p class="form-note" style="margin-top:15px">Simple delivery visibility keeps sales informed after the customer accepts.</p></div>`,`<button class="btn" data-close-modal>Close</button><button class="btn btn-primary" data-action="advance-project" data-project="${p.id}">Advance stage ${icon('arrow',13)}</button>`);}
+    function handleAction(action,el){const company=el.dataset.company||state.company;switch(action){case'add-prospect':addProspect();break;case'import-prospects':importProspects();break;case'start-visit':startVisit(company);break;case'call':showToast(`Call ${companyRecord(company).contact} at ${companyRecord(company).phone}`);break;case'directions':showToast(`Area directions: ${companyRecord(company).area}, Jeddah`);break;case'open-company':openCompanyFromClick(company);break;case'new-opportunity':newQuoteOpportunity();break;case'new-followup':newFollowup();break;case'complete-followup':completeFollowup(el.dataset.follow);break;case'new-survey':surveyModal(el.dataset.template||'CCTV Survey');break;case'open-survey':surveyModal(data.surveys.find(s=>s.id===el.dataset.survey)?.type||'CCTV Survey',data.surveys.find(s=>s.id===el.dataset.survey));break;case'create-quote':newQuote(state.oppId);break;case'create-quote-for-opp':newQuote(el.dataset.opp);break;case'revise-quote':{const q=data.quotes.find(x=>x.id===el.dataset.quote);if(q){q.rev++;q.status='Revised';showToast(`${q.id} revised to revision ${q.rev}`);closeModal();render();}break;}case'quote-to-opportunity':{const q=data.quotes.find(x=>x.id===el.dataset.quote);if(q){closeModal();openOpportunity(data.opportunities.find(o=>o.company===q.company)?.id||state.oppId)}break;}case'convert-project':convertProject(el.dataset.opp||state.oppId);break;case'choose-convert':{const o=data.opportunities.find(o=>o.stage!=='Won');o?convertProject(o.id):showToast('All visible opportunities are already won.');break;}case'open-project':projectDetail(el.dataset.project);break;case'advance-project':{const p=data.projects.find(x=>x.id===el.dataset.project);const ss=['Site Survey','Design','Material','Installation','Configuration','Testing','Handover'];if(p){let i=ss.indexOf(p.stage);p.stage=ss[Math.min(i+1,6)];p.progress=Math.min(100,p.progress+12);closeModal();render();showToast(`${p.name} moved to ${p.stage}`)}break;}case'cross-sell':newCrossSell(el.dataset.service);break;case'renewal':newRenewal(company);break;case'amc-expiring':showToast('Showing contracts with less than 30 days remaining.');break;case'cycle-ticket':{const t=data.tickets.find(x=>x.id===el.dataset.ticket);const ss=['New','Assigned','Technician Visit','In Progress','Waiting for Parts','Completed'];if(t){t.status=ss[(ss.indexOf(t.status)+1)%ss.length];render();showToast(`${t.id} status updated to ${t.status}`)}break;}case'export-report':case'export-quotes':showToast('Report prepared for this demo.');break;case'area-plan':showToast('Area coverage groups the visits planned for each Jeddah territory.');break;case'team-period':case'report-period':showToast('Showing September 2026 activity.');break;case'staff-detail':showToast(`${el.dataset.staff} activity is reflected in the team performance view.`);break;case'followups-overdue':state.followTab='Overdue';render();break;case'create-project':convertProject(state.oppId);break;case'new-ticket':openModal('Create service ticket','Record a maintenance request for an existing customer.',`<div class="modal-body"><div class="form-grid">${field('Customer',select('company',data.prospects.map(p=>p.company),'ABC Trading LLC'))}${field('Issue','<input name="issue" placeholder="Describe the issue">')}${field('Device / service','<input name="device" placeholder="Device or covered service">')}${field('Priority',select('priority',['Low','Medium','High']))}${field('Assigned technician',select('tech',['Technician A','Technician B','Technician C']))}${field('Notes','<textarea name="notes"></textarea>',true)}</div></div>`,`<button class="btn" data-close-modal>Cancel</button><button class="btn btn-primary" data-submit="save-ticket">Create ticket</button>`);break;case'new-amc':showToast('AMC setup panel is ready for a connected implementation.');break;}}
+    function newQuoteOpportunity(){const p=companyRecord(state.company);openModal('Create an opportunity','Add a separate service requirement under the company record.',`<div class="modal-body"><div class="form-grid">${field('Company',select('company',data.prospects.map(p=>p.company),p.company))}${field('Opportunity name','<input name="name" placeholder="e.g. Annual IT AMC" required>')}${field('Service',select('service',['CCTV','IT AMC','Network','Villa Automation','ERP','Hardware','Printer Maintenance']))}${field('Estimated value (SAR)','<input name="value" type="number" value="15000">')}${field('Assigned staff',select('owner',['Ahmed','Ali','Omar'],p.assigned))}${field('Stage',select('stage',['New Lead','Survey Required','Quotation','Follow-up','Negotiation'],'New Lead'))}${field('Next follow-up','<input name="follow" type="date" value="2026-10-02">')}${field('Notes','<textarea name="notes"></textarea>',true)}</div></div>`,`<button class="btn" data-close-modal>Cancel</button><button class="btn btn-primary" data-submit="save-opportunity-new">Create opportunity</button>`);}
+    function newCrossSell(service){openModal('Create cross-sell opportunity',`${esc(state.company)} · Add a new service conversation.`, `<div class="modal-body"><div class="form-grid">${field('Company',`<input value="${esc(state.company)}" readonly>`)}${field('Service',`<input name="service" value="${esc(service)}">`)}${field('Opportunity name',`<input name="name" value="${esc(service)}">`)}${field('Estimated value (SAR)','<input name="value" type="number" value="15000">')}${field('Assigned to',select('owner',['Ahmed','Ali','Omar'],'Ahmed'))}${field('Next action',select('next',['Call customer','Plan a visit','Prepare proposal']))}</div></div>`,`<button class="btn" data-close-modal>Cancel</button><button class="btn btn-primary" data-submit="save-cross-sell">Create opportunity</button>`);}
+    function newRenewal(company){openModal('Create AMC renewal opportunity',`${esc(company)} · Carry contract value and expiry into a follow-up.`, `<div class="modal-body"><div class="form-grid">${field('Company',`<input value="${esc(company)}" readonly>`)}${field('Service',`<input name="service" value="Annual IT AMC renewal">`)}${field('Estimated value (SAR)','<input name="value" type="number" value="15000">')}${field('Assigned staff',select('owner',['Ahmed','Ali','Omar'],'Ahmed'))}${field('Renewal follow-up','<input type="date" value="2026-10-02">')}${field('Note','<textarea>Review scope and confirm renewal before expiry.</textarea>',true)}</div></div>`,`<button class="btn" data-close-modal>Cancel</button><button class="btn btn-primary" data-submit="save-cross-sell">Create renewal opportunity</button>`);}
+    function bindFormSubmit(type){const form=modalRoot.querySelector('.modal');const get=n=>form.querySelector(`[name="${n}"]`)?.value||'';if(type==='complete-visit'){const company=get('company'),p=companyRecord(company),out=get('outcome');const visit=data.visits.find(v=>v.company===company&&!v.done);if(visit){visit.done=true;visit.outcome=out;}else data.visits.unshift({company,area:p.area,contact:get('contact'),business:p.business||p.industry,services:get('services').split(/[,;+]/).map(s=>s.trim()).filter(Boolean),assigned:p.assigned,priority:'High',time:'Now',outcome:out,done:true});p.contact=get('contact');p.status=out==='Not Interested'?'Not Interested':'Interested';p.last='30 Sep';p.next=get('followDate')?new Date(get('followDate')+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'}):'2 Oct';if(company==='ABC Trading LLC'){let cctv=data.opportunities.find(o=>o.id==='OP-2041');if(cctv){cctv.stage='Survey Required';cctv.note=get('notes');}if(!data.opportunities.some(o=>o.company===company&&o.service==='IT AMC'))data.opportunities.push({id:'OP-2051',company,name:'Annual IT AMC',service:'IT AMC',value:15000,owner:p.assigned,stage:'Follow-up',follow:'2 Oct',prob:50,note:'Customer interested in annual IT maintenance.'});if(!data.followups.some(f=>f.company===company&&f.opp==='CCTV Upgrade'&&f.kind==='upcoming'))data.followups.unshift({id:'FU-105',company,opp:'CCTV Upgrade',owner:p.assigned,due:p.next,kind:'upcoming',note:'Follow up after survey and revised CCTV price.',contact:get('contact')});}closeModal();render();showToast(`Visit recorded for ${company}. ${out} · next follow-up ${p.next}.`);}
+      else if(type==='save-prospect'){if(!get('company'))return showToast('Enter a company name first.');const p={id:`C${String(data.prospects.length+1).padStart(3,'0')}`,company:get('company'),industry:get('industry'),area:get('area'),contact:get('contact')||'Contact pending',phone:get('phone')||'—',service:get('service'),assigned:get('assigned'),status:'Assigned',last:'—',next:get('next'),source:'Manual Entry',business:get('industry'),used:[],potential:[get('service')]};data.prospects.unshift(p);closeModal();render();showToast(`${p.company} added to prospects.`);}
+      else if(type==='import-demo'){closeModal();showToast('Sample source selected. Review company details before importing.');}
+      else if(type==='save-opportunity'){const o=data.opportunities.find(x=>x.id===state.oppId);if(o){o.name=get('name');o.service=get('service');o.value=Number(get('value'));o.owner=get('owner');o.stage=get('stage');o.prob=parseInt(get('prob'))||o.prob;o.follow=get('follow');o.note=get('notes');}closeModal();render();showToast('Opportunity details saved.');}
+      else if(type==='save-opportunity-new'||type==='save-cross-sell'){const company=get('company')||state.company;const service=get('service');const o={id:`OP-${2050+data.opportunities.length}`,company,name:get('name')||service,service,value:Number(get('value'))||15000,owner:get('owner')||'Ahmed',stage:get('stage')||'New Lead',follow:get('follow')||'2 Oct',prob:40,note:get('notes')||'New customer requirement.'};data.opportunities.push(o);const p=companyRecord(company);if(!p.potential.includes(service))p.potential.push(service);closeModal();state.page='opportunities';render();showToast(`${service} opportunity added to ${company}.`);}
+      else if(type==='save-followup'){const f=data.followups.find(x=>x.id===state.activeFollow);if(f){f.kind='completed';f.due='30 Sep';f.note=get('notes');const outcome=get('outcome');if(outcome==='Won'){const o=data.opportunities.find(x=>x.company===f.company&&x.name===f.opp);if(o)o.stage='Won';}}closeModal();render();showToast('Follow-up outcome saved to the company timeline.');}
+      else if(type==='save-new-followup'){const company=get('company');data.followups.unshift({id:`FU-${100+data.followups.length}`,company,opp:get('opp'),owner:get('owner'),due:'2 Oct',kind:'upcoming',note:get('notes')||get('action'),contact:companyRecord(company).contact});closeModal();render();showToast(`Follow-up scheduled for ${company}.`);}
+      else if(type==='save-survey'){const company=get('company');let s=data.surveys.find(x=>x.company===company);if(s){s.status='Report pending';s.progress=100;s.date='30 Sep';}else data.surveys.unshift({id:'SV-093',company,type:'CCTV Survey',owner:'Ahmed',date:'30 Sep',status:'Report pending',progress:100});const o=data.opportunities.find(x=>x.id===state.oppId);if(o)o.survey=s?.id||'SV-093';closeModal();render();showToast(`Site survey saved for ${company}.`);}
+      else if(type==='save-quote'){const o=data.opportunities.find(x=>x.id===state.quoteOppId)||data.opportunities[0];const q={id:`QT-${1043+data.quotes.length}`,company:o.company,service:get('service'),amount:Number(get('amount'))||o.value,owner:get('owner'),sent:'30 Sep',status:get('status')==='Draft'?'Follow-up':get('status'),age:'Today',next:'2 Oct',items:get('items').split('\n').filter(Boolean),rev:1};data.quotes.unshift(q);o.quote=q.id;o.stage='Quotation';o.follow='2 Oct';if(o.id==='OP-2041')o.stage='Quotation';closeModal();render();showToast(`${q.id} created · ${money(q.amount)}. Opportunity moved to quotation.`);}
+      else if(type==='convert-project'){const id=state.convertOppId;const o=data.opportunities.find(x=>x.id===id);if(o){o.stage='Won';o.prob=100;let project={id:`PR-${303+data.projects.length}`,company:o.company,name:get('projectName'),value:Number(get('projectValue'))||o.value,manager:get('team'),stage:get('stage'),progress:get('stage')==='Material'?25:10,start:'30 Sep 2026',due:'20 Oct 2026',status:'In progress'};data.projects.unshift(project);const p=companyRecord(o.company);if(!p.used.includes(o.service))p.used.push(o.service);p.status='Converted';closeModal();state.page='projects';render();showToast(`${o.company} marked won. Project ${project.id} is ready for delivery.`);}}
+      else if(type==='save-ticket'){data.tickets.unshift({id:`TK-${205+data.tickets.length}`,company:get('company'),issue:get('issue'),device:get('device'),tech:get('tech'),priority:get('priority'),status:'New',date:'30 Sep'});closeModal();render();showToast('Service ticket created.');}
+    }
+    function openCompanyFromClick(company){state.company=company;state.companyTab='Overview';state.page='companyDetail';document.getElementById('crumbPage').textContent=company;document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page==='companies'));render();window.scrollTo({top:0,behavior:'smooth'});}
+    function bindEvents(){
+      document.getElementById('mainNav').addEventListener('click',e=>{const b=e.target.closest('[data-page]');if(b)navTo(b.dataset.page)});
+      content.addEventListener('click',e=>{
+        const nav=e.target.closest('[data-nav]');if(nav){navTo(nav.dataset.nav);return}
+        const tab=e.target.closest('[data-field-tab]');if(tab){state.fieldTab=tab.dataset.fieldTab;render();return}
+        const ft=e.target.closest('[data-follow-tab]');if(ft){state.followTab=ft.dataset.followTab;render();return}
+        const ct=e.target.closest('[data-company-tab]');if(ct){state.companyTab=ct.dataset.companyTab;render();return}
+        const action=e.target.closest('[data-action]');if(action){handleAction(action.dataset.action,action);return}
+        const opp=e.target.closest('[data-opp]');if(opp){openOpportunity(opp.dataset.opp);return}
+        const quote=e.target.closest('[data-quote]');if(quote){quoteDetail(quote.dataset.quote);return}
+        const comp=e.target.closest('[data-company]');if(comp){openCompanyFromClick(comp.dataset.company);return}
+      });
+      content.addEventListener('change',e=>{if(e.target.matches('[data-filter]')){state.filters[e.target.dataset.filter]=e.target.value;render()}});
+      content.addEventListener('input',e=>{if(e.target.matches('[data-prospect-search]')){state.prospectSearch=e.target.value;const pos=e.target.selectionStart;render();const el=content.querySelector('[data-prospect-search]');el?.focus();el?.setSelectionRange(pos,pos)}if(e.target.matches('[data-company-search]')){state.companySearch=e.target.value;const pos=e.target.selectionStart;render();const el=content.querySelector('[data-company-search]');el?.focus();el?.setSelectionRange(pos,pos)}});
+      modalRoot.addEventListener('click',e=>{if(e.target.matches('[data-close-modal]')){closeModal();return}const submit=e.target.closest('[data-submit]');if(submit){bindFormSubmit(submit.dataset.submit);return}const action=e.target.closest('[data-action]');if(action)handleAction(action.dataset.action,action)});
+      document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modalRoot.innerHTML)closeModal();if(e.key==='Tab'&&modalRoot.innerHTML){const els=[...modalRoot.querySelectorAll('button,input,select,textarea,[tabindex]:not([tabindex="-1"])')].filter(x=>!x.disabled);if(els.length){if(e.shiftKey&&document.activeElement===els[0]){e.preventDefault();els.at(-1).focus()}else if(!e.shiftKey&&document.activeElement===els.at(-1)){e.preventDefault();els[0].focus()}}}});
+      document.getElementById('menuToggle').addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('open'));
+      document.getElementById('alertButton').addEventListener('click',()=>{state.page='followups';state.followTab='Overdue';navTo('followups')});
+      const search=document.getElementById('globalSearch'),searchInput=document.getElementById('globalSearchInput');search.addEventListener('click',()=>search.classList.add('is-open'));searchInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&searchInput.value.trim()){state.prospectSearch=searchInput.value;state.page='prospects';navTo('prospects');setTimeout(()=>{const i=content.querySelector('[data-prospect-search]');if(i)i.value=searchInput.value},10)}});
+    }
+    function init(){bindEvents();render();}
+    init();
+  })();
+  </script>
+</body>
+</html>

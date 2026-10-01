@@ -1,0 +1,12 @@
+'use client';
+import {useEffect,useRef,useState} from 'react';
+import {LayoutDashboard,Package,Receipt,Truck,MoreHorizontal,Users,Wallet,Settings,X} from 'lucide-react';
+import s from './laundry.module.css';
+const primary=[['Dashboard',LayoutDashboard,'Home'],['Orders',Package,'Orders'],['Billing',Receipt,'Billing'],['Delivery',Truck,'Delivery']] as const;
+const secondary=[['Customers',Users],['Accounting',Wallet],['Settings',Settings]] as const;
+export default function MobileNavigation({view,navigate}:{view:string;navigate:(v:string)=>void}){
+ const [more,setMore]=useState(false),dialog=useRef<HTMLDialogElement>(null);
+ useEffect(()=>{if(!more)return;const active=document.activeElement as HTMLElement;dialog.current?.showModal();return()=>{dialog.current?.close();active?.focus()}},[more]);
+ useEffect(()=>{const media=matchMedia('(max-width:650px)');const update=()=>{if(!media.matches)setMore(false)};media.addEventListener('change',update);return()=>media.removeEventListener('change',update)},[]);
+ return <><nav className={s.mobileNav} aria-label="Mobile laundry navigation">{primary.map(([label,Icon,short])=><button key={label} aria-label={label} aria-current={view===label?'page':undefined} className={view===label?s.mobileActive:''} onClick={()=>navigate(label)}><Icon size={20}/><span>{short}</span></button>)}<button aria-label="More navigation" aria-expanded={more} aria-controls="laundry-more-menu" className={secondary.some(([label])=>label===view)?s.mobileActive:''} onClick={()=>setMore(true)}><MoreHorizontal size={20}/><span>More</span></button></nav><dialog id="laundry-more-menu" ref={dialog} className={s.mobileMenu} onCancel={()=>setMore(false)} aria-labelledby="laundry-more-title" onClick={e=>{if(e.target===e.currentTarget){const box=e.currentTarget.getBoundingClientRect();if(e.clientY<box.top||e.clientY>box.bottom||e.clientX<box.left||e.clientX>box.right)setMore(false)}}}><header><h2 id="laundry-more-title">More in Laundry desk</h2><button aria-label="Close navigation" onClick={()=>setMore(false)}><X size={20}/></button></header><nav aria-label="More laundry navigation">{secondary.map(([label,Icon])=><button key={label} aria-current={view===label?'page':undefined} className={view===label?s.mobileActive:''} onClick={()=>{setMore(false);navigate(label)}}><Icon size={20}/><span>{label}</span></button>)}</nav><p>Choose a workspace. Your local records and branch stay selected.</p></dialog></>;
+}

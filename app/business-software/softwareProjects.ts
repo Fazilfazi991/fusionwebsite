@@ -181,6 +181,66 @@ export const softwareProjects: SoftwareProject[] = [
       }
     ],
     accent: "blue"
+  },
+  {
+    slug: "multi-company-crm",
+    title: "Multi-Company CRM",
+    type: "Multi-Company Sales & Operations CRM",
+    description:
+      "One workspace for advertising and giveaways, custom packaging, and project supply, with separate customers, sales pipelines and company-specific order workflows.",
+    positioning:
+      "Follow the full journey from customer meetings and opportunity updates to itemized quotations, artwork approvals, production and delivery. Switch between three companies without mixing their records.",
+    features: ["Three Company Workspaces", "Customers & Meetings", "Sales Pipelines", "Itemized Quotations", "Artwork & Approvals", "Orders & Delivery"],
+    status: "Live interactive demo",
+    demoUrl: "/demo/multi-company-crm",
+    liveDemoLabel: "Launch Multi-Company CRM Demo",
+    screenshots: [{
+      id: "workspace-dashboard",
+      label: "Workspace Dashboard",
+      src: "/images/business-software/multi-company-crm/dashboard.webp",
+      alt: "Multi-Company CRM dashboard showing fictional customers, sales pipeline, company-specific order stages and meeting activity"
+    }],
+    accent: "blue"
+  },
+  {
+    slug: "computer-technology-crm",
+    title: "Computer Technology CRM",
+    type: "Field Sales & IT Operations CRM",
+    description:
+      "A field sales workspace for IT service teams, connecting prospect discovery, company visits, opportunities, site surveys, quotations and ongoing service work.",
+    positioning:
+      "Plan the team's daily visits and carry each company relationship through CCTV, networking, hardware and IT maintenance opportunities, projects, service tickets and AMC renewals.",
+    features: ["Field Visit Planning", "Prospects & Companies", "Site Surveys", "Sales & Quotations", "Projects & Service Tickets", "AMC Contracts"],
+    status: "Live interactive demo",
+    demoUrl: "/computer-technology-crm",
+    liveDemoLabel: "Launch Computer Technology CRM Demo",
+    screenshots: [{
+      id: "field-sales-dashboard",
+      label: "Field Sales Dashboard",
+      src: "/images/business-software/computer-technology-crm/dashboard.webp",
+      alt: "Computer Technology CRM dashboard showing fictional field visits, IT service opportunities, sales pipeline and team activity"
+    }],
+    accent: "blue"
+  },
+  {
+    slug: "laundry-crm",
+    title: "Laundry CRM",
+    type: "Multi-Branch Laundry Operations CRM",
+    description:
+      "A laundry operations workspace for three Bahrain branches, connecting customer intake, garment services, cleaning progress, delivery, invoices and collections.",
+    positioning:
+      "Take an order from the counter to delivery, track partial and full payments, and review branch-specific billing, expenses and reports in BHD. Explore offline workflows and simulated communications with fictional data.",
+    features: ["Three Branch Workspaces", "Customers & Garment Intake", "Cleaning & Delivery", "Billing & Collections", "Accounting & Reports", "Offline Demo Workflows"],
+    status: "Live interactive demo",
+    demoUrl: "/demo/laundry",
+    liveDemoLabel: "Launch Laundry CRM Demo",
+    screenshots: [{
+      id: "branch-dashboard",
+      label: "Branch Dashboard",
+      src: "/images/business-software/laundry-crm/dashboard.webp",
+      alt: "Laundry CRM Manama dashboard showing fictional BHD billing, collections, cleaning orders, delivery queue and branch reports"
+    }],
+    accent: "blue"
   }
 ];
 

@@ -103,28 +103,28 @@ export const softwareProjects: SoftwareProject[] = [
   {
     slug: "universal-pergola",
     title: "Universal Pergola",
-    type: "Business Operations & Content Platform",
+    type: "Sales & Project Operations Platform",
     description:
-      "A unified business platform connecting lead management, quotation workflows, content operations, SEO intelligence and digital automation.",
+      "An operations platform for architectural outdoor systems, connecting enquiries, customers, site visits, quotations, project delivery and accounts.",
     positioning:
-      "Designed to connect customer acquisition with the operational systems behind content, quotations, SEO and digital growth.",
+      "Follow each project from the first enquiry and site survey through quotation approval, manufacturing, installation, handover and payment tracking in a fictional public workspace.",
     features: [
       "Lead & Enquiry Management",
-      "Quote Request Workflows",
-      "Content Operations",
-      "SEO Intelligence",
-      "Automation Queues",
-      "Media & Project Management"
+      "Customers & Site Visits",
+      "Quotation Workflows",
+      "Project Delivery",
+      "Payments & Accounts",
+      "Operational Reporting"
     ],
     status: "Live interactive demo",
-    demoUrl: "https://pergola-public-demo.vercel.app/admin",
+    demoUrl: "https://universalpergola-public-demo.vercel.app/dashboard",
     liveDemoLabel: "Launch Live Demo",
     screenshots: [
       {
         id: "platform-dashboard",
         label: "Platform Dashboard",
         src: "/images/business-software/pergola/platform-dashboard.webp",
-        alt: "Universal Pergola business operations dashboard showing enquiries, content, SEO and automation signals"
+        alt: "Universal Pergola operations dashboard showing fictional enquiries, site visits, quotation approvals, projects and accounts"
       },
       {
         id: "enquiries",
@@ -133,22 +133,22 @@ export const softwareProjects: SoftwareProject[] = [
         alt: "Universal Pergola enquiries workspace showing synthetic lead records, project details and follow-up actions"
       },
       {
-        id: "quote-requests",
-        label: "Quote Requests",
-        src: "/images/business-software/pergola/quote-requests.webp",
-        alt: "Universal Pergola quote requests workspace showing synthetic quotation workflow records"
+        id: "quotations",
+        label: "Quotations",
+        src: "/images/business-software/pergola/quotations.webp",
+        alt: "Universal Pergola quotations workspace showing fictional sales quotations and approval stages"
       },
       {
-        id: "content-operations",
-        label: "Content Operations",
-        src: "/images/business-software/pergola/content-operations.webp",
-        alt: "Universal Pergola content operations workspace showing synthetic content records and editorial status"
+        id: "projects",
+        label: "Projects",
+        src: "/images/business-software/pergola/projects.webp",
+        alt: "Universal Pergola project operations workspace showing fictional manufacturing, installation and handover progress"
       },
       {
-        id: "seo-intelligence",
-        label: "SEO Intelligence",
-        src: "/images/business-software/pergola/seo-intelligence.webp",
-        alt: "Universal Pergola SEO intelligence workspace showing synthetic keyword and content opportunity data"
+        id: "accounts",
+        label: "Accounts",
+        src: "/images/business-software/pergola/accounts.webp",
+        alt: "Universal Pergola accounts dashboard showing fictional payments, outstanding balances and collections"
       }
     ],
     accent: "gold"

@@ -52,7 +52,7 @@ export const softwareProjects: SoftwareProject[] = [
     title: "Besmile",
     type: "Healthcare Operations Platform",
     description:
-      "A Director-level operations platform designed to bring clinical, administrative, employee and commercial workflows into one connected system.",
+      "Explore Besmile’s latest Director dashboard, with business KPIs, flexible reporting periods, finance charts and lead pipelines in a safe interactive demo.",
     positioning:
       "Built to centralize day-to-day healthcare operations across multiple user roles, with attendance, leave, scheduling, notifications and reporting represented in a safe synthetic public demo.",
     features: [
@@ -70,13 +70,13 @@ export const softwareProjects: SoftwareProject[] = [
       {
         id: "director-dashboard",
         label: "Director Dashboard",
-        src: "/images/business-software/besmile/director-dashboard.webp",
+        src: "/images/business-software/besmile/director-dashboard-v2.webp",
         alt: "Besmile Director dashboard showing business KPIs, revenue trends, finance overview and lead pipeline"
       },
       {
         id: "crm-leads",
         label: "CRM & Leads",
-        src: "/images/business-software/besmile/crm-leads.webp",
+        src: "/images/business-software/besmile/crm-leads-v2.webp",
         alt: "Besmile CRM leads management screen showing synthetic prospects, stages and follow-up actions"
       },
       {
@@ -88,13 +88,13 @@ export const softwareProjects: SoftwareProject[] = [
       {
         id: "finance",
         label: "Finance",
-        src: "/images/business-software/besmile/finance.webp",
+        src: "/images/business-software/besmile/finance-v2.webp",
         alt: "Besmile finance dashboard showing synthetic income, expenses and operational metrics"
       },
       {
         id: "reports",
         label: "Reports",
-        src: "/images/business-software/besmile/reports.webp",
+        src: "/images/business-software/besmile/reports-v2.webp",
         alt: "Besmile reports screen showing synthetic operational reporting data"
       }
     ],

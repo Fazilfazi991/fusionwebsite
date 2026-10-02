@@ -1,6 +1,6 @@
-# Static trading CRM sales demos
+# Static CRM sales demos
 
-ColdFlow and MedSupply are independent static HTML/CSS/JavaScript demos. The existing collection remains at `/business-software`; `/CRM` redirects there. All seven incumbent entries remain identical and in their original relative order.
+ColdFlow, MedSupply and Construction Desk are independent static HTML/CSS/JavaScript demos. The existing ten-demo collection remains at `/business-software`; `/CRM` redirects there. All seven incumbent entries remain identical and in their original relative order.
 
 ## Walk-through for 3 October 2026
 
@@ -8,20 +8,26 @@ ColdFlow and MedSupply are independent static HTML/CSS/JavaScript demos. The exi
 
 **MedSupply:** Open the Ritaj equipment enquiry or QT-2026-041 quotation. Revise the two monitors and ECG quotation, simulate sending, accept and convert it once. Allocate individual equipment serials, dispatch partially, complete a dated installation and handover, and inspect its warranty and service reminder. Finish dispatch, record a sample collection, create and complete a linked service job, then inspect customer history and reports.
 
-Both demos have an in-app guide. Reset before each prospect to restore the seed; reset deletes only that demo's state. Browser storage keeps changes on that browser/device between visits.
+**Construction Desk:** Open the Marina Beach project and its draft quotation. Edit recipient, project, subject and scope rows, save, reopen, revise, preview and download the real PDF. Simulate acceptance, approve a drawing, allocate material and receive a purchase, finish fabrication, release QA, dispatch, erect and hand over. Record milestone invoices and sample collections. The original milestones total 95%; demonstrate the flagged gap and explicitly agreed final-account adjustment before closeout. Open the project dossier to view its complete history and Closeout action.
+
+ColdFlow and MedSupply have in-app guides; Construction Desk exposes the connected stages and next gates in each project dossier. Reset before each prospect to restore the seed; reset deletes only that demo's state. Browser storage keeps changes on that browser/device between visits.
 
 ## Verification
 
 - ColdFlow acceptance: fourteen groups passed, including quantities/monetary validation, quote revisions, duplicate conversion, FIFO reservations, partial purchase receipts and deliveries, settlement, reload/deep links, cancellation, safe rendered user text, tasks, CSV and reset isolation. Nine views checked at 390px with no document overflow or page errors.
 - MedSupply acceptance: sixteen checks passed, including revisions and line editing, cancelled simulated sending, duplicate conversion, serial allocation, partial/full dispatch, future and duplicate handover guards, payment persistence, linked service completion, purchase receipts, serial uniqueness, safe rendered notes, search, CSV and reset. Twelve mobile views checked without document overflow or page errors.
-- Collection integration: both cards/details/launch links, desktop/mobile dashboards, `/CRM`, and all seven existing demo route smoke checks passed; browser page errors were empty. Original project entries are compared against baseline commit `9e6ed6fded4971c8aac761e48febf18725bf545c`.
+- Construction acceptance: all fourteen groups passed locally, including saved first-page fields, price/quantity edits, added/removed scope rows, revision/send guards, cancel/back, native PDF preview and downloads, the complete project journey through final-account closeout, all sixteen mobile views, persistence/reset isolation and no runtime errors. The independent PDF review inspected all three baseline and six stress pages: complete selectable vector text/tables, exact AED 508,950 baseline and AED 603,888.25 stress arithmetic, repeated headers, intact exclusions and clean page footers. See `construction-handoff.md`.
+- Collection integration passed all three cards/details/launch links, desktop/mobile dashboards, `/CRM`, and all seven existing demo routes, with zero page errors. Original project entries are compared against baseline commit `9e6ed6fded4971c8aac761e48febf18725bf545c`, and the two published trading entries against `e25f54e905c6f2427d1d0eb356ae43c86fe0fa54`.
 - Next production build, lint and TypeScript checking passed. Existing lint warnings remain in Laundry MobileNavigation and image elements in webportfolio/app-shell. The local build logs missing Supabase configuration for unrelated existing email routes; these demos do not use those routes or require that configuration.
 - Paired desktop/mobile review cleared the bounded phone readability, chart and disclosure fixes. Existing Inter/navy operational design is retained. A final documentation pass preserved the scoped system; small legacy-style desktop metadata was not made a reusable design rule.
+- Construction's single follow-up batch resolved scaled phone chart labels and hidden navigation affordance. Fresh paired captures received `disposition: ship` for those scored fixes with no introduced regressions. The shared documentation pass retained the inherited system and added only durable construction and quotation rules.
 
-Run the `.cjs` scripts in `scripts/trading-demo/` using Node and Playwright/Edge. `ac-acceptance.cjs` accepts `DEMO_BASE_URL`; `medical-acceptance.cjs` accepts `MEDICAL_URL`; `integration.cjs` accepts `SITE_URL`. Optional `CDP_URL` connects to an existing dedicated test browser. `serve.cjs` serves the public directory on localhost:3211 for independent static testing. Screenshots/test outputs stay outside deployed demo assets; `previews.cjs` generates the two collection WebP previews from captured dashboards.
+Run the `.cjs` scripts in `scripts/trading-demo/` using Node and Playwright/Edge. `ac-acceptance.cjs` and `construction-acceptance.cjs` accept `DEMO_BASE_URL`; `medical-acceptance.cjs` accepts `MEDICAL_URL`; `integration.cjs` accepts `SITE_URL`. Optional `CDP_URL` connects to an existing dedicated test browser. `serve.cjs` serves the public directory on localhost:3211 for independent static testing. Screenshots/test outputs stay outside deployed demo assets; `previews.cjs` generates the collection WebP previews from captured dashboards and construction quotation editor.
 
 ## Limits
 
 All customers, transactions, equipment serials, prices, payment records and service work are fictional. The seed uses 3 October 2026 as its operational date. VAT, costing and warranty examples illustrate a sales conversation and are not accounting or legal calculations for a real business. Sends, deliveries, payment recording and service completion are simulations. There is no authentication, database, backend, real payment or messaging integration, import, multi-user synchronization, patient data or clinical advice. CSV exports contain sample records. Browser-local state is not a production backup.
 
-Inter is self-hosted under its included OFL license. No remote fonts, API requests or new service credentials are required by either demo.
+Construction follows the supplied quotation's layout, logo, scope and terms, with typography and spacing reflowed for editable content. Its footer and contacts are fictional and its signature/stamp space is unsigned. Preserve the supplied VAT sentence verbatim; no tax policy is inferred. The original 95% milestone schedule remains visible. See `construction-assets.md` for the approved corporate logo and self-hosted PDF dependency provenance.
+
+Inter is self-hosted under its included OFL license. No remote fonts, API requests or new service credentials are required by any of the three demos.

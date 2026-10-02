@@ -7,7 +7,7 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'C:/Users/USER/.ca
 const root = path.resolve(__dirname, '../..');
 const base = process.env.SITE_URL || 'http://127.0.0.1:3210';
 const evidence = process.env.EVIDENCE_DIR || path.resolve(root, '../evidence');
-const newDemos = [['ac-parts-crm', 'ColdFlow'], ['medical-supply-crm', 'MedSupply']];
+const newDemos = [['ac-parts-crm', 'ColdFlow'], ['medical-supply-crm', 'MedSupply'], ['construction-crm', 'Construction Desk']];
 function projects(source) {
   const output = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS } }).outputText;
   const module = { exports: {} };
@@ -17,8 +17,10 @@ function projects(source) {
 (async () => {
   const original = projects(execFileSync('git', ['show', '9e6ed6fded4971c8aac761e48febf18725bf545c:app/business-software/softwareProjects.ts'], { cwd: root, encoding: 'utf8' }));
   const current = projects(fs.readFileSync(path.join(root, 'app/business-software/softwareProjects.ts'), 'utf8'));
-  assert.equal(current.length, 9);
-  assert.deepEqual(current.slice(2), original, 'All seven original project entries must remain identical');
+  assert.equal(current.length, 10);
+  assert.deepEqual(current.slice(3), original, 'All seven original project entries must remain identical');
+  const prior = projects(execFileSync('git', ['show', 'e25f54e905c6f2427d1d0eb356ae43c86fe0fa54:app/business-software/softwareProjects.ts'], { cwd: root, encoding: 'utf8' }));
+  assert.deepEqual(current.slice(0, 2), prior.slice(0, 2), 'The two newly published trading cards must remain identical');
   fs.mkdirSync(evidence, { recursive: true });
   const browser = process.env.CDP_URL ? await chromium.connectOverCDP(process.env.CDP_URL) : await chromium.launch({ headless: true, channel: 'msedge' });
   const context = await browser.newContext({ viewport: { width: 1440, height: 1050 }, reducedMotion: 'reduce' });
@@ -31,8 +33,8 @@ function projects(source) {
   await page.waitForURL('**/business-software');
   assert((await page.request.get(base + '/business-software')).ok(), 'The redirected collection returns 200');
   assert(new URL(page.url()).pathname === '/business-software', '/CRM redirects to the existing collection');
-  assert.equal(await page.locator('#projects article').count(), 9);
-  await page.getByRole('heading', { name: 'Nine systems. Nine distinct operating realities.' }).waitFor();
+  assert.equal(await page.locator('#projects article').count(), 10);
+  await page.getByRole('heading', { name: 'Ten systems. Ten distinct operating realities.' }).waitFor();
   for (const [slug, title] of newDemos) {
     const card = page.locator('#projects article').filter({ has: page.getByRole('heading', { name: title, exact: true }) });
     assert.equal(await card.count(), 1);
@@ -49,7 +51,7 @@ function projects(source) {
     const demoResponse = await page.goto(base + '/' + slug + '/index.html', { waitUntil: 'networkidle' });
     assert(demoResponse && demoResponse.ok(), slug + ' returns 200');
     await page.evaluate(() => document.fonts.ready);
-    assert((await page.locator('body').innerText()).includes(title));
+    assert((await page.locator('body').innerText()).toLowerCase().includes(title.toLowerCase()));
     assert((await page.locator('body').innerText()).length > 1000, slug + ' renders real dashboard content');
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), slug + ' desktop overflow');
     await page.screenshot({ path: path.join(evidence, slug + '-desktop.png'), fullPage: true });

@@ -59,6 +59,31 @@ export const softwareProjects: SoftwareProject[] = [
     accent: "gold"
   },
   {
+    slug: "construction-crm",
+    title: "Construction Desk",
+    type: "Construction & Steel Fabrication CRM",
+    description:
+      "Take an enquiry through estimation, editable PDF quotations, drawings, materials, fabrication, QA, delivery, erection and final collections.",
+    positioning:
+      "Keep a fictional steel project connected from tender to closeout. Prepare a revisioned quotation with a real PDF download, resolve operational gates and follow milestone billing from the same project history.",
+    features: ["Enquiries & Estimation", "Editable PDF Quotations", "Drawings & Materials", "Fabrication & QA/QC", "Delivery & Erection", "Billing & Project Closeout"],
+    status: "Interactive sales demo",
+    demoUrl: "/construction-crm/index.html",
+    liveDemoLabel: "Launch Construction Demo",
+    screenshots: [{
+      id: "construction-dashboard",
+      label: "Project Dashboard",
+      src: "/images/business-software/construction-crm/dashboard.webp",
+      alt: "Construction Desk fictional steel project dashboard with AED contracts, collections, workflow gates and project progress"
+    }, {
+      id: "construction-quotation",
+      label: "Quotation Editor",
+      src: "/images/business-software/construction-crm/quotation.webp",
+      alt: "Construction Desk editable DPSC quotation with scope rows, quantities, rates, revisions and a real PDF download"
+    }],
+    accent: "blue"
+  },
+  {
     slug: "equipflow",
     title: "EquipFlow",
     type: "Equipment Rental Operations Platform",

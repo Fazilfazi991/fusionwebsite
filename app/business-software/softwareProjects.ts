@@ -19,6 +19,46 @@ export type SoftwareProject = {
 
 export const softwareProjects: SoftwareProject[] = [
   {
+    slug: "ac-parts-crm",
+    title: "ColdFlow",
+    type: "AC & Refrigeration Parts Trading CRM",
+    description:
+      "A complete parts trading desk connecting enquiries, itemized quotations, stock, purchasing, partial deliveries and collections in AED.",
+    positioning:
+      "Follow a Dubai parts enquiry through a revised quotation, sales order, backorder, supplier receipt and final delivery. Every change stays connected to the customer history in a fictional browser-local workspace.",
+    features: ["Enquiries & Customer History", "SKUs, Brands & Stock", "Quotations & Revisions", "Purchasing & Receipts", "Partial Deliveries & Backorders", "Collections & Reports"],
+    status: "Interactive sales demo",
+    demoUrl: "/ac-parts-crm/index.html",
+    liveDemoLabel: "Launch Parts Trading Demo",
+    screenshots: [{
+      id: "trading-dashboard",
+      label: "Trading Dashboard",
+      src: "/images/business-software/ac-parts-crm/dashboard.webp",
+      alt: "ColdFlow fictional AC and refrigeration parts trading dashboard with AED sales, stock alerts, quotation pipeline and delivery queue"
+    }],
+    accent: "blue"
+  },
+  {
+    slug: "medical-supply-crm",
+    title: "MedSupply",
+    type: "Medical Equipment Supplier CRM",
+    description:
+      "An equipment supplier workspace connecting sales, serialized stock, dispatch, installations, warranty, service contracts and collections in AED.",
+    positioning:
+      "Carry a fictional equipment enquiry from quotation and serial allocation to dispatch, installation and handover, then track warranty and service work from the same customer record.",
+    features: ["Equipment Sales & Quotations", "Models & Serial Tracking", "Purchasing & Dispatch", "Installations & Handover", "Warranty & Service Contracts", "Customer History & Reports"],
+    status: "Interactive sales demo",
+    demoUrl: "/medical-supply-crm/index.html",
+    liveDemoLabel: "Launch Equipment Supplier Demo",
+    screenshots: [{
+      id: "supplier-dashboard",
+      label: "Supplier Dashboard",
+      src: "/images/business-software/medical-supply-crm/dashboard.webp",
+      alt: "MedSupply fictional medical equipment supplier dashboard with AED revenue, serialized stock, installations and service reminders"
+    }],
+    accent: "gold"
+  },
+  {
     slug: "equipflow",
     title: "EquipFlow",
     type: "Equipment Rental Operations Platform",

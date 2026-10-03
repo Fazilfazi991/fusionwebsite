@@ -30,3 +30,9 @@
  .notice { font-size:12px; }
  .root .toast { overflow-wrap:anywhere; }
 }
+
+/* Keep BHD values and all three decimals together on narrow phones. */
+@media(max-width:359px) {
+ .metricCards,.accountingMetrics { grid-template-columns:minmax(0,1fr); }
+ .metricContent strong,.accountingMetrics strong { white-space:nowrap; overflow-wrap:normal; }
+}

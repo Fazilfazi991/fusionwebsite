@@ -19,6 +19,31 @@ export type SoftwareProject = {
 
 export const softwareProjects: SoftwareProject[] = [
   {
+    slug: "advertising-crm",
+    title: "AdWorks",
+    type: "Advertising, Printing & Gifting CRM",
+    description:
+      "Connect enquiries, itemized quotations, artwork approvals, in-house and outsourced production, deliveries and collections with customer and job profit.",
+    positioning:
+      "Follow a fictional Dubai signage and gifting job from quotation to artwork approval, supplier QC and partial delivery. Review itemized material, labor, vendor and delivery costs alongside earned revenue, cash and customer history.",
+    features: ["Enquiries & Quotations", "Artwork & Client Approvals", "Mixed Production Workflows", "Outsourcing & Supplier QC", "Delivery & Collections", "Customer & Job Profit"],
+    status: "Interactive sales demo",
+    demoUrl: "/advertising-crm/index.html",
+    liveDemoLabel: "Launch Advertising Demo",
+    screenshots: [{
+      id: "advertising-dashboard",
+      label: "Job Dashboard",
+      src: "/images/business-software/advertising-crm/dashboard.webp",
+      alt: "AdWorks fictional advertising and printing dashboard showing earned AED revenue, actual costs, job profit and production queues"
+    }, {
+      id: "advertising-customer",
+      label: "Customer Profit",
+      src: "/images/business-software/advertising-crm/customer.webp",
+      alt: "AdWorks customer dossier connecting orders, itemized job costs, earned profit, invoices and payment history"
+    }],
+    accent: "gold"
+  },
+  {
     slug: "ac-parts-crm",
     title: "ColdFlow",
     type: "AC & Refrigeration Parts Trading CRM",

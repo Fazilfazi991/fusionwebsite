@@ -16,7 +16,7 @@ function loadProjects(source) {
 (async () => {
   const projects = loadProjects(fs.readFileSync(path.join(root, 'app/business-software/softwareProjects.ts'), 'utf8'));
   const prior = loadProjects(execFileSync('git', ['show', '9eef441:app/business-software/softwareProjects.ts'], { cwd: root, encoding: 'utf8' }));
-  assert.deepEqual(projects, prior, 'All ten project records and destinations remain unchanged');
+  assert.deepEqual(projects.filter(project => project.slug !== 'advertising-crm'), prior, 'All ten prior project records and destinations remain unchanged');
   fs.mkdirSync(evidence, { recursive: true });
   const browser = await chromium.launch({ channel: 'msedge', headless: true });
   const report = { base, at: new Date().toISOString(), projectsUnchanged: true, checks: [], parentPageErrors: [] };
@@ -28,8 +28,8 @@ function loadProjects(source) {
       await page.goto(base + '/CRM', { waitUntil: 'networkidle' });
       await page.waitForURL('**/business-software');
       await page.getByRole('heading', { name: 'Explore our CRM demos.', exact: true }).waitFor();
-      await page.getByRole('heading', { name: 'Ten interactive CRM demos.', exact: true }).waitFor();
-      assert.equal(await page.locator('#projects article').count(), 10);
+      await page.getByRole('heading', { name: 'Eleven interactive CRM demos.', exact: true }).waitFor();
+      assert.equal(await page.locator('#projects article').count(), 11);
       await page.evaluate(() => document.fonts.ready);
       if (mode !== 'keyboard') await page.screenshot({ path: path.join(evidence, 'collection-' + mode + '.png') });
       const launch = async (link, project, surface) => {
@@ -75,7 +75,7 @@ function loadProjects(source) {
       await context.close();
     }
     assert.deepEqual(report.parentPageErrors, []);
-    assert.equal(report.checks.length, 60);
+    assert.equal(report.checks.length, 66);
     report.passed = true;
     fs.writeFileSync(path.join(evidence, 'preview-links-' + (/https:/.test(base) ? 'live' : 'local') + '.json'), JSON.stringify(report, null, 2));
     console.log(JSON.stringify({ passed: true, launches: report.checks.length, evidence }));

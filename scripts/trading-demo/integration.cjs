@@ -7,7 +7,8 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'C:/Users/USER/.ca
 const root = path.resolve(__dirname, '../..');
 const base = process.env.SITE_URL || 'http://127.0.0.1:3210';
 const evidence = process.env.EVIDENCE_DIR || path.resolve(root, '../evidence');
-const newDemos = [['ac-parts-crm', 'ColdFlow'], ['medical-supply-crm', 'MedSupply'], ['construction-crm', 'Construction Desk']];
+const newDemos = [['advertising-crm', 'AdWorks'], ['ac-parts-crm', 'ColdFlow'], ['medical-supply-crm', 'MedSupply'], ['construction-crm', 'Construction Desk']];
+let browser;
 function projects(source) {
   const output = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS } }).outputText;
   const module = { exports: {} };
@@ -17,12 +18,14 @@ function projects(source) {
 (async () => {
   const original = projects(execFileSync('git', ['show', '9e6ed6fded4971c8aac761e48febf18725bf545c:app/business-software/softwareProjects.ts'], { cwd: root, encoding: 'utf8' }));
   const current = projects(fs.readFileSync(path.join(root, 'app/business-software/softwareProjects.ts'), 'utf8'));
-  assert.equal(current.length, 10);
-  assert.deepEqual(current.slice(3), original, 'All seven original project entries must remain identical');
+  assert.equal(current.length, 11);
+  assert.deepEqual(current.slice(4), original, 'All seven original project entries must remain identical');
   const prior = projects(execFileSync('git', ['show', 'e25f54e905c6f2427d1d0eb356ae43c86fe0fa54:app/business-software/softwareProjects.ts'], { cwd: root, encoding: 'utf8' }));
-  assert.deepEqual(current.slice(0, 2), prior.slice(0, 2), 'The two newly published trading cards must remain identical');
+  assert.deepEqual(current.slice(1, 3), prior.slice(0, 2), 'The two published trading cards must remain identical');
+  const previousTen = projects(execFileSync('git', ['show', 'c05d87a:app/business-software/softwareProjects.ts'], { cwd: root, encoding: 'utf8' }));
+  assert.deepEqual(current.slice(1), previousTen, 'All ten preceding project records remain identical');
   fs.mkdirSync(evidence, { recursive: true });
-  const browser = process.env.CDP_URL ? await chromium.connectOverCDP(process.env.CDP_URL) : await chromium.launch({ headless: true, channel: 'msedge' });
+  browser = process.env.CDP_URL ? await chromium.connectOverCDP(process.env.CDP_URL) : await chromium.launch({ headless: true, channel: 'msedge' });
   const context = await browser.newContext({ viewport: { width: 1440, height: 1050 }, reducedMotion: 'reduce' });
   const page = await context.newPage();
   const pageErrors = [];
@@ -33,16 +36,17 @@ function projects(source) {
   await page.waitForURL('**/business-software');
   assert((await page.request.get(base + '/business-software')).ok(), 'The redirected collection returns 200');
   assert(new URL(page.url()).pathname === '/business-software', '/CRM redirects to the existing collection');
-  assert.equal(await page.locator('#projects article').count(), 10);
-  await page.getByRole('heading', { name: 'Ten interactive CRM demos.' }).waitFor();
+  assert.equal(await page.locator('#projects article').count(), 11);
+  await page.getByRole('heading', { name: 'Eleven interactive CRM demos.' }).waitFor();
   for (const [slug, title] of newDemos) {
     const card = page.locator('#projects article').filter({ has: page.getByRole('heading', { name: title, exact: true }) });
     assert.equal(await card.count(), 1);
-    assert.equal(await card.locator('a').getAttribute('href'), '/' + slug + '/index.html');
+    assert.equal(await card.locator('a[data-demo-preview]').getAttribute('href'), '/' + slug + '/index.html');
+    assert.equal(await card.locator('a[href="/' + slug + '/index.html"]').count(), 2, 'Screenshot and labelled CTA share the demo destination');
     await card.getByRole('button', { name: 'Explore Platform' }).click();
     const dialog = page.getByRole('dialog');
     await dialog.getByRole('heading', { name: title, exact: true }).waitFor();
-    assert.equal(await dialog.locator('a[href="/' + slug + '/index.html"]').count(), 1);
+    assert.equal(await dialog.locator('a[href="/' + slug + '/index.html"]').count(), 2);
     await page.getByRole('button', { name: 'Close software project details' }).click();
     assert.equal(await page.getByRole('dialog').count(), 0);
     result.checks.push('Collection card and detail navigation: ' + title);
@@ -75,4 +79,4 @@ function projects(source) {
   fs.writeFileSync(path.join(evidence, /https:/.test(base) ? 'live-integration.json' : 'local-integration.json'), JSON.stringify(result, null, 2));
   console.log(JSON.stringify(result, null, 2));
   await browser.close();
-})().catch(error => { console.error(error); process.exit(1); });
+})().catch(async error => { console.error(error); await browser?.close(); process.exitCode = 1; });

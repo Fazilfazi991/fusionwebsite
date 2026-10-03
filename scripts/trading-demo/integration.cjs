@@ -34,7 +34,7 @@ function projects(source) {
   assert((await page.request.get(base + '/business-software')).ok(), 'The redirected collection returns 200');
   assert(new URL(page.url()).pathname === '/business-software', '/CRM redirects to the existing collection');
   assert.equal(await page.locator('#projects article').count(), 10);
-  await page.getByRole('heading', { name: 'Ten systems. Ten distinct operating realities.' }).waitFor();
+  await page.getByRole('heading', { name: 'Ten interactive CRM demos.' }).waitFor();
   for (const [slug, title] of newDemos) {
     const card = page.locator('#projects article').filter({ has: page.getByRole('heading', { name: title, exact: true }) });
     assert.equal(await card.count(), 1);

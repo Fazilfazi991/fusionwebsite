@@ -19,6 +19,31 @@ export type SoftwareProject = {
 
 export const softwareProjects: SoftwareProject[] = [
   {
+    slug: "blastline-crm",
+    title: "Blastline",
+    type: "Equipment Sales, Rentals & Repair CRM",
+    description:
+      "Connect equipment and abrasive sales, physical rental assets and customer repair jobs with stock, dispatch, invoices and one customer history.",
+    positioning:
+      "Follow a fictional contractor buying Garnet, renting a compressor and repairing a WARRIOR pump. Check booking conflicts, accessory returns, internal fleet maintenance and approval-to-QC workshop gates in one browser-local workspace.",
+    features: ["Sales & Quotations", "Rental Dates & Availability", "Accessory Returns & Maintenance", "Repair Approval & QC", "Stock & Purchasing", "Unified Customer & Finance"],
+    status: "Interactive sales demo",
+    demoUrl: "/blastline-crm/index.html",
+    liveDemoLabel: "Launch Blastline Demo",
+    screenshots: [{
+      id: "blastline-dashboard",
+      label: "Operations Dashboard",
+      src: "/images/business-software/blastline-crm/dashboard.webp",
+      alt: "Blastline fictional equipment sales, rentals and repairs dashboard with AED collections and linked operating queues"
+    }, {
+      id: "blastline-customer",
+      label: "Three-Service Customer",
+      src: "/images/business-software/blastline-crm/customer.webp",
+      alt: "Blastline customer dossier joining Garnet sales, compressor rentals and WARRIOR pump repairs with invoice and receipt history"
+    }],
+    accent: "blue"
+  },
+  {
     slug: "advertising-crm",
     title: "AdWorks",
     type: "Advertising, Printing & Gifting CRM",

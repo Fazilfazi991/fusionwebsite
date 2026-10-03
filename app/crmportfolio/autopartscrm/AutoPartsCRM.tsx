@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, ReactNode, useEffect, useState } from "react";
+import { FormEvent, ReactNode, useEffect, useRef, useState } from "react";
 import {
   Activity,
   ArrowLeft,
@@ -20,6 +20,7 @@ import {
   LayoutDashboard,
   Menu,
   MoreVertical,
+  MoreHorizontal,
   PackageCheck,
   PanelLeftClose,
   PanelLeftOpen,
@@ -35,6 +36,8 @@ import {
   X,
   XCircle,
 } from "lucide-react";
+
+import mobileStyles from "./mobile.module.css";
 
 type Page =
   | "dashboard"
@@ -761,17 +764,35 @@ function Modal({
   onClose: () => void;
   wide?: boolean;
 }) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeCallbackRef = useRef(onClose);
+  useEffect(() => { closeCallbackRef.current = onClose; }, [onClose]);
+  useEffect(() => {
+    const previous = document.activeElement as HTMLElement;
+    const dialog = dialogRef.current;
+    const focusable = () => Array.from(dialog?.querySelectorAll<HTMLElement>('button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), a[href]') || []).filter(el => el.getClientRects().length);
+    focusable()[0]?.focus();
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { event.preventDefault(); closeCallbackRef.current(); }
+      if (event.key === 'Tab') { const controls = focusable(), first = controls[0], last = controls[controls.length - 1]; if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); } else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); } }
+    };
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKey);
+    return () => { document.body.style.overflow = overflow; document.removeEventListener('keydown', onKey); if (previous?.isConnected) previous.focus({ preventScroll: true }); };
+  }, []);
   return (
     <div
       className="fixed inset-0 z-50 grid place-items-center bg-slate-950/55 p-3"
       onMouseDown={(e) => e.target === e.currentTarget && onClose()}
     >
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
         className={cx(
-          "max-h-[94vh] w-full overflow-hidden rounded-xl bg-white shadow-2xl",
+          "max-h-[94dvh] w-full overflow-hidden rounded-xl bg-white shadow-2xl",
           wide ? "max-w-6xl" : "max-w-2xl",
         )}
       >
@@ -792,7 +813,7 @@ function Modal({
             <X size={18} />
           </button>
         </header>
-        <div className="max-h-[calc(94vh-76px)] overflow-y-auto p-5">
+        <div className="max-h-[calc(94dvh-76px)] overflow-y-auto p-5">
           {children}
         </div>
       </div>
@@ -823,7 +844,8 @@ function PageTitle({
 function DataTable({ children }: { children: ReactNode }) {
   return (
     <div className="overflow-hidden rounded-lg border border-slate-200 bg-white">
-      <div className="overflow-x-auto">
+      <p className={mobileStyles.tableCue}>Swipe the table to see all columns.</p>
+      <div className="overflow-x-auto" role="region" aria-label="Scrollable records" tabIndex={0}>
         <table className="w-full min-w-[900px] text-left text-[13px]">
           {children}
         </table>
@@ -867,7 +889,18 @@ export default function AutoPartsCRM() {
   const [quotes, setQuotes] = useState(seedQuotes);
   const [followups, setFollowups] = useState(seedFollowups);
   const [events, setEvents] = useState(seedEvents);
+  const navigationRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (!mobileMenu) return;
+    const previous = document.activeElement as HTMLElement;
+    const controls = () => Array.from(navigationRef.current?.querySelectorAll<HTMLElement>('button') || []).filter(el => el.getClientRects().length);
+    controls()[0]?.focus();
+    const onKey = (event: KeyboardEvent) => { if (event.key === 'Escape') { event.preventDefault(); setMobileMenu(false); } if (event.key === 'Tab') { const buttons = controls(), first = buttons[0], last = buttons[buttons.length - 1]; if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); } else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); } } };
+    document.addEventListener('keydown', onKey);
+    return () => { document.removeEventListener('keydown', onKey); if (previous?.isConnected) previous.focus({ preventScroll: true }); };
+  }, [mobileMenu]);
   const [ready, setReady] = useState(false);
+  const [storageError, setStorageError] = useState("");
   const [modal, setModal] = useState<
     "lead" | "inquiry" | "customer" | "followup" | "close" | "reset" | null
   >(null);
@@ -909,11 +942,11 @@ export default function AutoPartsCRM() {
         setFollowups(d.followups || seedFollowups);
         setEvents(d.events || seedEvents);
       }
-    } catch {}
+    } catch { setStorageError("Saved demo records could not be read. Fresh fictional samples are shown."); }
     setReady(true);
   }, []);
   useEffect(() => {
-    if (ready)
+    if (ready) { try {
       localStorage.setItem(
         "autoparts-crm-demo-v5",
         JSON.stringify({
@@ -925,6 +958,7 @@ export default function AutoPartsCRM() {
           events,
         }),
       );
+    } catch { setStorageError("Browser storage is unavailable or full. Changes work for this session; reload may restore older samples."); } }
   }, [ready, leads, customers, inquiries, quotes, followups, events]);
   useEffect(() => {
     if (!toast) return;
@@ -1282,7 +1316,7 @@ export default function AutoPartsCRM() {
     setQuotes(seedQuotes);
     setFollowups(seedFollowups);
     setEvents(seedEvents);
-    localStorage.removeItem("autoparts-crm-demo-v5");
+    try { localStorage.removeItem("autoparts-crm-demo-v5"); } catch { setStorageError("Browser storage is unavailable. Samples are restored for this session; saved records may return after reload."); }
     setModal(null);
     go("dashboard");
     notify("Demo data restored");
@@ -1300,8 +1334,12 @@ export default function AutoPartsCRM() {
   );
   const currentLabel = navItems.find((n) => n.id === page)?.label || "Settings";
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#f6f7f9] font-sans text-slate-900">
+    <div className={cx(mobileStyles.root, "min-h-screen bg-[#f6f7f9] font-sans text-slate-900")}>
       <aside
+        ref={navigationRef}
+        role={mobileMenu ? "dialog" : undefined}
+        aria-modal={mobileMenu ? "true" : undefined}
+        aria-label="Auto Parts navigation"
         className={cx(
           "fixed inset-y-0 left-0 z-40 flex flex-col bg-[#17202b] text-white transition-all",
           sidebarOpen ? "w-[244px]" : "w-[72px]",
@@ -1332,10 +1370,12 @@ export default function AutoPartsCRM() {
             )}
           </button>
         </div>
-        <nav className="flex-1 space-y-1 px-3 py-4">
+        <nav aria-label="Auto Parts modules" className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
           {navItems.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
+              aria-label={label}
+              aria-current={page === id ? "page" : undefined}
               onClick={() => go(id)}
               className={cx(
                 "flex h-10 w-full items-center rounded-md text-slate-300 hover:bg-white/5 hover:text-white",
@@ -1390,6 +1430,8 @@ export default function AutoPartsCRM() {
         <header className="sticky top-0 z-20 flex h-[72px] items-center border-b border-slate-200 bg-white/95 px-4 backdrop-blur sm:px-6">
           <button
             onClick={() => setMobileMenu(true)}
+            aria-label="Open navigation"
+            aria-expanded={mobileMenu}
             className="mr-3 rounded-md border border-slate-200 p-2 lg:hidden"
           >
             <Menu size={18} />
@@ -1414,7 +1456,9 @@ export default function AutoPartsCRM() {
             <Avatar name={currentUser} />
           </div>
         </header>
+        <p className={mobileStyles.disclosure}>Fictional demo records · Changes stay in this browser · No real sends</p>
         <main className="mx-auto max-w-[1600px] p-4 sm:p-6 lg:p-8">
+          {storageError && <p role="alert" className={mobileStyles.storageError}>{storageError}</p>}
           {page === "dashboard" && (
             <Dashboard
               leads={leads}
@@ -2111,10 +2155,14 @@ export default function AutoPartsCRM() {
           </div>
         </Modal>
       )}
+      <nav className={mobileStyles.mobileNav} aria-label="Mobile Auto Parts navigation">
+        {navItems.filter(item => ["dashboard", "inquiries", "quotations", "followups"].includes(item.id)).map(({id, label, icon: Icon}) => <button key={id} aria-label={label} aria-current={page === id ? "page" : undefined} onClick={() => go(id)}><Icon size={20}/><span>{id === "dashboard" ? "Home" : id === "quotations" ? "Quotes" : label}</span></button>)}
+        <button aria-label="More navigation" aria-expanded={mobileMenu} onClick={() => { setSidebarOpen(true); setMobileMenu(true); }}><MoreHorizontal size={20}/><span>More</span></button>
+      </nav>
       {toast && (
         <div
           role="status"
-          className="fixed bottom-5 right-5 z-[60] flex max-w-sm items-center gap-2 rounded-lg bg-slate-900 px-4 py-3 text-sm font-medium text-white shadow-xl"
+          className={cx(mobileStyles.toast, "fixed bottom-5 right-5 z-[60] flex max-w-sm items-center gap-2 rounded-lg bg-slate-900 px-4 py-3 text-sm font-medium text-white shadow-xl")}
         >
           <CheckCircle2 size={17} className="text-green-400" />
           {toast}
@@ -2245,8 +2293,8 @@ function Dashboard({
             className="min-h-[92px] rounded-xl border border-slate-200 bg-white p-3 text-left hover:border-blue-300 sm:min-h-0 sm:p-4"
           >
             <div className="text-xs font-medium text-slate-500">{k.label}</div>
-            <div className="mt-2 break-words text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
-              {k.value}
+            <div className={cx(mobileStyles.metricValue, "mt-2 text-lg font-bold tracking-tight text-slate-950 sm:text-xl")}>
+              {String(k.value).startsWith("AED") ? <><small>AED</small><span>{String(k.value).replace(/^AED\s*/, "")}</span></> : k.value}
             </div>
           </button>
         ))}

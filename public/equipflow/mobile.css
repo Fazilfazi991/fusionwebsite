@@ -1,0 +1,30 @@
+/* Keep table overflow inside its working surface and explain the horizontal gesture. */
+.table-scroll-hint{margin:0;padding:9px 14px;color:var(--muted,#536575);background:var(--canvas,#f5f7f9);border-bottom:1px solid var(--line,#dde4ea);font-size:11px;line-height:1.5}
+.table-scroll-hint[hidden]{display:none}
+.table-wrap{max-width:100%;min-width:0;overscroll-behavior-x:contain;scrollbar-width:thin}
+.table-wrap:focus-visible{outline:3px solid var(--blue,var(--teal,var(--green,#176b52)));outline-offset:-3px}
+.equipflow-demo-disclosure{padding:9px 20px;border-bottom:1px solid var(--line);background:var(--green-soft,#edf6f2);color:var(--green,#176b52);font-size:11px;line-height:1.5}
+@media(max-width:620px){.profile>div:last-child{display:none}.topbar{gap:8px}.top-left{flex:1;gap:8px}.top-right{flex:none}}
+@media(max-width:620px){.line-chart{height:auto;aspect-ratio:700/170}.line-chart .axis{font-size:28px;fill:var(--muted)}.line-chart .axis:last-child{text-anchor:end}.panel-note,.secondary,.kpi-note,.subheading,.bar-row,.op-row,.return-row,.data-table,.data-table th,.badge,.legend,.donut-center span,.detail-cell span{font-size:11px}.btn,.btn.small,.mini-link{font-size:12px}}
+@media(max-width:900px){.mobile-menu,.close-icon{width:44px;height:44px}.sidebar{padding-bottom:env(safe-area-inset-bottom)}.sidebar .nav-item{width:100%}.tabbar{flex-wrap:wrap;max-width:100%}.tab{min-height:44px}.kpi,.kpi-top{min-width:0}.kpi-top{gap:5px;overflow-wrap:anywhere}.kpi-icon{flex:none}.filterbar{min-width:0}.filterbar input,.filterbar select{min-width:0;max-width:100%}.drawer{max-width:100vw}.drawer-actions .btn,.modal-foot .btn{white-space:normal}.return-row,.op-row{min-width:0}.return-row .row-actions{flex-wrap:wrap}.top-left,.top-right{min-width:0}.crumb{overflow-wrap:anywhere}}
+@media(max-width:620px){.kpis[style]{grid-template-columns:repeat(2,minmax(0,1fr))!important}.kpi-top{font-size:11px}.detail-grid{grid-template-columns:minmax(0,1fr)}.steps{display:flex;flex-wrap:wrap;gap:4px}.step{flex:1 1 65px;font-size:11px}.tabbar .tab{font-size:11px;padding:8px}.content{padding-bottom:max(28px,env(safe-area-inset-bottom))}.table-wrap{width:100%}.active-rentals-table .row-actions .btn.small,.active-rentals-table .row-actions .mini-link{min-height:44px;font-size:11px}.equipflow-demo-disclosure{padding-left:12px;padding-right:12px}}
+@media(max-width:900px){
+ button,.button,.btn,.nav-link,.nav-item,.mini-link,.table-link,.record-link,.icon-button,.subtle-button{min-height:44px;min-width:44px}
+ .table-link,.record-link,.mini-link{display:inline-flex;align-items:center}
+ .sidebar nav a{min-height:44px;display:inline-flex;align-items:center}
+ input:not([type=checkbox]):not([type=radio]),select,textarea{min-height:44px;max-width:100%}
+ .field,.field input,.field select,.field textarea,.page-head>div,.page-heading>div,.panel-head>div,.panel-header>div{min-width:0}
+ .dialog-head h2,.dialog-header h2,.detail-cell strong{overflow-wrap:anywhere}
+ .dialog-foot,.dialog-footer,.modal-foot,.drawer-actions{flex-wrap:wrap;gap:8px;padding-bottom:max(16px,env(safe-area-inset-bottom))}
+ .topbar{height:auto;min-height:70px;padding-top:8px;padding-bottom:8px}
+ .topbar .actions,.top-actions,.header-actions,.topactions{flex-wrap:wrap}
+ .content,main{scroll-padding-bottom:90px}
+ .bottom-nav{min-height:64px;padding-bottom:env(safe-area-inset-bottom);height:auto}
+ .bottom-nav a,.bottom-nav button{min-height:64px}
+ .bottom-nav~.toast,.toast,#toast{bottom:calc(84px + env(safe-area-inset-bottom))}
+ .content{padding-bottom:calc(95px + env(safe-area-inset-bottom))}
+ .main-footer,footer{padding-bottom:max(24px,env(safe-area-inset-bottom))}
+}
+@media(max-width:900px){.record,.detail-link,.link,.more-grid a,.module-menu a{min-height:44px;min-width:44px;display:inline-flex;align-items:center}.more-grid a,.module-menu a{padding-top:10px;padding-bottom:10px}input[type=checkbox],input[type=radio]{width:44px;height:44px;min-width:44px;min-height:44px;flex:none}.task-row{align-items:center}.dialog-foot a,.dialog-footer a{min-height:44px;display:inline-flex;align-items:center}}
+@media(max-width:900px){button,.button,.btn,.nav-link,.nav-item,.mini-link,.table-link,.record-link,.icon-button,.subtle-button{min-height:44px!important;min-width:44px}.sidebar nav a{flex-shrink:0}.topbar a,.table-wrap a,.panel a,.main-footer a,footer a,.page-head a{min-height:44px;display:inline-flex;align-items:center}.grid-main>*,.detail-grid>*,.two-col>*,.guide>*,.panel-head,.panel-header{min-width:0}}
+@media(max-width:900px){input:not([type=checkbox]):not([type=radio]),select,textarea{min-height:44px!important}}

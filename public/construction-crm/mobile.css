@@ -1,0 +1,27 @@
+/* Keep table overflow inside its working surface and explain the horizontal gesture. */
+.table-scroll-hint{margin:0;padding:9px 14px;color:var(--muted,#536575);background:var(--canvas,#f5f7f9);border-bottom:1px solid var(--line,#dde4ea);font-size:11px;line-height:1.5}
+.table-scroll-hint[hidden]{display:none}
+.table-wrap{max-width:100%;min-width:0;overscroll-behavior-x:contain;scrollbar-width:thin}
+.table-wrap:focus-visible{outline:3px solid var(--blue,var(--teal,var(--green,#176b52)));outline-offset:-3px}
+@media(max-width:360px){.stats{grid-template-columns:minmax(0,1fr)}.stat{border-right:0;border-bottom:1px solid var(--line,#e7ebf1)}.stat:last-child{border-bottom:0}.stat strong{overflow-wrap:anywhere}}
+@media(max-width:900px){
+ button,.button,.btn,.nav-link,.nav-item,.mini-link,.table-link,.record-link,.icon-button,.subtle-button{min-height:44px;min-width:44px}
+ .table-link,.record-link,.mini-link{display:inline-flex;align-items:center}
+ .sidebar nav a{min-height:44px;display:inline-flex;align-items:center}
+ input:not([type=checkbox]):not([type=radio]),select,textarea{min-height:44px;max-width:100%}
+ .field,.field input,.field select,.field textarea,.page-head>div,.page-heading>div,.panel-head>div,.panel-header>div{min-width:0}
+ .dialog-head h2,.dialog-header h2,.detail-cell strong{overflow-wrap:anywhere}
+ .dialog-foot,.dialog-footer,.modal-foot,.drawer-actions{flex-wrap:wrap;gap:8px;padding-bottom:max(16px,env(safe-area-inset-bottom))}
+ .topbar{height:auto;min-height:70px;padding-top:8px;padding-bottom:8px}
+ .topbar .actions,.top-actions,.header-actions,.topactions{flex-wrap:wrap}
+ .content,main{scroll-padding-bottom:90px}
+ .bottom-nav{min-height:64px;padding-bottom:env(safe-area-inset-bottom);height:auto}
+ .bottom-nav a,.bottom-nav button{min-height:64px}
+ .bottom-nav~.toast,.toast,#toast{bottom:calc(84px + env(safe-area-inset-bottom))}
+ .content{padding-bottom:calc(95px + env(safe-area-inset-bottom))}
+ .main-footer,footer{padding-bottom:max(24px,env(safe-area-inset-bottom))}
+}
+@media(max-width:900px){.record,.detail-link,.link,.more-grid a,.module-menu a{min-height:44px;min-width:44px;display:inline-flex;align-items:center}.more-grid a,.module-menu a{padding-top:10px;padding-bottom:10px}input[type=checkbox],input[type=radio]{width:44px;height:44px;min-width:44px;min-height:44px;flex:none}.task-row{align-items:center}.dialog-foot a,.dialog-footer a{min-height:44px;display:inline-flex;align-items:center}}
+@media(max-width:900px){button,.button,.btn,.nav-link,.nav-item,.mini-link,.table-link,.record-link,.icon-button,.subtle-button{min-height:44px!important;min-width:44px}.sidebar nav a{flex-shrink:0}.topbar a,.table-wrap a,.panel a,.main-footer a,footer a,.page-head a{min-height:44px;display:inline-flex;align-items:center}.grid-main>*,.detail-grid>*,.two-col>*,.guide>*,.panel-head,.panel-header{min-width:0}}
+@media(max-width:900px){input:not([type=checkbox]):not([type=radio]),select,textarea{min-height:44px!important}}
+.tablewrap{max-width:100%;min-width:0;overscroll-behavior-x:contain;scrollbar-width:thin}.tablewrap:focus-visible{outline:3px solid #a63045;outline-offset:-3px}@media(max-width:900px){.tablewrap a{min-height:44px;display:inline-flex;align-items:center}}

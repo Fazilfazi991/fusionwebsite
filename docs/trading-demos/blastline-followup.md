@@ -8,6 +8,16 @@ The supplied `Quotation_261003_185747.pdf` is the PDF layout authority. Source h
 
 Storage migration preserves the previous version-1 saved records. Independent tab writes refresh the latest state; stale edits of an already-saved quotation revision are rejected. Restart removes only the selected lead's owned records and restores its stock movements; full reset restores the original demo and five fresh leads. Other demos' storage is untouched.
 
+## Projects workspace patterns
+
+Projects preserve the incumbent Blastline visual system in `public/blastline-crm/DESIGN.md` and the existing surface contract. The register counts converted Project records and separately lists Project opportunities awaiting conversion. A converted Sales, Rental or Repair lead creates jobs in its own module; it does not add a Project row.
+
+The project summary pairs task-derived percentage and completed/total task counts with cost budget, actual costs and budget remaining. The numbered milestone sequence identifies the current milestone in words. Task rows expose assignee, deadline, named dependencies and a Ready, Blocked or Completed state; counted filters use pressed-button semantics. Blocked work explains its unmet gate. Completed work retains its saved note behind a native disclosure with a minimum 44px summary target and visible keyboard focus.
+
+Project register, milestones, task rows, commercial content and opportunity activity share a 20px horizontal panel inset. Desktop pairs plan and budget; narrower layouts stack them. At 800px and below, the register and cost ledger use readable record layouts; at 480px and below, milestones become a vertical sequence and actions stack. AED amounts use tabular numerals and retain their full value.
+
+Issue project invoice remains actionable before readiness so an attempt focuses inline feedback listing unfinished jobs and non-billing tasks by name. Open job, View tasks and Complete task actions lead directly to the remaining work. These affordances preserve the model's fulfilment and task gates; commercial closeout follows invoice issuance. Once ready, issuance creates one immutable invoice using the accepted quotation revision and VAT total. Sample partial/final receipts reconcile separately through the linked lead and customer history.
+
 ## Validation
 
 - `blastline-followup-acceptance.cjs`: nine scenario groups; all five actual editable-quote-to-approval-to-project/job-to-fulfilment-to-invoice-to-partial/full-payment flows; migration, persistence, validation, repeated actions, individual and whole reset. Twenty-five full-page captures at 320/360/390/430/1440px, no document overflow/runtime errors/external writes.
@@ -16,6 +26,9 @@ Storage migration preserves the previous version-1 saved records. Independent ta
 - PDF verification: all five actual short quotes fit one page; eleven-page line fixture and three-page long-commercial fixture paginate correctly. Twenty-five rendered PDF pages inspected. Invalid/boundary/10,000-line and 500 arithmetic-conservation cases pass.
 - Production build, including type/lint checks, passes. Existing unrelated lint warnings and email-route missing-environment diagnostics remain outside this static extension.
 - Fresh Impeccable review inspected all 25 UI captures and five PDF renders. Its sole required correction was issued/paid invoice guidance; final paid/unpaid browser checks pass. The documenter confirms the incumbent system is preserved; pre-existing design-document format/sidecar drift remains unchanged.
+- Projects refinement: `blastline-project-design-acceptance.cjs` passes persistence, task filters, dependency-cycle rejection, duplicate completion, edit cancellation and navigation at 320/360/390/430/800/1440px. Refreshed evidence is under `evidence/blastline-design/projects-local/`; top/tasks captures cover 320/390/800/1440px and register captures cover all six widths.
+- Invoice and screenshot corrections: `blastline-invoice-readiness-acceptance.cjs` passes six actual-UI groups covering the one-Project/one-Sales-job count, focused prerequisite feedback, working task navigation, repeated issuance, immutable accepted-revision/VAT values, partial/final receipt reconciliation and independent L2 conversion. Captures at 320/390/800/1440px and the pass report are under `evidence/blastline-design/invoice-local/`.
+- The refinement rerun also passes all nine five-lead journey groups and 25 layouts, seven follow-up edge groups, twelve legacy groups and the production build. Evidence is under `projects-journeys/`, `projects-edge/` and `legacy-local/` within `evidence/blastline-design/`. Final Impeccable finish disposition is SHIP. The incumbent noncanonical `DESIGN.md` format and absent design sidecar are pre-existing drift, preserved without a system migration.
 
 ## Presenter route
 

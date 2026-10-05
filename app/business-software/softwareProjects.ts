@@ -19,6 +19,26 @@ export type SoftwareProject = {
 
 export const softwareProjects: SoftwareProject[] = [
   {
+    slug: "water-transport-crm",
+    title: "AquaFleet CRM",
+    type: "Water Delivery & Fleet Operations CRM",
+    description:
+      "Water delivery and fleet operations CRM for managing trips, tankers, drivers, fuel, customer credit, water-source accounts and vehicle-wise profitability.",
+    positioning:
+      "Assign a tanker and driver, load water against a prepaid source account, record actual fuel and trip costs, deliver and collect cash or credit. Every trip updates customer balances, vehicle profit and a transparent 50/50 partner allocation in a fictional UAE workspace.",
+    features: ["Trip Management", "Fleet Tracking", "Fuel Analytics", "Customer Credit", "Water Source Accounts", "Profitability"],
+    status: "Interactive operations demo",
+    demoUrl: "/water-transport-crm/index.html",
+    liveDemoLabel: "View Demo",
+    screenshots: [{
+      id: "water-transport-dashboard",
+      label: "Water Transport Dashboard",
+      src: "/images/business-software/water-transport-crm/dashboard-preview.webp",
+      alt: "AquaFleet water transport dashboard with fictional AED figures, today's tanker trips, vehicle profitability and fuel consumption"
+    }],
+    accent: "blue"
+  },
+  {
     slug: "blastline-crm",
     title: "Blastline",
     type: "Equipment Sales, Rentals & Repair CRM",

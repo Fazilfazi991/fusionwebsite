@@ -5,6 +5,10 @@ const nextConfig = {
       {
         source: "/computer-technology-crm",
         destination: "/computer-technology-crm/index.html"
+      },
+      {
+        source: "/demo/emerald-interlink",
+        destination: "/demo/emerald-interlink/index.html"
       }
     ];
   }

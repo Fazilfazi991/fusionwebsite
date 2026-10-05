@@ -203,6 +203,35 @@ export const softwareProjects: SoftwareProject[] = [
     accent: "blue"
   },
   {
+    slug: "emerald-interlink",
+    title: "Emerald Field Sales CRM",
+    type: "Field Sales & Shop Visit CRM",
+    description:
+      "A field sales workspace for Emerald Interlink Trading L.L.C, connecting hundreds of building-materials shops with salesperson check-ins, visit notes, follow-up dates and complete shop histories.",
+    positioning:
+      "Designed for sales executives on the road and the manager following their activity. Check in at a shop, record the discussion and any order interest, schedule the next visit, and keep every salesperson’s history together with the customer.",
+    features: [
+      "Shop Search & Visit History",
+      "Mobile Check-in & Check-out",
+      "Visit Notes & Order Interest",
+      "New Shop & Lead Capture",
+      "Follow-ups by Shop",
+      "Manager Field Activity"
+    ],
+    status: "Interactive sales demo",
+    demoUrl: "/demo/emerald-interlink",
+    liveDemoLabel: "Launch Field Sales CRM Demo",
+    screenshots: [
+      {
+        id: "field-activity",
+        label: "Field Activity",
+        src: "/images/business-software/emerald-interlink/dashboard-preview.svg",
+        alt: "Emerald Field Sales CRM manager dashboard with today's shop visits, three sales executive activity cards and follow-ups due"
+      }
+    ],
+    accent: "gold"
+  },
+  {
     slug: "computer-technology-crm",
     title: "Computer Technology CRM",
     type: "Field Sales & IT Operations CRM",

@@ -12,7 +12,13 @@ async function run() {
   const page = await context.newPage();
   page.setDefaultTimeout(9000);
   const errors = [];
-  page.on("pageerror", error => errors.push(error.message));
+  const watchErrors = tab => {
+    tab.on("pageerror", error => errors.push(error.message));
+    tab.on("console", message => { if (message.type() === "error") errors.push(`${message.location().url}: ${message.text()}`); });
+    tab.on("response", response => { if (response.status() >= 400) errors.push(`${response.status()} ${response.url()}`); });
+  };
+  watchErrors(page);
+  context.on("page", watchErrors);
   await page.goto(BASE, { waitUntil: "domcontentloaded" });
   await page.getByRole("heading", { name: "Today’s field activity" }).waitFor();
   assert.equal(await page.locator(".nav button").count(), 5);
@@ -103,6 +109,7 @@ async function run() {
   const preview = page.locator('img[alt*="Emerald Field Sales CRM"]');
   await preview.scrollIntoViewIfNeeded();
   await preview.waitFor();
+  await preview.evaluate(img => img.decode());
   const previewStatus = await preview.evaluate(img => ({ complete: img.complete, width: img.naturalWidth }));
   assert.ok(previewStatus.complete && previewStatus.width > 0, "Portfolio dashboard preview loads");
   const [demoTab] = await Promise.all([
@@ -112,13 +119,13 @@ async function run() {
   await demoTab.getByRole("heading", { name: "Today’s field activity" }).waitFor();
   assert.ok(demoTab.url().endsWith("/demo/emerald-interlink"));
 
-  assert.deepEqual(errors, [], `Unexpected browser page errors: ${errors.join("; ")}`);
+  assert.deepEqual(errors, [], `Unexpected browser console, resource, or page errors: ${errors.join("; ")}`);
   await page.setViewportSize({ width: 1440, height: 950 });
   await page.goto(BASE, { waitUntil: "domcontentloaded" });
   await page.screenshot({ path: path.join(os.tmpdir(), "emerald-interlink-desktop.png"), fullPage: true });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.screenshot({ path: path.join(os.tmpdir(), "emerald-interlink-mobile.png"), fullPage: true });
-  console.log("PASS: standalone demo and website card; 8-to-9 existing shop journey; new-shop lead and first visit; manager visibility; visit filters; browser persistence; desktop 1440/1366; tablet 1024; mobile 390; no page errors. Screenshots: %s, %s", path.join(os.tmpdir(), "emerald-interlink-desktop.png"), path.join(os.tmpdir(), "emerald-interlink-mobile.png"));
+  console.log("PASS: standalone demo and website card; 8-to-9 existing shop journey; new-shop lead and first visit; manager visibility; visit filters; browser persistence; desktop 1440/1366; tablet 1024; mobile 390; no browser errors. Screenshots: %s, %s", path.join(os.tmpdir(), "emerald-interlink-desktop.png"), path.join(os.tmpdir(), "emerald-interlink-mobile.png"));
   await browser.close();
 }
 

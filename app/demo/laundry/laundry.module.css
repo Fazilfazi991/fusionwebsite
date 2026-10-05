@@ -14,3 +14,25 @@
 .mobileNav{display:none}.mobileMenu{border:1px solid var(--line);border-radius:16px;padding:0;background:white;color:var(--ink);width:min(420px,calc(100vw - 24px));max-height:calc(100dvh - 110px);position:fixed;top:auto;bottom:calc(80px + env(safe-area-inset-bottom));margin:auto;overflow:auto}.mobileMenu::backdrop{background:#17243b66}.mobileMenu header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--line);gap:12px}.mobileMenu header h2{font-size:16px;margin:0}.mobileMenu header button{padding:8px;min-width:44px;min-height:44px}.mobileMenu nav{display:grid;padding:10px;gap:6px}.mobileMenu nav button{justify-content:flex-start;min-height:50px;border:0;padding:12px;gap:12px}.mobileMenu p{font-size:11px;padding:8px 18px 18px;line-height:1.6}.root .mobileActive{background:#e2f1ed;color:#146f62;font-weight:600}@media(max-width:650px){.side{padding:14px}.side nav{display:none}.side{gap:0}.brand{font-size:18px}.brand svg{width:24px;height:24px}.content{padding-bottom:calc(96px + env(safe-area-inset-bottom))}.mobileNav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:fixed;left:0;right:0;bottom:0;z-index:20;gap:4px;padding:8px 8px calc(8px + env(safe-area-inset-bottom));background:white;border-top:1px solid #dce7e5;box-shadow:0 -4px 18px #17243b08}.root .mobileNav button{display:flex;flex-direction:column;gap:4px;border:0;border-radius:8px;padding:7px 2px;min-height:50px;min-width:0;background:transparent;color:#566b76;font-size:10px;line-height:1.2}.root .mobileNav .mobileActive{background:#e2f1ed;color:#146f62;font-weight:650}.mobileMenu nav .mobileActive{background:#e2f1ed}.mobileMenu{bottom:calc(82px + env(safe-area-inset-bottom))}.dialog{max-height:calc(100dvh - 24px)}}
 
 @media(max-width:650px){.root .table{overflow:visible;min-width:0}.root .table table,.root .table tbody{display:block;width:100%;white-space:normal}.root .table thead{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}.root .table tr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px 12px;padding:16px;border-bottom:1px solid var(--line);width:100%}.root .table td{display:block;padding:0;border:0;min-width:0;white-space:normal;overflow-wrap:anywhere;font-size:12px}.root .table td:before{content:attr(data-label);display:block;color:var(--muted);font-size:10px;font-weight:500;margin-bottom:6px}.root .table td:last-child{align-self:end}.root .table td button{white-space:normal;min-height:40px;text-align:left}.root .table td small{font-size:10px;line-height:1.5}.root .table tr:last-child{border-bottom:0}.root .top>.actions{min-width:0;flex-wrap:wrap}.root .demo{white-space:normal}.dialog .summary .row{flex-wrap:wrap;min-width:0}.dialog .summary .row b{overflow-wrap:anywhere}.root .cashEquation>div{min-width:0}.accountingMetrics strong,.metricContent strong{max-width:100%}.mobileMenu button:focus-visible{outline:3px solid #60b9b0;outline-offset:-3px}}
+
+@media(max-width:650px) {
+ .root button,.root input:not([type=checkbox]),.root select { min-height:44px; }
+ .root input,.root select,.root textarea { font-size:16px; }
+ .root .table td button,.root .invoiceLink { min-height:44px; }
+ .heading { flex-wrap:wrap; gap:14px; }
+ .heading>div { min-width:0; }
+ .items { grid-template-columns:minmax(0,1fr) minmax(0,1fr) 44px; gap:10px; }
+ .items select { grid-column:1/-1; }
+ .items button { min-width:44px; padding:8px; }
+ .dialog header>h2 { min-width:0; overflow-wrap:anywhere; }
+ .dialog header>button { min-width:44px; flex-shrink:0; }
+ .dashboardPanel header button,.priority button { min-height:44px; }
+ .notice { font-size:12px; }
+ .root .toast { overflow-wrap:anywhere; }
+}
+
+/* Keep BHD values and all three decimals together on narrow phones. */
+@media(max-width:359px) {
+ .metricCards,.accountingMetrics { grid-template-columns:minmax(0,1fr); }
+ .metricContent strong,.accountingMetrics strong { white-space:nowrap; overflow-wrap:normal; }
+}

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import BusinessSoftwareClient from "./BusinessSoftwareClient";
 
 export const metadata: Metadata = {
-  title: "Business Software Portfolio | Fusion Ventures",
+  title: "Interactive CRM Demos | Fusion Ventures",
   description:
-    "Explore seven live demos of custom CRM, field sales, laundry, rental, healthcare and business operations platforms built by Fusion Ventures."
+    "Try twelve interactive CRM demos for different businesses, including parts trading, equipment supply, construction, printing, equipment rentals and repairs. Each system can be customized for your business."
 };
 
 export default function BusinessSoftwarePage() {

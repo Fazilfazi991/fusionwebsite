@@ -1,0 +1,17 @@
+# AdWorks operational demo
+
+AdWorks is a fictional Dubai advertising and printing workspace. Its fourteen routes connect enquiries, customer dossiers, itemized quotations, jobs, artwork, production, outsourcing, delivery or installation, operational finance, stock, catalog, tasks and CSV reports. All data remains in one browser under `fusion-adworks-demo-v1`; sends, approvals and payments are explicitly simulated. No backend, authentication, real sending, payment gateway or tax engine is included.
+
+Money is stored in integer AED cents. Confirmed fulfillment records save each product line's quantity and sale price. Earned revenue is the sum of these snapshots. Actual profit is earned revenue minus all incurred actual costs; a partly fulfilled job can have negative profit while production costs precede delivery. Booked sales and planned full-job margin are separate estimates of the full confirmed job. Customer dossiers include every linked job and reconcile booked sales, earned revenue, actual cost, actual profit, sample receipts, unpaid invoice outstanding and unbilled earned revenue.
+
+Stock consumption saves the material unit cost and appends one protected actual-cost entry. QC accepted supplier receipts save the agreed PO unit cost and recognize vendor cost once per receipt. Held receipts neither recognize cost nor create dispatch availability until released. Supplier PO value is a commitment; supplier payments are sample cash settlements capped at accepted receipt value less earlier settlements. Neither PO creation nor supplier payment adds a second actual cost. Manual labor, production and delivery entries can be corrected and immediately recompute product, job and customer actual profit.
+
+Customer outstanding is invoice face value less linked sample cash receipts. Unbilled earned work is earned value without an invoice. Each confirmed handover can create one invoice. Invoicing does not recognize revenue again; customer cash reduces an invoice balance without changing profit. Customer and supplier overpayments are rejected.
+
+The newest artwork proof must be approved before starting production and dispatch. New proof versions invalidate previous approvals; proof revisions lock after production starts. Mixed product availability is `min(in-house completed, vendor QC accepted) − fulfilled`. In-house completion and supplier acceptance alone do not earn sales. Any fulfillment locks the product line's saved sale price and planned economics. Unfulfilled sale prices and cost estimates remain editable. Catalog changes affect future quotes, preserving existing quotation/job snapshots.
+
+The original Harbor rollup is fulfilled at AED 200, with AED 45 material, AED 15 labor, AED 10 production and AED 10 delivery cost. Actual profit is AED 120. Its AED 100 sample receipt leaves AED 100 invoice outstanding and does not alter profit.
+
+Read-only verification selectors are exposed on `window.AdWorksDemo`: `getState()`, `financial(jobId?, lineId?, customerId?)`, `customerFinancials(customerId)`, `lineFinancials(jobId, lineId)`, `availability(jobId, lineId)` and `supplierFinancials(poId)`. The browser acceptance script operates the visible UI and uses these selectors to reconcile results.
+
+CSV exports neutralize spreadsheet formula prefixes. User-supplied text is HTML escaped. Native dialogs support Cancel and Escape. Reset replaces only the scoped AdWorks key. The fixed mobile navigation provides Home, Jobs, Customers, Finance and a More sheet containing all fourteen routes.

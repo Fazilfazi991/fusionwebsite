@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#101e2c">
   <title>Computer Technology CRM · Field Sales & IT Operations</title>
   <style>
@@ -592,11 +592,70 @@
       .form-field.full { grid-column:1; }
     }
     @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important; } }
+
+    .demo-disclosure { padding:9px 24px; background:#eaf3f4; color:#45626b; font-size:12px; line-height:1.5; }
+    .mobile-bottom-nav,.navigation-scrim,.navigation-close { display:none; }
+    .table-scroll-cue { display:none; margin:0; position:sticky; left:0; padding:10px 12px; color:#45626b; background:#eef6f6; font-size:12px; }
+    @media(max-width:599px) {
+      body { overflow-x:visible; font-size:14px; }
+      .content { padding-bottom:calc(104px + env(safe-area-inset-bottom)); }
+      .tabs { flex-wrap:wrap; overflow:visible; }
+      .tabs .tab { flex:1 1 calc(50% - 8px); text-align:center; }
+      .content>* { min-width:0; }
+      .content .grid-2 { grid-template-columns:minmax(0,1fr)!important; }
+      .sidebar .nav-label,.sidebar .brand-sub,.sidebar .workspace span,.sidebar .user-row span { color:#a7bbc7; font-size:12px; }
+      .sidebar .brand-name,.sidebar .workspace strong,.sidebar .user-row strong { font-size:14px; }
+      .cell-sub,.followup strong,.followup small,.action-note,.field-foot,.field-foot strong,.team-stats span,.team-stats strong,.key-value span,.key-value strong,.cross-item,.quote-line,.quote-total div,.form-note,.modal-head p,.empty-state,.activity-list,.urgent-row,.stage small,.legend,.progress-cell span { font-size:12px; }
+      .page-sub,.section-head p,.kpi-top,.kpi-foot,.record-title small,.record-cell,.cell-sub,.followup small,.timeline-date,.timeline-copy span,.company-stat span,.team-stats span,.key-value span { color:#516773; }
+      .cross-item button { min-width:44px; min-height:44px; }
+
+      .topbar { gap:6px; }
+      .crumb { min-width:0; flex-wrap:wrap; font-size:12px; }
+      .top-actions { flex-shrink:0; }
+      .demo-disclosure { padding:9px 13px; }
+      .btn,.btn-small,.icon-button,.modal-close,.tab,.nav-btn { min-height:44px; font-size:12px; }
+      .icon-button,.modal-close { min-width:44px; }
+      .control,.form-field input,.form-field select,.form-field textarea { min-height:44px; font-size:16px; }
+      .form-field label { font-size:13px; }
+      .page-sub,.section-head p,.kpi-top,.kpi-foot,.record-title small,.record-cell,.field-meta,.field-meta span,.field-meta strong,.timeline-copy strong,.timeline-copy span { font-size:12px; }
+      .section-head h2,.section-head h3,.record-title strong,.company-name,.field-card h3 { font-size:14px; }
+      .tag,.pill,.stage-label,.company-stat span { font-size:12px; }
+      th,td { font-size:13px; padding:12px; }
+      .table-wrap { max-width:100%; overflow-x:auto; }
+      .table-wrap.needs-scroll>.table-scroll-cue { display:block; }
+      .bar-row { grid-template-columns:70px minmax(0,1fr) 24px; min-width:0; }
+      .report-bars .bar-row { grid-template-columns:70px minmax(0,1fr) 24px!important; }
+      .bar-track { min-width:0; }
+      .bar-label,.bar-value { font-size:12px; }
+      .survey-row,.project-row,.ticket-row { grid-template-columns:minmax(0,1fr); gap:10px; padding:16px; }
+      .survey-row>.record-cell,.project-row>.record-cell,.ticket-row>.record-cell { display:block!important; }
+      .survey-row>.row-action,.project-row>.row-action,.ticket-row>.row-action,.survey-row>.progress-cell,.project-row>.progress-cell { grid-column:1; grid-row:auto; }
+      .followup .followup-owner,.followup .action-note { display:block; }
+      .followup .action-note { grid-column:1/-1; font-size:12px; }
+      .pipeline[style] { grid-template-columns:repeat(2,minmax(0,1fr))!important; overflow:visible; }
+      .pipeline-board { max-width:100%; overscroll-behavior-x:contain; }
+      .pipeline-board::before { content:'Swipe through the sales stages'; grid-column:1/-1; color:#45626b; font-size:12px; position:sticky; left:0; }
+      .stage small,.stage strong,.report-bar,.loss-line { font-size:12px; }
+      .modal { max-height:calc(100dvh - 24px); }
+      .modal-foot { flex-wrap:wrap; }
+      .modal-foot>span { flex-wrap:wrap; }
+      .modal-body { overflow-wrap:anywhere; }
+      .toast-region { right:12px; left:12px; bottom:calc(88px + env(safe-area-inset-bottom)); }
+      .toast { width:100%; min-width:0; max-width:none; font-size:13px; }
+      .mobile-bottom-nav { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); position:fixed; bottom:0; left:0; right:0; z-index:25; background:white; border-top:1px solid #dce4e9; padding:8px 6px calc(8px + env(safe-area-inset-bottom)); }
+      .mobile-bottom-nav button { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; border:0; min-width:0; min-height:52px; padding:6px 2px; color:#536a76; background:transparent; font-size:11px; border-radius:8px; }
+      .mobile-bottom-nav svg { width:20px; height:20px; }
+      .mobile-bottom-nav button[aria-current=page] { color:#08737b; background:#e9f6f5; }
+      .sidebar { overflow-y:auto; z-index:40; padding-bottom:calc(16px + env(safe-area-inset-bottom)); }
+      .sidebar.open .navigation-close { display:grid; margin:0 0 10px auto; min-width:44px; min-height:44px; border:1px solid #6c8695; border-radius:8px; background:transparent; color:white; font-size:13px; place-items:center; }
+      .navigation-scrim.open { display:block; position:fixed; inset:0; z-index:35; border:0; background:#10243480; }
+      .sidebar>* { flex-shrink:0; }
+    }
   </style>
 </head>
 <body>
   <div class="app">
-    <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <aside class="sidebar" id="sidebar" aria-label="Main navigation"><button class="navigation-close" id="closeNavigation" aria-label="Close navigation">Close</button>
       <div class="brand">
         <div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 17.5 12 4l8 13.5H4Z"/><path d="M8.2 17.5 12 11l3.8 6.5M12 4v7"/></svg></div>
         <div><div class="brand-name">Computer Technology</div><div class="brand-sub">Field Sales &amp; IT Operations</div></div>
@@ -634,10 +693,11 @@
           <button class="avatar" style="border:0;cursor:pointer" aria-label="Mohammed A. profile">MA</button>
         </div>
       </header>
-      <div class="content" id="content" aria-live="polite"></div>
+      <p class="demo-disclosure">Fictional demo records · Browser-local session · No real sends or services</p><div class="content" id="content" aria-live="polite"></div>
     </main>
   </div>
   <div id="modalRoot"></div>
+  <button class="navigation-scrim" id="navigationScrim" aria-label="Close navigation"></button><nav class="mobile-bottom-nav" id="mobileBottomNav" aria-label="Mobile computer technology navigation"></nav>
   <div id="toastRegion" class="toast-region" aria-live="polite"></div>
   <script>
   (() => {
@@ -747,8 +807,8 @@
     function btn(label,action,kind='',ic=''){ return `<button class="btn ${kind}" data-action="${action}">${ic?icon(ic,14):''}${label}</button>`; }
     function statusPill(s){ return tag(s,statusClass(s)); }
     function companyRecord(name){ return data.prospects.find(p=>p.company===name)||{company:name,industry:'Business',area:'Jeddah',contact:'Customer contact',phone:'+966 55 000 0000',assigned:'Ahmed',status:'Active',source:'Field Visit',used:[],potential:['IT AMC','Network','CCTV']}; }
-    function navTo(page){ state.page=page; document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===page)); document.getElementById('crumbPage').textContent=({dashboard:'Dashboard',field:"Today's Field Plan",prospects:'Prospects',companies:'Companies',opportunities:'Opportunities',followups:'Follow-ups',surveys:'Site Surveys',quotations:'Quotations',projects:'Projects',tickets:'Service Tickets',amc:'AMC Contracts',team:'Sales Team',reports:'Reports'})[page]||page; document.getElementById('sidebar').classList.remove('open'); render(); window.scrollTo({top:0,behavior:'smooth'}); }
-    function render(){ const pages={dashboard:dashboardPage,field:fieldPage,prospects:prospectsPage,companies:companiesPage,companyDetail:companyPage,opportunities:opportunitiesPage,followups:followupsPage,surveys:surveysPage,quotations:quotesPage,projects:projectsPage,tickets:ticketsPage,amc:amcPage,team:teamPage,reports:reportsPage}; content.innerHTML=(pages[state.page]||dashboardPage)(); }
+    function navTo(page){ state.page=page; document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===page)); document.getElementById('crumbPage').textContent=({dashboard:'Dashboard',field:"Today's Field Plan",prospects:'Prospects',companies:'Companies',opportunities:'Opportunities',followups:'Follow-ups',surveys:'Site Surveys',quotations:'Quotations',projects:'Projects',tickets:'Service Tickets',amc:'AMC Contracts',team:'Sales Team',reports:'Reports'})[page]||page; setNavigationOpen(false); render(); window.scrollTo({top:0,behavior:'smooth'}); }
+    function render(){ const pages={dashboard:dashboardPage,field:fieldPage,prospects:prospectsPage,companies:companiesPage,companyDetail:companyPage,opportunities:opportunitiesPage,followups:followupsPage,surveys:surveysPage,quotations:quotesPage,projects:projectsPage,tickets:ticketsPage,amc:amcPage,team:teamPage,reports:reportsPage}; content.innerHTML=(pages[state.page]||dashboardPage)(); updateMobileNavigation(); requestAnimationFrame(updateTableCues); }
     function dashboardPage(){
       const act=[['Ahmed',6,4],['Ali',5,5],['Omar',5,5]];
       const urgent=[['Follow-ups overdue','ABC Trading · revised CCTV quote',7,'alert','#c15e57','#fbefed'],['Quotations waiting >5 days','Falcon Restaurant · Annual IT AMC',4,'file','#ad7725','#fbf3e5'],['Site surveys awaiting report','Jeddah Star · Network survey',2,'survey','#7962ae','#f1eef9'],['AMC expiring within 30 days','Falcon Restaurant · 21 days',3,'refresh','#ad7725','#fbf3e5']];
@@ -809,8 +869,9 @@
     function teamPage(){const team=[{n:'Ahmed',assigned:42,visited:31,interested:15,quotes:9,won:4,sales:42500,conversion:'12.9%',overdue:2},{n:'Ali',assigned:37,visited:28,interested:12,quotes:8,won:3,sales:31000,conversion:'10.7%',overdue:3},{n:'Omar',assigned:45,visited:36,interested:18,quotes:11,won:5,sales:58200,conversion:'13.9%',overdue:2}];return `${heading('Field performance','Sales Team','Measure the field activity that creates opportunities, quotations and won revenue.',`<button class="btn" data-action="team-period">This month⌄</button>`)}<div class="grid-3">${team.map(t=>`<article class="card team-card"><div class="team-top"><div class="avatar">${initials(t.n)}</div><div><strong>${t.n}</strong><span>Field Sales · Jeddah</span></div>${tag('Active','green')}</div><div class="team-stats"><div><span>Companies assigned</span><strong>${t.assigned}</strong></div><div><span>Visited</span><strong>${t.visited}</strong></div><div><span>Interested</span><strong>${t.interested}</strong></div><div><span>Quotations</span><strong>${t.quotes}</strong></div><div><span>Won</span><strong>${t.won}</strong></div><div><span>Conversion</span><strong>${t.conversion}</strong></div></div><div class="team-sales"><span>Sales generated</span><strong>${money(t.sales)}</strong></div><div style="display:flex;justify-content:space-between;margin-top:10px;color:#86949d;font-size:9px"><span>${t.overdue} overdue follow-ups</span><button class="text-link" data-action="staff-detail" data-staff="${t.n}">View activity ${icon('arrow',11)}</button></div></article>`).join('')}</div><section class="card card-pad" style="margin-top:13px">${cardHead('Team activity comparison','Visits create opportunities; follow-through creates sales. This month to date.')}<div class="reports-layout"><div class="report-bars">${[['Visits',72],['Opportunities',46],['Quotes sent',37],['Deals won',23]].map((x,i)=>`<div class="report-bar"><span>${x[0]}</span><div class="bar-track"><span style="width:${x[1]}%;--bar:${['#168b91','#599da0','#719eac','#3c916e'][i]}"></span></div><strong>${[95,45,28,12][i]}</strong></div>`).join('')}</div><div class="report-bars">${team.map((t,i)=>`<div class="report-bar"><span>${t.n} · sales</span><div class="bar-track"><span style="width:${[73,53,100][i]}%;--bar:${i===1?'#76aaa8':'#168b91'}"></span></div><strong>${(t.sales/1000).toFixed(1)}k</strong></div>`).join('')}</div></div></section>`;}
     function reportsPage(){return `${heading('Management insight','Reports','See which sources, services and Jeddah areas turn field activity into sales.',`<button class="btn" data-action="report-period">${icon('calendar',13)} Sep 2026⌄</button>${btn('Export report','export-report','','download')}`)}<div class="reports-layout"><section class="card card-pad">${cardHead('Lead source','48 new prospects added this month')}<div class="report-bars">${[['Field Visit',78],['WhatsApp',44],['Referral',58],['Website',29],['Existing Customer',36],['Meta Ads',18]].map((x,i)=>`<div class="report-bar"><span>${x[0]}</span><div class="bar-track"><span style="width:${x[1]}%;--bar:${i===0?'#168b91':'#79b8b3'}"></span></div><strong>${[24,8,7,4,3,2][i]}</strong></div>`).join('')}</div></section><section class="card card-pad">${cardHead('Sales by service','Won value · this month')}<div class="report-bars">${[['CCTV',68],['IT AMC',42],['Networking',50],['Villa Automation',84],['ERP',35],['Hardware',26]].map((x,i)=>`<div class="report-bar"><span>${x[0]}</span><div class="bar-track"><span style="width:${x[1]}%;--bar:${i===3?'#7760ad':'#78aaa9'}"></span></div><strong>${['31k','18k','23k','42k','16k','11k'][i]}</strong></div>`).join('')}</div></section><section class="card card-pad">${cardHead('Area performance','Prospects through won business')}<div class="table-wrap"><table><thead><tr><th>Jeddah area</th><th>Prospects</th><th>Visited</th><th>Interested</th><th>Won</th><th>Sales value</th></tr></thead><tbody>${[['Al Rawdah',38,29,14,5,42500],['Al Salamah',27,21,10,3,28600],['Al Zahra',22,16,8,2,19200],['Al Hamra',31,23,12,4,35400],['Industrial Area',44,34,17,6,51200]].map(x=>`<tr><td class="company-name">${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td>${x[4]}</td><td>${money(x[5])}</td></tr>`).join('')}</tbody></table></div></section><section class="card card-pad">${cardHead('Lost reasons','12 opportunities closed without a sale')}<div class="loss-list">${[['Price',5],['No Requirement',2],['Existing Supplier',2],['No Response',1],['Postponed',1],['Competitor',1]].map((x,i)=>`<div class="loss-line"><span>${x[0]}</span><div class="bar-track"><span style="width:${x[1]*18}%;--bar:${i===0?'#c5786d':'#d2aaa2'}"></span></div><strong>${x[1]}</strong></div>`).join('')}</div></section></div><div class="form-note" style="margin-top:13px">Area coverage is based on company records and logged visits. No GPS tracking or automatic prospect scraping is included.</div>`;}
     function showToast(msg){toastRegion.innerHTML=`<div class="toast">${icon('check',15)}<span>${esc(msg)}</span></div>`;clearTimeout(state.toastTimer);state.toastTimer=setTimeout(()=>toastRegion.innerHTML='',3200);}
-    function openModal(title,subtitle,body,actions='',wide=false){modalRoot.innerHTML=`<div class="modal-backdrop" data-close-modal><section class="modal ${wide?'wide':''}" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-head"><div><h2 id="modalTitle">${title}</h2><p>${subtitle||''}</p></div><button class="modal-close" data-close-modal aria-label="Close dialog">${icon('close',15)}</button></div>${body}<div class="modal-foot">${actions||'<span></span><button class="btn" data-close-modal>Close</button>'}</div></section></div>`;modalRoot.querySelector('.modal')?.focus();document.body.style.overflow='hidden';const f=modalRoot.querySelector('input,select,textarea,button');if(f)setTimeout(()=>f.focus(),20);}
-    function closeModal(){modalRoot.innerHTML='';document.body.style.overflow='';}
+    let modalPreviousFocus = null;
+    function openModal(title,subtitle,body,actions='',wide=false){modalPreviousFocus=document.activeElement;modalRoot.innerHTML=`<div class="modal-backdrop" data-close-modal><section class="modal ${wide?'wide':''}" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-head"><div><h2 id="modalTitle">${title}</h2><p>${subtitle||''}</p></div><button class="modal-close" data-close-modal aria-label="Close dialog">${icon('close',15)}</button></div>${body}<div class="modal-foot">${actions||'<span></span><button class="btn" data-close-modal>Close</button>'}</div></section></div>`;modalRoot.querySelector('.modal')?.focus();document.body.style.overflow='hidden';modalRoot.querySelectorAll('.form-field').forEach((field,index)=>{const label=field.querySelector('label'),control=field.querySelector('input,select,textarea');if(label&&control){control.id='ct-field-'+index;label.htmlFor=control.id;}});const f=modalRoot.querySelector('input,select,textarea,button');if(f)setTimeout(()=>f.focus(),20);}
+    function closeModal(){modalRoot.innerHTML='';document.body.style.overflow='';if(modalPreviousFocus?.isConnected)modalPreviousFocus.focus({preventScroll:true});}
     function field(label,control,full=false){return `<div class="form-field ${full?'full':''}"><label>${label}</label>${control}</div>`;}
     function select(name,options,value=''){return `<select name="${name}">${options.map(o=>`<option ${o===value?'selected':''}>${o}</option>`).join('')}</select>`;}
     function startVisit(company){const p=companyRecord(company);openModal('Record field visit',`Log the conversation at ${esc(company)} and decide the next action.`, `<div class="modal-body"><div class="form-grid">${field('Company',`<input name="company" value="${esc(company)}" readonly>`)}${field('Contact person met',`<input name="contact" value="${esc(p.contact)}">`)}${field('Services discussed',`<input name="services" value="CCTV, Annual IT Maintenance" placeholder="CCTV, Network, AMC">`)}${field('Interest level',select('interest',['High','Medium','Low'],'High'))}${field('Outcome',select('outcome',['Interested','Site Survey Required','Quotation Requested','Follow-up Later','Not Interested','Could Not Meet'],'Site Survey Required'))}${field('Next action',select('nextAction',['Schedule site survey','Prepare quotation','Call customer','Visit again','Close as not interested'],'Schedule site survey'))}${field('Next follow-up date',`<input name="followDate" type="date" value="2026-10-02">`)}${field('Visit notes',`<textarea name="notes" placeholder="What did the customer ask for?">Customer requested CCTV options and an annual maintenance proposal.</textarea>`,true)}</div></div>`, `<button class="btn" data-close-modal>Cancel</button><button class="btn btn-primary" data-submit="complete-visit">${icon('check',14)} Complete Visit</button>`);}
@@ -857,10 +918,33 @@
       content.addEventListener('input',e=>{if(e.target.matches('[data-prospect-search]')){state.prospectSearch=e.target.value;const pos=e.target.selectionStart;render();const el=content.querySelector('[data-prospect-search]');el?.focus();el?.setSelectionRange(pos,pos)}if(e.target.matches('[data-company-search]')){state.companySearch=e.target.value;const pos=e.target.selectionStart;render();const el=content.querySelector('[data-company-search]');el?.focus();el?.setSelectionRange(pos,pos)}});
       modalRoot.addEventListener('click',e=>{if(e.target.matches('[data-close-modal]')){closeModal();return}const submit=e.target.closest('[data-submit]');if(submit){bindFormSubmit(submit.dataset.submit);return}const action=e.target.closest('[data-action]');if(action)handleAction(action.dataset.action,action)});
       document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modalRoot.innerHTML)closeModal();if(e.key==='Tab'&&modalRoot.innerHTML){const els=[...modalRoot.querySelectorAll('button,input,select,textarea,[tabindex]:not([tabindex="-1"])')].filter(x=>!x.disabled);if(els.length){if(e.shiftKey&&document.activeElement===els[0]){e.preventDefault();els.at(-1).focus()}else if(!e.shiftKey&&document.activeElement===els.at(-1)){e.preventDefault();els[0].focus()}}}});
-      document.getElementById('menuToggle').addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('open'));
+      document.getElementById('menuToggle').addEventListener('click',()=>setNavigationOpen(!document.getElementById('sidebar').classList.contains('open')));
       document.getElementById('alertButton').addEventListener('click',()=>{state.page='followups';state.followTab='Overdue';navTo('followups')});
       const search=document.getElementById('globalSearch'),searchInput=document.getElementById('globalSearchInput');search.addEventListener('click',()=>search.classList.add('is-open'));searchInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&searchInput.value.trim()){state.prospectSearch=searchInput.value;state.page='prospects';navTo('prospects');setTimeout(()=>{const i=content.querySelector('[data-prospect-search]');if(i)i.value=searchInput.value},10)}});
     }
+
+    let navigationPreviousFocus = null;
+    function setNavigationOpen(open) {
+      const sidebar=document.getElementById('sidebar');
+      if(open)navigationPreviousFocus=document.activeElement;
+      sidebar.classList.toggle('open',open);
+      document.getElementById('navigationScrim').classList.toggle('open',open);
+      document.getElementById('menuToggle').setAttribute('aria-expanded',String(open));
+      document.querySelector('.main').inert=open;
+      document.getElementById('mobileBottomNav').inert=open;
+      if(open){sidebar.setAttribute('role','dialog');sidebar.setAttribute('aria-modal','true');document.getElementById('closeNavigation').focus();}
+      else {sidebar.removeAttribute('role');sidebar.removeAttribute('aria-modal');if(navigationPreviousFocus?.isConnected)navigationPreviousFocus.focus({preventScroll:true});}
+    }
+    function updateMobileNavigation(){
+      const items=[['dashboard','Home'],['field','Field plan'],['opportunities','Deals'],['followups','Follow-ups']];
+      document.getElementById('mobileBottomNav').innerHTML=items.map(([page,label])=>`<button data-mobile-page="${page}" aria-label="${label}" ${state.page===page?'aria-current="page"':''}>${document.querySelector(`#mainNav [data-page="${page}"] svg`).outerHTML}<span>${label}</span></button>`).join('')+`<button id="mobileMore" aria-label="More navigation" aria-expanded="false">${icon('menu',20)}<span>More</span></button>`;
+    }
+    function updateTableCues(){content.querySelectorAll('.table-wrap').forEach((wrap,index)=>{if(!wrap.querySelector('.table-scroll-cue')){const cue=document.createElement('p');cue.className='table-scroll-cue';cue.textContent='Swipe the table to see all columns.';wrap.prepend(cue);}wrap.classList.toggle('needs-scroll',wrap.scrollWidth>wrap.clientWidth+1);wrap.tabIndex=0;wrap.setAttribute('role','region');wrap.setAttribute('aria-label','Scrollable records '+(index+1));});}
+    document.getElementById('mobileBottomNav').addEventListener('click',event=>{const button=event.target.closest('button');if(button?.dataset.mobilePage)navTo(button.dataset.mobilePage);else if(button?.id==='mobileMore')setNavigationOpen(true);});
+    document.getElementById('closeNavigation').addEventListener('click',()=>setNavigationOpen(false));
+    document.getElementById('navigationScrim').addEventListener('click',()=>setNavigationOpen(false));
+    window.addEventListener('resize',()=>{updateTableCues();if(innerWidth>899)setNavigationOpen(false);});
+    document.addEventListener('keydown',event=>{const sidebar=document.getElementById('sidebar');if(!sidebar.classList.contains('open'))return;if(event.key==='Escape'){event.preventDefault();setNavigationOpen(false);}if(event.key==='Tab'){const controls=Array.from(sidebar.querySelectorAll('button,a[href]')).filter(el=>el.getClientRects().length);const first=controls[0],last=controls.at(-1);if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}}});
     function init(){bindEvents();render();}
     init();
   })();

@@ -19,6 +19,121 @@ export type SoftwareProject = {
 
 export const softwareProjects: SoftwareProject[] = [
   {
+    slug: "blastline-crm",
+    title: "Blastline",
+    type: "Equipment Sales, Rentals & Repair CRM",
+    description:
+      "Connect equipment and abrasive sales, physical rental assets and customer repair jobs with stock, dispatch, invoices and one customer history.",
+    positioning:
+      "Follow a fictional contractor buying Garnet, renting a compressor and repairing a WARRIOR pump. Check booking conflicts, accessory returns, internal fleet maintenance and approval-to-QC workshop gates in one browser-local workspace.",
+    features: ["Sales & Quotations", "Rental Dates & Availability", "Accessory Returns & Maintenance", "Repair Approval & QC", "Stock & Purchasing", "Unified Customer & Finance"],
+    status: "Interactive sales demo",
+    demoUrl: "/blastline-crm/index.html",
+    liveDemoLabel: "Launch Blastline Demo",
+    screenshots: [{
+      id: "blastline-dashboard",
+      label: "Operations Dashboard",
+      src: "/images/business-software/blastline-crm/dashboard.webp",
+      alt: "Blastline fictional equipment sales, rentals and repairs dashboard with AED collections and linked operating queues"
+    }, {
+      id: "blastline-customer",
+      label: "Three-Service Customer",
+      src: "/images/business-software/blastline-crm/customer.webp",
+      alt: "Blastline customer dossier joining Garnet sales, compressor rentals and WARRIOR pump repairs with invoice and receipt history"
+    }],
+    accent: "blue"
+  },
+  {
+    slug: "advertising-crm",
+    title: "AdWorks",
+    type: "Advertising, Printing & Gifting CRM",
+    description:
+      "Connect enquiries, itemized quotations, artwork approvals, in-house and outsourced production, deliveries and collections with customer and job profit.",
+    positioning:
+      "Follow a fictional Dubai signage and gifting job from quotation to artwork approval, supplier QC and partial delivery. Review itemized material, labor, vendor and delivery costs alongside earned revenue, cash and customer history.",
+    features: ["Enquiries & Quotations", "Artwork & Client Approvals", "Mixed Production Workflows", "Outsourcing & Supplier QC", "Delivery & Collections", "Customer & Job Profit"],
+    status: "Interactive sales demo",
+    demoUrl: "/advertising-crm/index.html",
+    liveDemoLabel: "Launch Advertising Demo",
+    screenshots: [{
+      id: "advertising-dashboard",
+      label: "Job Dashboard",
+      src: "/images/business-software/advertising-crm/dashboard.webp",
+      alt: "AdWorks fictional advertising and printing dashboard showing earned AED revenue, actual costs, job profit and production queues"
+    }, {
+      id: "advertising-customer",
+      label: "Customer Profit",
+      src: "/images/business-software/advertising-crm/customer.webp",
+      alt: "AdWorks customer dossier connecting orders, itemized job costs, earned profit, invoices and payment history"
+    }],
+    accent: "gold"
+  },
+  {
+    slug: "ac-parts-crm",
+    title: "ColdFlow",
+    type: "AC & Refrigeration Parts Trading CRM",
+    description:
+      "A complete parts trading desk connecting enquiries, itemized quotations, stock, purchasing, partial deliveries and collections in AED.",
+    positioning:
+      "Follow a Dubai parts enquiry through a revised quotation, sales order, backorder, supplier receipt and final delivery. Every change stays connected to the customer history in a fictional browser-local workspace.",
+    features: ["Enquiries & Customer History", "SKUs, Brands & Stock", "Quotations & Revisions", "Purchasing & Receipts", "Partial Deliveries & Backorders", "Collections & Reports"],
+    status: "Interactive sales demo",
+    demoUrl: "/ac-parts-crm/index.html",
+    liveDemoLabel: "Launch Parts Trading Demo",
+    screenshots: [{
+      id: "trading-dashboard",
+      label: "Trading Dashboard",
+      src: "/images/business-software/ac-parts-crm/dashboard.webp",
+      alt: "ColdFlow fictional AC and refrigeration parts trading dashboard with AED sales, stock alerts, quotation pipeline and delivery queue"
+    }],
+    accent: "blue"
+  },
+  {
+    slug: "medical-supply-crm",
+    title: "MedSupply",
+    type: "Medical Equipment Supplier CRM",
+    description:
+      "An equipment supplier workspace connecting sales, serialized stock, dispatch, installations, warranty, service contracts and collections in AED.",
+    positioning:
+      "Carry a fictional equipment enquiry from quotation and serial allocation to dispatch, installation and handover, then track warranty and service work from the same customer record.",
+    features: ["Equipment Sales & Quotations", "Models & Serial Tracking", "Purchasing & Dispatch", "Installations & Handover", "Warranty & Service Contracts", "Customer History & Reports"],
+    status: "Interactive sales demo",
+    demoUrl: "/medical-supply-crm/index.html",
+    liveDemoLabel: "Launch Equipment Supplier Demo",
+    screenshots: [{
+      id: "supplier-dashboard",
+      label: "Supplier Dashboard",
+      src: "/images/business-software/medical-supply-crm/dashboard.webp",
+      alt: "MedSupply fictional medical equipment supplier dashboard with AED revenue, serialized stock, installations and service reminders"
+    }],
+    accent: "gold"
+  },
+  {
+    slug: "construction-crm",
+    title: "Construction Desk",
+    type: "Construction & Steel Fabrication CRM",
+    description:
+      "Take an enquiry through estimation, editable PDF quotations, drawings, materials, fabrication, QA, delivery, erection and final collections.",
+    positioning:
+      "Keep a fictional steel project connected from tender to closeout. Prepare a revisioned quotation with a real PDF download, resolve operational gates and follow milestone billing from the same project history.",
+    features: ["Enquiries & Estimation", "Editable PDF Quotations", "Drawings & Materials", "Fabrication & QA/QC", "Delivery & Erection", "Billing & Project Closeout"],
+    status: "Interactive sales demo",
+    demoUrl: "/construction-crm/index.html",
+    liveDemoLabel: "Launch Construction Demo",
+    screenshots: [{
+      id: "construction-dashboard",
+      label: "Project Dashboard",
+      src: "/images/business-software/construction-crm/dashboard.webp",
+      alt: "Construction Desk fictional steel project dashboard with AED contracts, collections, workflow gates and project progress"
+    }, {
+      id: "construction-quotation",
+      label: "Quotation Editor",
+      src: "/images/business-software/construction-crm/quotation.webp",
+      alt: "Construction Desk editable DPSC quotation with scope rows, quantities, rates, revisions and a real PDF download"
+    }],
+    accent: "blue"
+  },
+  {
     slug: "equipflow",
     title: "EquipFlow",
     type: "Equipment Rental Operations Platform",

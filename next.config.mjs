@@ -3,6 +3,10 @@ const nextConfig = {
   async rewrites() {
     return [
       {
+        source: "/hamdee-crm",
+        destination: "/hamdee-crm/index.html"
+      },
+      {
         source: "/computer-technology-crm",
         destination: "/computer-technology-crm/index.html"
       },

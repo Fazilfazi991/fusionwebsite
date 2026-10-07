@@ -19,6 +19,31 @@ export type SoftwareProject = {
 
 export const softwareProjects: SoftwareProject[] = [
   {
+    slug: "hamdee-crm",
+    title: "Hamdee International",
+    type: "Property Investment & Rental Management CRM",
+    description:
+      "Manage each property as an independent investment project, connecting partner contributions, tenants, rent collections, external maintenance and profit distributions.",
+    positioning:
+      "Follow Al Rayyan Villa from investor funding through rent, expenses and a 50/30/20 partner settlement. Check repeat repairs against vendor warranties and review Hamdee’s service income in a separate company ledger, with fictional browser-local records.",
+    features: ["Property Investment Ledgers", "Partner Shares & Settlements", "Rent Collections & Cheques", "Vendor Warranties", "Separate Company Accounts", "PDF & Excel Reports"],
+    status: "Interactive client-review demo",
+    demoUrl: "/hamdee-crm/index.html",
+    liveDemoLabel: "Launch Hamdee Demo",
+    screenshots: [{
+      id: "hamdee-dashboard",
+      label: "Investment Portfolio Dashboard",
+      src: "/images/business-software/hamdee-crm/dashboard.webp",
+      alt: "Hamdee International branded property investment dashboard with illustrative Riyal rent collections, partner payables and separate company accounts"
+    }, {
+      id: "hamdee-property",
+      label: "Property Return & Partner Allocation",
+      src: "/images/business-software/hamdee-crm/property.webp",
+      alt: "Al Rayyan Villa investment ledger showing rental income, property deductions, Hamdee service fee and independent partner distributions"
+    }],
+    accent: "gold"
+  },
+  {
     slug: "cargo-demo",
     title: "Fusion Cargo CRM",
     type: "Cargo & Logistics Operations CRM",

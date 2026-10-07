@@ -19,6 +19,26 @@ export type SoftwareProject = {
 
 export const softwareProjects: SoftwareProject[] = [
   {
+    slug: "cargo-demo",
+    title: "Fusion Cargo CRM",
+    type: "Cargo & Logistics Operations CRM",
+    description:
+      "Connect cargo enquiries, customer quotations, consignments, shipment tracking, delivery acknowledgements and daily collections in one workspace.",
+    positioning:
+      "Follow fictional UAE cargo from enquiry and quotation through booking, collection, dispatch, transit, delivery signoff and payment. Preview consignment notes, download PDFs and inspect a simple AED charges and receipts ledger.",
+    features: ["Enquiries & Customer History", "Quotations & Bookings", "Consignment Notes & PDFs", "Shipment Lifecycle", "Delivery Acknowledgements", "Daily Collections & Reports"],
+    status: "Interactive operations demo",
+    demoUrl: "/cargo-demo/index.html",
+    liveDemoLabel: "Launch Cargo Demo",
+    screenshots: [{
+      id: "cargo-dashboard",
+      label: "Cargo Operations Dashboard",
+      src: "/images/business-software/cargo-demo/dashboard.webp",
+      alt: "Fusion Cargo fictional logistics dashboard showing shipment stages, sample AED collections, outstanding balances and customer follow-ups"
+    }],
+    accent: "blue"
+  },
+  {
     slug: "water-transport-crm",
     title: "AquaFleet CRM",
     type: "Water Delivery & Fleet Operations CRM",
